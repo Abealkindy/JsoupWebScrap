@@ -38,8 +38,12 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         animeEpisodeBinding = DataBindingUtil.setContentView(this, R.layout.activity_watch_anime_episode);
-        initUI();
-        initEvent();
+        try {
+            initUI();
+            initEvent();
+        } catch (Exception e) {
+            Log.e("error!", e.getLocalizedMessage() + " " + e.getMessage());
+        }
     }
 
     private void initEvent() {
