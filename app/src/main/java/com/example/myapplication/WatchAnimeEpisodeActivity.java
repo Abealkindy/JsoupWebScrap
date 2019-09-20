@@ -160,27 +160,30 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                             } else {
                                 getPrevEpisodeNumber = videoStreamResultModel.getPreviousEpisodeAnimeURL().substring(videoStreamResultModel.getPreviousEpisodeAnimeURL().length() - 3, videoStreamResultModel.getPreviousEpisodeAnimeURL().length() - 1);
                             }
-                            if (Integer.parseInt(episodeNumber) >= Integer.parseInt(getPrevEpisodeNumber)) {
+                            if (Integer.parseInt(getPrevEpisodeNumber) > Integer.parseInt(episodeNumber)) {
                                 animeEpisodeBinding.buttonPreviousEpisode.setVisibility(View.GONE);
                             } else {
                                 animeEpisodeBinding.buttonPreviousEpisode.setVisibility(View.VISIBLE);
                             }
+                            Log.e("prevEps", getPrevEpisodeNumber);
+                            Log.e("nowEps", episodeNumber);
                             Log.e("nowPrevURL", previousEpisodeURL);
                         }
                     }
-                }
-                Log.e("getAllEpisodeOrMovie", getElementsPreviousEpisode.get(position).absUrl("href"));
-                Element element = getElementsPreviousEpisode.get(0);
-                if (element == null) {
-                    Toast.makeText(this, "It's already di ujung!", Toast.LENGTH_SHORT).show();
                 } else {
-                    String previousEpisodeURL = element.absUrl("href");
-                    if (!previousEpisodeURL.startsWith("https://animeindo.to/") | previousEpisodeURL.isEmpty() | previousEpisodeURL == null) {
-                        Toast.makeText(this, "It's already di prev ujung!", Toast.LENGTH_SHORT).show();
+                    Log.e("getAllEpisodeOrMovie", getElementsPreviousEpisode.get(position).absUrl("href"));
+                    Element element = getElementsPreviousEpisode.get(0);
+                    if (element == null) {
+                        Toast.makeText(this, "It's already di ujung!", Toast.LENGTH_SHORT).show();
                     } else {
-                        videoStreamResultModel.setPreviousEpisodeAnimeURL(previousEpisodeURL);
-                        animeEpisodeBinding.buttonPreviousEpisode.setVisibility(View.VISIBLE);
-                        Log.e("nowPrevURL", previousEpisodeURL);
+                        String previousEpisodeURL = element.absUrl("href");
+                        if (!previousEpisodeURL.startsWith("https://animeindo.to/") | previousEpisodeURL.isEmpty() | previousEpisodeURL == null) {
+                            Toast.makeText(this, "It's already di prev ujung!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            videoStreamResultModel.setPreviousEpisodeAnimeURL(previousEpisodeURL);
+                            animeEpisodeBinding.buttonPreviousEpisode.setVisibility(View.VISIBLE);
+                            Log.e("nowPrevURL", previousEpisodeURL);
+                        }
                     }
                 }
             }
@@ -213,7 +216,8 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                             } else {
                                 getNextEpisodeNumber = videoStreamResultModel.getNextEpisodeAnimeURL().substring(videoStreamResultModel.getNextEpisodeAnimeURL().length() - 3, videoStreamResultModel.getNextEpisodeAnimeURL().length() - 1);
                             }
-                            if (Integer.parseInt(episodeNumber) <= Integer.parseInt(getNextEpisodeNumber)) {
+                            Log.e("nowEps", episodeNumber);
+                            if (Integer.parseInt(getNextEpisodeNumber) < Integer.parseInt(episodeNumber)) {
                                 animeEpisodeBinding.buttonNextEpisode.setVisibility(View.GONE);
                             } else {
                                 animeEpisodeBinding.buttonNextEpisode.setVisibility(View.VISIBLE);
