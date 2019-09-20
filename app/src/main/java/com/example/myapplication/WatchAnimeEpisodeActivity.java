@@ -129,8 +129,8 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                 Toast.makeText(this, "It's already di ujung!", Toast.LENGTH_SHORT).show();
             } else {
                 String previousEpisodeURL = element.absUrl("href");
-                if (previousEpisodeURL.isEmpty() | previousEpisodeURL == null) {
-                    Toast.makeText(this, "It's already di ujung!", Toast.LENGTH_SHORT).show();
+                if (!previousEpisodeURL.startsWith("https://animeindo.to/") | previousEpisodeURL.isEmpty() | previousEpisodeURL == null) {
+                    Toast.makeText(this, "It's already di prev ujung!", Toast.LENGTH_SHORT).show();
                 } else {
                     videoStreamResultModel.setPreviousEpisodeAnimeURL(previousEpisodeURL);
                     Log.e("nowPrevURL", previousEpisodeURL);
@@ -146,8 +146,8 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                 Toast.makeText(this, "It's already di ujung!", Toast.LENGTH_SHORT).show();
             } else {
                 String nextEpisodeURL = element.absUrl("href");
-                if (nextEpisodeURL.isEmpty() | nextEpisodeURL == null) {
-                    Toast.makeText(this, "It's already di ujung!", Toast.LENGTH_SHORT).show();
+                if (!nextEpisodeURL.startsWith("https://animeindo.to/") | nextEpisodeURL.isEmpty() | nextEpisodeURL == null) {
+                    Toast.makeText(this, "It's already di next ujung!", Toast.LENGTH_SHORT).show();
                 } else {
                     videoStreamResultModel.setNextEpisodeAnimeURL(nextEpisodeURL);
                     Log.e("nowNextURL", nextEpisodeURL);
@@ -158,8 +158,12 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
         Elements getElementsAnimeDetails = doc.select("a[href^=https://animeindo.to/anime/]");
         for (Element element : getElementsAnimeDetails) {
             String animeDetailsURL = element.absUrl("href");
-            videoStreamResultModel.setAllEpisodeAnimeURL(animeDetailsURL);
-            Log.e("nowAnimeURL", animeDetailsURL);
+            if (element == null | !animeDetailsURL.startsWith("https://animeindo.to/") | animeDetailsURL.isEmpty() | animeDetailsURL == null) {
+                    Toast.makeText(this, "It's already di next ujung!", Toast.LENGTH_SHORT).show();
+            } else {
+                    videoStreamResultModel.setAllEpisodeAnimeURL(animeDetailsURL);
+                    Log.e("nowAnimeURL", animeDetailsURL);
+            }    
         }
         Elements getVideoEmbedURL = doc.getElementsByClass("videoembed toogletheater");
         for (Element element : getVideoEmbedURL) {
