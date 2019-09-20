@@ -71,10 +71,10 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
+                                    android:text="@string/all_episodes_here_text"
                                     android:textAlignment="center"
                                     android:textColor="@android:color/white"
-                                    android:textStyle="bold"
-                                    tools:text="All episodes here!" />
+                                    android:textStyle="bold" />
 
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
