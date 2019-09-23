@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#d20117</color>
-    <color name="colorPrimaryDark">#BD0416</color>
+    <color name="colorPrimary">#325F72</color>
+    <color name="colorPrimaryDark">#244652</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="darkColor">#244652</color>
     <color name="black_with_opacity">#a0000000</color>
     <color name="uniqlo_red">#d20117</color>
 </resources>
