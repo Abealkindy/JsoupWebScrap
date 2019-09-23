@@ -1,9 +1,7 @@
 package com.example.myapplication;
 
-import org.jsoup.nodes.Document;
 
 import io.reactivex.Observable;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Url;
 

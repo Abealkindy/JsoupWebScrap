@@ -138,20 +138,22 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
 
     private void parseHtmlToViewableContent(String result) {
         Document doc = Jsoup.parse(result);
+
+        //Previous URL settings
         Elements getElementsPreviousEpisode = doc.select("a[href~=episode|movie]");
         if (getElementsPreviousEpisode.isEmpty()) {
-            Toast.makeText(this, "It's already di ujung!", Toast.LENGTH_SHORT).show();
+            Log.e("element value", "null");
         } else {
             for (int position = 0; position < getElementsPreviousEpisode.size(); position++) {
                 if (getElementsPreviousEpisode.size() < 2) {
                     Log.e("getAllEpisodeOrMovie", getElementsPreviousEpisode.get(position).absUrl("href"));
                     Element element = getElementsPreviousEpisode.get(0);
                     if (element == null) {
-                        Toast.makeText(this, "It's already di ujung!", Toast.LENGTH_SHORT).show();
+                        Log.e("element value", "null");
                     } else {
                         String previousEpisodeURL = element.absUrl("href");
                         if (!previousEpisodeURL.startsWith("https://animeindo.to/") | previousEpisodeURL.isEmpty() | previousEpisodeURL == null) {
-                            Toast.makeText(this, "It's already di prev ujung!", Toast.LENGTH_SHORT).show();
+                            Log.e("element value", "null");
                         } else {
                             videoStreamResultModel.setPreviousEpisodeAnimeURL(previousEpisodeURL);
                             String getPrevEpisodeNumber;
@@ -160,7 +162,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                             } else {
                                 getPrevEpisodeNumber = videoStreamResultModel.getPreviousEpisodeAnimeURL().substring(videoStreamResultModel.getPreviousEpisodeAnimeURL().length() - 3, videoStreamResultModel.getPreviousEpisodeAnimeURL().length() - 1);
                             }
-                            if (Integer.parseInt(getPrevEpisodeNumber) > Integer.parseInt(episodeNumber)) {
+                            if (Integer.parseInt(getPrevEpisodeNumber) >= Integer.parseInt(episodeNumber)) {
                                 animeEpisodeBinding.buttonPreviousEpisode.setVisibility(View.GONE);
                             } else {
                                 animeEpisodeBinding.buttonPreviousEpisode.setVisibility(View.VISIBLE);
@@ -174,11 +176,11 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                     Log.e("getAllEpisodeOrMovie", getElementsPreviousEpisode.get(position).absUrl("href"));
                     Element element = getElementsPreviousEpisode.get(0);
                     if (element == null) {
-                        Toast.makeText(this, "It's already di ujung!", Toast.LENGTH_SHORT).show();
+                        Log.e("element value", "null");
                     } else {
                         String previousEpisodeURL = element.absUrl("href");
                         if (!previousEpisodeURL.startsWith("https://animeindo.to/") | previousEpisodeURL.isEmpty() | previousEpisodeURL == null) {
-                            Toast.makeText(this, "It's already di prev ujung!", Toast.LENGTH_SHORT).show();
+                            Log.e("element value", "null");
                         } else {
                             videoStreamResultModel.setPreviousEpisodeAnimeURL(previousEpisodeURL);
                             animeEpisodeBinding.buttonPreviousEpisode.setVisibility(View.VISIBLE);
@@ -189,6 +191,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
             }
         }
 
+        //Next URL settings
         Elements getElementsNextEpisode = doc.select("a[href~=episode|movie]");
         if (getElementsNextEpisode.isEmpty()) {
             Log.e("nextElementsNull?", "Ya");
@@ -200,13 +203,11 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                     Element element = getElementsNextEpisode.get(0);
                     if (element == null) {
                         Log.e("nextElementGakAdaIndex?", "Ya");
-//                        Toast.makeText(this, "It's already di ujung!", Toast.LENGTH_SHORT).show();
                     } else {
                         Log.e("nextElementGakAdaIndex?", "Gak");
                         String nextEpisodeURL = element.absUrl("href");
                         if (!nextEpisodeURL.startsWith("https://animeindo.to/") | nextEpisodeURL.isEmpty() | nextEpisodeURL == null) {
                             Log.e("nextElementError?", "Ya");
-//                            Toast.makeText(this, "It's already di next ujung!", Toast.LENGTH_SHORT).show();
                         } else {
                             Log.e("nextElementError?", "Gak");
                             String getNextEpisodeNumber;
@@ -217,7 +218,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                                 getNextEpisodeNumber = videoStreamResultModel.getNextEpisodeAnimeURL().substring(videoStreamResultModel.getNextEpisodeAnimeURL().length() - 3, videoStreamResultModel.getNextEpisodeAnimeURL().length() - 1);
                             }
                             Log.e("nowEps", episodeNumber);
-                            if (Integer.parseInt(getNextEpisodeNumber) < Integer.parseInt(episodeNumber)) {
+                            if (Integer.parseInt(getNextEpisodeNumber) <= Integer.parseInt(episodeNumber)) {
                                 animeEpisodeBinding.buttonNextEpisode.setVisibility(View.GONE);
                             } else {
                                 animeEpisodeBinding.buttonNextEpisode.setVisibility(View.VISIBLE);
@@ -227,17 +228,16 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                     }
                 } else {
                     Log.e("nextElementGakAda2?", "Gak");
-                    Log.e("getAllEpisodeOrMovie", getElementsNextEpisode.get(position).absUrl("href"));
+                    Log.e("getAllEpisodeOrMovieNext", getElementsNextEpisode.get(position).absUrl("href"));
                     Element element = getElementsNextEpisode.get(1);
                     if (element == null) {
                         Log.e("nextElementGakAdaIndex?", "Ya");
-//                        Toast.makeText(this, "It's already di ujung!", Toast.LENGTH_SHORT).show();
                     } else {
                         Log.e("nextElementGakAdaIndex?", "Gak");
                         String nextEpisodeURL = element.absUrl("href");
                         if (!nextEpisodeURL.startsWith("https://animeindo.to/") | nextEpisodeURL.isEmpty() | nextEpisodeURL == null) {
                             Log.e("nextElementError?", "Ya");
-//                            Toast.makeText(this, "It's already di next ujung!", Toast.LENGTH_SHORT).show();
+                            animeEpisodeBinding.buttonNextEpisode.setVisibility(View.GONE);
                         } else {
                             animeEpisodeBinding.buttonNextEpisode.setVisibility(View.VISIBLE);
                             Log.e("nextElementError?", "Gak");
@@ -250,23 +250,20 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
             }
         }
 
-
+        //Anime Details URL settings
         Elements getElementsAnimeDetails = doc.select("a[href^=https://animeindo.to/anime/]");
         if (getElementsAnimeDetails.isEmpty()) {
             Log.e("VideoDetailNull?", "Ya");
-//            Toast.makeText(this, "It's already di next ujung!", Toast.LENGTH_SHORT).show();
         } else {
             Log.e("VideodetailNull?", "Gak");
             for (Element element : getElementsAnimeDetails) {
                 if (element == null) {
                     Log.e("VideoelementDetailNull?", "Ya");
-//                    Toast.makeText(this, "It's already di next ujung!", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e("VideoelementDetailNull?", "Gak");
                     String animeDetailsURL = element.absUrl("href");
                     if (!animeDetailsURL.startsWith("https://animeindo.to/") | animeDetailsURL.isEmpty() | animeDetailsURL == null) {
                         Log.e("VideoresultURLError?", "Ya");
-//                        Toast.makeText(this, "It's already di next ujung!", Toast.LENGTH_SHORT).show();
                     } else {
                         Log.e("VideoresultURLError?", "Gak");
                         videoStreamResultModel.setAllEpisodeAnimeURL(animeDetailsURL);
@@ -277,13 +274,32 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
             }
         }
 
+        //Anime videos URL settings
         Elements getVideoEmbedURL = doc.getElementsByClass("videoembed toogletheater");
         for (Element element : getVideoEmbedURL) {
-            String animeVideoEmbedURL = "http:" + element.getElementsByTag("iframe").attr("src");
-
+            String getURLFromElement = element.getElementsByTag("iframe").attr("src");
+            String animeVideoEmbedURL;
+            if (getURLFromElement.startsWith("https:")) {
+                animeVideoEmbedURL = getURLFromElement;
+            } else {
+                if (!getURLFromElement.startsWith("http:")) {
+                    animeVideoEmbedURL = "http:" + getURLFromElement;
+                } else {
+                    animeVideoEmbedURL = getURLFromElement;
+                }
+            }
             String animeStreamURL = "<html><body><iframe width=\"100%\" height=\"235\" src=\"" + animeVideoEmbedURL + "\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
             videoStreamResultModel.setVideoUrl(animeStreamURL);
             Log.e("nowVideoURL", animeVideoEmbedURL);
+        }
+
+        //Episode title
+        Elements getEpisodeTitle = doc.getElementsByClass("epnav");
+        for (Element element : getEpisodeTitle) {
+            String getTitleFromElement = element.getElementsByTag("h3").text();
+            videoStreamResultModel.setEpisodeTitle(getTitleFromElement);
+            Log.e("episodeTitle", getTitleFromElement);
+            animeEpisodeBinding.textTitleEpisode.setText(getTitleFromElement);
         }
         Log.e("allData", new Gson().toJson(videoStreamResultModel));
         animeEpisodeBinding.webViewWatchAnime.loadData(videoStreamResultModel.getVideoUrl(), "text/html", "utf-8");

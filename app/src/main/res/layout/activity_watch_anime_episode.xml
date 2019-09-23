@@ -100,7 +100,8 @@
                 android:layout_height="35dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/btn_left" />
+                android:src="@drawable/btn_left"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/buttonNextEpisode"
@@ -108,7 +109,8 @@
                 android:layout_height="35dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/btn_right" />
+                android:src="@drawable/btn_right"
+                android:visibility="gone" />
 
         </RelativeLayout>
     </RelativeLayout>
