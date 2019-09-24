@@ -83,6 +83,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                 return true;
             }
         });
+        animeEpisodeBinding.webViewWatchAnime.getSettings().setDomStorageEnabled(true);
         animeEpisodeBinding.webViewWatchAnime.getSettings().setJavaScriptEnabled(true);
         animeEpisodeBinding.webViewWatchAnime.setWebChromeClient(new WebChromeClient());
         String episodeURL = getIntent().getStringExtra("animeEpisodeToWatch");
@@ -140,7 +141,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
         Document doc = Jsoup.parse(result);
 
         //Previous URL settings
-        Elements getElementsPreviousEpisode = doc.select("a[href~=episode|movie]");
+        Elements getElementsPreviousEpisode = doc.select("a[href~=episode|movie|ova|ona]");
         if (getElementsPreviousEpisode.isEmpty()) {
             Log.e("element value", "null");
         } else {
@@ -152,7 +153,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                         Log.e("element value", "null");
                     } else {
                         String previousEpisodeURL = element.absUrl("href");
-                        if (!previousEpisodeURL.startsWith("https://animeindo.to/") | previousEpisodeURL.isEmpty() | previousEpisodeURL == null) {
+                        if (!previousEpisodeURL.startsWith("https://animeindo.to/") || previousEpisodeURL.isEmpty() || previousEpisodeURL == null || previousEpisodeURL.startsWith("https://animeindo.to/anime/")) {
                             Log.e("element value", "null");
                         } else {
                             videoStreamResultModel.setPreviousEpisodeAnimeURL(previousEpisodeURL);
@@ -179,12 +180,27 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                         Log.e("element value", "null");
                     } else {
                         String previousEpisodeURL = element.absUrl("href");
-                        if (!previousEpisodeURL.startsWith("https://animeindo.to/") | previousEpisodeURL.isEmpty() | previousEpisodeURL == null) {
+                        if (!previousEpisodeURL.startsWith("https://animeindo.to/") || previousEpisodeURL.isEmpty() || previousEpisodeURL == null) {
                             Log.e("element value", "null");
                         } else {
-                            videoStreamResultModel.setPreviousEpisodeAnimeURL(previousEpisodeURL);
-                            animeEpisodeBinding.buttonPreviousEpisode.setVisibility(View.VISIBLE);
-                            Log.e("nowPrevURL", previousEpisodeURL);
+                            if (previousEpisodeURL.startsWith("https://animeindo.to/anime/")) {
+                                Log.e("element value", "null");
+                            } else {
+                                videoStreamResultModel.setPreviousEpisodeAnimeURL(previousEpisodeURL);
+                                String getPrevEpisodeNumber;
+                                if (videoStreamResultModel.getPreviousEpisodeAnimeURL().endsWith("tamat/")) {
+                                    getPrevEpisodeNumber = videoStreamResultModel.getPreviousEpisodeAnimeURL().substring(videoStreamResultModel.getPreviousEpisodeAnimeURL().length() - 9, videoStreamResultModel.getPreviousEpisodeAnimeURL().length() - 7);
+                                } else {
+                                    getPrevEpisodeNumber = videoStreamResultModel.getPreviousEpisodeAnimeURL().substring(videoStreamResultModel.getPreviousEpisodeAnimeURL().length() - 3, videoStreamResultModel.getPreviousEpisodeAnimeURL().length() - 1);
+                                }
+                                if (Integer.parseInt(getPrevEpisodeNumber) >= Integer.parseInt(episodeNumber)) {
+                                    animeEpisodeBinding.buttonPreviousEpisode.setVisibility(View.GONE);
+                                } else {
+                                    Log.e("lolos?", "Ya");
+                                    animeEpisodeBinding.buttonPreviousEpisode.setVisibility(View.VISIBLE);
+                                }
+                                Log.e("nowPrevURL", previousEpisodeURL);
+                            }
                         }
                     }
                 }
@@ -192,7 +208,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
         }
 
         //Next URL settings
-        Elements getElementsNextEpisode = doc.select("a[href~=episode|movie]");
+        Elements getElementsNextEpisode = doc.select("a[href~=episode|movie|ova|ona]");
         if (getElementsNextEpisode.isEmpty()) {
             Log.e("nextElementsNull?", "Ya");
         } else {
@@ -226,9 +242,36 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                             Log.e("nowNextURL", nextEpisodeURL);
                         }
                     }
+                } else if (getElementsNextEpisode.size() == 3) {
+                    Log.e("nextElementGakAda2?", "Ya");
+                    Element element = getElementsNextEpisode.get(2);
+                    if (element == null) {
+                        Log.e("nextElementGakAdaIndex?", "Ya");
+                    } else {
+                        Log.e("nextElementGakAdaIndex?", "Gak");
+                        String nextEpisodeURL = element.absUrl("href");
+                        if (!nextEpisodeURL.startsWith("https://animeindo.to/") || nextEpisodeURL.isEmpty() || nextEpisodeURL == null) {
+                            Log.e("nextElementError?", "Ya");
+                        } else {
+                            Log.e("nextElementError?", "Gak");
+                            String getNextEpisodeNumber;
+                            videoStreamResultModel.setNextEpisodeAnimeURL(nextEpisodeURL);
+                            if (videoStreamResultModel.getNextEpisodeAnimeURL().endsWith("tamat/")) {
+                                getNextEpisodeNumber = videoStreamResultModel.getNextEpisodeAnimeURL().substring(videoStreamResultModel.getNextEpisodeAnimeURL().length() - 9, videoStreamResultModel.getNextEpisodeAnimeURL().length() - 7);
+                            } else {
+                                getNextEpisodeNumber = videoStreamResultModel.getNextEpisodeAnimeURL().substring(videoStreamResultModel.getNextEpisodeAnimeURL().length() - 3, videoStreamResultModel.getNextEpisodeAnimeURL().length() - 1);
+                            }
+                            Log.e("nowEps", episodeNumber);
+                            if (Integer.parseInt(getNextEpisodeNumber) <= Integer.parseInt(episodeNumber)) {
+                                animeEpisodeBinding.buttonNextEpisode.setVisibility(View.GONE);
+                            } else {
+                                animeEpisodeBinding.buttonNextEpisode.setVisibility(View.VISIBLE);
+                            }
+                            Log.e("nowNextURL", nextEpisodeURL);
+                        }
+                    }
                 } else {
                     Log.e("nextElementGakAda2?", "Gak");
-                    Log.e("getAllEpisodeOrMovieNext", getElementsNextEpisode.get(position).absUrl("href"));
                     Element element = getElementsNextEpisode.get(1);
                     if (element == null) {
                         Log.e("nextElementGakAdaIndex?", "Ya");

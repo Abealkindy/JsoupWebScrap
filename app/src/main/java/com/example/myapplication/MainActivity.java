@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<NewReleaseResultModel> parseResult(String result) {
         Document doc = Jsoup.parse(result);
-        Elements newepisodecon = doc.select("a[href~=episode|movie]");
+        Elements newepisodecon = doc.select("a[href~=episode|movie|ova|ona]");
         List<NewReleaseResultModel> newReleaseResultModelList = new ArrayList<>();
 
         for (Element el : newepisodecon) {
