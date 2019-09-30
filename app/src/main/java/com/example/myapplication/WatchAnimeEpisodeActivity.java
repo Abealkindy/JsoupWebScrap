@@ -22,9 +22,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -116,7 +113,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
             episodeNumber = afterCut.substring(afterCut.length() - 3, afterCut.length() - 1);
         }
         Log.e("episodeNumber", episodeNumber);
-        ApiEndPointService apiEndPointService = RetrofitConfig.getInitRetrofit();
+        ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
         apiEndPointService.getWatchAnimeData(afterCut)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

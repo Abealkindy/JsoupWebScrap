@@ -21,4 +21,9 @@ public interface ApiEndPointService {
             @Url String getAllAnimeDataUrl
     );
 
+    @GET
+    Observable<String> getNewReleaseMangaData(
+            @Url String getAllMangaDataUrl
+    );
+
 }

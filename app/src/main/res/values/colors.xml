@@ -6,6 +6,7 @@
     <color name="darkColor">#244652</color>
     <color name="black_with_opacity">#a0000000</color>
     <color name="white_with_opacity">#ABFFFFFF</color>
+    <color name="white_bg">#f1f1f1</color>
     <color name="uniqlo_red">#d20117</color>
     <!--    status color-->
     <color name="completed_color">#67c392</color>
@@ -17,4 +18,8 @@
     <color name="orange_series_color">#fb3a00</color>
     <color name="red_series_color">#af0f0f</color>
     <color name="green_series_color">#218c4c</color>
+    <!--    manga type color-->
+    <color name="manhwa_color">#a12e24</color>
+    <color name="manhua_color">#009688</color>
+    <color name="manga_color">#3367d6</color>
 </resources>

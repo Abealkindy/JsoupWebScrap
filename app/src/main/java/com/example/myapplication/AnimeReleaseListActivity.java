@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -67,7 +65,7 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
     }
 
     private void getNewReleasesAnime(int pageCount) {
-        ApiEndPointService apiEndPointService = RetrofitConfig.getInitRetrofit();
+        ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
         apiEndPointService.getNewReleaseAnimeData("/page/" + pageCount)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

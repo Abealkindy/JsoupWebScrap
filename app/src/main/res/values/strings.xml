@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AniWatch</string>
+    <string name="app_name">AniManga</string>
     <string name="all_episodes_here_text">All episodes here!</string>
     <string name="read_manga_text">Read Manga</string>
     <string name="watch_anime_text">Watch Anime</string>
@@ -13,4 +13,8 @@
     <string name="special_string">SPECIAL</string>
     <string name="la_string">LA</string>
     <string name="movie_string">MOVIE</string>
+    <!--    manga type    -->
+    <string name="manga_string">MANGA</string>
+    <string name="manhwa_string">MANHWA</string>
+    <string name="manhua_string">MANHUA</string>
 </resources>

@@ -3,11 +3,8 @@ package com.example.myapplication;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -31,7 +28,7 @@ class RecyclerNewReleasesAdapter extends RecyclerView.Adapter<RecyclerNewRelease
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        ItemListBinding itemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_list, parent, false);
+        ItemListBinding itemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_list_anime, parent, false);
         return new ViewHolder(itemListBinding);
     }
 
