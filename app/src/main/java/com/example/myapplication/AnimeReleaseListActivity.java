@@ -31,7 +31,7 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
     ActivityAnimeReleaseListBinding animeReleaseListBinding;
 
     private int pageCount = 1;
-    private List<NewReleaseResultModel> newReleaseResultModelList = new ArrayList<>();
+    private List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
     private RecyclerNewReleasesAdapter recyclerNewReleasesAdapter;
 
     @Override
@@ -40,7 +40,7 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
         animeReleaseListBinding = DataBindingUtil.setContentView(this, R.layout.activity_anime_release_list);
         getNewReleasesAnime(pageCount++);
         animeReleaseListBinding.recyclerNewReleases.setHasFixedSize(true);
-        recyclerNewReleasesAdapter = new RecyclerNewReleasesAdapter(AnimeReleaseListActivity.this, newReleaseResultModelList);
+        recyclerNewReleasesAdapter = new RecyclerNewReleasesAdapter(AnimeReleaseListActivity.this, animeNewReleaseResultModelList);
         animeReleaseListBinding.recyclerNewReleases.setAdapter(recyclerNewReleasesAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         animeReleaseListBinding.recyclerNewReleases.setLayoutManager(linearLayoutManager);
@@ -77,7 +77,7 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(String result) {
-                        newReleaseResultModelList.addAll(parseResult(result));
+                        animeNewReleaseResultModelList.addAll(parseResult(result));
                         recyclerNewReleasesAdapter.notifyDataSetChanged();
                         Log.e("result", result);
                     }
@@ -100,10 +100,10 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
                 });
     }
 
-    private List<NewReleaseResultModel> parseResult(String result) {
+    private List<AnimeNewReleaseResultModel> parseResult(String result) {
         Document doc = Jsoup.parse(result);
         Elements newepisodecon = doc.select("a[href~=episode|movie|ova|ona]");
-        List<NewReleaseResultModel> newReleaseResultModelList = new ArrayList<>();
+        List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
 
         for (Element el : newepisodecon) {
             String animeThumbnailBackground = el.getElementsByTag("img").attr("src");
@@ -112,18 +112,18 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
             String animeEpisodeType = el.getElementsByAttributeValueContaining("class", "newepisodefloat left").text();
             String animeEpisodeStatus = el.getElementsByClass("hoverother").text();
             String epsiodeURL = el.absUrl("href");
-            NewReleaseResultModel newReleaseResultModel = new NewReleaseResultModel();
-            newReleaseResultModel.setAnimeEpisode(animeEpisode);
-            newReleaseResultModel.setEpisodeThumb(animeThumbnailBackground);
-            newReleaseResultModel.setEpisodeURL(epsiodeURL);
-            newReleaseResultModel.setAnimeEpisodeNumber(animeEpisodeNumber);
-            newReleaseResultModel.setAnimeEpisodeType(animeEpisodeType);
-            newReleaseResultModel.setAnimeEpisodeStatus(animeEpisodeStatus);
-            newReleaseResultModelList.add(newReleaseResultModel);
+            AnimeNewReleaseResultModel animeNewReleaseResultModel = new AnimeNewReleaseResultModel();
+            animeNewReleaseResultModel.setAnimeEpisode(animeEpisode);
+            animeNewReleaseResultModel.setEpisodeThumb(animeThumbnailBackground);
+            animeNewReleaseResultModel.setEpisodeURL(epsiodeURL);
+            animeNewReleaseResultModel.setAnimeEpisodeNumber(animeEpisodeNumber);
+            animeNewReleaseResultModel.setAnimeEpisodeType(animeEpisodeType);
+            animeNewReleaseResultModel.setAnimeEpisodeStatus(animeEpisodeStatus);
+            animeNewReleaseResultModelList.add(animeNewReleaseResultModel);
         }
-        List<NewReleaseResultModel> newReleaseResultModelListAfterCut = new ArrayList<>(newReleaseResultModelList.subList(6, newReleaseResultModelList.size() - 1));
-        Log.e("resultBeforeCut", new Gson().toJson(newReleaseResultModelList));
-        Log.e("resultAfterCut", new Gson().toJson(newReleaseResultModelListAfterCut));
-        return newReleaseResultModelListAfterCut;
+        List<AnimeNewReleaseResultModel> animeNewReleaseResultModelListAfterCut = new ArrayList<>(animeNewReleaseResultModelList.subList(6, animeNewReleaseResultModelList.size() - 1));
+        Log.e("resultBeforeCut", new Gson().toJson(animeNewReleaseResultModelList));
+        Log.e("resultAfterCut", new Gson().toJson(animeNewReleaseResultModelListAfterCut));
+        return animeNewReleaseResultModelListAfterCut;
     }
 }

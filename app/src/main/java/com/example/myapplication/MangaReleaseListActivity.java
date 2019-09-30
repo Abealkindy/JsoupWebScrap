@@ -6,11 +6,16 @@ import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.example.myapplication.databinding.ActivityMangaReleaseListBinding;
-import com.example.myapplication.databinding.ActivityMangaReleaseListBindingImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MangaReleaseListActivity extends AppCompatActivity {
     ActivityMangaReleaseListBinding mangaReleaseListBinding;
 
+    private int pageCount = 1;
+    private List<MangaNewReleaseResultModel> mangaNewReleaseResultModels = new ArrayList<>();
+    private RecyclerNewReleasesAdapter recyclerNewReleasesAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

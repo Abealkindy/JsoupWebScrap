@@ -17,11 +17,11 @@ import java.util.List;
 
 class RecyclerNewReleasesAdapter extends RecyclerView.Adapter<RecyclerNewReleasesAdapter.ViewHolder> {
     private Context context;
-    private List<NewReleaseResultModel> newReleaseResultModelList;
+    private List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList;
 
-    public RecyclerNewReleasesAdapter(Context context, List<NewReleaseResultModel> newReleaseResultModelList) {
+    public RecyclerNewReleasesAdapter(Context context, List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList) {
         this.context = context;
-        this.newReleaseResultModelList = newReleaseResultModelList;
+        this.animeNewReleaseResultModelList = animeNewReleaseResultModelList;
     }
 
     @NonNull
@@ -35,51 +35,51 @@ class RecyclerNewReleasesAdapter extends RecyclerView.Adapter<RecyclerNewRelease
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.itemListBinding.textTitle.setText(newReleaseResultModelList.get(position).getAnimeEpisode());
-        Picasso.get().load(newReleaseResultModelList.get(position).getEpisodeThumb()).into(holder.itemListBinding.imageViewBackground);
+        holder.itemListBinding.textTitle.setText(animeNewReleaseResultModelList.get(position).getAnimeEpisode());
+        Picasso.get().load(animeNewReleaseResultModelList.get(position).getEpisodeThumb()).into(holder.itemListBinding.imageViewBackground);
 
-        if (newReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.series_string))) {
+        if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.series_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.blue_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.series_string));
-        } else if (newReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.ova_string))) {
+        } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.ova_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.pink_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.ova_string));
-        } else if (newReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.ona_string))) {
+        } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.ona_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.purple_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.ona_string));
-        } else if (newReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.la_string))) {
+        } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.la_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.red_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.la_string));
-        } else if (newReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.movie_string))) {
+        } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.movie_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.green_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.movie_string));
-        } else if (newReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.special_string))) {
+        } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.special_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.orange_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.special_string));
         }
 
-        if (newReleaseResultModelList.get(position).getAnimeEpisodeStatus().equalsIgnoreCase(context.getResources().getString(R.string.ongoing_text))) {
+        if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeStatus().equalsIgnoreCase(context.getResources().getString(R.string.ongoing_text))) {
             holder.itemListBinding.cardEpisodeStatus.setCardBackgroundColor(context.getResources().getColor(R.color.ongoing_color));
             holder.itemListBinding.textEpisodeStatus.setText(context.getResources().getString(R.string.ongoing_text));
-        } else if (newReleaseResultModelList.get(position).getAnimeEpisodeStatus().equalsIgnoreCase(context.getResources().getString(R.string.completed_text))) {
+        } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeStatus().equalsIgnoreCase(context.getResources().getString(R.string.completed_text))) {
             holder.itemListBinding.cardEpisodeStatus.setCardBackgroundColor(context.getResources().getColor(R.color.completed_color));
             holder.itemListBinding.textEpisodeStatus.setText(context.getResources().getString(R.string.completed_text));
         }
 
         holder.itemListBinding.cardEpisodeNumber.setCardBackgroundColor(context.getResources().getColor(R.color.white_with_opacity));
-        holder.itemListBinding.textEpisodeNumber.setText(newReleaseResultModelList.get(position).getAnimeEpisodeNumber());
+        holder.itemListBinding.textEpisodeNumber.setText(animeNewReleaseResultModelList.get(position).getAnimeEpisodeNumber());
         holder.itemListBinding.relativeItem.setOnClickListener(v -> {
             Intent intentToVideoWatchActivity = new Intent(context.getApplicationContext(), WatchAnimeEpisodeActivity.class);
-            intentToVideoWatchActivity.putExtra("animeEpisodeToWatch", newReleaseResultModelList.get(position).getEpisodeURL());
-            intentToVideoWatchActivity.putExtra("animeEpisodeThumb", newReleaseResultModelList.get(position).getEpisodeThumb());
-            intentToVideoWatchActivity.putExtra("animeEpisodeTitle", newReleaseResultModelList.get(position).getAnimeEpisode());
+            intentToVideoWatchActivity.putExtra("animeEpisodeToWatch", animeNewReleaseResultModelList.get(position).getEpisodeURL());
+            intentToVideoWatchActivity.putExtra("animeEpisodeThumb", animeNewReleaseResultModelList.get(position).getEpisodeThumb());
+            intentToVideoWatchActivity.putExtra("animeEpisodeTitle", animeNewReleaseResultModelList.get(position).getAnimeEpisode());
             context.startActivity(intentToVideoWatchActivity);
         });
     }
 
     @Override
     public int getItemCount() {
-        return newReleaseResultModelList.size();
+        return animeNewReleaseResultModelList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
