@@ -7,15 +7,17 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/appicon"
+        android:icon="@mipmap/ic_app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/appicon"
+        android:roundIcon="@mipmap/ic_app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
         <activity
             android:name=".SplashActivity"
+            android:screenOrientation="userPortrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +25,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WatchAnimeEpisodeActivity" />
-        <activity android:name=".MainActivity" />
-    </application>
+        <activity
+            android:name=".WatchAnimeEpisodeActivity"
+            android:screenOrientation="userLandscape" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".AnimeReleaseListActivity"
+            android:screenOrientation="userPortrait" />
 
+        <activity
+            android:name=".MangaReleaseListActivity"
+            android:screenOrientation="userPortrait" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
 
 </manifest>

@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">AniWatch</string>
     <string name="all_episodes_here_text">All episodes here!</string>
+    <string name="read_manga_text">Read Manga</string>
+    <string name="watch_anime_text">Watch Anime</string>
+    <!--episode status-->
+    <string name="ongoing_text">ONGOING</string>
+    <string name="completed_text">COMPLETED</string>
+    <!--    episode type    -->
+    <string name="series_string">SERIES</string>
+    <string name="ova_string">OVA</string>
+    <string name="ona_string">ONA</string>
+    <string name="special_string">SPECIAL</string>
+    <string name="la_string">LA</string>
+    <string name="movie_string">MOVIE</string>
 </resources>

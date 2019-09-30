@@ -5,5 +5,16 @@
     <color name="colorAccent">#D81B60</color>
     <color name="darkColor">#244652</color>
     <color name="black_with_opacity">#a0000000</color>
+    <color name="white_with_opacity">#ABFFFFFF</color>
     <color name="uniqlo_red">#d20117</color>
+    <!--    status color-->
+    <color name="completed_color">#67c392</color>
+    <color name="ongoing_color">#f78749</color>
+    <!--    episode type colors-->
+    <color name="blue_series_color">#0073ce</color>
+    <color name="pink_series_color">#e91e63</color>
+    <color name="purple_series_color">#673ab7</color>
+    <color name="orange_series_color">#fb3a00</color>
+    <color name="red_series_color">#af0f0f</color>
+    <color name="green_series_color">#218c4c</color>
 </resources>

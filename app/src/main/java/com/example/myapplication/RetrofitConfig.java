@@ -17,7 +17,7 @@ public class RetrofitConfig {
 
         return new Retrofit.Builder()
                 .addConverterFactory(ScalarsConverterFactory.create())
-                .baseUrl("https://animeindo.co/")
+                .baseUrl("https://animeindo.to")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build();
