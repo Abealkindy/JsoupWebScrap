@@ -19,6 +19,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, AnimeReleaseListActivity.class));
             finish();
         });
+        mainBinding.cardReadManga.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, MangaReleaseListActivity.class));
+            finish();
+        });
     }
 
 

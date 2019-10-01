@@ -38,7 +38,7 @@ public class RetrofitConfig {
     }
 
     public static ApiEndPointService getInitMangaRetrofit() {
-        return setInitAnimeRetrofit().create(ApiEndPointService.class);
+        return setInitMangaRetrofit().create(ApiEndPointService.class);
     }
 
 }

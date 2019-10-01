@@ -435,11 +435,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
             Log.e("episodeTitle", getTitleFromElement);
             animeEpisodeBinding.textTitleEpisode.setText(getTitleFromElement);
         }
-        Log.e("allData", new
-
-                Gson().
-
-                toJson(videoStreamResultModel));
+        Log.e("allData", new Gson().toJson(videoStreamResultModel));
         animeEpisodeBinding.webViewWatchAnime.loadData(videoStreamResultModel.getVideoUrl(), "text/html", "utf-8");
     }
 

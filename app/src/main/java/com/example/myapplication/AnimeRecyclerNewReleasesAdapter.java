@@ -10,16 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.databinding.ItemListBinding;
+import com.example.myapplication.databinding.ItemListAnimeBinding;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-class RecyclerNewReleasesAdapter extends RecyclerView.Adapter<RecyclerNewReleasesAdapter.ViewHolder> {
+class AnimeRecyclerNewReleasesAdapter extends RecyclerView.Adapter<AnimeRecyclerNewReleasesAdapter.ViewHolder> {
     private Context context;
     private List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList;
 
-    public RecyclerNewReleasesAdapter(Context context, List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList) {
+    public AnimeRecyclerNewReleasesAdapter(Context context, List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList) {
         this.context = context;
         this.animeNewReleaseResultModelList = animeNewReleaseResultModelList;
     }
@@ -28,7 +28,7 @@ class RecyclerNewReleasesAdapter extends RecyclerView.Adapter<RecyclerNewRelease
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        ItemListBinding itemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_list_anime, parent, false);
+        ItemListAnimeBinding itemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_list_anime, parent, false);
         return new ViewHolder(itemListBinding);
     }
 
@@ -83,9 +83,9 @@ class RecyclerNewReleasesAdapter extends RecyclerView.Adapter<RecyclerNewRelease
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private final ItemListBinding itemListBinding;
+        private final ItemListAnimeBinding itemListBinding;
 
-        public ViewHolder(final ItemListBinding itemView) {
+        public ViewHolder(final ItemListAnimeBinding itemView) {
             super(itemView.getRoot());
             this.itemListBinding = itemView;
         }

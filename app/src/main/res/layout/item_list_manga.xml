@@ -27,7 +27,7 @@
             android:layout_alignParentStart="true"
             android:layout_margin="15dp"
             app:cardCornerRadius="10dp"
-            tools:cardBackgroundColor="@color/manga_color">
+            app:cardBackgroundColor="@color/manga_color">
 
             <TextView
                 android:id="@+id/text_manga_type"
@@ -38,7 +38,27 @@
                 android:fontFamily="@font/montserrat"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
-                tools:text="MANGA" />
+                android:text="MANGA" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_all_chapters"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="15dp"
+            app:cardBackgroundColor="@color/orange_series_color"
+            app:cardCornerRadius="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/all_chapters_here_text"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -52,7 +72,7 @@
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            tools:text="Class-goto Shuudan Teni Shimashita ga, ichiban Tsuyoi Ore wa Saijaku no Shounin ni Gisouchuu" />
+            android:text="Class-goto Shuudan Teni Shimashita ga, ichiban Tsuyoi Ore wa Saijaku no Shounin ni Gisouchuu" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -65,8 +85,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_margin="15dp"
-                app:cardCornerRadius="10dp"
-                tools:cardBackgroundColor="@color/white_with_opacity">
+                app:cardBackgroundColor="@color/white_with_opacity"
+                app:cardCornerRadius="10dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -82,9 +102,10 @@
                         android:fontFamily="@font/montserrat"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
-                        tools:text="Chapter 1000" />
+                        android:text="Chapter 1000" />
 
                     <TextView
+                        android:id="@+id/text_first_manga_chapter_release_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -92,7 +113,7 @@
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textStyle="italic"
-                        tools:text="11 months ago" />
+                        android:text="11 months ago" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -102,8 +123,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="15dp"
-                app:cardCornerRadius="10dp"
-                tools:cardBackgroundColor="@color/white_with_opacity">
+                app:cardBackgroundColor="@color/white_with_opacity"
+                app:cardCornerRadius="10dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -119,9 +140,10 @@
                         android:fontFamily="@font/montserrat"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
-                        tools:text="Chapter 1000" />
+                        android:text="Chapter 1000" />
 
                     <TextView
+                        android:id="@+id/text_second_manga_chapter_release_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -129,7 +151,7 @@
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textStyle="italic"
-                        tools:text="11 months ago" />
+                        android:text="11 months ago" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -139,8 +161,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="15dp"
-                app:cardCornerRadius="10dp"
-                tools:cardBackgroundColor="@color/white_with_opacity">
+                app:cardBackgroundColor="@color/white_with_opacity"
+                app:cardCornerRadius="10dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -156,9 +178,10 @@
                         android:fontFamily="@font/montserrat"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
-                        tools:text="Chapter 1000" />
+                        android:text="Chapter 1000" />
 
                     <TextView
+                        android:id="@+id/text_third_manga_chapter_release_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -166,7 +189,7 @@
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textStyle="italic"
-                        tools:text="11 months ago" />
+                        android:text="11 months ago" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

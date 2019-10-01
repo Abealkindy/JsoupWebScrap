@@ -32,7 +32,7 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
 
     private int pageCount = 1;
     private List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
-    private RecyclerNewReleasesAdapter recyclerNewReleasesAdapter;
+    private AnimeRecyclerNewReleasesAdapter animeRecyclerNewReleasesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +40,8 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
         animeReleaseListBinding = DataBindingUtil.setContentView(this, R.layout.activity_anime_release_list);
         getNewReleasesAnime(pageCount++);
         animeReleaseListBinding.recyclerNewReleases.setHasFixedSize(true);
-        recyclerNewReleasesAdapter = new RecyclerNewReleasesAdapter(AnimeReleaseListActivity.this, animeNewReleaseResultModelList);
-        animeReleaseListBinding.recyclerNewReleases.setAdapter(recyclerNewReleasesAdapter);
+        animeRecyclerNewReleasesAdapter = new AnimeRecyclerNewReleasesAdapter(AnimeReleaseListActivity.this, animeNewReleaseResultModelList);
+        animeReleaseListBinding.recyclerNewReleases.setAdapter(animeRecyclerNewReleasesAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         animeReleaseListBinding.recyclerNewReleases.setLayoutManager(linearLayoutManager);
         animeReleaseListBinding.recyclerNewReleases.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
@@ -52,7 +52,7 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
         });
         animeReleaseListBinding.swipeRefreshAnimeList.setOnRefreshListener(() -> {
             animeReleaseListBinding.swipeRefreshAnimeList.setRefreshing(false);
-            getNewReleasesAnime(pageCount++);
+            getNewReleasesAnime(pageCount);
         });
     }
 
@@ -78,7 +78,7 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
                     @Override
                     public void onNext(String result) {
                         animeNewReleaseResultModelList.addAll(parseResult(result));
-                        recyclerNewReleasesAdapter.notifyDataSetChanged();
+                        animeRecyclerNewReleasesAdapter.notifyDataSetChanged();
                         Log.e("result", result);
                     }
 
