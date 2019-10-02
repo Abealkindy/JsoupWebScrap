@@ -13,7 +13,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardReadManga"
@@ -41,6 +42,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat"
                         android:text="@string/read_manga_text"
+                        android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -72,6 +74,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat"
                         android:text="@string/watch_anime_text"
+                        android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="20sp" />
                 </LinearLayout>
