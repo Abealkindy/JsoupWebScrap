@@ -48,25 +48,24 @@ class MangaRecyclerNewReleasesAdapter extends RecyclerView.Adapter<MangaRecycler
             holder.itemListBinding.cardMangaType.setCardBackgroundColor(context.getResources().getColor(R.color.manhua_color));
             holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manhua_string));
         }
-
-        holder.itemListBinding.textFirstMangaChapter.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle());
-        holder.itemListBinding.textFirstMangaChapterReleaseTime.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterReleaseTime());
+        holder.itemListBinding.textFirstMangaChapter.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(0).getChapterTitle());
+        holder.itemListBinding.textFirstMangaChapterReleaseTime.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(0).getChapterReleaseTime());
         holder.itemListBinding.cardFirstMangaChapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-        holder.itemListBinding.textSecondMangaChapter.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(1).getChapterTitle());
-        holder.itemListBinding.textSecondMangaChapterReleaseTime.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(1).getChapterReleaseTime());
+        holder.itemListBinding.textSecondMangaChapter.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(1).getChapterTitle());
+        holder.itemListBinding.textSecondMangaChapterReleaseTime.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(1).getChapterReleaseTime());
         holder.itemListBinding.cardSecondMangaChapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-        holder.itemListBinding.textThirdMangaChapter.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(2).getChapterTitle());
-        holder.itemListBinding.textThirdMangaChapterReleaseTime.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(2).getChapterReleaseTime());
+        holder.itemListBinding.textThirdMangaChapter.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(2).getChapterTitle());
+        holder.itemListBinding.textThirdMangaChapterReleaseTime.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(2).getChapterReleaseTime());
         holder.itemListBinding.cardThirdMangaChapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
