@@ -38,7 +38,7 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         animeReleaseListBinding = DataBindingUtil.setContentView(this, R.layout.activity_anime_release_list);
-        getNewReleasesAnime(pageCount++);
+        getNewReleasesAnime(pageCount++, "newPage");
         animeReleaseListBinding.recyclerNewReleases.setHasFixedSize(true);
         animeRecyclerNewReleasesAdapter = new AnimeRecyclerNewReleasesAdapter(AnimeReleaseListActivity.this, animeNewReleaseResultModelList);
         animeReleaseListBinding.recyclerNewReleases.setAdapter(animeRecyclerNewReleasesAdapter);
@@ -47,12 +47,12 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
         animeReleaseListBinding.recyclerNewReleases.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int index, int totalItemsCount, RecyclerView view) {
-                getNewReleasesAnime(pageCount++);
+                getNewReleasesAnime(pageCount++, "newPage");
             }
         });
         animeReleaseListBinding.swipeRefreshAnimeList.setOnRefreshListener(() -> {
             animeReleaseListBinding.swipeRefreshAnimeList.setRefreshing(false);
-            getNewReleasesAnime(pageCount);
+            getNewReleasesAnime(1, "swipeRefresh");
         });
     }
 
@@ -64,7 +64,7 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
 
     }
 
-    private void getNewReleasesAnime(int pageCount) {
+    private void getNewReleasesAnime(int pageCount, String hitStatus) {
         ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
         apiEndPointService.getNewReleaseAnimeData("/page/" + pageCount)
                 .subscribeOn(Schedulers.io())
@@ -77,9 +77,18 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(String result) {
-                        animeNewReleaseResultModelList.addAll(parseResult(result));
-                        animeRecyclerNewReleasesAdapter.notifyDataSetChanged();
-                        Log.e("result", result);
+                        if (hitStatus.equalsIgnoreCase("newPage")) {
+                            animeNewReleaseResultModelList.addAll(parseResult(result));
+                            animeRecyclerNewReleasesAdapter.notifyDataSetChanged();
+                            Log.e("result", result);
+                        } else if (hitStatus.equalsIgnoreCase("swipeRefresh")) {
+                            if (animeNewReleaseResultModelList != null) {
+                                animeNewReleaseResultModelList.clear();
+                            }
+                            animeNewReleaseResultModelList.addAll(parseResult(result));
+                            animeRecyclerNewReleasesAdapter.notifyDataSetChanged();
+                            Log.e("result", result);
+                        }
                     }
 
                     @Override

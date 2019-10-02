@@ -38,7 +38,7 @@ public class MangaReleaseListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mangaReleaseListBinding = DataBindingUtil.setContentView(this, R.layout.activity_manga_release_list);
-        getNewReleasesManga(1);
+        getNewReleasesManga(pageCount++, "newPage");
         mangaReleaseListBinding.recyclerNewReleasesManga.setHasFixedSize(true);
         mangaRecyclerNewReleasesAdapter = new MangaRecyclerNewReleasesAdapter(MangaReleaseListActivity.this, mangaNewReleaseResultModels);
         mangaReleaseListBinding.recyclerNewReleasesManga.setAdapter(mangaRecyclerNewReleasesAdapter);
@@ -47,12 +47,12 @@ public class MangaReleaseListActivity extends AppCompatActivity {
         mangaReleaseListBinding.recyclerNewReleasesManga.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int index, int totalItemsCount, RecyclerView view) {
-                getNewReleasesManga(pageCount++);
+                getNewReleasesManga(pageCount++, "newPage");
             }
         });
         mangaReleaseListBinding.swipeRefreshMangaList.setOnRefreshListener(() -> {
             mangaReleaseListBinding.swipeRefreshMangaList.setRefreshing(false);
-            getNewReleasesManga(1);
+            getNewReleasesManga(1, "swipeRefresh");
         });
     }
 
@@ -64,7 +64,7 @@ public class MangaReleaseListActivity extends AppCompatActivity {
 
     }
 
-    private void getNewReleasesManga(int pageCount) {
+    private void getNewReleasesManga(int pageCount, String hitStatus) {
         ApiEndPointService apiEndPointService = RetrofitConfig.getInitMangaRetrofit();
         apiEndPointService.getNewReleaseMangaData("/page/" + pageCount)
                 .subscribeOn(Schedulers.io())
@@ -77,9 +77,17 @@ public class MangaReleaseListActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(String result) {
-                        mangaNewReleaseResultModels.addAll(parseResult(result));
-                        mangaRecyclerNewReleasesAdapter.notifyDataSetChanged();
-                        Log.e("result", result);
+                        if (hitStatus.equalsIgnoreCase("newPage")) {
+                            mangaNewReleaseResultModels.addAll(parseResult(result));
+                            mangaRecyclerNewReleasesAdapter.notifyDataSetChanged();
+                            Log.e("result", result);
+                        } else if (hitStatus.equalsIgnoreCase("swipeRefresh")) {
+                            if (mangaNewReleaseResultModels != null) {
+                                mangaNewReleaseResultModels.clear();
+                            }
+                            mangaNewReleaseResultModels.addAll(parseResult(result));
+                            mangaRecyclerNewReleasesAdapter.notifyDataSetChanged();
+                        }
                     }
 
                     @Override
@@ -119,20 +127,23 @@ public class MangaReleaseListActivity extends AppCompatActivity {
                 mangaNewReleaseResultModel.setMangaDetailURL(url);
             }
             Elements newChapter = doc.getElementsByTag("li");
-            Log.e("tagli", "" + newChapter);
             List<MangaNewReleaseResultModel.LatestMangaDetailModel> latestMangaDetailModelList = new ArrayList<>();
             for (Element element : newChapter) {
                 String chapterUrl = element.getElementsByTag("a").attr("href");
                 String chapterReleaseTime = element.getElementsByTag("i").text();
+                String chapterTitle = element.getElementsContainingOwnText("Chapter").text();
                 MangaNewReleaseResultModel.LatestMangaDetailModel mangaDetailModel = new MangaNewReleaseResultModel().new LatestMangaDetailModel();
                 if (chapterUrl.startsWith("https://komikcast.com/chapter/")) {
                     mangaDetailModel.setChapterURL(chapterUrl);
                 }
                 mangaDetailModel.setChapterReleaseTime(chapterReleaseTime);
+                mangaDetailModel.setChapterTitle(chapterTitle);
                 latestMangaDetailModelList.add(mangaDetailModel);
             }
-            List<MangaNewReleaseResultModel.LatestMangaDetailModel> afterCut = new ArrayList<>(latestMangaDetailModelList.subList(9, latestMangaDetailModelList.size()));
-            mangaNewReleaseResultModel.setLatestMangaDetail(afterCut);
+            List<MangaNewReleaseResultModel.LatestMangaDetailModel> afterCut = new ArrayList<>(latestMangaDetailModelList.subList(35, latestMangaDetailModelList.size()));
+            Log.e("firstpaging", new Gson().toJson(afterCut));
+            mangaNewReleaseResultModel.setLatestMangaDetail(arrayCut(afterCut));
+            Log.e("paging3", new Gson().toJson(mangaNewReleaseResultModel.getLatestMangaDetail()));
             mangaNewReleaseResultModelList.add(mangaNewReleaseResultModel);
         }
         List<MangaNewReleaseResultModel> mangaNewReleaseResultModelListAfterCut = new ArrayList<>(mangaNewReleaseResultModelList.subList(9, mangaNewReleaseResultModelList.size()));
@@ -140,4 +151,25 @@ public class MangaReleaseListActivity extends AppCompatActivity {
         Log.e("resultAfterCut", new Gson().toJson(mangaNewReleaseResultModelListAfterCut));
         return mangaNewReleaseResultModelListAfterCut;
     }
+
+    private List<MangaNewReleaseResultModel.LatestMangaDetailModel> arrayCut(List<MangaNewReleaseResultModel.LatestMangaDetailModel> afterCut) {
+        List<MangaNewReleaseResultModel.LatestMangaDetailModel> cutted = new ArrayList<>();
+        for (int position = 0; position < 60; position++) {
+            int first = position * 3;
+            int end = position * 3 + 3;
+            Log.e("firstandend", first + " " + end + " " + position);
+            List<MangaNewReleaseResultModel.LatestMangaDetailModel> afterCutPaging = new ArrayList<>(afterCut.subList(first, end));
+            Log.e("paging2", new Gson().toJson(afterCutPaging));
+//            for (int pos = 0; pos < afterCutPaging.size(); pos++) {
+//                MangaNewReleaseResultModel.LatestMangaDetailModel mangaDetailModel = new MangaNewReleaseResultModel().new LatestMangaDetailModel();
+//                mangaDetailModel.setChapterTitle(afterCutPaging.get(pos).getChapterTitle());
+//                mangaDetailModel.setChapterReleaseTime(afterCutPaging.get(pos).getChapterReleaseTime());
+//                mangaDetailModel.setChapterURL(afterCutPaging.get(pos).getChapterURL());
+//                cutted.add(mangaDetailModel);
+//            }
+            cutted.addAll(afterCut.subList(first, end));
+        }
+        return cutted;
+    }
+
 }

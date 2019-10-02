@@ -26,8 +26,8 @@
             android:layout_height="45dp"
             android:layout_alignParentStart="true"
             android:layout_margin="15dp"
-            app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="@color/manga_color">
+            app:cardBackgroundColor="@color/manga_color"
+            app:cardCornerRadius="10dp">
 
             <TextView
                 android:id="@+id/text_manga_type"
@@ -38,7 +38,7 @@
                 android:fontFamily="@font/montserrat"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:text="MANGA" />
+                tools:text="MANGA" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -66,13 +66,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/montserrat"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:text="Class-goto Shuudan Teni Shimashita ga, ichiban Tsuyoi Ore wa Saijaku no Shounin ni Gisouchuu" />
+            tools:text="Class-goto Shuudan Teni Shimashita ga, ichiban Tsuyoi Ore wa Saijaku no Shounin ni Gisouchuu" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -100,9 +102,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat"
+                        android:text="Chapter 1000"
                         android:textAlignment="center"
-                        android:textColor="@android:color/black"
-                        android:text="Chapter 1000" />
+                        android:textColor="@android:color/black" />
 
                     <TextView
                         android:id="@+id/text_first_manga_chapter_release_time"
@@ -110,10 +112,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat"
+                        android:text="11 months ago"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
-                        android:textStyle="italic"
-                        android:text="11 months ago" />
+                        android:textStyle="italic" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -138,9 +140,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat"
+                        android:text="Chapter 1000"
                         android:textAlignment="center"
-                        android:textColor="@android:color/black"
-                        android:text="Chapter 1000" />
+                        android:textColor="@android:color/black" />
 
                     <TextView
                         android:id="@+id/text_second_manga_chapter_release_time"
@@ -148,10 +150,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat"
+                        android:text="11 months ago"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
-                        android:textStyle="italic"
-                        android:text="11 months ago" />
+                        android:textStyle="italic" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -176,9 +178,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat"
+                        android:text="Chapter 1000"
                         android:textAlignment="center"
-                        android:textColor="@android:color/black"
-                        android:text="Chapter 1000" />
+                        android:textColor="@android:color/black" />
 
                     <TextView
                         android:id="@+id/text_third_manga_chapter_release_time"
@@ -186,13 +188,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat"
+                        android:text="11 months ago"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
-                        android:textStyle="italic"
-                        android:text="11 months ago" />
+                        android:textStyle="italic" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
         </RelativeLayout>
+
     </RelativeLayout>
 </layout>

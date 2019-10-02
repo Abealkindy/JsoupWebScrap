@@ -3,6 +3,7 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -14,7 +15,12 @@ public class MangaNewReleaseResultModel implements Serializable {
     private String mangaTitle;
     private String mangaThumb;
     private String mangaDetailURL;
-    private List<LatestMangaDetailModel> latestMangaDetail;
+    private List<LatestMangaDetailModel> latestMangaDetail = new ArrayList<>();
+
+
+    public void addLatestMangaDetail(LatestMangaDetailModel url) {
+        latestMangaDetail.add(url);
+    }
 
     @NonNull
     @Override
@@ -30,6 +36,7 @@ public class MangaNewReleaseResultModel implements Serializable {
 
     @Data
     public class LatestMangaDetailModel implements Serializable {
+        private String chapterTitle;
         private String chapterURL;
         private String chapterReleaseTime;
 
@@ -39,6 +46,7 @@ public class MangaNewReleaseResultModel implements Serializable {
             return "LatestMangaDetailModel{" +
                     "chapterURL='" + chapterURL + '\'' +
                     ", chapterReleaseTime='" + chapterReleaseTime + '\'' +
+                    ", chapterReleaseTitle='" + chapterTitle + '\'' +
                     '}';
         }
     }
