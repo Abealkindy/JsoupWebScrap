@@ -45,6 +45,7 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         animeReleaseListBinding = DataBindingUtil.setContentView(this, R.layout.activity_anime_release_list);
+        setTitle("Watch Anime");
         getNewReleasesAnime(pageCount++, "newPage");
         animeReleaseListBinding.recyclerNewReleases.setHasFixedSize(true);
         animeRecyclerNewReleasesAdapter = new AnimeRecyclerNewReleasesAdapter(AnimeReleaseListActivity.this, animeNewReleaseResultModelList);

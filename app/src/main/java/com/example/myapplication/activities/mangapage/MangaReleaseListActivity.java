@@ -45,6 +45,7 @@ public class MangaReleaseListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mangaReleaseListBinding = DataBindingUtil.setContentView(this, R.layout.activity_manga_release_list);
+        setTitle("Read Manga/Manhua/Manhwa");
         getNewReleasesManga(pageCount++, "newPage");
         mangaReleaseListBinding.recyclerNewReleasesManga.setHasFixedSize(true);
         mangaRecyclerNewReleasesAdapter = new MangaRecyclerNewReleasesAdapter(MangaReleaseListActivity.this, mangaNewReleaseResultModels);
