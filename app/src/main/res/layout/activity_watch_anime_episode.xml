@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/black"
-        tools:context=".WatchAnimeEpisodeActivity">
+        tools:context=".activities.animepage.WatchAnimeEpisodeActivity">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_detail_episode"

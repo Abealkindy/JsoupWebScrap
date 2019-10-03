@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities.mangapage;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.myapplication.networks.ApiEndPointService;
+import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
+import com.example.myapplication.models.mangamodels.MangaNewReleaseResultModel;
+import com.example.myapplication.adapters.MangaRecyclerNewReleasesAdapter;
+import com.example.myapplication.R;
+import com.example.myapplication.networks.RetrofitConfig;
+import com.example.myapplication.activities.MainActivity;
 import com.example.myapplication.databinding.ActivityMangaReleaseListBinding;
 import com.google.gson.Gson;
 
@@ -142,7 +149,7 @@ public class MangaReleaseListActivity extends AppCompatActivity {
             }
             List<MangaNewReleaseResultModel.LatestMangaDetailModel> afterCut = new ArrayList<>(latestMangaDetailModelList.subList(35, latestMangaDetailModelList.size()));
             Log.e("firstpaging", new Gson().toJson(afterCut));
-            mangaNewReleaseResultModel.setLatestMangaDetail(arrayCut(afterCut));
+            mangaNewReleaseResultModel.setLatestMangaDetail(afterCut);
             Log.e("paging3", new Gson().toJson(mangaNewReleaseResultModel.getLatestMangaDetail()));
             mangaNewReleaseResultModelList.add(mangaNewReleaseResultModel);
         }
@@ -150,26 +157,6 @@ public class MangaReleaseListActivity extends AppCompatActivity {
         Log.e("resultBeforeCut", new Gson().toJson(mangaNewReleaseResultModelList));
         Log.e("resultAfterCut", new Gson().toJson(mangaNewReleaseResultModelListAfterCut));
         return mangaNewReleaseResultModelListAfterCut;
-    }
-
-    private List<MangaNewReleaseResultModel.LatestMangaDetailModel> arrayCut(List<MangaNewReleaseResultModel.LatestMangaDetailModel> afterCut) {
-        List<MangaNewReleaseResultModel.LatestMangaDetailModel> cutted = new ArrayList<>();
-        for (int position = 0; position < 60; position++) {
-            int first = position * 3;
-            int end = position * 3 + 3;
-            Log.e("firstandend", first + " " + end + " " + position);
-            List<MangaNewReleaseResultModel.LatestMangaDetailModel> afterCutPaging = new ArrayList<>(afterCut.subList(first, end));
-            Log.e("paging2", new Gson().toJson(afterCutPaging));
-//            for (int pos = 0; pos < afterCutPaging.size(); pos++) {
-//                MangaNewReleaseResultModel.LatestMangaDetailModel mangaDetailModel = new MangaNewReleaseResultModel().new LatestMangaDetailModel();
-//                mangaDetailModel.setChapterTitle(afterCutPaging.get(pos).getChapterTitle());
-//                mangaDetailModel.setChapterReleaseTime(afterCutPaging.get(pos).getChapterReleaseTime());
-//                mangaDetailModel.setChapterURL(afterCutPaging.get(pos).getChapterURL());
-//                cutted.add(mangaDetailModel);
-//            }
-            cutted.addAll(afterCut.subList(first, end));
-        }
-        return cutted;
     }
 
 }

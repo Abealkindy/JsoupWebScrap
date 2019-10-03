@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities.animepage;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;
+import com.example.myapplication.adapters.AnimeRecyclerNewReleasesAdapter;
+import com.example.myapplication.networks.ApiEndPointService;
+import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
+import com.example.myapplication.R;
+import com.example.myapplication.networks.RetrofitConfig;
+import com.example.myapplication.activities.MainActivity;
 import com.example.myapplication.databinding.ActivityAnimeReleaseListBinding;
 import com.google.gson.Gson;
 

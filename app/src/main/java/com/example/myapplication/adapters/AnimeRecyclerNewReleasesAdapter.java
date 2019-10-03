@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,12 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;
+import com.example.myapplication.R;
+import com.example.myapplication.activities.animepage.WatchAnimeEpisodeActivity;
 import com.example.myapplication.databinding.ItemListAnimeBinding;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-class AnimeRecyclerNewReleasesAdapter extends RecyclerView.Adapter<AnimeRecyclerNewReleasesAdapter.ViewHolder> {
+public class AnimeRecyclerNewReleasesAdapter extends RecyclerView.Adapter<AnimeRecyclerNewReleasesAdapter.ViewHolder> {
     private Context context;
     private List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList;
 

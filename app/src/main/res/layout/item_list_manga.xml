@@ -41,26 +41,6 @@
                 tools:text="MANGA" />
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_all_chapters"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="@color/orange_series_color"
-            app:cardCornerRadius="10dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/montserrat"
-                android:text="@string/all_chapters_here_text"
-                android:textAlignment="center"
-                android:textColor="@android:color/white" />
-        </androidx.cardview.widget.CardView>
-
         <TextView
             android:id="@+id/text_title_manga"
             android:layout_width="match_parent"

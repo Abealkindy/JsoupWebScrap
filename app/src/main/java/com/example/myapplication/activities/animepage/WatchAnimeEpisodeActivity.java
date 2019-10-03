@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities.animepage;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -13,6 +13,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.example.myapplication.networks.ApiEndPointService;
+import com.example.myapplication.R;
+import com.example.myapplication.networks.RetrofitConfig;
+import com.example.myapplication.models.animemodels.VideoStreamResultModel;
 import com.example.myapplication.databinding.ActivityWatchAnimeEpisodeBinding;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;

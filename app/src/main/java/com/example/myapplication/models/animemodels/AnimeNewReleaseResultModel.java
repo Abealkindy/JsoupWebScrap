@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.models.animemodels;
 
 import androidx.annotation.NonNull;
 

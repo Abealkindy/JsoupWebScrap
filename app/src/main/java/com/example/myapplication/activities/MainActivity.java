@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -6,6 +6,9 @@ import androidx.databinding.DataBindingUtil;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.myapplication.R;
+import com.example.myapplication.activities.animepage.AnimeReleaseListActivity;
+import com.example.myapplication.activities.mangapage.MangaReleaseListActivity;
 import com.example.myapplication.databinding.ActivityMainBinding;
 
 

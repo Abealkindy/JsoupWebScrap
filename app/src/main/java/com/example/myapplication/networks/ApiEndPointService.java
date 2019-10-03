@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.networks;
 
 
 import io.reactivex.Observable;
@@ -23,6 +23,11 @@ public interface ApiEndPointService {
 
     @GET
     Observable<String> getNewReleaseMangaData(
+            @Url String getAllMangaDataUrl
+    );
+
+    @GET
+    Observable<String> getReadMangaData(
             @Url String getAllMangaDataUrl
     );
 
