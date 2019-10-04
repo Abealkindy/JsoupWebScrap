@@ -1,18 +1,27 @@
 package com.example.myapplication.activities.mangapage;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.adapters.RecyclerAllChapterAdapter;
 import com.example.myapplication.adapters.RecyclerReadMangaAdapter;
 import com.example.myapplication.databinding.ActivityReadMangaBinding;
+import com.example.myapplication.databinding.SelectChapterDialogBinding;
 import com.example.myapplication.models.mangamodels.ReadMangaModel;
 import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.networks.RetrofitConfig;
@@ -32,9 +41,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class ReadMangaActivity extends AppCompatActivity {
+public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllChapterAdapter.ClickListener {
     private ActivityReadMangaBinding readMangaBinding;
     private ReadMangaModel readMangaModel = new ReadMangaModel();
+    ProgressDialog progressDialog;
+    String chapterTitleForText;
+    private List<ReadMangaModel.AllChapterDatas> allChapterDatasList = new ArrayList<>();
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +57,13 @@ public class ReadMangaActivity extends AppCompatActivity {
     }
 
     private void setUI() {
+        progressDialog = new ProgressDialog(ReadMangaActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
         String appBarColorStatus = getIntent().getStringExtra("appBarColorStatus");
         String chapterURL = getIntent().getStringExtra("chapterURL");
+
         if (chapterURL != null) {
             getReadMangaContentData(chapterURL);
         } else {
@@ -64,7 +82,8 @@ public class ReadMangaActivity extends AppCompatActivity {
         }
     }
 
-    private void getReadMangaContentData(String chapterURL) {
+    public void getReadMangaContentData(String chapterURL) {
+        progressDialog.show();
         String URLAfterCut = chapterURL.substring(22);
         ApiEndPointService apiEndPointService = RetrofitConfig.getInitMangaRetrofit();
         apiEndPointService.getReadMangaData(URLAfterCut)
@@ -78,12 +97,14 @@ public class ReadMangaActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(String result) {
+                        progressDialog.dismiss();
                         parseHtmlToViewableContent(result);
                         Log.e("readMangaContentResult", result);
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        progressDialog.dismiss();
                         Toast.makeText(ReadMangaActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
                     }
 
@@ -96,13 +117,14 @@ public class ReadMangaActivity extends AppCompatActivity {
 
     private void parseHtmlToViewableContent(String result) {
         Document doc = Jsoup.parse(result);
-
         Elements getChapterTitle = doc.getElementsByTag("h1");
         String chapterTitle = getChapterTitle.text();
         readMangaBinding.textViewChapterTitle.setText(chapterTitle);
 
         Elements getAllChapterDatas = doc.select("option[value^=https://komikcast.com/chapter/]");
-        List<ReadMangaModel.AllChapterDatas> allChapterDatasList = new ArrayList<>();
+        if (allChapterDatasList != null || !allChapterDatasList.isEmpty()) {
+            allChapterDatasList.clear();
+        }
         for (Element element : getAllChapterDatas) {
             String allChapterTitles = element.getElementsContainingOwnText("Chapter").text();
             String allChapterURLs = element.absUrl("value");
@@ -125,7 +147,6 @@ public class ReadMangaActivity extends AppCompatActivity {
             readMangaBinding.buttonPrevChap.setOnClickListener(v -> getReadMangaContentData(previousChapterUrl));
         }
 
-
         Elements getNextChapterURL = doc.select("a[rel=next]");
         if (getNextChapterURL == null || getNextChapterURL.isEmpty()) {
             readMangaBinding.buttonNextChap.setVisibility(View.GONE);
@@ -138,7 +159,7 @@ public class ReadMangaActivity extends AppCompatActivity {
             readMangaBinding.buttonNextChap.setOnClickListener(v -> getReadMangaContentData(nextChapterUrl));
         }
         Elements getMangaImageContent = doc.select("img[src^=https://cdn.komikcast.com/wp-content/img/]");
-        if (readMangaModel.getImageContent() != null || readMangaModel.getImageContent().isEmpty()) {
+        if (readMangaModel.getImageContent() != null || !readMangaModel.getImageContent().isEmpty()) {
             readMangaModel.getImageContent().clear();
         }
         for (Element element : getMangaImageContent) {
@@ -150,7 +171,16 @@ public class ReadMangaActivity extends AppCompatActivity {
         readMangaBinding.recyclerImageContentManga.setAdapter(mangaRecyclerNewReleasesAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         readMangaBinding.recyclerImageContentManga.setLayoutManager(linearLayoutManager);
-//        SpinnerAllChapterAdapter spinnerAllChapterAdapter = new SpinnerAllChapterAdapter(ReadMangaActivity.this, android.R.layout.simple_spinner_item, allChapterDatasList);
+        readMangaBinding.cardSelectAllChapter.setOnClickListener(v -> {
+            dialog = new Dialog(ReadMangaActivity.this);
+            SelectChapterDialogBinding chapterDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(ReadMangaActivity.this), R.layout.select_chapter_dialog, null, false);
+            dialog.setContentView(chapterDialogBinding.getRoot());
+            dialog.setTitle("Select other chapter");
+            chapterDialogBinding.recyclerAllChapters.setHasFixedSize(true);
+            chapterDialogBinding.recyclerAllChapters.setLayoutManager(new LinearLayoutManager(ReadMangaActivity.this));
+            chapterDialogBinding.recyclerAllChapters.setAdapter(new RecyclerAllChapterAdapter(ReadMangaActivity.this, allChapterDatasList));
+            dialog.show();
+        });
     }
 
     @Override
@@ -184,4 +214,11 @@ public class ReadMangaActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
+
+    @Override
+    public void onItemClick(int position, View v) {
+        dialog.dismiss();
+        getReadMangaContentData(allChapterDatasList.get(position).getChapterUrl());
+    }
+
 }

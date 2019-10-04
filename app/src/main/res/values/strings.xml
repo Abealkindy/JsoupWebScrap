@@ -3,6 +3,7 @@
     <string name="all_episodes_here_text">All episodes here!</string>
     <string name="read_manga_text">Read Manga</string>
     <string name="watch_anime_text">Watch Anime</string>
+    <string name="search_text">Search</string>
     <!--episode status-->
     <string name="ongoing_text">ONGOING</string>
     <string name="completed_text">COMPLETED</string>
@@ -21,4 +22,5 @@
     <string name="select_chapter_manga_text">Select manga chapter</string>
     <string name="prev_chapter_text"><![CDATA[<< PREV CHAPTER]]></string>
     <string name="next_chapter_text"><![CDATA[NEXT CHAPTER >>]]></string>
+    <string name="latest_chapter_released_test">Latest chapter released</string>
 </resources>

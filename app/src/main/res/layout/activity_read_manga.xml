@@ -91,6 +91,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_select_all_chapter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -101,7 +102,7 @@
             app:layout_anchorGravity="bottom">
 
             <TextView
-                android:id="@+id/text_tanggal"
+                android:id="@+id/text_title_chapter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

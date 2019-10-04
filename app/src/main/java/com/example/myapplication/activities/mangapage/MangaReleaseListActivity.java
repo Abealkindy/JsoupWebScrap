@@ -2,13 +2,20 @@ package com.example.myapplication.activities.mangapage;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.Toast;
 
 import com.example.myapplication.networks.ApiEndPointService;
@@ -34,17 +41,22 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MangaReleaseListActivity extends AppCompatActivity {
+public class MangaReleaseListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     ActivityMangaReleaseListBinding mangaReleaseListBinding;
 
     private int pageCount = 1;
     private List<MangaNewReleaseResultModel> mangaNewReleaseResultModels = new ArrayList<>();
     private MangaRecyclerNewReleasesAdapter mangaRecyclerNewReleasesAdapter;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mangaReleaseListBinding = DataBindingUtil.setContentView(this, R.layout.activity_manga_release_list);
+        progressDialog = new ProgressDialog(MangaReleaseListActivity.this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
         setTitle("Read Manga/Manhua/Manhwa");
         getNewReleasesManga(pageCount++, "newPage");
         mangaReleaseListBinding.recyclerNewReleasesManga.setHasFixedSize(true);
@@ -73,6 +85,7 @@ public class MangaReleaseListActivity extends AppCompatActivity {
     }
 
     private void getNewReleasesManga(int pageCount, String hitStatus) {
+        progressDialog.show();
         ApiEndPointService apiEndPointService = RetrofitConfig.getInitMangaRetrofit();
         apiEndPointService.getNewReleaseMangaData("/page/" + pageCount)
                 .subscribeOn(Schedulers.io())
@@ -86,10 +99,12 @@ public class MangaReleaseListActivity extends AppCompatActivity {
                     @Override
                     public void onNext(String result) {
                         if (hitStatus.equalsIgnoreCase("newPage")) {
+                            progressDialog.dismiss();
                             mangaNewReleaseResultModels.addAll(parseResult(result));
                             mangaRecyclerNewReleasesAdapter.notifyDataSetChanged();
                             Log.e("result", result);
                         } else if (hitStatus.equalsIgnoreCase("swipeRefresh")) {
+                            progressDialog.dismiss();
                             if (mangaNewReleaseResultModels != null) {
                                 mangaNewReleaseResultModels.clear();
                             }
@@ -100,6 +115,7 @@ public class MangaReleaseListActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        progressDialog.dismiss();
                         AlertDialog.Builder builder = new
                                 AlertDialog.Builder(MangaReleaseListActivity.this);
                         builder.setTitle("Oops...");
@@ -134,6 +150,11 @@ public class MangaReleaseListActivity extends AppCompatActivity {
             if (url.startsWith("https://komikcast.com/komik/")) {
                 mangaNewReleaseResultModel.setMangaDetailURL(url);
             }
+
+            Uri mangaURLuri = Uri.parse(mangaNewReleaseResultModel.getMangaDetailURL());
+            String cutMangaURL = mangaURLuri.getLastPathSegment();
+            Log.e("cuttedMangaURL", cutMangaURL);
+
             Elements newChapter = doc.getElementsByTag("li");
             List<MangaNewReleaseResultModel.LatestMangaDetailModel> latestMangaDetailModelList = new ArrayList<>();
             for (Element element : newChapter) {
@@ -142,7 +163,11 @@ public class MangaReleaseListActivity extends AppCompatActivity {
                 String chapterTitle = element.getElementsContainingOwnText("Chapter").text();
                 MangaNewReleaseResultModel.LatestMangaDetailModel mangaDetailModel = new MangaNewReleaseResultModel().new LatestMangaDetailModel();
                 if (chapterUrl.startsWith("https://komikcast.com/chapter/")) {
+                    Uri uri = Uri.parse(chapterUrl);
+                    String cutURL = uri.getLastPathSegment();
+                    String fixCutted = cutURL.substring(0, cutURL.indexOf("-chapter"));
                     mangaDetailModel.setChapterURL(chapterUrl);
+                    Log.e("cuttedChapterURL", fixCutted);
                 }
                 mangaDetailModel.setChapterReleaseTime(chapterReleaseTime);
                 mangaDetailModel.setChapterTitle(chapterTitle);
@@ -160,4 +185,21 @@ public class MangaReleaseListActivity extends AppCompatActivity {
         return mangaNewReleaseResultModelListAfterCut;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.searchBar));
+        searchView.setOnQueryTextListener(this);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
 }

@@ -22,4 +22,8 @@
     <color name="manhwa_color">#a12e24</color>
     <color name="manhua_color">#009688</color>
     <color name="manga_color">#3367d6</color>
+    <!--    rating bar colors-->
+    <color name="yellow">#F7C70C</color>
+    <color name="gray">#a7a7a7</color>
+
 </resources>
