@@ -115,7 +115,6 @@
                     android:padding="10dp">
 
                     <TextView
-                        android:id="@+id/text_second_manga_chapter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -126,7 +125,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/text_second_manga_chapter_release_time"
+                        android:id="@+id/text_latest_chapter_release"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"

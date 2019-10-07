@@ -229,12 +229,14 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
             String mangaTitle = el.getElementsByClass("tt").text();
             String chapterRating = el.getElementsByTag("i").text();
             String chapterUrl = el.select("a[href^=https://komikcast.com/chapter/]").attr("href");
+            String chapterText = el.select("a[href^=https://komikcast.com/chapter/]").text();
             DiscoverMangaModel mangaNewReleaseResultModel = new DiscoverMangaModel();
             mangaNewReleaseResultModel.setMangaType(mangaType);
             mangaNewReleaseResultModel.setMangaTitle(mangaTitle);
             mangaNewReleaseResultModel.setMangaThumb(mangaThumbnailBackground);
             mangaNewReleaseResultModel.setMangaRating(chapterRating);
             mangaNewReleaseResultModel.setMangaLatestChapter(chapterUrl);
+            mangaNewReleaseResultModel.setMangaLatestChapterText(chapterText);
             mangaNewReleaseResultModelList.add(mangaNewReleaseResultModel);
         }
         Log.e("resultBeforeCut", new Gson().toJson(mangaNewReleaseResultModelList));

@@ -21,6 +21,8 @@
     <string name="manga_string">MANGA</string>
     <string name="manhwa_string">MANHWA</string>
     <string name="manhua_string">MANHUA</string>
+    <string name="oneshot_string">ONE-SHOT</string>
+    <string name="mangaoneshot_string">MANGAONE-SHOT</string>
     <string name="all_chapters_here_text">ALL CHAPTERS HERE</string>
     <string name="select_chapter_manga_text">Select manga chapter</string>
     <string name="prev_chapter_text"><![CDATA[<< PREV CHAPTER]]></string>

@@ -8,5 +8,6 @@ public class DiscoverMangaModel {
     private String mangaType;
     private String mangaThumb;
     private String mangaLatestChapter;
+    private String mangaLatestChapterText;
     private String mangaRating;
 }

@@ -52,7 +52,24 @@ public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecy
         } else if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manhua_string))) {
             holder.itemListBinding.cardMangaTypeResult.setCardBackgroundColor(context.getResources().getColor(R.color.manhua_color));
             holder.itemListBinding.textMangaTypeResult.setText(context.getResources().getString(R.string.manhua_string));
+        } else if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.mangaoneshot_string))) {
+            holder.itemListBinding.cardMangaTypeResult.setCardBackgroundColor(context.getResources().getColor(R.color.manga_color));
+            holder.itemListBinding.textMangaTypeResult.setText(context.getResources().getString(R.string.mangaoneshot_string));
+        } else if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.oneshot_string))) {
+            holder.itemListBinding.cardMangaTypeResult.setCardBackgroundColor(context.getResources().getColor(R.color.manga_color));
+            holder.itemListBinding.textMangaTypeResult.setText(context.getResources().getString(R.string.oneshot_string));
         }
+        holder.itemListBinding.mangaRatingBar.setNumStars(5);
+        holder.itemListBinding.mangaRatingBar.setRating(Float.parseFloat(animeDiscoverResultModelList.get(position).getMangaRating()) / 2);
+        holder.itemListBinding.mangaRatingNumber.setText(animeDiscoverResultModelList.get(position).getMangaRating());
+        holder.itemListBinding.textLatestChapterRelease.setText(animeDiscoverResultModelList.get(position).getMangaLatestChapterText());
+        holder.itemListBinding.cardLatestMangaRelease.setOnClickListener(view -> {
+            Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);
+            intent.putExtra("chapterURL", animeDiscoverResultModelList.get(position).getMangaLatestChapter());
+            intent.putExtra("appBarColorStatus", animeDiscoverResultModelList.get(position).getMangaType());
+            intent.putExtra("chapterTitle", animeDiscoverResultModelList.get(position).getMangaLatestChapterText());
+            context.startActivity(intent);
+        });
     }
 
 
