@@ -32,15 +32,17 @@ public class MangaRecyclerNewReleasesAdapter extends RecyclerView.Adapter<MangaR
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
+        ViewHolder viewHolder;
         ItemListMangaBinding itemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_list_manga, parent, false);
-        return new ViewHolder(itemListBinding);
+        viewHolder = new ViewHolder(itemListBinding);
+        return viewHolder;
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemListBinding.textTitleManga.setText(animeNewReleaseResultModelList.get(position).getMangaTitle());
-        Picasso.get().load(animeNewReleaseResultModelList.get(position).getMangaThumb()).into(holder.itemListBinding.imageViewBackgroundManga);
+        Picasso.get().load(animeNewReleaseResultModelList.get(position).getMangaThumb()).placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder)).into(holder.itemListBinding.imageViewBackgroundManga);
         if (animeNewReleaseResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manga_string))) {
             holder.itemListBinding.cardMangaType.setCardBackgroundColor(context.getResources().getColor(R.color.manga_color));
             holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manga_string));
@@ -51,34 +53,85 @@ public class MangaRecyclerNewReleasesAdapter extends RecyclerView.Adapter<MangaR
             holder.itemListBinding.cardMangaType.setCardBackgroundColor(context.getResources().getColor(R.color.manhua_color));
             holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manhua_string));
         }
-        holder.itemListBinding.textFirstMangaChapter.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(0).getChapterTitle());
-        holder.itemListBinding.textFirstMangaChapterReleaseTime.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(0).getChapterReleaseTime());
-        holder.itemListBinding.cardFirstMangaChapter.setOnClickListener(v -> {
-            Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);
-            intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(0).getChapterURL());
-            intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
-            intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(0).getChapterTitle());
-            context.startActivity(intent);
-        });
-        holder.itemListBinding.textSecondMangaChapter.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(1).getChapterTitle());
-        holder.itemListBinding.textSecondMangaChapterReleaseTime.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(1).getChapterReleaseTime());
-        holder.itemListBinding.cardSecondMangaChapter.setOnClickListener(v -> {
-            Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);
-            intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(1).getChapterURL());
-            intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
-            intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(1).getChapterTitle());
-            context.startActivity(intent);
-        });
-        holder.itemListBinding.textThirdMangaChapter.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(2).getChapterTitle());
-        holder.itemListBinding.textThirdMangaChapterReleaseTime.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(2).getChapterReleaseTime());
-        holder.itemListBinding.cardThirdMangaChapter.setOnClickListener(v -> {
-            Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);
-            intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(2).getChapterURL());
-            intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
-            intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().subList(position * 3, position * 3 + 3).get(2).getChapterTitle());
-            context.startActivity(intent);
-        });
+        if (animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().size() == 0
+                && animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterReleaseTime().size() == 0
+                && animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().size() == 0) {
+            holder.itemListBinding.cardFirstMangaChapter.setVisibility(View.GONE);
+            holder.itemListBinding.cardSecondMangaChapter.setVisibility(View.GONE);
+            holder.itemListBinding.cardThirdMangaChapter.setVisibility(View.GONE);
+        } else if (animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().size() == 1
+                && animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterReleaseTime().size() == 1
+                && animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().size() == 1) {
+            holder.itemListBinding.cardFirstMangaChapter.setVisibility(View.VISIBLE);
+            holder.itemListBinding.textFirstMangaChapter.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(0));
+            holder.itemListBinding.textFirstMangaChapterReleaseTime.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterReleaseTime().get(0));
+            holder.itemListBinding.cardFirstMangaChapter.setOnClickListener(v -> {
+                Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);
+                intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(0));
+                intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
+                intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(0));
+                context.startActivity(intent);
+            });
+            holder.itemListBinding.cardSecondMangaChapter.setVisibility(View.GONE);
+            holder.itemListBinding.cardThirdMangaChapter.setVisibility(View.GONE);
+        } else if (animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().size() == 2
+                && animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterReleaseTime().size() == 2
+                && animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().size() == 2) {
+            holder.itemListBinding.cardFirstMangaChapter.setVisibility(View.VISIBLE);
+            holder.itemListBinding.textFirstMangaChapter.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(0));
+            holder.itemListBinding.textFirstMangaChapterReleaseTime.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterReleaseTime().get(0));
+            holder.itemListBinding.cardFirstMangaChapter.setOnClickListener(v -> {
+                Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);
+                intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(0));
+                intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
+                intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(0));
+                context.startActivity(intent);
+            });
+            holder.itemListBinding.cardSecondMangaChapter.setVisibility(View.VISIBLE);
+            holder.itemListBinding.textSecondMangaChapter.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(1));
+            holder.itemListBinding.textSecondMangaChapterReleaseTime.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterReleaseTime().get(1));
+            holder.itemListBinding.cardSecondMangaChapter.setOnClickListener(v -> {
+                Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);
+                intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(1));
+                intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
+                intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(1));
+                context.startActivity(intent);
+            });
+            holder.itemListBinding.cardThirdMangaChapter.setVisibility(View.GONE);
+        } else {
+            holder.itemListBinding.cardFirstMangaChapter.setVisibility(View.VISIBLE);
+            holder.itemListBinding.textFirstMangaChapter.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(0));
+            holder.itemListBinding.textFirstMangaChapterReleaseTime.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterReleaseTime().get(0));
+            holder.itemListBinding.cardFirstMangaChapter.setOnClickListener(v -> {
+                Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);
+                intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(0));
+                intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
+                intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(0));
+                context.startActivity(intent);
+            });
+            holder.itemListBinding.cardSecondMangaChapter.setVisibility(View.VISIBLE);
+            holder.itemListBinding.textSecondMangaChapter.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(1));
+            holder.itemListBinding.textSecondMangaChapterReleaseTime.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterReleaseTime().get(1));
+            holder.itemListBinding.cardSecondMangaChapter.setOnClickListener(v -> {
+                Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);
+                intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(1));
+                intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
+                intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(1));
+                context.startActivity(intent);
+            });
+            holder.itemListBinding.cardThirdMangaChapter.setVisibility(View.VISIBLE);
+            holder.itemListBinding.textThirdMangaChapter.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(2));
+            holder.itemListBinding.textThirdMangaChapterReleaseTime.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterReleaseTime().get(2));
+            holder.itemListBinding.cardThirdMangaChapter.setOnClickListener(v -> {
+                Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);
+                intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(2));
+                intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
+                intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(2));
+                context.startActivity(intent);
+            });
+        }
     }
+
 
     @Override
     public int getItemCount() {
@@ -86,11 +139,11 @@ public class MangaRecyclerNewReleasesAdapter extends RecyclerView.Adapter<MangaR
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private final ItemListMangaBinding itemListBinding;
+        private ItemListMangaBinding itemListBinding;
 
-        public ViewHolder(final ItemListMangaBinding itemView) {
-            super(itemView.getRoot());
-            this.itemListBinding = itemView;
+        public ViewHolder(final ItemListMangaBinding itemViewList) {
+            super(itemViewList.getRoot());
+            this.itemListBinding = itemViewList;
         }
     }
 }

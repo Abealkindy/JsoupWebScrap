@@ -1,19 +1,15 @@
 package com.example.myapplication.activities.mangapage;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -34,7 +30,6 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -45,7 +40,6 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
     private ActivityReadMangaBinding readMangaBinding;
     private ReadMangaModel readMangaModel = new ReadMangaModel();
     ProgressDialog progressDialog;
-    String chapterTitleForText;
     private List<ReadMangaModel.AllChapterDatas> allChapterDatasList = new ArrayList<>();
     private Dialog dialog;
 

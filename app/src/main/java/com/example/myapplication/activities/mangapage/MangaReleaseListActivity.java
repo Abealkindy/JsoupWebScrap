@@ -2,20 +2,14 @@ package com.example.myapplication.activities.mangapage;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.widget.Toast;
 
 import com.example.myapplication.networks.ApiEndPointService;
@@ -41,7 +35,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MangaReleaseListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class MangaReleaseListActivity extends AppCompatActivity {
     ActivityMangaReleaseListBinding mangaReleaseListBinding;
 
     private int pageCount = 1;
@@ -102,7 +96,6 @@ public class MangaReleaseListActivity extends AppCompatActivity implements Searc
                             progressDialog.dismiss();
                             mangaNewReleaseResultModels.addAll(parseResult(result));
                             mangaRecyclerNewReleasesAdapter.notifyDataSetChanged();
-                            Log.e("result", result);
                         } else if (hitStatus.equalsIgnoreCase("swipeRefresh")) {
                             progressDialog.dismiss();
                             if (mangaNewReleaseResultModels != null) {
@@ -142,40 +135,23 @@ public class MangaReleaseListActivity extends AppCompatActivity implements Searc
             String mangaThumbnailBackground = el.getElementsByTag("img").attr("src");
             String mangaTitle = el.getElementsByTag("h3").text();
             String url = el.getElementsByTag("a").attr("href");
-            Log.e("resultURL", url);
+            List<String> chapterReleaseTime = el.getElementsByTag("i").eachText();
+            List<String> chapterUrl = el.select("a[href^=https://komikcast.com/chapter/]").eachAttr("href");
+            List<String> chapterTitle = el.select("a[href^=https://komikcast.com/chapter/]").eachText();
             MangaNewReleaseResultModel mangaNewReleaseResultModel = new MangaNewReleaseResultModel();
+            MangaNewReleaseResultModel.LatestMangaDetailModel mangaDetailModel = new MangaNewReleaseResultModel().new LatestMangaDetailModel();
             mangaNewReleaseResultModel.setMangaType(mangaType);
             mangaNewReleaseResultModel.setMangaTitle(mangaTitle);
             mangaNewReleaseResultModel.setMangaThumb(mangaThumbnailBackground);
             if (url.startsWith("https://komikcast.com/komik/")) {
                 mangaNewReleaseResultModel.setMangaDetailURL(url);
             }
-
-            Uri mangaURLuri = Uri.parse(mangaNewReleaseResultModel.getMangaDetailURL());
-            String cutMangaURL = mangaURLuri.getLastPathSegment();
-            Log.e("cuttedMangaURL", cutMangaURL);
-
-            Elements newChapter = doc.getElementsByTag("li");
             List<MangaNewReleaseResultModel.LatestMangaDetailModel> latestMangaDetailModelList = new ArrayList<>();
-            for (Element element : newChapter) {
-                String chapterUrl = element.getElementsByTag("a").attr("href");
-                String chapterReleaseTime = element.getElementsByTag("i").text();
-                String chapterTitle = element.getElementsContainingOwnText("Chapter").text();
-                MangaNewReleaseResultModel.LatestMangaDetailModel mangaDetailModel = new MangaNewReleaseResultModel().new LatestMangaDetailModel();
-                if (chapterUrl.startsWith("https://komikcast.com/chapter/")) {
-                    Uri uri = Uri.parse(chapterUrl);
-                    String cutURL = uri.getLastPathSegment();
-                    String fixCutted = cutURL.substring(0, cutURL.indexOf("-chapter"));
-                    mangaDetailModel.setChapterURL(chapterUrl);
-                    Log.e("cuttedChapterURL", fixCutted);
-                }
-                mangaDetailModel.setChapterReleaseTime(chapterReleaseTime);
-                mangaDetailModel.setChapterTitle(chapterTitle);
-                latestMangaDetailModelList.add(mangaDetailModel);
-            }
-            List<MangaNewReleaseResultModel.LatestMangaDetailModel> afterCut = new ArrayList<>(latestMangaDetailModelList.subList(35, latestMangaDetailModelList.size()));
-            Log.e("firstpaging", new Gson().toJson(afterCut));
-            mangaNewReleaseResultModel.setLatestMangaDetail(afterCut);
+            mangaDetailModel.setChapterReleaseTime(chapterReleaseTime);
+            mangaDetailModel.setChapterTitle(chapterTitle);
+            mangaDetailModel.setChapterURL(chapterUrl);
+            latestMangaDetailModelList.add(mangaDetailModel);
+            mangaNewReleaseResultModel.setLatestMangaDetail(latestMangaDetailModelList);
             Log.e("paging3", new Gson().toJson(mangaNewReleaseResultModel.getLatestMangaDetail()));
             mangaNewReleaseResultModelList.add(mangaNewReleaseResultModel);
         }
@@ -183,23 +159,5 @@ public class MangaReleaseListActivity extends AppCompatActivity implements Searc
         Log.e("resultBeforeCut", new Gson().toJson(mangaNewReleaseResultModelList));
         Log.e("resultAfterCut", new Gson().toJson(mangaNewReleaseResultModelListAfterCut));
         return mangaNewReleaseResultModelListAfterCut;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu, menu);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.searchBar));
-        searchView.setOnQueryTextListener(this);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
     }
 }

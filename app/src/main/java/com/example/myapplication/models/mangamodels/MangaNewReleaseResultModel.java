@@ -18,10 +18,6 @@ public class MangaNewReleaseResultModel implements Serializable {
     private List<LatestMangaDetailModel> latestMangaDetail = new ArrayList<>();
 
 
-    public void addLatestMangaDetail(LatestMangaDetailModel url) {
-        latestMangaDetail.add(url);
-    }
-
     @NonNull
     @Override
     public String toString() {
@@ -36,17 +32,17 @@ public class MangaNewReleaseResultModel implements Serializable {
 
     @Data
     public class LatestMangaDetailModel implements Serializable {
-        private String chapterTitle;
-        private String chapterURL;
-        private String chapterReleaseTime;
+        private List<String> chapterTitle;
+        private List<String> chapterURL;
+        private List<String> chapterReleaseTime;
 
         @NonNull
         @Override
         public String toString() {
             return "LatestMangaDetailModel{" +
-                    "chapterURL='" + chapterURL + '\'' +
-                    ", chapterReleaseTime='" + chapterReleaseTime + '\'' +
-                    ", chapterReleaseTitle='" + chapterTitle + '\'' +
+                    "chapterTitle=" + chapterTitle +
+                    ", chapterURL=" + chapterURL +
+                    ", chapterReleaseTime=" + chapterReleaseTime +
                     '}';
         }
     }

@@ -35,7 +35,7 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Picasso.get().load(imageContent.get(position)).into(holder.itemListBinding.imageMangaContentItem);
+        Picasso.get().load(imageContent.get(position)).placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder)).into(holder.itemListBinding.imageMangaContentItem);
     }
 
     @Override
