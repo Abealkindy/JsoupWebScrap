@@ -8,7 +8,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -21,7 +20,6 @@ import com.example.myapplication.databinding.SelectChapterDialogBinding;
 import com.example.myapplication.models.mangamodels.ReadMangaModel;
 import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.networks.RetrofitConfig;
-import com.google.gson.Gson;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -93,7 +91,6 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
                     public void onNext(String result) {
                         progressDialog.dismiss();
                         parseHtmlToViewableContent(result);
-                        Log.e("readMangaContentResult", result);
                     }
 
                     @Override
@@ -127,16 +124,12 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             chapterDatas.setChapterUrl(allChapterURLs);
             allChapterDatasList.add(chapterDatas);
         }
-        Log.e("all chapter data", new Gson().toJson(allChapterDatasList));
-
         Elements getPreviousChapterURL = doc.select("a[rel=prev]");
         if (getPreviousChapterURL == null || getPreviousChapterURL.isEmpty()) {
-            Log.e("previousChapter", "null");
             readMangaBinding.buttonPrevChap.setVisibility(View.GONE);
         } else {
             Element prevElement = getPreviousChapterURL.get(0);
             String previousChapterUrl = prevElement.absUrl("href");
-            Log.e("previousChapter", previousChapterUrl);
             readMangaBinding.buttonPrevChap.setVisibility(View.VISIBLE);
             readMangaBinding.buttonPrevChap.setOnClickListener(v -> getReadMangaContentData(previousChapterUrl));
         }
@@ -144,11 +137,9 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         Elements getNextChapterURL = doc.select("a[rel=next]");
         if (getNextChapterURL == null || getNextChapterURL.isEmpty()) {
             readMangaBinding.buttonNextChap.setVisibility(View.GONE);
-            Log.e("nextChapter", "null");
         } else {
             Element nextElement = getNextChapterURL.get(0);
             String nextChapterUrl = nextElement.absUrl("href");
-            Log.e("nextChapter", nextChapterUrl);
             readMangaBinding.buttonNextChap.setVisibility(View.VISIBLE);
             readMangaBinding.buttonNextChap.setOnClickListener(v -> getReadMangaContentData(nextChapterUrl));
         }

@@ -128,7 +128,6 @@ public class MangaReleaseListActivity extends AppCompatActivity {
     private List<MangaNewReleaseResultModel> parseResult(String result) {
         Document doc = Jsoup.parse(result);
         Elements newchaptercon = doc.getElementsByClass("utao");
-        Log.e("elemnts", "" + newchaptercon);
         List<MangaNewReleaseResultModel> mangaNewReleaseResultModelList = new ArrayList<>();
         for (Element el : newchaptercon) {
             String mangaType = el.getElementsByTag("ul").attr("class");
@@ -152,7 +151,6 @@ public class MangaReleaseListActivity extends AppCompatActivity {
             mangaDetailModel.setChapterURL(chapterUrl);
             latestMangaDetailModelList.add(mangaDetailModel);
             mangaNewReleaseResultModel.setLatestMangaDetail(latestMangaDetailModelList);
-            Log.e("paging3", new Gson().toJson(mangaNewReleaseResultModel.getLatestMangaDetail()));
             mangaNewReleaseResultModelList.add(mangaNewReleaseResultModel);
         }
         List<MangaNewReleaseResultModel> mangaNewReleaseResultModelListAfterCut = new ArrayList<>(mangaNewReleaseResultModelList.subList(9, mangaNewReleaseResultModelList.size()));
