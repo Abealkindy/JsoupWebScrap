@@ -4,9 +4,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
+import com.example.myapplication.activities.MainActivity;
+import com.example.myapplication.activities.animepage.AnimeReleaseListActivity;
 import com.example.myapplication.adapters.ViewPagerAdminTabAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ActivityMangaReleaseListBinding;
@@ -55,15 +58,13 @@ public class MangaReleaseListActivity extends AppCompatActivity {
         mangaReleaseListBinding.viewPagerTabs.setAdapter(new ViewPagerAdminTabAdapter(getSupportFragmentManager()));
     }
 
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        new AlertDialog.Builder(this)
-                .setMessage(getResources().getString(R.string.log_out_message_text))
-                .setCancelable(false)
-                .setPositiveButton(getString(R.string.yes_text), (dialog, which) -> MangaReleaseListActivity.this.finish())
-                .setNegativeButton(getString(R.string.no_text), (dialog, which) -> dialog.dismiss())
-                .show();
+        startActivity(new Intent(MangaReleaseListActivity.this, MainActivity.class));
+        finish();
+
     }
 
 }

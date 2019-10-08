@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.example.myapplication.databinding.SelectChapterDialogBinding;
 import com.example.myapplication.models.mangamodels.ReadMangaModel;
 import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.networks.RetrofitConfig;
+import com.google.gson.Gson;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,7 +29,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -39,6 +43,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
     private ReadMangaModel readMangaModel = new ReadMangaModel();
     ProgressDialog progressDialog;
     private List<ReadMangaModel.AllChapterDatas> allChapterDatasList = new ArrayList<>();
+    List<ReadMangaModel.AllChapterDatas> allChapterDatas;
     private Dialog dialog;
 
     @Override
@@ -68,6 +73,10 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
                 readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manhua_color));
             } else if (appBarColorStatus.equalsIgnoreCase(getResources().getString(R.string.manhwa_string))) {
                 readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manhwa_color));
+            } else if (appBarColorStatus.equalsIgnoreCase(getResources().getString(R.string.oneshot_string))) {
+                readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manga_color));
+            } else if (appBarColorStatus.equalsIgnoreCase(getResources().getString(R.string.mangaoneshot_string))) {
+                readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manga_color));
             }
         } else {
             readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manga_color));
@@ -106,6 +115,25 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
                 });
     }
 
+    public static List<ReadMangaModel.AllChapterDatas> removeDuplicates(List<ReadMangaModel.AllChapterDatas> list) {
+
+        // Create a new LinkedHashSet
+        Set<ReadMangaModel.AllChapterDatas> set = new LinkedHashSet<>();
+
+        // Add the elements to set
+        set.addAll(list);
+
+        // Clear the list
+        list.clear();
+
+        // add the elements of set
+        // with no duplicates to the list
+        list.addAll(set);
+
+        // return the list
+        return list;
+    }
+
     private void parseHtmlToViewableContent(String result) {
         Document doc = Jsoup.parse(result);
         Elements getChapterTitle = doc.getElementsByTag("h1");
@@ -124,6 +152,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             chapterDatas.setChapterUrl(allChapterURLs);
             allChapterDatasList.add(chapterDatas);
         }
+        allChapterDatas = removeDuplicates(allChapterDatasList);
         Elements getPreviousChapterURL = doc.select("a[rel=prev]");
         if (getPreviousChapterURL == null || getPreviousChapterURL.isEmpty()) {
             readMangaBinding.buttonPrevChap.setVisibility(View.GONE);
@@ -143,14 +172,34 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             readMangaBinding.buttonNextChap.setVisibility(View.VISIBLE);
             readMangaBinding.buttonNextChap.setOnClickListener(v -> getReadMangaContentData(nextChapterUrl));
         }
-        Elements getMangaImageContent = doc.select("img[src^=https://cdn.komikcast.com/wp-content/img/]");
+        Elements getMangaImageContentNewerSeries = doc.select("img[src^=https://cdn.komikcast.com/wp-content/img/]");
+        Elements getMangaImageContentOlderSeries = doc.select("img[src^=https://i0.wp.com/lh3.googleusercontent.com/]");
+        Elements getMangaImageContentOtherSeries = doc.select("img[src^=https://docs.google.com/uc?export=view]");
         if (readMangaModel.getImageContent() != null || !readMangaModel.getImageContent().isEmpty()) {
             readMangaModel.getImageContent().clear();
         }
-        for (Element element : getMangaImageContent) {
-            String mangaContent = element.absUrl("src");
-            readMangaModel.getImageContent().add(mangaContent);
+        if ((getMangaImageContentNewerSeries == null || getMangaImageContentNewerSeries.isEmpty()) && (getMangaImageContentOlderSeries == null || getMangaImageContentOlderSeries.isEmpty())) {
+            Log.e("getContentWithNewerandgetContentWithOlder", "null");
+            for (Element element : getMangaImageContentOtherSeries) {
+                String mangaContent = element.absUrl("src");
+                readMangaModel.getImageContent().add(mangaContent);
+            }
         }
+        if (getMangaImageContentNewerSeries == null || getMangaImageContentNewerSeries.isEmpty()) {
+            Log.e("getContentWithNewer", "null");
+            for (Element element : getMangaImageContentOlderSeries) {
+                String mangaContent = element.absUrl("src");
+                readMangaModel.getImageContent().add(mangaContent);
+            }
+        } else {
+            Log.e("getContentWithNewer", "success");
+            for (Element element : getMangaImageContentNewerSeries) {
+                String mangaContent = element.absUrl("src");
+                readMangaModel.getImageContent().add(mangaContent);
+            }
+        }
+
+        Log.e("mangaChapterContent", new Gson().toJson(readMangaModel.getImageContent()));
         readMangaBinding.recyclerImageContentManga.setHasFixedSize(true);
         RecyclerReadMangaAdapter mangaRecyclerNewReleasesAdapter = new RecyclerReadMangaAdapter(ReadMangaActivity.this, readMangaModel.getImageContent());
         readMangaBinding.recyclerImageContentManga.setAdapter(mangaRecyclerNewReleasesAdapter);
@@ -163,7 +212,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             dialog.setTitle("Select other chapter");
             chapterDialogBinding.recyclerAllChapters.setHasFixedSize(true);
             chapterDialogBinding.recyclerAllChapters.setLayoutManager(new LinearLayoutManager(ReadMangaActivity.this));
-            chapterDialogBinding.recyclerAllChapters.setAdapter(new RecyclerAllChapterAdapter(ReadMangaActivity.this, allChapterDatasList));
+            chapterDialogBinding.recyclerAllChapters.setAdapter(new RecyclerAllChapterAdapter(ReadMangaActivity.this, allChapterDatas));
             dialog.show();
         });
     }
@@ -203,7 +252,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
     @Override
     public void onItemClick(int position, View v) {
         dialog.dismiss();
-        getReadMangaContentData(allChapterDatasList.get(position).getChapterUrl());
+        getReadMangaContentData(allChapterDatas.get(position).getChapterUrl());
     }
 
 }

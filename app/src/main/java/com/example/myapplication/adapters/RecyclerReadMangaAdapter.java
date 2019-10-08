@@ -9,10 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ItemListMangaContentBinding;
-import com.squareup.picasso.Picasso;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadMangaAdapter.ViewHolder> {
@@ -35,7 +39,19 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Picasso.get().load(imageContent.get(position)).placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder)).into(holder.itemListBinding.imageMangaContentItem);
+        try {
+            Glide.with(context)
+                    .asDrawable()
+                    .load(new URL(imageContent.get(position)))
+                    .apply(new RequestOptions().timeout(30000))
+                    .error(context.getResources().getDrawable(R.drawable.error))
+                    .placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder))
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.itemListBinding.imageMangaContentItem);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

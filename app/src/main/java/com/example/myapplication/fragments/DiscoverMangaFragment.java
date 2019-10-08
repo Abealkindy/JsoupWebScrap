@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.MangaRecyclerDiscoverAdapter;
 import com.example.myapplication.databinding.FragmentDiscoverMangaBinding;
@@ -50,13 +51,19 @@ import io.reactivex.schedulers.Schedulers;
 public class DiscoverMangaFragment extends Fragment implements SearchView.OnQueryTextListener {
     FragmentDiscoverMangaBinding discoverMangaBinding;
     private int pageCount = 1;
-    public static final int NEW_PAGE = 1;
-    public static final int SWIPE_REFRESH = 2;
-    public static final int SEARCH_REQUEST = 3;
+    private static final int NEW_PAGE = 0;
+    private static final int NEW_PAGE_SCROLL = 1;
+    private static final int SWIPE_REFRESH = 2;
+    private final int SEARCH_REQUEST = 3;
+    private final int SEARCH_SWIPE_REQUEST = 4;
     private List<DiscoverMangaModel> discoverMangaFragmentList = new ArrayList<>();
     private MangaRecyclerDiscoverAdapter mangaRecyclerDiscoverAdapter;
-    ProgressDialog progressDialog;
-    String homeUrl = "/daftar-komik/page/";
+    private ProgressDialog progressDialog;
+    String hitStatus = "newPage";
+    String homeUrl = "/daftar-komik/page/" + pageCount;
+    String searchQuery = "";
+    int plusPage = 1;
+    int plusSearch = 1;
 
     public DiscoverMangaFragment() {
         // Required empty public constructor
@@ -65,11 +72,10 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getDiscoverMangaData(pageCount++, "newPage");
+        getDiscoverMangaData(hitStatus);
         discoverMangaBinding.swipeDiscoverManga.setOnRefreshListener(() -> {
             discoverMangaBinding.swipeDiscoverManga.setRefreshing(false);
-            setTag(homeUrl, NEW_PAGE);
-            getDiscoverMangaData(1, "swipeRefresh");
+            setTag(homeUrl, SWIPE_REFRESH);
             getFragmentManager().beginTransaction().detach(this).attach(this).commit();
         });
     }
@@ -83,6 +89,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
         setHasOptionsMenu(true);
+        getDiscoverMangaData(hitStatus);
         discoverMangaBinding.recyclerDiscoverManga.setHasFixedSize(true);
         mangaRecyclerDiscoverAdapter = new MangaRecyclerDiscoverAdapter(getActivity(), discoverMangaFragmentList);
         discoverMangaBinding.recyclerDiscoverManga.setAdapter(mangaRecyclerDiscoverAdapter);
@@ -91,23 +98,42 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         discoverMangaBinding.recyclerDiscoverManga.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int index, int totalItemsCount, RecyclerView view) {
-                getDiscoverMangaData(pageCount++, "newPage");
+                if (hitStatus.equalsIgnoreCase("newPage") || hitStatus.equalsIgnoreCase("swipeRefresh")) {
+                    setTag("", NEW_PAGE_SCROLL);
+                } else {
+                    setTag(searchQuery, SEARCH_SWIPE_REQUEST);
+                }
             }
         });
         return discoverMangaBinding.getRoot();
     }
 
     public void setTag(String searchQuery, int option) {
-        pageCount = 1;
         discoverMangaFragmentList = new ArrayList<>();
         Log.e("option", String.valueOf(option));
         switch (option) {
+            case NEW_PAGE_SCROLL:
+                plusPage++;
+                homeUrl = "/daftar-komik/page/" + plusPage;
+                getDiscoverMangaData("newPage");
+                getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+                break;
             case NEW_PAGE:
-                homeUrl = "/daftar-komik/page/" + pageCount;
+            case SWIPE_REFRESH:
+                plusPage = 1;
+                homeUrl = "/daftar-komik/page/" + 1;
+                getDiscoverMangaData("swipeRefresh");
                 break;
             case SEARCH_REQUEST:
-                homeUrl = "/page/" + pageCount + "/?s=" + searchQuery;
-                getDiscoverMangaData(pageCount, "searchRequest");
+                plusSearch = 1;
+                homeUrl = "/page/" + 1 + "/?s=" + searchQuery;
+                getDiscoverMangaData("searchRequest");
+                break;
+            case SEARCH_SWIPE_REQUEST:
+                plusSearch++;
+                homeUrl = "/page/" + plusSearch + "/?s=" + searchQuery;
+                getDiscoverMangaData("searchRequest");
+                getFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
         }
 
@@ -129,94 +155,47 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void getDiscoverMangaData(int pageCount, String hitStatus) {
+    private void getDiscoverMangaData(String hitStatus) {
         progressDialog.show();
-        if (hitStatus.equalsIgnoreCase("swipeRefresh") || hitStatus.equalsIgnoreCase("newPage")) {
-            ApiEndPointService apiEndPointService = RetrofitConfig.getInitMangaRetrofit();
-            apiEndPointService.getNewReleaseMangaData(homeUrl + pageCount)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<String>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
+        this.hitStatus = hitStatus;
+        Log.e("pageCount", String.valueOf(pageCount));
+        Log.e("hitStatus", hitStatus);
+        Log.e("homeURL", homeUrl);
+        ApiEndPointService apiEndPointService = RetrofitConfig.getInitMangaRetrofit();
+        apiEndPointService.getNewReleaseMangaData(homeUrl)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
+                    }
+
+                    @Override
+                    public void onNext(String result) {
+                        progressDialog.dismiss();
+                        discoverMangaBinding.recyclerDiscoverManga.setVisibility(View.VISIBLE);
+                        discoverMangaBinding.linearError.setVisibility(View.GONE);
+                        if (discoverMangaFragmentList != null) {
+                            discoverMangaFragmentList.clear();
                         }
+                        discoverMangaFragmentList.addAll(parseResult(result));
+                        mangaRecyclerDiscoverAdapter.notifyDataSetChanged();
+                    }
 
-                        @Override
-                        public void onNext(String result) {
-                            if (hitStatus.equalsIgnoreCase("newPage")) {
-                                progressDialog.dismiss();
-                                discoverMangaFragmentList.addAll(parseResult(result));
-                                mangaRecyclerDiscoverAdapter.notifyDataSetChanged();
-                            } else if (hitStatus.equalsIgnoreCase("swipeRefresh")) {
-                                progressDialog.dismiss();
-                                if (discoverMangaFragmentList != null) {
-                                    discoverMangaFragmentList.clear();
-                                }
-                                discoverMangaFragmentList.addAll(parseResult(result));
-                                mangaRecyclerDiscoverAdapter.notifyDataSetChanged();
-                            }
-                        }
+                    @Override
+                    public void onError(Throwable e) {
+                        progressDialog.dismiss();
+                        discoverMangaBinding.recyclerDiscoverManga.setVisibility(View.GONE);
+                        Glide.with(getActivity()).asGif().load(R.raw.aquacry).into(discoverMangaBinding.imageError);
+                        discoverMangaBinding.linearError.setVisibility(View.VISIBLE);
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            progressDialog.dismiss();
-                            AlertDialog.Builder builder = new
-                                    AlertDialog.Builder(getActivity());
-                            builder.setTitle("Oops...");
-                            builder.setIcon(getResources().getDrawable(R.drawable.appicon));
-                            builder.setMessage("Your internet connection is worse than your face onii-chan :3");
-                            builder.setPositiveButton("Reload", (dialog, which) -> Toast.makeText(getActivity(), "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show());
-                            builder.show();
-                        }
+                    @Override
+                    public void onComplete() {
 
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-        } else if (hitStatus.equalsIgnoreCase("searchRequest")) {
-            ApiEndPointService apiEndPointService = RetrofitConfig.getInitMangaRetrofit();
-            apiEndPointService.getNewReleaseMangaData(homeUrl)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<String>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(String result) {
-                            progressDialog.dismiss();
-                            if (discoverMangaFragmentList != null) {
-                                discoverMangaFragmentList.clear();
-                            }
-                            discoverMangaFragmentList.addAll(parseResult(result));
-                            mangaRecyclerDiscoverAdapter.notifyDataSetChanged();
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            progressDialog.dismiss();
-                            AlertDialog.Builder builder = new
-                                    AlertDialog.Builder(getActivity());
-                            builder.setTitle("Oops...");
-                            builder.setIcon(getResources().getDrawable(R.drawable.appicon));
-                            builder.setMessage("Your internet connection is worse than your face onii-chan :3");
-                            builder.setPositiveButton("Reload", (dialog, which) -> Toast.makeText(getActivity(), "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show());
-                            builder.show();
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-        } else {
-            progressDialog.dismiss();
-        }
+                    }
+                });
     }
 
     private List<DiscoverMangaModel> parseResult(String result) {
@@ -239,12 +218,13 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
             mangaNewReleaseResultModel.setMangaLatestChapterText(chapterText);
             mangaNewReleaseResultModelList.add(mangaNewReleaseResultModel);
         }
-        Log.e("resultBeforeCut", new Gson().toJson(mangaNewReleaseResultModelList));
+        Log.e("resultBeforeCutDiscover", new Gson().toJson(mangaNewReleaseResultModelList));
         return mangaNewReleaseResultModelList;
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        searchQuery = query;
         setTag(query, SEARCH_REQUEST);
         getFragmentManager().beginTransaction().detach(this).attach(this).commit();
         return true;

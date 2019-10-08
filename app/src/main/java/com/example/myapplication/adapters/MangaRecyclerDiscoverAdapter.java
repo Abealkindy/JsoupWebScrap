@@ -3,6 +3,7 @@ package com.example.myapplication.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,12 @@ public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecy
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemListBinding.textTitleMangaResult.setText(animeDiscoverResultModelList.get(position).getMangaTitle());
-        Picasso.get().load(animeDiscoverResultModelList.get(position).getMangaThumb()).placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder)).into(holder.itemListBinding.imageViewBackgroundMangaResult);
+        if (animeDiscoverResultModelList.get(position).getMangaThumb().isEmpty() || animeDiscoverResultModelList.get(position).getMangaThumb() == null) {
+            holder.itemListBinding.imageViewBackgroundMangaResult.setImageDrawable(context.getResources().getDrawable(R.drawable.imageplaceholder));
+            Log.e("pathNull", "null");
+        } else {
+            Picasso.get().load(animeDiscoverResultModelList.get(position).getMangaThumb()).placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder)).into(holder.itemListBinding.imageViewBackgroundMangaResult);
+        }
         if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manga_string))) {
             holder.itemListBinding.cardMangaTypeResult.setCardBackgroundColor(context.getResources().getColor(R.color.manga_color));
             holder.itemListBinding.textMangaTypeResult.setText(context.getResources().getString(R.string.manga_string));
@@ -60,8 +66,17 @@ public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecy
             holder.itemListBinding.textMangaTypeResult.setText(context.getResources().getString(R.string.oneshot_string));
         }
         holder.itemListBinding.mangaRatingBar.setNumStars(5);
-        holder.itemListBinding.mangaRatingBar.setRating(Float.parseFloat(animeDiscoverResultModelList.get(position).getMangaRating()) / 2);
-        holder.itemListBinding.mangaRatingNumber.setText(animeDiscoverResultModelList.get(position).getMangaRating());
+        String replaceComma = animeDiscoverResultModelList.get(position).getMangaRating().replace(",", ".");
+        if (animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("N/A") || animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("?") || animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("-")) {
+            holder.itemListBinding.mangaRatingBar.setRating(0);
+            holder.itemListBinding.mangaRatingNumber.setText(animeDiscoverResultModelList.get(position).getMangaRating());
+        } else if (Float.parseFloat(replaceComma) <= 0) {
+            holder.itemListBinding.mangaRatingBar.setRating(0);
+            holder.itemListBinding.mangaRatingNumber.setText(animeDiscoverResultModelList.get(position).getMangaRating());
+        } else {
+            holder.itemListBinding.mangaRatingBar.setRating(Float.parseFloat(replaceComma) / 2);
+            holder.itemListBinding.mangaRatingNumber.setText(replaceComma);
+        }
         holder.itemListBinding.textLatestChapterRelease.setText(animeDiscoverResultModelList.get(position).getMangaLatestChapterText());
         holder.itemListBinding.cardLatestMangaRelease.setOnClickListener(view -> {
             Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);

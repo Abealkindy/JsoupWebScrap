@@ -16,8 +16,37 @@
                 android:id="@+id/recycler_discover_manga"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/item_list_manga_search_result" />
+                tools:listitem="@layout/item_list_manga_search_result"
+                tools:visibility="gone" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <LinearLayout
+            android:id="@+id/linearError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/imageError"
+                android:layout_width="230dp"
+                android:layout_height="230dp"
+                android:layout_marginBottom="20dp"
+                tools:src="@raw/aquacry" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text="Oops, there is some problem in this app, please scroll to repair"
+                android:textAlignment="center"
+                android:textColor="@color/uniqlo_red"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </RelativeLayout>
 </layout>
