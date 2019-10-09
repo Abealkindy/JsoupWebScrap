@@ -51,10 +51,10 @@ public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecy
         }
         if (!animeDiscoverResultModelList.get(position).isMangaStatus()) {
             holder.itemListBinding.textMangaStatus.setText(context.getResources().getString(R.string.ongoing_text));
-            holder.itemListBinding.cardMangaStatus.setCardBackgroundColor(context.getResources().getColor(R.color.manga_ongoing_color));
+            holder.itemListBinding.cardMangaStatus.setCardBackgroundColor(context.getResources().getColor(R.color.orange_series_color));
         } else if (animeDiscoverResultModelList.get(position).isMangaStatus()) {
             holder.itemListBinding.textMangaStatus.setText(context.getResources().getString(R.string.completed_text));
-            holder.itemListBinding.cardMangaStatus.setCardBackgroundColor(context.getResources().getColor(R.color.manga_completed_color));
+            holder.itemListBinding.cardMangaStatus.setCardBackgroundColor(context.getResources().getColor(R.color.green_series_color));
         }
         if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manga_string))) {
             holder.itemListBinding.cardMangaTypeResult.setCardBackgroundColor(context.getResources().getColor(R.color.manga_color));

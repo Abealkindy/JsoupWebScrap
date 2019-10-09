@@ -55,6 +55,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         setUI();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setUI() {
         progressDialog = new ProgressDialog(ReadMangaActivity.this);
         progressDialog.setCancelable(false);
@@ -83,6 +84,29 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         } else {
             readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manga_color));
         }
+        readMangaBinding.nestedBase.setOnTouchListener(new OnSwipeTouchListener(ReadMangaActivity.this) {
+            @Override
+            public void onSwipeLeft() {
+                super.onSwipeLeft();
+                if (readMangaModel.getNextMangaURL().isEmpty() || readMangaModel.getNextMangaURL() == null) {
+                    Toast.makeText(ReadMangaActivity.this, "There's no more next chapter", Toast.LENGTH_SHORT).show();
+                } else {
+                    getReadMangaContentData(readMangaModel.getNextMangaURL());
+                }
+                Log.e("swipeStatus", "Left");
+            }
+
+            @Override
+            public void onSwipeRight() {
+                super.onSwipeRight();
+                if (readMangaModel.getPreviousMangaURL().isEmpty() || readMangaModel.getPreviousMangaURL() == null) {
+                    Toast.makeText(ReadMangaActivity.this, "There's no more previous chapter", Toast.LENGTH_SHORT).show();
+                } else {
+                    getReadMangaContentData(readMangaModel.getPreviousMangaURL());
+                }
+                Log.e("swipeStatus", "Right");
+            }
+        });
     }
 
     public void getReadMangaContentData(String chapterURL) {
@@ -219,25 +243,6 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             chapterDialogBinding.recyclerAllChapters.setLayoutManager(new LinearLayoutManager(ReadMangaActivity.this));
             chapterDialogBinding.recyclerAllChapters.setAdapter(new RecyclerAllChapterAdapter(ReadMangaActivity.this, allChapterDatas));
             dialog.show();
-        });
-        readMangaBinding.recyclerImageContentManga.setOnTouchListener(new OnSwipeTouchListener(ReadMangaActivity.this) {
-            public void onSwipeRight() {
-                if (readMangaModel.getPreviousMangaURL().isEmpty() || readMangaModel.getPreviousMangaURL() == null) {
-                    Toast.makeText(ReadMangaActivity.this, "There's no more previous chapter", Toast.LENGTH_SHORT).show();
-                } else {
-                    getReadMangaContentData(readMangaModel.getPreviousMangaURL());
-                }
-                Log.e("swipeStatus", "Right");
-            }
-
-            public void onSwipeLeft() {
-                if (readMangaModel.getNextMangaURL().isEmpty() || readMangaModel.getNextMangaURL() == null) {
-                    Toast.makeText(ReadMangaActivity.this, "There's no more next chapter", Toast.LENGTH_SHORT).show();
-                } else {
-                    getReadMangaContentData(readMangaModel.getNextMangaURL());
-                }
-                Log.e("swipeStatus", "Left");
-            }
         });
     }
 
