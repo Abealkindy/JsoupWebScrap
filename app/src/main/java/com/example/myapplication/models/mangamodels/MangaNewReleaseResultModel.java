@@ -15,6 +15,7 @@ public class MangaNewReleaseResultModel implements Serializable {
     private String mangaTitle;
     private String mangaThumb;
     private String mangaDetailURL;
+    private boolean mangaStatus;
     private List<LatestMangaDetailModel> latestMangaDetail = new ArrayList<>();
 
 

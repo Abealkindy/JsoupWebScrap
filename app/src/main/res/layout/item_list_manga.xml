@@ -41,6 +41,28 @@
                 tools:text="MANGA" />
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_hot_status"
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="15dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/uniqlo_red"
+            app:cardCornerRadius="10dp"
+            tools:visibility="visible">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/hot_text"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
+        </androidx.cardview.widget.CardView>
+
         <TextView
             android:id="@+id/text_title_manga"
             android:layout_width="match_parent"

@@ -43,6 +43,11 @@ public class MangaRecyclerNewReleasesAdapter extends RecyclerView.Adapter<MangaR
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemListBinding.textTitleManga.setText(animeNewReleaseResultModelList.get(position).getMangaTitle());
         Picasso.get().load(animeNewReleaseResultModelList.get(position).getMangaThumb()).placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder)).into(holder.itemListBinding.imageViewBackgroundManga);
+        if (!animeNewReleaseResultModelList.get(position).isMangaStatus()) {
+            holder.itemListBinding.cardViewHotStatus.setVisibility(View.GONE);
+        } else {
+            holder.itemListBinding.cardViewHotStatus.setVisibility(View.VISIBLE);
+        }
         if (animeNewReleaseResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manga_string))) {
             holder.itemListBinding.cardMangaType.setCardBackgroundColor(context.getResources().getColor(R.color.manga_color));
             holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manga_string));

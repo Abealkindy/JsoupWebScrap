@@ -147,11 +147,17 @@ public class MangaNewReleaseFragment extends Fragment {
             String mangaThumbnailBackground = el.getElementsByTag("img").attr("src");
             String mangaTitle = el.getElementsByTag("h3").text();
             String url = el.getElementsByTag("a").attr("href");
+            String mangaStatusParameter = el.getElementsByClass("hot").text();
             List<String> chapterReleaseTime = el.getElementsByTag("i").eachText();
             List<String> chapterUrl = el.select("a[href^=https://komikcast.com/chapter/]").eachAttr("href");
             List<String> chapterTitle = el.select("a[href^=https://komikcast.com/chapter/]").eachText();
             MangaNewReleaseResultModel mangaNewReleaseResultModel = new MangaNewReleaseResultModel();
             MangaNewReleaseResultModel.LatestMangaDetailModel mangaDetailModel = new MangaNewReleaseResultModel().new LatestMangaDetailModel();
+            if (!mangaStatusParameter.equalsIgnoreCase("Hot") || mangaStatusParameter.isEmpty() || mangaStatusParameter == null) {
+                mangaNewReleaseResultModel.setMangaStatus(false);
+            } else if (mangaStatusParameter.equalsIgnoreCase("Hot")) {
+                mangaNewReleaseResultModel.setMangaStatus(true);
+            }
             mangaNewReleaseResultModel.setMangaType(mangaType);
             mangaNewReleaseResultModel.setMangaTitle(mangaTitle);
             mangaNewReleaseResultModel.setMangaThumb(mangaThumbnailBackground);
