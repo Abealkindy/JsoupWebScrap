@@ -72,6 +72,11 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getDiscoverMangaData(hitStatus);
+        discoverMangaBinding.swipeDiscoverManga.setOnRefreshListener(() -> {
+            discoverMangaBinding.swipeDiscoverManga.setRefreshing(false);
+            setTag(homeUrl, SWIPE_REFRESH);
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        });
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -84,7 +89,6 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
         setHasOptionsMenu(true);
-        getDiscoverMangaData(hitStatus);
         discoverMangaBinding.recyclerDiscoverManga.setHasFixedSize(true);
         mangaRecyclerDiscoverAdapter = new MangaRecyclerDiscoverAdapter(getActivity(), discoverMangaFragmentList);
         discoverMangaBinding.recyclerDiscoverManga.setAdapter(mangaRecyclerDiscoverAdapter);
@@ -104,11 +108,6 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
                 }
             }
         });
-        discoverMangaBinding.swipeDiscoverManga.setOnRefreshListener(() -> {
-            discoverMangaBinding.swipeDiscoverManga.setRefreshing(false);
-            setTag(homeUrl, SWIPE_REFRESH);
-            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
-        });
         return discoverMangaBinding.getRoot();
     }
 
@@ -119,24 +118,24 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
             case NEW_PAGE_SCROLL:
                 plusPage++;
                 homeUrl = "/daftar-komik/page/" + plusPage;
-                getDiscoverMangaData("newPage");
+                hitStatus = "newPage";
                 getFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
             case NEW_PAGE:
             case SWIPE_REFRESH:
                 plusPage = 1;
                 homeUrl = "/daftar-komik/page/" + 1;
-                getDiscoverMangaData("swipeRefresh");
+                hitStatus = "swipeRefresh";
                 break;
             case SEARCH_REQUEST:
                 plusSearch = 1;
                 homeUrl = "/page/" + 1 + "/?s=" + searchQuery;
-                getDiscoverMangaData("searchRequest");
+                hitStatus = "searchRequest";
                 break;
             case SEARCH_SWIPE_REQUEST:
                 plusSearch++;
                 homeUrl = "/page/" + plusSearch + "/?s=" + searchQuery;
-                getDiscoverMangaData("searchRequest");
+                hitStatus = "searchRequest";
                 getFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
         }
