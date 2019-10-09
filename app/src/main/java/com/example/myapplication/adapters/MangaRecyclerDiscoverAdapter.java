@@ -49,6 +49,13 @@ public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecy
         } else {
             Picasso.get().load(animeDiscoverResultModelList.get(position).getMangaThumb()).placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder)).into(holder.itemListBinding.imageViewBackgroundMangaResult);
         }
+        if (!animeDiscoverResultModelList.get(position).isMangaStatus()) {
+            holder.itemListBinding.textMangaStatus.setText(context.getResources().getString(R.string.ongoing_text));
+            holder.itemListBinding.cardMangaStatus.setCardBackgroundColor(context.getResources().getColor(R.color.manga_ongoing_color));
+        } else if (animeDiscoverResultModelList.get(position).isMangaStatus()) {
+            holder.itemListBinding.textMangaStatus.setText(context.getResources().getString(R.string.completed_text));
+            holder.itemListBinding.cardMangaStatus.setCardBackgroundColor(context.getResources().getColor(R.color.manga_completed_color));
+        }
         if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manga_string))) {
             holder.itemListBinding.cardMangaTypeResult.setCardBackgroundColor(context.getResources().getColor(R.color.manga_color));
             holder.itemListBinding.textMangaTypeResult.setText(context.getResources().getString(R.string.manga_string));
@@ -77,7 +84,8 @@ public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecy
             holder.itemListBinding.mangaRatingBar.setRating(Float.parseFloat(replaceComma) / 2);
             holder.itemListBinding.mangaRatingNumber.setText(replaceComma);
         }
-        holder.itemListBinding.textLatestChapterRelease.setText(animeDiscoverResultModelList.get(position).getMangaLatestChapterText());
+        String replaceCh = animeDiscoverResultModelList.get(position).getMangaLatestChapterText().replace("Ch.", "Chapter ");
+        holder.itemListBinding.textLatestChapterRelease.setText(replaceCh);
         holder.itemListBinding.cardLatestMangaRelease.setOnClickListener(view -> {
             Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);
             intent.putExtra("chapterURL", animeDiscoverResultModelList.get(position).getMangaLatestChapter());

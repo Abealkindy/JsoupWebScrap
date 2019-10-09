@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Oops, there is some problem in this app, please scroll to repair"
+                android:text="@string/oops_there_is_some_problem_in_this_app_please_scroll_to_repair_text"
                 android:textAlignment="center"
                 android:textColor="@color/uniqlo_red"
                 android:textSize="20sp"

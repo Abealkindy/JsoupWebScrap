@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import com.example.myapplication.adapters.RecyclerAllChapterAdapter;
 import com.example.myapplication.adapters.RecyclerReadMangaAdapter;
 import com.example.myapplication.databinding.ActivityReadMangaBinding;
 import com.example.myapplication.databinding.SelectChapterDialogBinding;
+import com.example.myapplication.listener.OnSwipeTouchListener;
 import com.example.myapplication.models.mangamodels.ReadMangaModel;
 import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.networks.RetrofitConfig;
@@ -134,6 +136,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         return list;
     }
 
+    @SuppressLint({"ClickableViewAccessibility", "LongLogTag"})
     private void parseHtmlToViewableContent(String result) {
         Document doc = Jsoup.parse(result);
         Elements getChapterTitle = doc.getElementsByTag("h1");
@@ -160,6 +163,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             Element prevElement = getPreviousChapterURL.get(0);
             String previousChapterUrl = prevElement.absUrl("href");
             readMangaBinding.buttonPrevChap.setVisibility(View.VISIBLE);
+            readMangaModel.setPreviousMangaURL(previousChapterUrl);
             readMangaBinding.buttonPrevChap.setOnClickListener(v -> getReadMangaContentData(previousChapterUrl));
         }
 
@@ -170,6 +174,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             Element nextElement = getNextChapterURL.get(0);
             String nextChapterUrl = nextElement.absUrl("href");
             readMangaBinding.buttonNextChap.setVisibility(View.VISIBLE);
+            readMangaModel.setNextMangaURL(nextChapterUrl);
             readMangaBinding.buttonNextChap.setOnClickListener(v -> getReadMangaContentData(nextChapterUrl));
         }
         Elements getMangaImageContentNewerSeries = doc.select("img[src^=https://cdn.komikcast.com/wp-content/img/]");
@@ -214,6 +219,25 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             chapterDialogBinding.recyclerAllChapters.setLayoutManager(new LinearLayoutManager(ReadMangaActivity.this));
             chapterDialogBinding.recyclerAllChapters.setAdapter(new RecyclerAllChapterAdapter(ReadMangaActivity.this, allChapterDatas));
             dialog.show();
+        });
+        readMangaBinding.recyclerImageContentManga.setOnTouchListener(new OnSwipeTouchListener(ReadMangaActivity.this) {
+            public void onSwipeRight() {
+                if (readMangaModel.getPreviousMangaURL().isEmpty() || readMangaModel.getPreviousMangaURL() == null) {
+                    Toast.makeText(ReadMangaActivity.this, "There's no more previous chapter", Toast.LENGTH_SHORT).show();
+                } else {
+                    getReadMangaContentData(readMangaModel.getPreviousMangaURL());
+                }
+                Log.e("swipeStatus", "Right");
+            }
+
+            public void onSwipeLeft() {
+                if (readMangaModel.getNextMangaURL().isEmpty() || readMangaModel.getNextMangaURL() == null) {
+                    Toast.makeText(ReadMangaActivity.this, "There's no more next chapter", Toast.LENGTH_SHORT).show();
+                } else {
+                    getReadMangaContentData(readMangaModel.getNextMangaURL());
+                }
+                Log.e("swipeStatus", "Left");
+            }
         });
     }
 

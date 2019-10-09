@@ -1,6 +1,7 @@
 package com.example.myapplication.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
@@ -11,8 +12,10 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +30,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.adapters.MangaRecyclerDiscoverAdapter;
 import com.example.myapplication.databinding.FragmentDiscoverMangaBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
+import com.example.myapplication.listener.OnSwipeTouchListener;
 import com.example.myapplication.models.mangamodels.DiscoverMangaModel;
 import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.networks.RetrofitConfig;
@@ -80,6 +84,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -209,7 +214,13 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
             String chapterRating = el.getElementsByTag("i").text();
             String chapterUrl = el.select("a[href^=https://komikcast.com/chapter/]").attr("href");
             String chapterText = el.select("a[href^=https://komikcast.com/chapter/]").text();
+            String completedStatusParameter = el.getElementsByClass("status Completed").text();
             DiscoverMangaModel mangaNewReleaseResultModel = new DiscoverMangaModel();
+            if (completedStatusParameter.isEmpty() || completedStatusParameter == null || !completedStatusParameter.equalsIgnoreCase("Completed")) {
+                mangaNewReleaseResultModel.setMangaStatus(false);
+            } else {
+                mangaNewReleaseResultModel.setMangaStatus(true);
+            }
             mangaNewReleaseResultModel.setMangaType(mangaType);
             mangaNewReleaseResultModel.setMangaTitle(mangaTitle);
             mangaNewReleaseResultModel.setMangaThumb(mangaThumbnailBackground);
