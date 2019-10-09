@@ -59,7 +59,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:gravity="center">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_first_manga_chapter"
