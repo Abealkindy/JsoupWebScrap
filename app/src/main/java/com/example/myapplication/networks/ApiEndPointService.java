@@ -25,7 +25,10 @@ public interface ApiEndPointService {
     Observable<String> getNewReleaseMangaData(
             @Url String getAllMangaDataUrl
     );
-
+    @GET
+    Observable<String> getDiscoverMangaData(
+            @Url String getAllMangaDataUrl
+    );
     @GET
     Observable<String> getReadMangaData(
             @Url String getAllMangaDataUrl

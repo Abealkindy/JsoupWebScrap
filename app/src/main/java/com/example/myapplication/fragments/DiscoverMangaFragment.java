@@ -101,7 +101,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
                     setTag("", NEW_PAGE_SCROLL);
                 } else {
                     if (discoverMangaFragmentList.size() <= 5) {
-                        Log.e("listSize", "Can't scroll more");
+                        Log.e("listSize", "Can't scroll anymore");
                     } else {
                         setTag(searchQuery, SEARCH_SWIPE_REQUEST);
                     }
@@ -135,7 +135,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
             case SEARCH_SWIPE_REQUEST:
                 plusSearch++;
                 homeUrl = "/page/" + plusSearch + "/?s=" + searchQuery;
-                hitStatus = "searchRequest";
+                hitStatus = "searchScrollRequest";
                 getFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
         }
@@ -165,7 +165,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         Log.e("hitStatus", hitStatus);
         Log.e("homeURL", homeUrl);
         ApiEndPointService apiEndPointService = RetrofitConfig.getInitMangaRetrofit();
-        apiEndPointService.getNewReleaseMangaData(homeUrl)
+        apiEndPointService.getDiscoverMangaData(homeUrl)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
@@ -183,7 +183,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
                             discoverMangaFragmentList.clear();
                         }
                         discoverMangaFragmentList.addAll(parseResult(result));
-                        mangaRecyclerDiscoverAdapter.notifyDataSetChanged();
+                        mangaRecyclerDiscoverAdapter.recyclerRefresh();
                     }
 
                     @Override

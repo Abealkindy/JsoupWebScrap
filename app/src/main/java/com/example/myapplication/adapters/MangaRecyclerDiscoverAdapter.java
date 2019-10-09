@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -95,6 +94,9 @@ public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecy
         });
     }
 
+    public void recyclerRefresh() {
+        this.notifyDataSetChanged();
+    }
 
     @Override
     public int getItemCount() {
