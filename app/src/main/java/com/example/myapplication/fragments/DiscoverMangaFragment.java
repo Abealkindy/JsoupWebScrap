@@ -7,15 +7,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,14 +20,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.MangaRecyclerDiscoverAdapter;
 import com.example.myapplication.databinding.FragmentDiscoverMangaBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
-import com.example.myapplication.listener.OnSwipeTouchListener;
 import com.example.myapplication.models.mangamodels.DiscoverMangaModel;
 import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.networks.RetrofitConfig;
@@ -77,11 +72,6 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getDiscoverMangaData(hitStatus);
-        discoverMangaBinding.swipeDiscoverManga.setOnRefreshListener(() -> {
-            discoverMangaBinding.swipeDiscoverManga.setRefreshing(false);
-            setTag(homeUrl, SWIPE_REFRESH);
-            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
-        });
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -106,9 +96,18 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
                 if (hitStatus.equalsIgnoreCase("newPage") || hitStatus.equalsIgnoreCase("swipeRefresh")) {
                     setTag("", NEW_PAGE_SCROLL);
                 } else {
-                    setTag(searchQuery, SEARCH_SWIPE_REQUEST);
+                    if (discoverMangaFragmentList.size() <= 5) {
+                        Log.e("listSize", "Can't scroll more");
+                    } else {
+                        setTag(searchQuery, SEARCH_SWIPE_REQUEST);
+                    }
                 }
             }
+        });
+        discoverMangaBinding.swipeDiscoverManga.setOnRefreshListener(() -> {
+            discoverMangaBinding.swipeDiscoverManga.setRefreshing(false);
+            setTag(homeUrl, SWIPE_REFRESH);
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
         });
         return discoverMangaBinding.getRoot();
     }
@@ -181,7 +180,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
                         progressDialog.dismiss();
                         discoverMangaBinding.recyclerDiscoverManga.setVisibility(View.VISIBLE);
                         discoverMangaBinding.linearError.setVisibility(View.GONE);
-                        if (discoverMangaFragmentList != null) {
+                        if (discoverMangaFragmentList != null || !discoverMangaFragmentList.isEmpty()) {
                             discoverMangaFragmentList.clear();
                         }
                         discoverMangaFragmentList.addAll(parseResult(result));
