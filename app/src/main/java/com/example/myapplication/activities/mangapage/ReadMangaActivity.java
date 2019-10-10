@@ -72,17 +72,23 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         if (appBarColorStatus != null) {
             if (appBarColorStatus.equalsIgnoreCase(getResources().getString(R.string.manga_string))) {
                 readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manga_color));
+                readMangaBinding.designBottomSheet.setBackgroundColor(getResources().getColor(R.color.manga_color));
             } else if (appBarColorStatus.equalsIgnoreCase(getResources().getString(R.string.manhua_string))) {
                 readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manhua_color));
+                readMangaBinding.designBottomSheet.setBackgroundColor(getResources().getColor(R.color.manhua_color));
             } else if (appBarColorStatus.equalsIgnoreCase(getResources().getString(R.string.manhwa_string))) {
                 readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manhwa_color));
+                readMangaBinding.designBottomSheet.setBackgroundColor(getResources().getColor(R.color.manhwa_color));
             } else if (appBarColorStatus.equalsIgnoreCase(getResources().getString(R.string.oneshot_string))) {
                 readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manga_color));
+                readMangaBinding.designBottomSheet.setBackgroundColor(getResources().getColor(R.color.manga_color));
             } else if (appBarColorStatus.equalsIgnoreCase(getResources().getString(R.string.mangaoneshot_string))) {
                 readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manga_color));
+                readMangaBinding.designBottomSheet.setBackgroundColor(getResources().getColor(R.color.manga_color));
             }
         } else {
             readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manga_color));
+            readMangaBinding.designBottomSheet.setBackgroundColor(getResources().getColor(R.color.manga_color));
         }
         readMangaBinding.nestedBase.setOnTouchListener(new OnSwipeTouchListener(ReadMangaActivity.this) {
             @Override
@@ -182,24 +188,30 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         allChapterDatas = removeDuplicates(allChapterDatasList);
         Elements getPreviousChapterURL = doc.select("a[rel=prev]");
         if (getPreviousChapterURL == null || getPreviousChapterURL.isEmpty()) {
-            readMangaBinding.buttonPrevChap.setVisibility(View.GONE);
+            readMangaBinding.prevChapButton.setVisibility(View.GONE);
+            Log.e("prevGone?", "Yes");
         } else {
+            Log.e("prevGone?", "No");
             Element prevElement = getPreviousChapterURL.get(0);
             String previousChapterUrl = prevElement.absUrl("href");
-            readMangaBinding.buttonPrevChap.setVisibility(View.VISIBLE);
             readMangaModel.setPreviousMangaURL(previousChapterUrl);
-            readMangaBinding.buttonPrevChap.setOnClickListener(v -> getReadMangaContentData(previousChapterUrl));
+            readMangaBinding.prevChapButton.setVisibility(View.VISIBLE);
+            Log.e("prevGone?", previousChapterUrl);
+            readMangaBinding.prevChapButton.setOnClickListener(v -> getReadMangaContentData(previousChapterUrl));
         }
 
         Elements getNextChapterURL = doc.select("a[rel=next]");
         if (getNextChapterURL == null || getNextChapterURL.isEmpty()) {
-            readMangaBinding.buttonNextChap.setVisibility(View.GONE);
+            Log.e("nextGone?", "Yes");
+            readMangaBinding.nextChapButton.setVisibility(View.GONE);
         } else {
+            Log.e("nextGone?", "No");
             Element nextElement = getNextChapterURL.get(0);
-            String nextChapterUrl = nextElement.absUrl("href");
-            readMangaBinding.buttonNextChap.setVisibility(View.VISIBLE);
-            readMangaModel.setNextMangaURL(nextChapterUrl);
-            readMangaBinding.buttonNextChap.setOnClickListener(v -> getReadMangaContentData(nextChapterUrl));
+            String nextChapButtonterUrl = nextElement.absUrl("href");
+            readMangaModel.setNextMangaURL(nextChapButtonterUrl);
+            readMangaBinding.nextChapButton.setVisibility(View.VISIBLE);
+            Log.e("nextGone?", nextChapButtonterUrl);
+            readMangaBinding.nextChapButton.setOnClickListener(v -> getReadMangaContentData(nextChapButtonterUrl));
         }
         Elements getMangaImageContentNewerSeries = doc.select("img[src^=https://cdn.komikcast.com/wp-content/]");
         Elements getMangaImageContentOlderSeries = doc.select("img[src^=https://i0.wp.com/lh3.googleusercontent.com/]");
@@ -278,7 +290,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         readMangaBinding.recyclerImageContentManga.setAdapter(mangaRecyclerNewReleasesAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         readMangaBinding.recyclerImageContentManga.setLayoutManager(linearLayoutManager);
-        readMangaBinding.cardSelectAllChapter.setOnClickListener(v -> {
+        readMangaBinding.showAllChap.setOnClickListener(v -> {
             dialog = new Dialog(ReadMangaActivity.this);
             SelectChapterDialogBinding chapterDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(ReadMangaActivity.this), R.layout.select_chapter_dialog, null, false);
             dialog.setContentView(chapterDialogBinding.getRoot());

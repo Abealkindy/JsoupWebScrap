@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/basic_read_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,76 +43,9 @@
                         android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="30sp" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:padding="15dp">
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/button_prev_chap"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:cardBackgroundColor="@color/orange_series_color"
-                            app:cardCornerRadius="10dp">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:fontFamily="@font/montserrat"
-                                android:text="@string/prev_chapter_text"
-                                android:textAlignment="center"
-                                android:textColor="@android:color/white" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/button_next_chap"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            app:cardBackgroundColor="@color/green_series_color"
-                            app:cardCornerRadius="10dp">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:fontFamily="@font/montserrat"
-                                android:text="@string/next_chapter_text"
-                                android:textAlignment="center"
-                                android:textColor="@android:color/white" />
-                        </androidx.cardview.widget.CardView>
-                    </RelativeLayout>
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_select_all_chapter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            app:cardCornerRadius="2dp"
-            app:cardElevation="6dp"
-            app:layout_anchor="@id/app_bar_read_manga"
-            app:layout_anchorGravity="bottom">
-
-            <TextView
-                android:id="@+id/text_title_chapter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/montserrat"
-                android:text="@string/select_chapter_manga_text"
-                android:textColor="@android:color/black" />
-
-        </androidx.cardview.widget.CardView>
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nested_base"
@@ -130,8 +63,46 @@
                 tools:listitem="@layout/item_list_manga_content"
                 tools:visibility="visible" />
 
-
         </androidx.core.widget.NestedScrollView>
 
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/design_bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:hideOnScroll="true"
+            tools:backgroundTint="@color/manhwa_color">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/prevChapButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_skip_previous_black_24dp"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/showAllChap"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_view_list_white_24dp" />
+
+                <ImageView
+                    android:id="@+id/nextChapButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_skip_next_black_24dp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+        </com.google.android.material.bottomappbar.BottomAppBar>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
