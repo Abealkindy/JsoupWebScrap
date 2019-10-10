@@ -201,7 +201,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             readMangaModel.setNextMangaURL(nextChapterUrl);
             readMangaBinding.buttonNextChap.setOnClickListener(v -> getReadMangaContentData(nextChapterUrl));
         }
-        Elements getMangaImageContentNewerSeries = doc.select("img[src^=https://cdn.komikcast.com/wp-content/img/]");
+        Elements getMangaImageContentNewerSeries = doc.select("img[src^=https://cdn.komikcast.com/wp-content/]");
         Elements getMangaImageContentOlderSeries = doc.select("img[src^=https://i0.wp.com/lh3.googleusercontent.com/]");
 
         Elements getMangaImageContentOtherSeries = doc.select("img[src^=https://docs.google.com/uc?export=view]");
