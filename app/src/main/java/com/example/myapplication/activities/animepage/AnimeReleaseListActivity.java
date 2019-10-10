@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,12 +41,17 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
     private int pageCount = 1;
     private List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
     private AnimeRecyclerNewReleasesAdapter animeRecyclerNewReleasesAdapter;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         animeReleaseListBinding = DataBindingUtil.setContentView(this, R.layout.activity_anime_release_list);
         setTitle("Watch Anime");
+        progressDialog = new ProgressDialog(AnimeReleaseListActivity.this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
         getNewReleasesAnime(pageCount++, "newPage");
         animeReleaseListBinding.recyclerNewReleases.setHasFixedSize(true);
         animeRecyclerNewReleasesAdapter = new AnimeRecyclerNewReleasesAdapter(AnimeReleaseListActivity.this, animeNewReleaseResultModelList);
@@ -73,6 +79,14 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
     }
 
     private void getNewReleasesAnime(int pageCount, String hitStatus) {
+        progressDialog.show();
+        if (hitStatus.equalsIgnoreCase("swipeRefresh")) {
+            if (this.pageCount <= 2) {
+                Log.e("minusStatus", "Can't!");
+            } else {
+                this.pageCount--;
+            }
+        }
         ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
         apiEndPointService.getNewReleaseAnimeData("/page/" + pageCount)
                 .subscribeOn(Schedulers.io())
@@ -86,21 +100,22 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
                     @Override
                     public void onNext(String result) {
                         if (hitStatus.equalsIgnoreCase("newPage")) {
+                            progressDialog.dismiss();
                             animeNewReleaseResultModelList.addAll(parseResult(result));
                             animeRecyclerNewReleasesAdapter.notifyDataSetChanged();
-                            Log.e("result", result);
                         } else if (hitStatus.equalsIgnoreCase("swipeRefresh")) {
+                            progressDialog.dismiss();
                             if (animeNewReleaseResultModelList != null) {
                                 animeNewReleaseResultModelList.clear();
                             }
                             animeNewReleaseResultModelList.addAll(parseResult(result));
                             animeRecyclerNewReleasesAdapter.notifyDataSetChanged();
-                            Log.e("result", result);
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        progressDialog.dismiss();
                         AlertDialog.Builder builder = new
                                 AlertDialog.Builder(AnimeReleaseListActivity.this);
                         builder.setTitle("Oops...");
@@ -119,19 +134,27 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
 
     private List<AnimeNewReleaseResultModel> parseResult(String result) {
         Document doc = Jsoup.parse(result);
-        Elements newepisodecon = doc.select("a[href~=episode|movie|ova|ona]");
+        Elements newepisodecon = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-lg-4 col-wd-3 col-xl-per5 mb40");
         List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
 
         for (Element el : newepisodecon) {
-            String animeThumbnailBackground = el.getElementsByTag("img").attr("src");
+            String animeThumbnailBackground = el.getElementsByClass("episode-ratio background-cover").attr("style");
+            String thumbnailCut = animeThumbnailBackground.substring(animeThumbnailBackground.indexOf("https://"), animeThumbnailBackground.indexOf(")"));
             String animeEpisode = el.getElementsByTag("h4").text();
-            String animeEpisodeNumber = el.getElementsByClass("newepisodefloat right bgwhitetr").text();
-            String animeEpisodeType = el.getElementsByAttributeValueContaining("class", "newepisodefloat left").text();
-            String animeEpisodeStatus = el.getElementsByClass("hoverother").text();
-            String epsiodeURL = el.absUrl("href");
+            String animeEpisodeNumber = el.getElementsByClass("episode-number").text();
+            List<String> animeStatusAndType = el.getElementsByClass("text-h6").eachText();
+            String animeEpisodeStatus = "", animeEpisodeType = "";
+            if (animeStatusAndType.size() < 2) {
+                animeEpisodeType = el.getElementsByClass("text-h6").eachText().get(0);
+            } else {
+                animeEpisodeStatus = el.getElementsByClass("text-h6").eachText().get(0);
+                animeEpisodeType = el.getElementsByClass("text-h6").eachText().get(1);
+            }
+            String epsiodeURL = el.getElementsByTag("a").attr("href");
+
             AnimeNewReleaseResultModel animeNewReleaseResultModel = new AnimeNewReleaseResultModel();
             animeNewReleaseResultModel.setAnimeEpisode(animeEpisode);
-            animeNewReleaseResultModel.setEpisodeThumb(animeThumbnailBackground);
+            animeNewReleaseResultModel.setEpisodeThumb(thumbnailCut);
             animeNewReleaseResultModel.setEpisodeURL(epsiodeURL);
             animeNewReleaseResultModel.setAnimeEpisodeNumber(animeEpisodeNumber);
             animeNewReleaseResultModel.setAnimeEpisodeType(animeEpisodeType);
@@ -141,6 +164,16 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
         List<AnimeNewReleaseResultModel> animeNewReleaseResultModelListAfterCut = new ArrayList<>(animeNewReleaseResultModelList.subList(6, animeNewReleaseResultModelList.size() - 1));
         Log.e("resultBeforeCut", new Gson().toJson(animeNewReleaseResultModelList));
         Log.e("resultAfterCut", new Gson().toJson(animeNewReleaseResultModelListAfterCut));
-        return animeNewReleaseResultModelListAfterCut;
+        return animeNewReleaseResultModelList;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+    }
+
 }

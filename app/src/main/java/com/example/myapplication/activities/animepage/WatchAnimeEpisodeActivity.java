@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +37,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
     private ActivityWatchAnimeEpisodeBinding animeEpisodeBinding;
     private VideoStreamResultModel videoStreamResultModel = new VideoStreamResultModel();
     String episodeNumber;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,10 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void initUI() {
+        progressDialog = new ProgressDialog(WatchAnimeEpisodeActivity.this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
         animeEpisodeBinding.webViewWatchAnime.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView webView, WebResourceRequest request) {
@@ -110,6 +116,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
     }
 
     private void getAnimeWatchData(String animeEpisodeToWatch) {
+        progressDialog.show();
         String afterCut = animeEpisodeToWatch.substring(21);
         if (afterCut.endsWith("tamat/")) {
             episodeNumber = afterCut.substring(afterCut.length() - 9, afterCut.length() - 7);
@@ -129,11 +136,13 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(String result) {
+                        progressDialog.dismiss();
                         parseHtmlToViewableContent(result);
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        progressDialog.dismiss();
                         Toast.makeText(WatchAnimeEpisodeActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
                     }
 
@@ -221,7 +230,6 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
         if (getElementsNextEpisode.isEmpty()) {
             Log.e("nextElementsNull?", "Ya");
             animeEpisodeBinding.buttonNextEpisode.setVisibility(View.GONE);
-
         } else {
             Log.e("nextElementsNull?", "Gak");
             for (int position = 0; position < getElementsNextEpisode.size(); position++) {
@@ -413,32 +421,29 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
         }
 
         //Anime videos URL settings
-        Elements getVideoEmbedURL = doc.getElementsByClass("videoembed toogletheater");
-        for (Element element : getVideoEmbedURL) {
-            String getURLFromElement = element.getElementsByTag("iframe").attr("src");
-            String animeVideoEmbedURL;
-            if (getURLFromElement.startsWith("https:")) {
-                animeVideoEmbedURL = getURLFromElement;
+        Elements getVideoEmbedURL = doc.getElementsByTag("iframe");
+        String getURLFromElement = getVideoEmbedURL.eachAttr("src").get(1);
+        String animeVideoEmbedURL;
+        if (getURLFromElement.startsWith("https:")) {
+            animeVideoEmbedURL = getURLFromElement;
+        } else {
+            if (!getURLFromElement.startsWith("http:")) {
+                animeVideoEmbedURL = "http:" + getURLFromElement;
             } else {
-                if (!getURLFromElement.startsWith("http:")) {
-                    animeVideoEmbedURL = "http:" + getURLFromElement;
-                } else {
-                    animeVideoEmbedURL = getURLFromElement;
-                }
+                animeVideoEmbedURL = getURLFromElement;
             }
-            String animeStreamURL = "<html><body style=\"margin: 0; padding: 0\"><iframe width=\"100%\" height=\"100%\" src=\"" + animeVideoEmbedURL + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
-            videoStreamResultModel.setVideoUrl(animeStreamURL);
-            Log.e("nowVideoURL", animeVideoEmbedURL);
         }
+        String animeStreamURL = "<html><body style=\"margin: 0; padding: 0\"><iframe width=\"100%\" height=\"100%\" src=\"" + animeVideoEmbedURL + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
+        videoStreamResultModel.setVideoUrl(animeStreamURL);
+        Log.e("nowVideoURL", animeVideoEmbedURL);
 
         //Episode title
-        Elements getEpisodeTitle = doc.getElementsByClass("epnav");
-        for (Element element : getEpisodeTitle) {
-            String getTitleFromElement = element.getElementsByTag("h3").text();
-            videoStreamResultModel.setEpisodeTitle(getTitleFromElement);
-            Log.e("episodeTitle", getTitleFromElement);
-            animeEpisodeBinding.textTitleEpisode.setText(getTitleFromElement);
-        }
+        Elements getEpisodeTitle = doc.getElementsByTag("h1");
+        String getTitleFromElement = getEpisodeTitle.text();
+        videoStreamResultModel.setEpisodeTitle(getTitleFromElement);
+        Log.e("episodeTitle", getTitleFromElement);
+        animeEpisodeBinding.textTitleEpisode.setText(getTitleFromElement);
+
         Log.e("allData", new Gson().toJson(videoStreamResultModel));
         animeEpisodeBinding.webViewWatchAnime.loadData(videoStreamResultModel.getVideoUrl(), "text/html", "utf-8");
     }

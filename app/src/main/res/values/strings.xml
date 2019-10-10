@@ -11,7 +11,7 @@
     <string name="ongoing_text">ONGOING</string>
     <string name="completed_text">COMPLETED</string>
     <!--    episode type    -->
-    <string name="series_string">SERIES</string>
+    <string name="series_string">TV</string>
     <string name="ova_string">OVA</string>
     <string name="ona_string">ONA</string>
     <string name="special_string">SPECIAL</string>

@@ -93,6 +93,13 @@ public class MangaNewReleaseFragment extends Fragment {
 
     private void getNewReleasesManga(int pageCount, String hitStatus) {
         progressDialog.show();
+        if (hitStatus.equalsIgnoreCase("swipeRefresh")) {
+            if (this.pageCount <= 2) {
+                Log.e("minusStatus", "Can't!");
+            } else {
+                this.pageCount--;
+            }
+        }
         ApiEndPointService apiEndPointService = RetrofitConfig.getInitMangaRetrofit();
         apiEndPointService.getNewReleaseMangaData("/page/" + pageCount)
                 .subscribeOn(Schedulers.io())

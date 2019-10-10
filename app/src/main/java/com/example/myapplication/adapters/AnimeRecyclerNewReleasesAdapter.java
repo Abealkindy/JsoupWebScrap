@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -44,21 +45,27 @@ public class AnimeRecyclerNewReleasesAdapter extends RecyclerView.Adapter<AnimeR
         if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.series_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.blue_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.series_string));
+            holder.itemListBinding.cardEpisodeStatus.setVisibility(View.VISIBLE);
         } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.ova_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.pink_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.ova_string));
+            holder.itemListBinding.cardEpisodeStatus.setVisibility(View.VISIBLE);
         } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.ona_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.purple_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.ona_string));
+            holder.itemListBinding.cardEpisodeStatus.setVisibility(View.VISIBLE);
         } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.la_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.red_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.la_string));
+            holder.itemListBinding.cardEpisodeStatus.setVisibility(View.VISIBLE);
         } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.movie_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.green_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.movie_string));
+            holder.itemListBinding.cardEpisodeStatus.setVisibility(View.GONE);
         } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.special_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.orange_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.special_string));
+            holder.itemListBinding.cardEpisodeStatus.setVisibility(View.VISIBLE);
         }
 
         if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeStatus().equalsIgnoreCase(context.getResources().getString(R.string.ongoing_text))) {
@@ -70,7 +77,7 @@ public class AnimeRecyclerNewReleasesAdapter extends RecyclerView.Adapter<AnimeR
         }
 
         holder.itemListBinding.cardEpisodeNumber.setCardBackgroundColor(context.getResources().getColor(R.color.white_with_opacity));
-        holder.itemListBinding.textEpisodeNumber.setText(animeNewReleaseResultModelList.get(position).getAnimeEpisodeNumber());
+        holder.itemListBinding.textEpisodeNumber.setText("Episode " + animeNewReleaseResultModelList.get(position).getAnimeEpisodeNumber());
         holder.itemListBinding.relativeItem.setOnClickListener(v -> {
             Intent intentToVideoWatchActivity = new Intent(context.getApplicationContext(), WatchAnimeEpisodeActivity.class);
             intentToVideoWatchActivity.putExtra("animeEpisodeToWatch", animeNewReleaseResultModelList.get(position).getEpisodeURL());
