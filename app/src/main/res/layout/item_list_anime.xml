@@ -20,26 +20,26 @@
             android:layout_height="match_parent"
             android:background="@color/black_with_opacity" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_episode_number"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="15dp"
-            app:cardCornerRadius="10dp"
-            tools:cardBackgroundColor="@color/white_with_opacity">
+        <!--        <androidx.cardview.widget.CardView-->
+        <!--            android:id="@+id/card_episode_number"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="45dp"-->
+        <!--            android:layout_alignParentEnd="true"-->
+        <!--            android:layout_margin="15dp"-->
+        <!--            app:cardCornerRadius="10dp"-->
+        <!--            tools:cardBackgroundColor="@color/white_with_opacity">-->
 
-            <TextView
-                android:id="@+id/text_episode_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/montserrat"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                tools:text="940/1000 " />
-        </androidx.cardview.widget.CardView>
+        <!--            <TextView-->
+        <!--                android:id="@+id/text_episode_number"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_gravity="center"-->
+        <!--                android:layout_margin="10dp"-->
+        <!--                android:fontFamily="@font/montserrat"-->
+        <!--                android:textAlignment="center"-->
+        <!--                android:textColor="@android:color/black"-->
+        <!--                tools:text="940/1000 " />-->
+        <!--        </androidx.cardview.widget.CardView>-->
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_episode_type"
@@ -66,7 +66,7 @@
             android:id="@+id/card_episode_status"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentEnd="true"
             android:layout_margin="15dp"
             app:cardCornerRadius="10dp"
             tools:cardBackgroundColor="@color/completed_color">

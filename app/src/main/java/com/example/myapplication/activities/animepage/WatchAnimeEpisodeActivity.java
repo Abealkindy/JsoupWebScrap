@@ -422,7 +422,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
 
         //Anime videos URL settings
         Elements getVideoEmbedURL = doc.getElementsByTag("iframe");
-        String getURLFromElement = getVideoEmbedURL.eachAttr("src").get(1);
+        String getURLFromElement = getVideoEmbedURL.eachAttr("src").get(2);
         String animeVideoEmbedURL;
         if (getURLFromElement.startsWith("https:")) {
             animeVideoEmbedURL = getURLFromElement;

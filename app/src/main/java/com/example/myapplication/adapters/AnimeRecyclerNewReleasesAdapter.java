@@ -39,7 +39,7 @@ public class AnimeRecyclerNewReleasesAdapter extends RecyclerView.Adapter<AnimeR
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.itemListBinding.textTitle.setText(animeNewReleaseResultModelList.get(position).getAnimeEpisode());
+        holder.itemListBinding.textTitle.setText(animeNewReleaseResultModelList.get(position).getAnimeEpisode() + " Episode " + animeNewReleaseResultModelList.get(position).getAnimeEpisodeNumber());
         Picasso.get().load(animeNewReleaseResultModelList.get(position).getEpisodeThumb()).into(holder.itemListBinding.imageViewBackground);
 
         if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.series_string))) {
@@ -76,8 +76,8 @@ public class AnimeRecyclerNewReleasesAdapter extends RecyclerView.Adapter<AnimeR
             holder.itemListBinding.textEpisodeStatus.setText(context.getResources().getString(R.string.completed_text));
         }
 
-        holder.itemListBinding.cardEpisodeNumber.setCardBackgroundColor(context.getResources().getColor(R.color.white_with_opacity));
-        holder.itemListBinding.textEpisodeNumber.setText("Episode " + animeNewReleaseResultModelList.get(position).getAnimeEpisodeNumber());
+//        holder.itemListBinding.cardEpisodeNumber.setCardBackgroundColor(context.getResources().getColor(R.color.white_with_opacity));
+//        holder.itemListBinding.textEpisodeNumber.setText("Episode " + animeNewReleaseResultModelList.get(position).getAnimeEpisodeNumber());
         holder.itemListBinding.relativeItem.setOnClickListener(v -> {
             Intent intentToVideoWatchActivity = new Intent(context.getApplicationContext(), WatchAnimeEpisodeActivity.class);
             intentToVideoWatchActivity.putExtra("animeEpisodeToWatch", animeNewReleaseResultModelList.get(position).getEpisodeURL());
