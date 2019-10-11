@@ -1,0 +1,82 @@
+<resources>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <!-- size 0 ~ 9 dp-->
+    <dimen name="size0dp">0dp</dimen>
+    <dimen name="size1dp">1dp</dimen>
+    <dimen name="size2dp">2dp</dimen>
+    <dimen name="size3dp">3dp</dimen>
+    <dimen name="size4dp">4dp</dimen>
+    <dimen name="size5dp">5dp</dimen>
+    <dimen name="size6dp">6dp</dimen>
+    <dimen name="size7dp">7dp</dimen>
+    <dimen name="size8dp">8dp</dimen>
+    <dimen name="size9dp">9dp</dimen>
+    <!-- size 10 ~ 19 dp-->
+    <dimen name="size10dp">10dp</dimen>
+    <dimen name="size11dp">11dp</dimen>
+    <dimen name="size12dp">12dp</dimen>
+    <dimen name="size13dp">13dp</dimen>
+    <dimen name="size14dp">14dp</dimen>
+    <dimen name="size15dp">15dp</dimen>
+    <dimen name="size16dp">16dp</dimen>
+    <dimen name="size17dp">17dp</dimen>
+    <dimen name="size18dp">18dp</dimen>
+    <dimen name="size19dp">19dp</dimen>
+    <!-- size 20 ~ 29 dp-->
+    <dimen name="size20dp">20dp</dimen>
+    <dimen name="size21dp">21dp</dimen>
+    <dimen name="size22dp">22dp</dimen>
+    <dimen name="size23dp">23dp</dimen>
+    <dimen name="size24dp">24dp</dimen>
+    <dimen name="size25dp">25dp</dimen>
+    <dimen name="size26dp">26dp</dimen>
+    <dimen name="size27dp">27dp</dimen>
+    <dimen name="size28dp">28dp</dimen>
+    <dimen name="size29dp">29dp</dimen>
+    <!-- size 30 ~ 39 dp-->
+    <dimen name="size30dp">30dp</dimen>
+    <dimen name="size31dp">31dp</dimen>
+    <dimen name="size32dp">32dp</dimen>
+    <dimen name="size33dp">33dp</dimen>
+    <dimen name="size34dp">34dp</dimen>
+    <dimen name="size35dp">35dp</dimen>
+    <dimen name="size36dp">36dp</dimen>
+    <dimen name="size37dp">37dp</dimen>
+    <dimen name="size38dp">38dp</dimen>
+    <dimen name="size39dp">39dp</dimen>
+    <!-- size 40 ~ 49 dp-->
+    <dimen name="size40dp">40dp</dimen>
+    <dimen name="size41dp">41dp</dimen>
+    <dimen name="size42dp">42dp</dimen>
+    <dimen name="size43dp">43dp</dimen>
+    <dimen name="size44dp">44dp</dimen>
+    <dimen name="size45dp">45dp</dimen>
+    <dimen name="size46dp">46dp</dimen>
+    <dimen name="size47dp">47dp</dimen>
+    <dimen name="size48dp">48dp</dimen>
+    <dimen name="size49dp">49dp</dimen>
+    <!-- size 50 ~ 59 dp-->
+    <dimen name="size50dp">50dp</dimen>
+    <dimen name="size51dp">51dp</dimen>
+    <dimen name="size52dp">52dp</dimen>
+    <dimen name="size53dp">53dp</dimen>
+    <dimen name="size54dp">54dp</dimen>
+    <dimen name="size55dp">55dp</dimen>
+    <dimen name="size56dp">56dp</dimen>
+    <dimen name="size57dp">57dp</dimen>
+    <dimen name="size58dp">58dp</dimen>
+    <dimen name="size59dp">59dp</dimen>
+    <!-- size 60 ~ 69 dp-->
+    <dimen name="size60dp">60dp</dimen>
+    <dimen name="size61dp">61dp</dimen>
+    <dimen name="size62dp">62dp</dimen>
+    <dimen name="size63dp">63dp</dimen>
+    <dimen name="size64dp">64dp</dimen>
+    <dimen name="size65dp">65dp</dimen>
+    <dimen name="size66dp">66dp</dimen>
+    <dimen name="size67dp">67dp</dimen>
+    <dimen name="size68dp">68dp</dimen>
+    <dimen name="size69dp">69dp</dimen>
+</resources>

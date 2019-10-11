@@ -29,4 +29,8 @@
     <color name="yellow">#F7C70C</color>
     <color name="gray">#a7a7a7</color>
 
+    <color name="darker_blue">#252a32</color>
+    <color name="white">#FFFFFF</color>
+    <color name="blue_grey_700">#455a64</color>
+    <color name="blue">#1e2634</color>
 </resources>

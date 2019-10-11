@@ -4,7 +4,7 @@
     package="com.example.myapplication">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <!--    android:hardwareAccelerated="false"-->
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_app_icon"
@@ -16,6 +16,15 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="m">
+        <activity
+            android:name=".activities.mangapage.MangaDetailActivity"
+            android:label="@string/title_activity_manga_detail"
+            android:parentActivityName=".activities.mangapage.MangaReleaseListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.myapplication.activities.mangapage.MangaReleaseListActivity" />
+        </activity>
         <activity
             android:name=".activities.SplashActivity"
             android:screenOrientation="userPortrait"
