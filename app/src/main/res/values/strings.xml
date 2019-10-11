@@ -31,6 +31,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="oops_there_is_some_problem_in_this_app_please_scroll_to_repair_text">Oops, there is some problem in this app, please scroll to repair</string>
+    <string name="oops_there_is_some_problem_in_this_app_please_scroll_to_repair_text">Oops, there is some problem in this app, please scroll to refresh</string>
     <string name="hot_text">HOT</string>
 </resources>
