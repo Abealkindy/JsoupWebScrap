@@ -1,6 +1,5 @@
 package com.example.myapplication.activities.mangapage;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -9,8 +8,7 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import com.example.myapplication.activities.MainActivity;
-import com.example.myapplication.activities.animepage.AnimeReleaseListActivity;
-import com.example.myapplication.adapters.ViewPagerAdminTabAdapter;
+import com.example.myapplication.adapters.ViewPagerMangaMenuTabAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ActivityMangaReleaseListBinding;
 import com.google.android.material.tabs.TabLayout;
@@ -55,7 +53,7 @@ public class MangaReleaseListActivity extends AppCompatActivity {
         mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(getResources().getDrawable(R.drawable.ic_view_list_white_24dp)));
         mangaReleaseListBinding.tabHome.setTabIconTint(ColorStateList.valueOf(getResources().getColor(android.R.color.white)));
         mangaReleaseListBinding.viewPagerTabs.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mangaReleaseListBinding.tabHome));
-        mangaReleaseListBinding.viewPagerTabs.setAdapter(new ViewPagerAdminTabAdapter(getSupportFragmentManager()));
+        mangaReleaseListBinding.viewPagerTabs.setAdapter(new ViewPagerMangaMenuTabAdapter(getSupportFragmentManager()));
     }
 
 

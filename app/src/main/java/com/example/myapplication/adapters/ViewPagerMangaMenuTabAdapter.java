@@ -11,8 +11,8 @@ import com.example.myapplication.fragments.MangaNewReleaseFragment;
 /*
  * Created by Rosinante24 on 2019-05-30.
  */
-public class ViewPagerAdminTabAdapter extends FragmentStatePagerAdapter {
-    public ViewPagerAdminTabAdapter(FragmentManager supportFragmentManager) {
+public class ViewPagerMangaMenuTabAdapter extends FragmentStatePagerAdapter {
+    public ViewPagerMangaMenuTabAdapter(FragmentManager supportFragmentManager) {
         super(supportFragmentManager);
     }
 
