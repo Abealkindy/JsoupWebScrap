@@ -79,4 +79,14 @@
     <dimen name="size67dp">67dp</dimen>
     <dimen name="size68dp">68dp</dimen>
     <dimen name="size69dp">69dp</dimen>
+    <dimen name="size250dp">250dp</dimen>
+    <dimen name="size75dp">75dp</dimen>
+    <dimen name="size18sp">18sp</dimen>
+    <dimen name="size80dp">80dp</dimen>
+    <dimen name="size140dp">140dp</dimen>
+    <dimen name="size17sp">17sp</dimen>
+    <dimen name="size15sp">15sp</dimen>
+    <dimen name="size16sp">16sp</dimen>
+    <dimen name="size20sp">20sp</dimen>
+    <dimen name="size70dp">70dp</dimen>
 </resources>

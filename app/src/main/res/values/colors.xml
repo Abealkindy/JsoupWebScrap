@@ -33,4 +33,5 @@
     <color name="white">#FFFFFF</color>
     <color name="blue_grey_700">#455a64</color>
     <color name="blue">#1e2634</color>
+    <color name="dark_theme">#151C25</color>
 </resources>

@@ -6,7 +6,7 @@
     <RelativeLayout
         android:id="@+id/relative_item_manga"
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="@dimen/size250dp">
 
         <ImageView
             android:id="@+id/image_view_background_manga"
@@ -20,48 +20,36 @@
             android:layout_height="match_parent"
             android:background="@color/black_with_opacity" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_manga_type"
+        <TextView
+            android:id="@+id/text_manga_type"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:layout_alignParentStart="true"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="@color/manga_color"
-            app:cardCornerRadius="10dp">
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/size15dp"
+            android:background="@drawable/bubble_background_manga"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:padding="@dimen/size10dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            tools:text="MANGA" />
 
-            <TextView
-                android:id="@+id/text_manga_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/montserrat"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                tools:text="MANGA" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_hot_status"
-            android:layout_width="75dp"
-            android:layout_height="45dp"
+        <TextView
+            android:id="@+id/text_view_hot_status"
+            android:layout_width="@dimen/size75dp"
+            android:layout_height="@dimen/size45dp"
             android:layout_alignParentEnd="true"
-            android:layout_margin="15dp"
+            android:layout_margin="@dimen/size15dp"
+            android:background="@drawable/bubble_background_hot"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:padding="@dimen/size10dp"
+            android:text="@string/hot_text"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
             android:visibility="gone"
-            app:cardBackgroundColor="@color/uniqlo_red"
-            app:cardCornerRadius="10dp"
-            tools:visibility="visible">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/montserrat"
-                android:text="@string/hot_text"
-                android:textAlignment="center"
-                android:textColor="@android:color/white" />
-        </androidx.cardview.widget.CardView>
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/text_title_manga"

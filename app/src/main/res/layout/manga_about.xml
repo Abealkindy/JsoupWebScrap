@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dark_theme"
+        android:orientation="vertical"
+        android:padding="@dimen/size15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/genre_text"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/size18sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_genre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size10dp"
+                android:orientation="horizontal" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size15dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="@dimen/size140dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/released_year_text"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="@dimen/size16sp" />
+
+                <TextView
+                    android:id="@+id/text_released_on"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size15sp"
+                    tools:text="2016" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/size140dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:layout_marginStart="@dimen/size45dp"
+                android:orientation="vertical"
+                tools:ignore="RelativeOverlap">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/total_chapter_text"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="@dimen/size16sp" />
+
+                <TextView
+                    android:id="@+id/text_total_chapters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size15sp"
+                    tools:text="1000 Chapters" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size15dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="@dimen/size140dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/latest_update_text"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="@dimen/size16sp" />
+
+                <TextView
+                    android:id="@+id/latest_update_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size15sp"
+                    tools:text="September 30, 2020" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/size140dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:orientation="vertical"
+                tools:ignore="RelativeOverlap">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/author_text"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="@dimen/size16sp" />
+
+                <TextView
+                    android:id="@+id/text_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size15sp"
+                    tools:text="Cho Long And Mah Ling" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size10dp"
+            android:orientation="vertical"
+            tools:ignore="RelativeOverlap">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/other_names_text"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/size18sp" />
+
+            <TextView
+                android:id="@+id/text_other_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size17sp"
+                tools:text="Chuukong, kong king, gorilla kong" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

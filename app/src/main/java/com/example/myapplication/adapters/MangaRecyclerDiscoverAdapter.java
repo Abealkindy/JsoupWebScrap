@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.activities.mangapage.MangaDetailActivity;
 import com.example.myapplication.activities.mangapage.ReadMangaActivity;
 import com.example.myapplication.databinding.ItemListMangaSearchResultBinding;
 import com.example.myapplication.models.mangamodels.DiscoverMangaModel;
@@ -90,6 +92,16 @@ public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecy
             intent.putExtra("chapterURL", animeDiscoverResultModelList.get(position).getMangaLatestChapter());
             intent.putExtra("appBarColorStatus", animeDiscoverResultModelList.get(position).getMangaType());
             intent.putExtra("chapterTitle", animeDiscoverResultModelList.get(position).getMangaLatestChapterText());
+            context.startActivity(intent);
+        });
+        holder.itemListBinding.relativeItemMangaResult.setOnClickListener(v -> {
+            Intent intent = new Intent(context.getApplicationContext(), MangaDetailActivity.class);
+            intent.putExtra("detailURL", animeDiscoverResultModelList.get(position).getMangaURL());
+            intent.putExtra("detailType", animeDiscoverResultModelList.get(position).getMangaType());
+            intent.putExtra("detailTitle", animeDiscoverResultModelList.get(position).getMangaTitle());
+            intent.putExtra("detailRating", animeDiscoverResultModelList.get(position).getMangaRating());
+            intent.putExtra("detailStatus", animeDiscoverResultModelList.get(position).isMangaStatus());
+            intent.putExtra("detailThumb", animeDiscoverResultModelList.get(position).getMangaThumb());
             context.startActivity(intent);
         });
     }

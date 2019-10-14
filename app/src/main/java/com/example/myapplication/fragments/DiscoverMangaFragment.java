@@ -211,6 +211,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
             String mangaTitle = el.getElementsByClass("tt").text();
             String chapterRating = el.getElementsByTag("i").text();
             String chapterUrl = el.select("a[href^=https://komikcast.com/chapter/]").attr("href");
+            String mangaUrl = el.select("a[href^=https://komikcast.com/komik/]").attr("href");
             String chapterText = el.select("a[href^=https://komikcast.com/chapter/]").text();
             String completedStatusParameter = el.getElementsByClass("status Completed").text();
             DiscoverMangaModel mangaNewReleaseResultModel = new DiscoverMangaModel();
@@ -219,6 +220,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
             } else {
                 mangaNewReleaseResultModel.setMangaStatus(true);
             }
+            mangaNewReleaseResultModel.setMangaURL(mangaUrl);
             mangaNewReleaseResultModel.setMangaType(mangaType);
             mangaNewReleaseResultModel.setMangaTitle(mangaTitle);
             mangaNewReleaseResultModel.setMangaThumb(mangaThumbnailBackground);

@@ -10,5 +10,6 @@ public class DiscoverMangaModel {
     private String mangaLatestChapter;
     private String mangaLatestChapterText;
     private String mangaRating;
+    private String mangaURL;
     private boolean mangaStatus;
 }

@@ -188,6 +188,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         allChapterDatas = removeDuplicates(allChapterDatasList);
         Elements getPreviousChapterURL = doc.select("a[rel=prev]");
         if (getPreviousChapterURL == null || getPreviousChapterURL.isEmpty()) {
+            readMangaModel.setPreviousMangaURL(null);
             readMangaBinding.prevChapButton.setVisibility(View.GONE);
             Log.e("prevGone?", "Yes");
         } else {
@@ -203,6 +204,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         Elements getNextChapterURL = doc.select("a[rel=next]");
         if (getNextChapterURL == null || getNextChapterURL.isEmpty()) {
             Log.e("nextGone?", "Yes");
+            readMangaModel.setNextMangaURL(null);
             readMangaBinding.nextChapButton.setVisibility(View.GONE);
         } else {
             Log.e("nextGone?", "No");

@@ -18,7 +18,6 @@
         tools:targetApi="m">
         <activity
             android:name=".activities.mangapage.MangaDetailActivity"
-            android:label="@string/title_activity_manga_detail"
             android:parentActivityName=".activities.mangapage.MangaReleaseListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
