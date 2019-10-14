@@ -1,27 +1,21 @@
 package com.example.myapplication.activities.mangapage;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import com.example.myapplication.adapters.RecyclerAllChapterDetailAdapter;
 import com.example.myapplication.adapters.RecyclerGenreAdapter;
 import com.example.myapplication.databinding.ActivityMangaDetailBinding;
-import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
 import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.networks.RetrofitConfig;
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
@@ -44,7 +38,6 @@ import io.reactivex.schedulers.Schedulers;
 public class MangaDetailActivity extends AppCompatActivity {
 
     ActivityMangaDetailBinding detailBinding;
-    ProgressDialog progressDialog;
     String mangaType;
 
     @Override
