@@ -81,8 +81,10 @@ public class AnimeRecyclerNewReleasesAdapter extends RecyclerView.Adapter<AnimeR
         holder.itemListBinding.relativeItem.setOnClickListener(v -> {
             Intent intentToVideoWatchActivity = new Intent(context.getApplicationContext(), WatchAnimeEpisodeActivity.class);
             intentToVideoWatchActivity.putExtra("animeEpisodeToWatch", animeNewReleaseResultModelList.get(position).getEpisodeURL());
-            intentToVideoWatchActivity.putExtra("animeEpisodeThumb", animeNewReleaseResultModelList.get(position).getEpisodeThumb());
             intentToVideoWatchActivity.putExtra("animeEpisodeTitle", animeNewReleaseResultModelList.get(position).getAnimeEpisode());
+            intentToVideoWatchActivity.putExtra("animeEpisodeType", animeNewReleaseResultModelList.get(position).getAnimeEpisodeType());
+            intentToVideoWatchActivity.putExtra("animeEpisodeStatus", animeNewReleaseResultModelList.get(position).getAnimeEpisodeStatus());
+            intentToVideoWatchActivity.putExtra("animeEpisodeThumb", animeNewReleaseResultModelList.get(position).getEpisodeThumb());
             context.startActivity(intentToVideoWatchActivity);
         });
     }

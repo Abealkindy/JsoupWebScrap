@@ -7,8 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".activities.mangapage.MangaDetailActivity"
-        tools:showIn="@layout/activity_manga_detail">
+        tools:showIn="@layout/activity_anime_detail">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,7 +29,7 @@
                     android:textSize="@dimen/size18sp" />
 
                 <TextView
-                    android:id="@+id/text_synopsis"
+                    android:id="@+id/text_synopsis_anime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size10dp"
@@ -50,13 +49,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/select_chapter_manga_text"
+                    android:text="@string/select_episodes_text"
                     android:textAllCaps="true"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/size18sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_all_chapters_detail"
+                    android:id="@+id/recycler_all_episodes_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -66,8 +65,8 @@
             </LinearLayout>
 
             <include
-                android:id="@+id/manga_about_layout"
-                layout="@layout/manga_about" />
+                android:id="@+id/anime_about_layout"
+                layout="@layout/anime_about" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

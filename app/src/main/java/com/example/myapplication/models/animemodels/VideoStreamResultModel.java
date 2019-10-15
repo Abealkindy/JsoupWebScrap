@@ -7,7 +7,8 @@ import lombok.Data;
 public class VideoStreamResultModel {
     private String videoUrl;
     private String episodeTitle;
-    private String allEpisodeAnimeURL;
-    private String nextEpisodeAnimeURL;
-    private String previousEpisodeAnimeURL;
+    private String animeDetailURL;
+    private String animeType;
+    private String animeStatus;
+    private String animeThumb;
 }

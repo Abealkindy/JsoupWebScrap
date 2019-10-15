@@ -29,6 +29,7 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -39,20 +40,21 @@ public class MangaDetailActivity extends AppCompatActivity {
 
     ActivityMangaDetailBinding detailBinding;
     String mangaType;
+    private String detailType, detailTitle, detailThumb, detailRating;
+    private boolean detailStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         detailBinding = DataBindingUtil.setContentView(this, R.layout.activity_manga_detail);
         setSupportActionBar(detailBinding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         initVariables();
     }
 
     private void initCollapsingToolbar(String titleManga) {
         detailBinding.toolbarLayout.setTitle("");
-
         detailBinding.appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
@@ -76,51 +78,65 @@ public class MangaDetailActivity extends AppCompatActivity {
 
     private void initVariables() {
         String detailURL = getIntent().getStringExtra("detailURL");
-        String detailType = getIntent().getStringExtra("detailType");
-        String detailThumb = getIntent().getStringExtra("detailThumb");
-        String detailTitle = getIntent().getStringExtra("detailTitle");
-        String detailRating = getIntent().getStringExtra("detailRating");
-        boolean detailStatus = getIntent().getBooleanExtra("detailStatus", false);
-        Picasso.get().load(detailThumb).into(detailBinding.headerThumbnailDetail);
-        detailBinding.detailHeaderTitle.setText(detailTitle);
-        initCollapsingToolbar(detailTitle);
-        mangaType = detailType;
-        if (detailType.equalsIgnoreCase(getResources().getString(R.string.manga_string))) {
-            detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manga_string));
-            detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
-        } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.manhua_string))) {
-            detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manhua_string));
-            detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manhua));
-        } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.manhwa_string))) {
-            detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manhwa_string));
-            detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manhwa));
-        } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.mangaoneshot_string))) {
-            detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.mangaoneshot_string));
-            detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
-        } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.oneshot_string))) {
-            detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.oneshot_string));
-            detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+        detailType = getIntent().getStringExtra("detailType");
+        detailThumb = getIntent().getStringExtra("detailThumb");
+        detailTitle = getIntent().getStringExtra("detailTitle");
+        detailRating = getIntent().getStringExtra("detailRating");
+        detailStatus = getIntent().getBooleanExtra("detailStatus", false);
+
+        if (!detailThumb.equalsIgnoreCase("")) {
+            Picasso.get().load(detailThumb).into(detailBinding.headerThumbnailDetail);
         }
-        if (detailStatus) {
-            detailBinding.detailStatus.setBackground(getResources().getDrawable(R.drawable.bubble_background_completed));
-            detailBinding.detailStatus.setText(getResources().getString(R.string.completed_text));
-        } else {
-            detailBinding.detailStatus.setBackground(getResources().getDrawable(R.drawable.bubble_background_ongoing));
-            detailBinding.detailStatus.setText(getResources().getString(R.string.ongoing_text));
+        if (!detailTitle.equalsIgnoreCase("")) {
+            detailBinding.detailHeaderTitle.setText(detailTitle);
+            initCollapsingToolbar(detailTitle);
         }
-        detailBinding.ratingBarDetail.setNumStars(5);
-        String replaceComma = detailRating.replace(",", ".");
-        if (detailRating.equalsIgnoreCase("N/A") || detailRating.equalsIgnoreCase("?") || detailRating.equalsIgnoreCase("-")) {
-            detailBinding.ratingBarDetail.setRating(0);
-            detailBinding.ratingNumberDetail.setText(detailRating);
-        } else if (Float.parseFloat(replaceComma) <= 0) {
-            detailBinding.ratingBarDetail.setRating(0);
-            detailBinding.ratingNumberDetail.setText(detailRating);
-        } else {
-            detailBinding.ratingBarDetail.setRating(Float.parseFloat(replaceComma) / 2);
-            detailBinding.ratingNumberDetail.setText(replaceComma);
+        if (!detailType.equalsIgnoreCase("")) {
+            mangaType = detailType;
+            if (detailType.equalsIgnoreCase(getResources().getString(R.string.manga_string))) {
+                detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manga_string));
+                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+            } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.manhua_string))) {
+                detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manhua_string));
+                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manhua));
+            } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.manhwa_string))) {
+                detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manhwa_string));
+                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manhwa));
+            } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.mangaoneshot_string))) {
+                detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.mangaoneshot_string));
+                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+            } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.oneshot_string))) {
+                detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.oneshot_string));
+                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+            }
         }
-        getDetailMangaContent(detailURL);
+        if (!String.valueOf(detailStatus).equalsIgnoreCase("")) {
+            if (detailStatus) {
+                detailBinding.detailStatus.setBackground(getResources().getDrawable(R.drawable.bubble_background_completed));
+                detailBinding.detailStatus.setText(getResources().getString(R.string.completed_text));
+            } else {
+                detailBinding.detailStatus.setBackground(getResources().getDrawable(R.drawable.bubble_background_ongoing));
+                detailBinding.detailStatus.setText(getResources().getString(R.string.ongoing_text));
+            }
+        }
+        if (!detailRating.equalsIgnoreCase("")) {
+            detailBinding.ratingBarDetail.setNumStars(5);
+            String replaceComma = detailRating.replace(",", ".");
+            if (detailRating.equalsIgnoreCase("N/A") || detailRating.equalsIgnoreCase("?") || detailRating.equalsIgnoreCase("-")) {
+                detailBinding.ratingBarDetail.setRating(0);
+                detailBinding.ratingNumberDetail.setText(detailRating);
+            } else if (Float.parseFloat(replaceComma) <= 0) {
+                detailBinding.ratingBarDetail.setRating(0);
+                detailBinding.ratingNumberDetail.setText(detailRating);
+            } else {
+                detailBinding.ratingBarDetail.setRating(Float.parseFloat(replaceComma) / 2);
+                detailBinding.ratingNumberDetail.setText(replaceComma);
+            }
+
+        }
+        if (detailURL != null) {
+            getDetailMangaContent(detailURL);
+        }
     }
 
     private void getDetailMangaContent(String detailURL) {
@@ -154,6 +170,18 @@ public class MangaDetailActivity extends AppCompatActivity {
 
     private void parseHtmlToViewableContent(String result) {
         Document document = Jsoup.parse(result);
+        //get title
+        if (detailTitle.equalsIgnoreCase("")) {
+            Elements getTitle = document.select("h1[itemprop=headline]");
+            detailTitle = getTitle.text().substring(0, getTitle.text().indexOf(" Bahasa Indonesia"));
+            detailBinding.detailHeaderTitle.setText(detailTitle);
+            initCollapsingToolbar(detailTitle);
+        }
+
+        if (detailThumb.equalsIgnoreCase("")) {
+            Elements getThumb = document.select("img[src^=https://komikcast.com/wp-content/uploads/]");
+            Picasso.get().load(getThumb.eachAttr("src").get(1)).into(detailBinding.headerThumbnailDetail);
+        }
         //get Synopsis
         Elements getSynopsis = document.getElementsByTag("p");
         Log.e("synopsis", getSynopsis.text());
@@ -209,10 +237,60 @@ public class MangaDetailActivity extends AppCompatActivity {
 
         //get Author and others
         Elements getAuthor = document.getElementsByTag("span");
-        detailBinding.contentManga.mangaAboutLayout.textAuthor.setText(getAuthor.eachText().get(15).substring(8));
+        if (getAuthor.eachText().get(15).length() < 8) {
+            detailBinding.contentManga.mangaAboutLayout.textAuthor.setText("-");
+        } else {
+            detailBinding.contentManga.mangaAboutLayout.textAuthor.setText(getAuthor.eachText().get(15).substring(8));
+        }
         detailBinding.contentManga.mangaAboutLayout.textReleasedOn.setText(getAuthor.eachText().get(14).substring(10));
         detailBinding.contentManga.mangaAboutLayout.textTotalChapters.setText(getAuthor.eachText().get(17).substring(15));
-
+        if (String.valueOf(detailStatus).equalsIgnoreCase("")) {
+            String getStatus = getAuthor.eachText().get(13).substring(8);
+            if (getStatus.equalsIgnoreCase(getResources().getString(R.string.completed_text))) {
+                detailBinding.detailStatus.setBackground(getResources().getDrawable(R.drawable.bubble_background_completed));
+                detailBinding.detailStatus.setText(getResources().getString(R.string.completed_text));
+            } else {
+                detailBinding.detailStatus.setBackground(getResources().getDrawable(R.drawable.bubble_background_ongoing));
+                detailBinding.detailStatus.setText(getResources().getString(R.string.ongoing_text));
+            }
+        }
+        if (detailType.equalsIgnoreCase("")) {
+            detailType = getAuthor.eachText().get(16).substring(6);
+            mangaType = detailType;
+            if (detailType.equalsIgnoreCase(getResources().getString(R.string.manga_string))) {
+                detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manga_string));
+                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+            } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.manhua_string))) {
+                detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manhua_string));
+                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manhua));
+            } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.manhwa_string))) {
+                detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manhwa_string));
+                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manhwa));
+            } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.mangaoneshot_string))) {
+                detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.mangaoneshot_string));
+                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+            } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.oneshot_string))) {
+                detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.oneshot_string));
+                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+            }
+        }
+        if (detailRating.equalsIgnoreCase("")) {
+            Elements getRating = document.getElementsByClass("rating");
+            detailRating = getRating.eachText().get(0).substring(7, getRating.eachText().get(0).length() - 10);
+            Log.e("Rating", detailRating);
+            detailBinding.ratingBarDetail.setNumStars(5);
+//            String replaceComma = detailRating.replace(",", ".");
+            if (detailRating.equalsIgnoreCase("N/A") || detailRating.equalsIgnoreCase("?") || detailRating.equalsIgnoreCase("-")) {
+                detailBinding.ratingBarDetail.setRating(0);
+                detailBinding.ratingNumberDetail.setText(detailRating);
+            } else if (Float.parseFloat(detailRating) <= 0) {
+                detailBinding.ratingBarDetail.setRating(0);
+                detailBinding.ratingNumberDetail.setText(detailRating);
+            } else {
+                detailBinding.ratingBarDetail.setRating(Float.parseFloat(detailRating) / 2);
+                detailBinding.ratingNumberDetail.setText(detailRating);
+            }
+        }
 
     }
 }

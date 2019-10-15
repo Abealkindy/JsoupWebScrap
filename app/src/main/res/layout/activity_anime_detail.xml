@@ -6,18 +6,17 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:context=".activities.mangapage.MangaDetailActivity">
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar"
+            android:id="@+id/app_bar_anime"
             android:layout_width="match_parent"
             android:layout_height="@dimen/size315dp"
             android:fitsSystemWindows="true"
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/toolbar_layout"
+                android:id="@+id/toolbar_layout_anime"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
@@ -30,7 +29,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:id="@+id/header_thumbnail_detail"
+                        android:id="@+id/header_thumbnail_detail_anime"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
@@ -48,10 +47,10 @@
                         android:background="@drawable/gradient_black" />
 
                     <TextView
-                        android:id="@+id/detail_header_title"
+                        android:id="@+id/detail_header_title_anime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/relative_info"
+                        android:layout_below="@id/relative_info_anime"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginTop="@dimen/size10dp"
@@ -63,7 +62,7 @@
                         tools:text="Naruto Narutimate Hero 3: Finally a Clash! Jonin VS Genin!! Indescriminate Grand Melee Tournament Meeting!!" />
 
                     <RelativeLayout
-                        android:id="@+id/relative_info"
+                        android:id="@+id/relative_info_anime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
@@ -72,7 +71,7 @@
                         android:layout_marginEnd="@dimen/size10dp">
 
                         <TextView
-                            android:id="@+id/detail_status"
+                            android:id="@+id/detail_status_anime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -88,13 +87,13 @@
                             android:orientation="vertical">
 
                             <LinearLayout
-                                android:id="@+id/linear_rating_detail"
+                                android:id="@+id/linear_rating_detail_anime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/size10dp">
 
                                 <RatingBar
-                                    android:id="@+id/rating_bar_detail"
+                                    android:id="@+id/rating_bar_detail_anime"
                                     style="?attr/ratingBarStyleSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -109,7 +108,7 @@
                                     android:stepSize="0.1" />
 
                                 <TextView
-                                    android:id="@+id/rating_number_detail"
+                                    android:id="@+id/rating_number_detail_anime"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/size10dp"
@@ -121,14 +120,14 @@
 
 
                             <TextView
-                                android:id="@+id/manga_type_detail"
+                                android:id="@+id/anime_type_detail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="end"
                                 android:padding="@dimen/size10dp"
                                 android:textColor="@android:color/white"
-                                tools:background="@drawable/bubble_background_manga"
-                                tools:text="MANGA" />
+                                tools:background="@drawable/bubble_background_series"
+                                tools:text="MOVIE" />
                         </LinearLayout>
                     </RelativeLayout>
                 </RelativeLayout>
@@ -144,7 +143,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <include
-            android:id="@+id/content_manga"
-            layout="@layout/content_manga_detail" />
+            android:id="@+id/content_anime"
+            layout="@layout/content_anime_detail" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

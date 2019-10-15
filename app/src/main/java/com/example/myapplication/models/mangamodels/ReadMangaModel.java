@@ -11,6 +11,7 @@ public class ReadMangaModel {
     private List<AllChapterDatas> allChapterDatas;
     private String nextMangaURL;
     private String previousMangaURL;
+    private String mangaDetailURL;
     private List<String> imageContent = new ArrayList<>();
 
     @Data

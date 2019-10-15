@@ -89,4 +89,11 @@
     <dimen name="size16sp">16sp</dimen>
     <dimen name="size20sp">20sp</dimen>
     <dimen name="size70dp">70dp</dimen>
+    <dimen name="size30sp">30sp</dimen>
+    <dimen name="size300dp">300dp</dimen>
+    <dimen name="size350dp">350dp</dimen>
+    <dimen name="size320dp">320dp</dimen>
+    <dimen name="size310dp">310dp</dimen>
+    <dimen name="size315dp">315dp</dimen>
+    <dimen name="size200dp">200dp</dimen>
 </resources>

@@ -47,6 +47,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
     private List<ReadMangaModel.AllChapterDatas> allChapterDatasList = new ArrayList<>();
     List<ReadMangaModel.AllChapterDatas> allChapterDatas;
     private Dialog dialog;
+    String appColorBarStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
-        String appBarColorStatus = getIntent().getStringExtra("appBarColorStatus");
+        appColorBarStatus = getIntent().getStringExtra("appBarColorStatus");
         String chapterURL = getIntent().getStringExtra("chapterURL");
 
         if (chapterURL != null) {
@@ -69,20 +70,20 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         } else {
             Toast.makeText(this, "Chapter URL Null!", Toast.LENGTH_SHORT).show();
         }
-        if (appBarColorStatus != null) {
-            if (appBarColorStatus.equalsIgnoreCase(getResources().getString(R.string.manga_string))) {
+        if (appColorBarStatus != null) {
+            if (appColorBarStatus.equalsIgnoreCase(getResources().getString(R.string.manga_string))) {
                 readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manga_color));
                 readMangaBinding.designBottomSheet.setBackgroundColor(getResources().getColor(R.color.manga_color));
-            } else if (appBarColorStatus.equalsIgnoreCase(getResources().getString(R.string.manhua_string))) {
+            } else if (appColorBarStatus.equalsIgnoreCase(getResources().getString(R.string.manhua_string))) {
                 readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manhua_color));
                 readMangaBinding.designBottomSheet.setBackgroundColor(getResources().getColor(R.color.manhua_color));
-            } else if (appBarColorStatus.equalsIgnoreCase(getResources().getString(R.string.manhwa_string))) {
+            } else if (appColorBarStatus.equalsIgnoreCase(getResources().getString(R.string.manhwa_string))) {
                 readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manhwa_color));
                 readMangaBinding.designBottomSheet.setBackgroundColor(getResources().getColor(R.color.manhwa_color));
-            } else if (appBarColorStatus.equalsIgnoreCase(getResources().getString(R.string.oneshot_string))) {
+            } else if (appColorBarStatus.equalsIgnoreCase(getResources().getString(R.string.oneshot_string))) {
                 readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manga_color));
                 readMangaBinding.designBottomSheet.setBackgroundColor(getResources().getColor(R.color.manga_color));
-            } else if (appBarColorStatus.equalsIgnoreCase(getResources().getString(R.string.mangaoneshot_string))) {
+            } else if (appColorBarStatus.equalsIgnoreCase(getResources().getString(R.string.mangaoneshot_string))) {
                 readMangaBinding.appBarReadManga.setBackgroundColor(getResources().getColor(R.color.manga_color));
                 readMangaBinding.designBottomSheet.setBackgroundColor(getResources().getColor(R.color.manga_color));
             }
@@ -301,6 +302,23 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             chapterDialogBinding.recyclerAllChapters.setLayoutManager(new LinearLayoutManager(ReadMangaActivity.this));
             chapterDialogBinding.recyclerAllChapters.setAdapter(new RecyclerAllChapterAdapter(ReadMangaActivity.this, allChapterDatas));
             dialog.show();
+        });
+
+        Elements getMangaDetail = doc.select("a[href^=https://komikcast.com/komik/]");
+        readMangaModel.setMangaDetailURL(getMangaDetail.attr("href"));
+        readMangaBinding.mangaInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ReadMangaActivity.this, MangaDetailActivity.class);
+                intent.putExtra("detailURL", readMangaModel.getMangaDetailURL());
+                intent.putExtra("detailType", appColorBarStatus);
+                intent.putExtra("detailTitle", "");
+                intent.putExtra("detailRating", "");
+                intent.putExtra("detailStatus", "");
+                intent.putExtra("detailThumb", "");
+                startActivity(intent);
+                finish();
+            }
         });
     }
 

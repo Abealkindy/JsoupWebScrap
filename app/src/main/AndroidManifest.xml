@@ -17,6 +17,14 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="m">
         <activity
+            android:name=".activities.animepage.AnimeDetailActivity"
+            android:parentActivityName=".activities.animepage.AnimeReleaseListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.myapplication.activities.animepage.AnimeReleaseListActivity" />
+        </activity>
+        <activity
             android:name=".activities.mangapage.MangaDetailActivity"
             android:parentActivityName=".activities.mangapage.MangaReleaseListActivity"
             android:theme="@style/AppTheme.NoActionBar">
