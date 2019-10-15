@@ -57,6 +57,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                 intent.putExtra("animeDetailTitle", videoStreamResultModel.getEpisodeTitle());
                 intent.putExtra("animeDetailType", videoStreamResultModel.getAnimeType());
                 intent.putExtra("animeDetailStatus", videoStreamResultModel.getAnimeStatus());
+                intent.putExtra("animeDetailThumb", videoStreamResultModel.getAnimeThumb());
                 startActivity(intent);
                 finish();
             }
@@ -112,6 +113,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
             }
             animeEpisodeBinding.textAnimeTitleWatch.setText(episodeTitle);
             videoStreamResultModel.setEpisodeTitle(episodeTitle);
+            videoStreamResultModel.setAnimeType(episodeType);
             videoStreamResultModel.setAnimeStatus(episodeStatus);
             videoStreamResultModel.setAnimeThumb(episodeThumb);
             getAnimeWatchData(episodeURL);
