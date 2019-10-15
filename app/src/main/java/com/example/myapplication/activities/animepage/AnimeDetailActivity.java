@@ -119,7 +119,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
         Document document = Jsoup.parse(result);
         //get synopsis
         Elements getSynopsis = document.getElementsByTag("p");
-        animeDetailBinding.contentAnime.textSynopsisAnime.setText(getSynopsis.text());
+        animeDetailBinding.contentAnime.textSynopsisAnime.setText(getSynopsis.eachText().get(0));
         //get Other name
         Elements getOtherName = document.getElementsByClass("text-h3");
         animeDetailBinding.contentAnime.animeAboutLayout.textOtherNameAnime.setText(getOtherName.eachText().get(0));
