@@ -2,7 +2,9 @@ package com.example.myapplication.activities.animepage;
 
 import android.os.Bundle;
 
+import com.example.myapplication.adapters.RecyclerGenreAdapter;
 import com.example.myapplication.databinding.ActivityAnimeDetailBinding;
+import com.example.myapplication.models.mangamodels.DetailMangaModel;
 import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.networks.RetrofitConfig;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -11,18 +13,24 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -119,38 +127,68 @@ public class AnimeDetailActivity extends AppCompatActivity {
         Document document = Jsoup.parse(result);
         //get synopsis
         Elements getSynopsis = document.getElementsByTag("p");
-        animeDetailBinding.contentAnime.textSynopsisAnime.setText(getSynopsis.eachText().get(0));
+        if (getSynopsis.eachText().size() < 2) {
+            animeDetailBinding.contentAnime.textSynopsisAnime.setText("-");
+        } else {
+            animeDetailBinding.contentAnime.textSynopsisAnime.setText(getSynopsis.eachText().get(0));
+        }
+
         //get Other name
         Elements getOtherName = document.getElementsByClass("text-h3");
-        animeDetailBinding.contentAnime.animeAboutLayout.textOtherNameAnime.setText(getOtherName.eachText().get(0));
-        animeDetailBinding.contentAnime.animeAboutLayout.textTotalEpisode.setText(getOtherName.eachText().get(3).substring(0, getOtherName.eachText().get(3).length() - 8));
-        animeDetailBinding.contentAnime.animeAboutLayout.textDuration.setText(getOtherName.eachText().get(4).replace(" per", "/"));
-        animeDetailBinding.contentAnime.animeAboutLayout.textReleasedOnAnime.setText(getOtherName.eachText().get(5).substring(12));
-        if (getOtherName.eachText().get(6).length() < 7) {
-            animeDetailBinding.contentAnime.animeAboutLayout.textStudio.setText("-");
+        if (getOtherName.eachText().size() < 7) {
+            animeDetailBinding.contentAnime.animeAboutLayout.textOtherNameAnime.setText("-");
+            animeDetailBinding.contentAnime.animeAboutLayout.textTotalEpisode.setText(getOtherName.eachText().get(1).substring(0, getOtherName.eachText().get(1).length() - 8));
+            animeDetailBinding.contentAnime.animeAboutLayout.textDuration.setText(getOtherName.eachText().get(2).replace(" per", "/").replace(" episode", "episode"));
+            animeDetailBinding.contentAnime.animeAboutLayout.textReleasedOnAnime.setText(getOtherName.eachText().get(3).substring(12));
+            if (getOtherName.eachText().get(4).length() < 7) {
+                animeDetailBinding.contentAnime.animeAboutLayout.textStudio.setText("-");
+            } else {
+                animeDetailBinding.contentAnime.animeAboutLayout.textStudio.setText(getOtherName.eachText().get(4).substring(7));
+            }
         } else {
-            animeDetailBinding.contentAnime.animeAboutLayout.textStudio.setText(getOtherName.eachText().get(6).substring(getOtherName.eachText().get(6).indexOf("Studio ")));
+            if (getOtherName.eachText().get(0) == null) {
+                animeDetailBinding.contentAnime.animeAboutLayout.textOtherNameAnime.setText("-");
+            } else {
+                animeDetailBinding.contentAnime.animeAboutLayout.textOtherNameAnime.setText(getOtherName.eachText().get(0));
+            }
+            animeDetailBinding.contentAnime.animeAboutLayout.textTotalEpisode.setText(getOtherName.eachText().get(3).substring(0, getOtherName.eachText().get(3).length() - 8));
+            animeDetailBinding.contentAnime.animeAboutLayout.textDuration.setText(getOtherName.eachText().get(4).replace(" per", "/").replace(" episode", "episode"));
+            animeDetailBinding.contentAnime.animeAboutLayout.textReleasedOnAnime.setText(getOtherName.eachText().get(5).substring(12));
+            if (getOtherName.eachText().get(6).length() < 7) {
+                animeDetailBinding.contentAnime.animeAboutLayout.textStudio.setText("-");
+            } else {
+                animeDetailBinding.contentAnime.animeAboutLayout.textStudio.setText(getOtherName.eachText().get(6).substring(7));
+            }
         }
 
         //get Genre
         Elements getGenre = document.getElementsByTag("li");
+        List<DetailMangaModel.DetailMangaGenres> detailGenresList = new ArrayList<>();
         for (Element element : getGenre) {
+            DetailMangaModel.DetailMangaGenres detailGenres = new DetailMangaModel().new DetailMangaGenres();
             String getGenreURL = element.select("a[href^=https://animeindo.to/genres/]").attr("href");
             String getGenreTitle = element.select("a[href^=https://animeindo.to/genres/]").text();
-            Log.e("genreURLAnime", getGenreURL);
-            Log.e("genreTitleAnime", getGenreTitle);
+            detailGenres.setGenreURL(getGenreURL);
+            detailGenres.setGenreTitle(getGenreTitle);
+            detailGenresList.add(detailGenres);
         }
+        List<DetailMangaModel.DetailMangaGenres> detailGenresListCut = new ArrayList<>(detailGenresList.subList(4, detailGenresList.size() - 3));
+        animeDetailBinding.contentAnime.animeAboutLayout.recyclerGenreAnime.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManagerGenre = new LinearLayoutManager(AnimeDetailActivity.this);
+        linearLayoutManagerGenre.setOrientation(RecyclerView.HORIZONTAL);
+        animeDetailBinding.contentAnime.animeAboutLayout.recyclerGenreAnime.setLayoutManager(linearLayoutManagerGenre);
+        animeDetailBinding.contentAnime.animeAboutLayout.recyclerGenreAnime.setAdapter(new RecyclerGenreAdapter(AnimeDetailActivity.this, detailGenresListCut));
 
         //get All episodes
         Elements getAllEpisodes = document.getElementsByClass("col-12 col-sm-6 mb10");
         for (Element element : getAllEpisodes) {
             String episodeURL = element.getElementsByTag("a").attr("href");
-            Log.e("AllepisodeURL", episodeURL);
+            String episodeTitle = element.getElementsByTag("a").text();
+            Log.e("AllepisodeURL", episodeURL + " " + episodeTitle);
         }
         //get Rating
         Elements getRatingAnime = document.getElementsByClass("series-rating");
         String animeDetailRating = getRatingAnime.attr("style").substring(17, getRatingAnime.attr("style").indexOf("%"));
-        Log.e("RatingAnime", animeDetailRating);
         animeDetailBinding.ratingBarDetailAnime.setNumStars(5);
         if (animeDetailRating.equalsIgnoreCase("N/A") || animeDetailRating.equalsIgnoreCase("?") || animeDetailRating.equalsIgnoreCase("-")) {
             animeDetailBinding.ratingBarDetailAnime.setRating(0);
