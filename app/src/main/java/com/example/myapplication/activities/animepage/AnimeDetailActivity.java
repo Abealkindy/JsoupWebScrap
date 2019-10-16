@@ -2,26 +2,24 @@ package com.example.myapplication.activities.animepage;
 
 import android.os.Bundle;
 
+import com.example.myapplication.adapters.RecyclerAllEpisodeDetailAdapter;
 import com.example.myapplication.adapters.RecyclerGenreAdapter;
 import com.example.myapplication.databinding.ActivityAnimeDetailBinding;
+import com.example.myapplication.models.animemodels.AnimeDetailModel;
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
 import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.networks.RetrofitConfig;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.google.gson.Gson;
+import com.google.android.material.appbar.AppBarLayout;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
@@ -40,6 +38,7 @@ import io.reactivex.schedulers.Schedulers;
 public class AnimeDetailActivity extends AppCompatActivity {
 
     ActivityAnimeDetailBinding animeDetailBinding;
+    AnimeDetailModel animeDetailModel = new AnimeDetailModel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,10 @@ public class AnimeDetailActivity extends AppCompatActivity {
         String getAnimeDetailThumb = getIntent().getStringExtra("animeDetailThumb");
         String getAnimeDetailStatus = getIntent().getStringExtra("animeDetailStatus");
         String getAnimeDetailType = getIntent().getStringExtra("animeDetailType");
-
+        animeDetailModel.setEpisodeTitle(getAnimeDetailTitle);
+        animeDetailModel.setEpisodeThumb(getAnimeDetailThumb);
+        animeDetailModel.setEpisodeStatus(getAnimeDetailStatus);
+        animeDetailModel.setEpisodeType(getAnimeDetailType);
         if (getAnimeDetailType != null) {
             if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.series_string))) {
                 animeDetailBinding.animeTypeDetail.setText(getResources().getString(R.string.series_string));
@@ -90,6 +92,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
             }
         }
         animeDetailBinding.detailHeaderTitleAnime.setText(getAnimeDetailTitle);
+        initCollapsingToolbar(getAnimeDetailTitle);
         Picasso.get().load(getAnimeDetailThumb).into(animeDetailBinding.headerThumbnailDetailAnime);
         getAnimeDetailContent(getAnimeDetailURL);
     }
@@ -121,6 +124,29 @@ public class AnimeDetailActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private void initCollapsingToolbar(String titleManga) {
+        animeDetailBinding.toolbarLayoutAnime.setTitle("");
+        animeDetailBinding.appBarAnime.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = false;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = animeDetailBinding.appBarAnime.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    animeDetailBinding.toolbarLayoutAnime.setTitle(titleManga);
+                    isShow = true;
+                } else if (isShow) {
+                    animeDetailBinding.toolbarLayoutAnime.setTitle(" ");
+                    isShow = false;
+                }
+            }
+        });
+
     }
 
     private void parseHtmlToViewableContent(String result) {
@@ -181,11 +207,22 @@ public class AnimeDetailActivity extends AppCompatActivity {
 
         //get All episodes
         Elements getAllEpisodes = document.getElementsByClass("col-12 col-sm-6 mb10");
+        List<DetailMangaModel.DetailAllChapterDatas> allEpisodeDatasList = new ArrayList<>();
         for (Element element : getAllEpisodes) {
+            DetailMangaModel.DetailAllChapterDatas allEpisodeDatas = new DetailMangaModel().new DetailAllChapterDatas();
             String episodeURL = element.getElementsByTag("a").attr("href");
             String episodeTitle = element.getElementsByTag("a").text();
+            allEpisodeDatas.setChapterURL(episodeURL);
+            allEpisodeDatas.setChapterTitle(episodeTitle);
+            allEpisodeDatasList.add(allEpisodeDatas);
             Log.e("AllepisodeURL", episodeURL + " " + episodeTitle);
         }
+        animeDetailBinding.contentAnime.recyclerAllEpisodesDetail.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManagerAllEpisode = new LinearLayoutManager(AnimeDetailActivity.this);
+        linearLayoutManagerAllEpisode.setOrientation(RecyclerView.VERTICAL);
+        animeDetailBinding.contentAnime.recyclerAllEpisodesDetail.setLayoutManager(linearLayoutManagerAllEpisode);
+        animeDetailBinding.contentAnime.recyclerAllEpisodesDetail.setAdapter(new RecyclerAllEpisodeDetailAdapter(AnimeDetailActivity.this, allEpisodeDatasList, animeDetailModel));
+
         //get Rating
         Elements getRatingAnime = document.getElementsByClass("series-rating");
         String animeDetailRating = getRatingAnime.attr("style").substring(17, getRatingAnime.attr("style").indexOf("%"));

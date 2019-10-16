@@ -5,11 +5,11 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/linear_chapter_detail"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size50dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/size10dp"
         android:background="@drawable/bubble_background_darker_blue"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="@dimen/size5dp">
 
         <TextView
             android:id="@+id/text_view_chapter_all_title"
