@@ -31,7 +31,7 @@
         <WebView
             android:id="@+id/webViewWatchAnime"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/size300dp"
             android:layout_above="@id/linear_below"
             android:layout_below="@id/linear_above"
             android:layout_marginTop="@dimen/size10dp"
