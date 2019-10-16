@@ -77,14 +77,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                 return true;
             }
         });
-        animeEpisodeBinding.webViewWatchAnime.getSettings().setDomStorageEnabled(true);
         animeEpisodeBinding.webViewWatchAnime.getSettings().setJavaScriptEnabled(true);
-        animeEpisodeBinding.webViewWatchAnime.getSettings().setLoadWithOverviewMode(true);
-        animeEpisodeBinding.webViewWatchAnime.getSettings().setAllowContentAccess(true);
-        animeEpisodeBinding.webViewWatchAnime.getSettings().setAllowFileAccess(true);
-        animeEpisodeBinding.webViewWatchAnime.getSettings().setAllowFileAccessFromFileURLs(true);
-        animeEpisodeBinding.webViewWatchAnime.getSettings().setAllowUniversalAccessFromFileURLs(true);
-        animeEpisodeBinding.webViewWatchAnime.getSettings().setSupportZoom(true);
         animeEpisodeBinding.webViewWatchAnime.setWebChromeClient(new WebChromeClient());
         String episodeURL = getIntent().getStringExtra("animeEpisodeToWatch");
         String episodeTitle = getIntent().getStringExtra("animeEpisodeTitle");
@@ -195,6 +188,15 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
             hideSystemUI();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
         }
     }
 
