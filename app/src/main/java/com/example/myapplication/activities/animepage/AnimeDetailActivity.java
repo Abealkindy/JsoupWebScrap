@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
@@ -94,7 +95,9 @@ public class AnimeDetailActivity extends AppCompatActivity {
         animeDetailBinding.detailHeaderTitleAnime.setText(getAnimeDetailTitle);
         initCollapsingToolbar(getAnimeDetailTitle);
         Picasso.get().load(getAnimeDetailThumb).into(animeDetailBinding.headerThumbnailDetailAnime);
-        getAnimeDetailContent(getAnimeDetailURL);
+        if (getAnimeDetailURL != null) {
+            getAnimeDetailContent(getAnimeDetailURL);
+        }
     }
 
     private void getAnimeDetailContent(String getAnimeDetailURL) {
@@ -198,7 +201,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
             detailGenres.setGenreTitle(getGenreTitle);
             detailGenresList.add(detailGenres);
         }
-        List<DetailMangaModel.DetailMangaGenres> detailGenresListCut = new ArrayList<>(detailGenresList.subList(4, detailGenresList.size() - 3));
+        List<DetailMangaModel.DetailMangaGenres> detailGenresListCut = new ArrayList<>(detailGenresList.subList(6, detailGenresList.size() - 3));
         animeDetailBinding.contentAnime.animeAboutLayout.recyclerGenreAnime.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerGenre = new LinearLayoutManager(AnimeDetailActivity.this);
         linearLayoutManagerGenre.setOrientation(RecyclerView.HORIZONTAL);

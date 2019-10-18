@@ -30,9 +30,9 @@ public class MangaReleaseListActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 mangaReleaseListBinding.viewPagerTabs.setCurrentItem(tab.getPosition());
                 if (tab.getPosition() == 0) {
-                    setTitle("Read Manga/Manhua/Manhwa");
+                    setTitle("New releases");
                 } else if (tab.getPosition() == 1) {
-                    setTitle("Discover Manga");
+                    setTitle("Discover");
                 }
             }
 

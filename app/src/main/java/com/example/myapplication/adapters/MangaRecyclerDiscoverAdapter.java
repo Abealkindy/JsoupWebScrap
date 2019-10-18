@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -13,7 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.activities.mangapage.MangaDetailActivity;
+import com.example.myapplication.activities.mangapage.manga_detail_mvp.MangaDetailActivity;
 import com.example.myapplication.activities.mangapage.ReadMangaActivity;
 import com.example.myapplication.databinding.ItemListMangaSearchResultBinding;
 import com.example.myapplication.models.mangamodels.DiscoverMangaModel;

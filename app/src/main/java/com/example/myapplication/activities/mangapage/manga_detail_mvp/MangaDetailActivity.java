@@ -1,4 +1,4 @@
-package com.example.myapplication.activities.mangapage;
+package com.example.myapplication.activities.mangapage.manga_detail_mvp;
 
 import android.os.Bundle;
 
@@ -15,11 +15,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
@@ -31,17 +29,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-
-public class MangaDetailActivity extends AppCompatActivity {
+public class MangaDetailActivity extends AppCompatActivity implements MangaDetailInterface {
 
     ActivityMangaDetailBinding detailBinding;
     String mangaType;
     private String detailType, detailTitle, detailThumb, detailRating;
     private boolean detailStatus;
+    private MangaDetailPresenter mangaDetailPresenter = new MangaDetailPresenter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,37 +129,8 @@ public class MangaDetailActivity extends AppCompatActivity {
 
         }
         if (detailURL != null) {
-            getDetailMangaContent(detailURL);
+            mangaDetailPresenter.getDetailMangaData(detailURL);
         }
-    }
-
-    private void getDetailMangaContent(String detailURL) {
-        String URLAfterCut = detailURL.substring(22);
-        ApiEndPointService apiEndPointService = RetrofitConfig.getInitMangaRetrofit();
-        apiEndPointService.getDiscoverMangaData(URLAfterCut)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(String result) {
-                        parseHtmlToViewableContent(result);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(MangaDetailActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
     }
 
     private void parseHtmlToViewableContent(String result) {
@@ -184,7 +149,6 @@ public class MangaDetailActivity extends AppCompatActivity {
         }
         //get Synopsis
         Elements getSynopsis = document.getElementsByTag("p");
-        Log.e("synopsis", getSynopsis.text());
         detailBinding.contentManga.textSynopsis.setText(getSynopsis.text());
 
         //get All chapter data
@@ -206,7 +170,6 @@ public class MangaDetailActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         detailBinding.contentManga.recyclerAllChaptersDetail.setLayoutManager(linearLayoutManager);
         detailBinding.contentManga.recyclerAllChaptersDetail.setAdapter(new RecyclerAllChapterDetailAdapter(MangaDetailActivity.this, afterCut, mangaType));
-        Log.e("detailAllChapter", new Gson().toJson(afterCut));
 
         //get genre data
         List<DetailMangaModel.DetailMangaGenres> genresList = new ArrayList<>();
@@ -220,7 +183,6 @@ public class MangaDetailActivity extends AppCompatActivity {
             genresList.add(mangaGenres);
         }
         List<DetailMangaModel.DetailMangaGenres> genreCut = new ArrayList<>(genresList.subList(0, genresList.size() - 1));
-        Log.e("detailGenres", new Gson().toJson(genreCut));
         detailBinding.contentManga.mangaAboutLayout.recyclerGenre.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerGenre = new LinearLayoutManager(MangaDetailActivity.this);
         linearLayoutManagerGenre.setOrientation(RecyclerView.HORIZONTAL);
@@ -277,9 +239,7 @@ public class MangaDetailActivity extends AppCompatActivity {
         if (detailRating.equalsIgnoreCase("")) {
             Elements getRating = document.getElementsByClass("rating");
             detailRating = getRating.eachText().get(0).substring(7, getRating.eachText().get(0).length() - 10);
-            Log.e("Rating", detailRating);
             detailBinding.ratingBarDetail.setNumStars(5);
-//            String replaceComma = detailRating.replace(",", ".");
             if (detailRating.equalsIgnoreCase("N/A") || detailRating.equalsIgnoreCase("?") || detailRating.equalsIgnoreCase("-")) {
                 detailBinding.ratingBarDetail.setRating(0);
                 detailBinding.ratingNumberDetail.setText(detailRating);
@@ -292,5 +252,15 @@ public class MangaDetailActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    @Override
+    public void onGetDetailDataSuccess(String detailHTMLResult) {
+        parseHtmlToViewableContent(detailHTMLResult);
+    }
+
+    @Override
+    public void onGetDetailDataFailed() {
+        Toast.makeText(this, "Failed!!", Toast.LENGTH_SHORT).show();
     }
 }

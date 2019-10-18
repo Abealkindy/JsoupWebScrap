@@ -25,7 +25,7 @@
                 android:value="com.example.myapplication.activities.animepage.AnimeReleaseListActivity" />
         </activity>
         <activity
-            android:name=".activities.mangapage.MangaDetailActivity"
+            android:name=".activities.mangapage.manga_detail_mvp.MangaDetailActivity"
             android:parentActivityName=".activities.mangapage.MangaReleaseListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

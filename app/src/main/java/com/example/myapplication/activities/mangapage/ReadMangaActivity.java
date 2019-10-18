@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.activities.mangapage.manga_detail_mvp.MangaDetailActivity;
 import com.example.myapplication.adapters.RecyclerAllChapterAdapter;
 import com.example.myapplication.adapters.RecyclerReadMangaAdapter;
 import com.example.myapplication.databinding.ActivityReadMangaBinding;
