@@ -21,7 +21,7 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <LinearLayout
-            android:id="@+id/linearError"
+            android:id="@+id/linear_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -32,7 +32,7 @@
             tools:visibility="visible">
 
             <ImageView
-                android:id="@+id/imageError"
+                android:id="@+id/image_error"
                 android:layout_width="230dp"
                 android:layout_height="230dp"
                 android:layout_marginBottom="20dp"

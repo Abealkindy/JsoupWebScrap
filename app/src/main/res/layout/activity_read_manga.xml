@@ -79,14 +79,14 @@
                 android:padding="@dimen/size10dp">
 
                 <ImageView
-                    android:id="@+id/prevChapButton"
+                    android:id="@+id/prev_chap_button"
                     android:layout_width="@dimen/size40dp"
                     android:layout_height="@dimen/size40dp"
                     android:src="@drawable/ic_skip_previous_black_24dp"
                     android:visibility="visible" />
 
                 <ImageView
-                    android:id="@+id/showAllChap"
+                    android:id="@+id/show_all_chap"
                     android:layout_width="@dimen/size35dp"
                     android:layout_height="@dimen/size35dp"
                     android:layout_marginStart="@dimen/size10dp"
@@ -94,7 +94,7 @@
                     android:src="@drawable/ic_view_list_white_24dp" />
 
                 <ImageView
-                    android:id="@+id/nextChapButton"
+                    android:id="@+id/next_chap_button"
                     android:layout_width="@dimen/size40dp"
                     android:layout_height="@dimen/size40dp"
                     android:src="@drawable/ic_skip_next_black_24dp"

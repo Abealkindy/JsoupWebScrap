@@ -8,7 +8,7 @@
         android:layout_height="match_parent">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshAnimeList"
+            android:id="@+id/swipe_refresh_anime_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

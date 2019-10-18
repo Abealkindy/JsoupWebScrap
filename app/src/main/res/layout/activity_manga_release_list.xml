@@ -8,7 +8,7 @@
         android:layout_height="match_parent">
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPagerTabs"
+            android:id="@+id/view_pager_tabs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
@@ -19,7 +19,7 @@
             android:theme="@style/AppTheme.PopupOverlay">
 
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabHome"
+                android:id="@+id/tab_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabGravity="fill"

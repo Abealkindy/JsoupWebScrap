@@ -17,7 +17,7 @@
             android:padding="10dp">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardReadManga"
+                android:id="@+id/card_read_manga"
                 android:layout_width="wrap_content"
                 android:layout_height="160dp"
                 android:layout_marginEnd="20dp"
@@ -49,7 +49,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardWatchAnime"
+                android:id="@+id/card_watch_anime"
                 android:layout_width="wrap_content"
                 android:layout_height="160dp"
                 android:layout_marginStart="20dp"
