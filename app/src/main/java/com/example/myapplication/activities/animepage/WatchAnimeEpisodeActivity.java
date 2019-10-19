@@ -176,7 +176,9 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
         //get next and prev URL
         Elements getElementsNextAndPrevEpisode = doc.select("a[href^=https://animeindo.to/]");
         List<String> nextAndPrevURL = new ArrayList<>();
-        nextAndPrevURL.clear();
+        if (nextAndPrevURL != null) {
+           nextAndPrevURL.clear();    
+        }
         for (int position = 0; position < getElementsNextAndPrevEpisode.size(); position++) {
             Element element = getElementsNextAndPrevEpisode.get(position);
             String nextandprevurlsingle = element.absUrl("href");
