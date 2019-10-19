@@ -96,7 +96,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             @Override
             public void onSwipeLeft() {
                 super.onSwipeLeft();
-                if (readMangaModel.getNextMangaURL().isEmpty() || readMangaModel.getNextMangaURL() == null) {
+                if (readMangaModel.getNextMangaURL().isEmpty() || readMangaModel.getNextMangaURL() == null || readMangaModel.getNextMangaURL().equalsIgnoreCase("")) {
                     Toast.makeText(ReadMangaActivity.this, "There's no more next chapter", Toast.LENGTH_SHORT).show();
                 } else {
                     getReadMangaContentData(readMangaModel.getNextMangaURL());
@@ -192,29 +192,23 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         if (getPreviousChapterURL == null || getPreviousChapterURL.isEmpty()) {
             readMangaModel.setPreviousMangaURL(null);
             readMangaBinding.prevChapButton.setVisibility(View.GONE);
-            Log.e("prevGone?", "Yes");
         } else {
-            Log.e("prevGone?", "No");
             Element prevElement = getPreviousChapterURL.get(0);
             String previousChapterUrl = prevElement.absUrl("href");
             readMangaModel.setPreviousMangaURL(previousChapterUrl);
             readMangaBinding.prevChapButton.setVisibility(View.VISIBLE);
-            Log.e("prevGone?", previousChapterUrl);
             readMangaBinding.prevChapButton.setOnClickListener(v -> getReadMangaContentData(previousChapterUrl));
         }
 
         Elements getNextChapterURL = doc.select("a[rel=next]");
         if (getNextChapterURL == null || getNextChapterURL.isEmpty()) {
-            Log.e("nextGone?", "Yes");
             readMangaModel.setNextMangaURL(null);
             readMangaBinding.nextChapButton.setVisibility(View.GONE);
         } else {
-            Log.e("nextGone?", "No");
             Element nextElement = getNextChapterURL.get(0);
             String nextChapButtonterUrl = nextElement.absUrl("href");
             readMangaModel.setNextMangaURL(nextChapButtonterUrl);
             readMangaBinding.nextChapButton.setVisibility(View.VISIBLE);
-            Log.e("nextGone?", nextChapButtonterUrl);
             readMangaBinding.nextChapButton.setOnClickListener(v -> getReadMangaContentData(nextChapButtonterUrl));
         }
         Elements getMangaImageContentNewerSeries = doc.select("img[src^=https://cdn.komikcast.com/wp-content/]");

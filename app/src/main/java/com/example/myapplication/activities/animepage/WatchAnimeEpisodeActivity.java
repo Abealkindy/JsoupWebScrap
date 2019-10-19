@@ -28,6 +28,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -38,6 +41,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
     private ActivityWatchAnimeEpisodeBinding animeEpisodeBinding;
     private VideoStreamResultModel videoStreamResultModel = new VideoStreamResultModel();
     private ProgressDialog progressDialog;
+    private String nowEpisodeNumber, nextEpisodeNumber, previousEpisodeNumber, nextURL, prevURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,8 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                 finish();
             }
         });
+        animeEpisodeBinding.prevEpisodeButton.setOnClickListener(view -> getAnimeWatchData(prevURL));
+        animeEpisodeBinding.nextEpisodeButton.setOnClickListener(view -> getAnimeWatchData(nextURL));
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -94,6 +100,8 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
             } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.movie_string))) {
                 animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.green_series_color));
                 animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.green_series_color));
+                animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
+                animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
             } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.la_string))) {
                 animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.red_series_color));
                 animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.red_series_color));
@@ -118,6 +126,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
     private void getAnimeWatchData(String animeEpisodeToWatch) {
         progressDialog.show();
         String afterCut = animeEpisodeToWatch.substring(21);
+        nowEpisodeNumber = afterCut.substring(afterCut.indexOf("episode-") + 8);
         ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
         apiEndPointService.getWatchAnimeData(afterCut)
                 .subscribeOn(Schedulers.io())
@@ -163,6 +172,48 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                 videoStreamResultModel.setAnimeDetailURL(animeDetailsURL);
             }
         }
+
+        //get next and prev URL
+        Elements getElementsNextAndPrevEpisode = doc.select("a[href^=https://animeindo.to/]");
+        List<String> nextAndPrevURL = new ArrayList<>();
+        nextAndPrevURL.clear();
+        for (int position = 0; position < getElementsNextAndPrevEpisode.size(); position++) {
+            Element element = getElementsNextAndPrevEpisode.get(position);
+            String nextandprevurlsingle = element.absUrl("href");
+            if (!nextandprevurlsingle.startsWith("https://animeindo.to/anime/") && nextandprevurlsingle.contains("episode")) {
+                nextAndPrevURL.add(nextandprevurlsingle);
+            }
+        }
+        Log.e("nextAndPrevURLstring", new Gson().toJson(nextAndPrevURL));
+        String nextOrPrevURL, nextOrPrevEpisodeNumber;
+        if (nextAndPrevURL.isEmpty()) {
+            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
+            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
+        } else {
+            if (nextAndPrevURL.size() < 2) {
+                nextOrPrevURL = nextAndPrevURL.get(0);
+                nextOrPrevEpisodeNumber = nextOrPrevURL.substring(nextOrPrevURL.indexOf("episode-") + 8);
+                if (Integer.parseInt(nextOrPrevEpisodeNumber) < Integer.parseInt(nowEpisodeNumber)) {
+                    prevURL = nextAndPrevURL.get(0);
+                    nextURL = null;
+                    animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
+                    animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
+                } else if (Integer.parseInt(nextOrPrevEpisodeNumber) > Integer.parseInt(nowEpisodeNumber)) {
+                    prevURL = null;
+                    nextURL = nextAndPrevURL.get(0);
+                    animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
+                    animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
+                }
+            } else if (nextAndPrevURL.size() == 2) {
+                prevURL = nextAndPrevURL.get(0);
+                nextURL = nextAndPrevURL.get(1);
+                previousEpisodeNumber = prevURL.substring(prevURL.indexOf("episode-") + 8);
+                nextEpisodeNumber = nextURL.substring(nextURL.indexOf("episode-") + 8);
+                animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
+                animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
+            }
+        }
+
 
         //Anime videos URL settings
         Elements getVideoEmbedURL = doc.select("iframe[allowfullscreen=allowfullscreen]");

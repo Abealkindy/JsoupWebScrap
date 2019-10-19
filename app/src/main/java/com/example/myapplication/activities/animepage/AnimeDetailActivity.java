@@ -218,7 +218,6 @@ public class AnimeDetailActivity extends AppCompatActivity {
             allEpisodeDatas.setChapterURL(episodeURL);
             allEpisodeDatas.setChapterTitle(episodeTitle);
             allEpisodeDatasList.add(allEpisodeDatas);
-            Log.e("AllepisodeURL", episodeURL + " " + episodeTitle);
         }
         animeDetailBinding.contentAnime.recyclerAllEpisodesDetail.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerAllEpisode = new LinearLayoutManager(AnimeDetailActivity.this);
