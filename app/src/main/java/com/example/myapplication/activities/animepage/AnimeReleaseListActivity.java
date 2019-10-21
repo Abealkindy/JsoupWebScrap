@@ -100,11 +100,15 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
                     @Override
                     public void onNext(String result) {
                         if (hitStatus.equalsIgnoreCase("newPage")) {
-                            progressDialog.dismiss();
+                            if (progressDialog != null) {
+                                progressDialog.dismiss();
+                            }
                             animeNewReleaseResultModelList.addAll(parseResult(result));
                             animeRecyclerNewReleasesAdapter.notifyDataSetChanged();
                         } else if (hitStatus.equalsIgnoreCase("swipeRefresh")) {
-                            progressDialog.dismiss();
+                            if (progressDialog != null) {
+                                progressDialog.dismiss();
+                            }
                             if (animeNewReleaseResultModelList != null) {
                                 animeNewReleaseResultModelList.clear();
                             }
@@ -138,7 +142,8 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
         List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
 
         for (Element el : newepisodecon) {
-            String animeThumbnailBackground = el.getElementsByClass("episode-ratio background-cover").attr("style");
+            String animeThumbnailBackground = el.getElementsByClass("episode-ratio background-cover rocket-lazyload").attr("data-bg");
+            Log.e("purethumbnail", animeThumbnailBackground);
             String thumbnailCut = animeThumbnailBackground.substring(animeThumbnailBackground.indexOf("https://"), animeThumbnailBackground.indexOf(")"));
             String animeEpisode = el.getElementsByTag("h4").text();
             String animeEpisodeNumber = el.getElementsByClass("episode-number").text();
