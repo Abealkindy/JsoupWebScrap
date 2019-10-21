@@ -44,4 +44,7 @@
     <string name="total_episode_text">TOTAL EPISODE</string>
     <string name="duration_text">DURATION</string>
     <string name="anime_studio_text">ANIME STUDIO</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

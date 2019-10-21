@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragments.GenreAndSearchAnimeFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_genre_and_search_anime"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_list_anime" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_select_genre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/size20dp"
+            android:src="@drawable/ic_view_list_white_24dp"
+            app:backgroundTint="@color/blue_series_color"
+            app:fabCustomSize="@dimen/size60dp"
+            app:maxImageSize="@dimen/size30dp" />
+    </RelativeLayout>
+</layout>
