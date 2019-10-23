@@ -27,8 +27,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -142,7 +144,7 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
         List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
 
         for (Element el : newepisodecon) {
-            String animeThumbnailBackground = el.getElementsByClass("episode-ratio background-cover rocket-lazyload").attr("data-bg");
+            String animeThumbnailBackground = el.getElementsByClass("episode-ratio background-cover").attr("style");
             Log.e("purethumbnail", animeThumbnailBackground);
             String thumbnailCut = animeThumbnailBackground.substring(animeThumbnailBackground.indexOf("https://"), animeThumbnailBackground.indexOf(")"));
             String animeEpisode = el.getElementsByTag("h4").text();
