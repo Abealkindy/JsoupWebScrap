@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
@@ -50,8 +51,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     private FragmentGenreAndSearchAnimeBinding fragmentGenreAndSearchAnimeBinding;
     private ProgressDialog progressDialog;
     private int contentByGenreCount = 1, contentBySearchCount = 1;
-    private String searchQuery;
-    private String hitStatus, genreQuery;
+    String searchQuery, hitStatus, genreQuery;
     private AnimeGenreAndSearchResultModel animeGenreAndSearchResultModel = new AnimeGenreAndSearchResultModel();
     private ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
     private AnimeRecyclerSearchAndGenreAdapter searchAndGenreAdapter;
@@ -60,16 +60,15 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentGenreAndSearchAnimeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_genre_and_search_anime, container, false);
-        initUI();
-        initEvent();
         getGenreData();
         hitStatus = "genreList";
         genreQuery = "action";
-        getMainContentData(hitStatus, genreQuery);
+        getMainContentData(hitStatus, genreQuery, contentByGenreCount++);
+        initUI();
+        initEvent();
         return fragmentGenreAndSearchAnimeBinding.getRoot();
     }
 
@@ -80,27 +79,18 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
         setHasOptionsMenu(true);
         fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.setHasFixedSize(true);
-        if (hitStatus.equalsIgnoreCase("genreList")) {
-            searchAndGenreAdapter = new AnimeRecyclerSearchAndGenreAdapter(getActivity(), animeGenreAndSearchResultModel.getAnimeSearchResults());
-            fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.setAdapter(searchAndGenreAdapter);
-        } else if (hitStatus.equalsIgnoreCase("searchList")) {
-            searchAndGenreAdapter = new AnimeRecyclerSearchAndGenreAdapter(getActivity(), animeGenreAndSearchResultModel.getAnimeSearchResults());
-            fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.setAdapter(searchAndGenreAdapter);
-        }
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.setLayoutManager(linearLayoutManager);
         fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int index, int totalItemsCount, RecyclerView view) {
                 if (hitStatus.equalsIgnoreCase("genreList")) {
-                    contentByGenreCount++;
-                    getMainContentData(hitStatus, genreQuery);
+                    getMainContentData(hitStatus, genreQuery, contentByGenreCount++);
                 } else if (hitStatus.equalsIgnoreCase("searchList")) {
-                    if (animeGenreAndSearchResultModel.getAnimeGenreResults().size() <= 16) {
+                    if (animeGenreAndSearchResultModel.getAnimeGenreResults().size() < 16) {
                         Log.e("listSize", "Can't scroll anymore");
                     } else {
-                        contentBySearchCount++;
-                        getMainContentData(hitStatus, searchQuery);
+                        getMainContentData(hitStatus, searchQuery, contentBySearchCount++);
                     }
                 }
             }
@@ -115,9 +105,12 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void getMainContentData(String hitStatus, String hitQuery) {
+    private void getMainContentData(String hitStatus, String hitQuery, int pageCount) {
+        Log.e("hitQuery", hitQuery);
+        Log.e("hitStatus", hitStatus);
+        Log.e("pageCount", "" + pageCount);
         if (hitStatus.equalsIgnoreCase("genreList")) {
-            apiEndPointService.getSearchAnimeData("/genres/" + hitQuery + "/page/" + contentByGenreCount)
+            apiEndPointService.getSearchAnimeData("/genres/" + hitQuery + "/page/" + pageCount)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<String>() {
@@ -129,6 +122,9 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
                         @Override
                         public void onNext(String result) {
                             progressDialog.dismiss();
+                            animeGenreAndSearchResultModel.setAnimeSearchResults(parseHTMLToReadableData(result));
+                            searchAndGenreAdapter = new AnimeRecyclerSearchAndGenreAdapter(getActivity(), animeGenreAndSearchResultModel.getAnimeSearchResults());
+                            fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.setAdapter(searchAndGenreAdapter);
                             searchAndGenreAdapter.notifyDataSetChanged();
                         }
 
@@ -144,7 +140,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
                         }
                     });
         } else {
-            apiEndPointService.getSearchAnimeData("/page/" + contentBySearchCount + "/?cat=s&s=" + hitQuery + "&post_type=anime")
+            apiEndPointService.getSearchAnimeData("/page/" + pageCount + "/?s=" + hitQuery + "&post_type=anime")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<String>() {
@@ -156,6 +152,9 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
                         @Override
                         public void onNext(String result) {
                             progressDialog.dismiss();
+                            animeGenreAndSearchResultModel.setAnimeSearchResults(parseHTMLToReadableData(result));
+                            searchAndGenreAdapter = new AnimeRecyclerSearchAndGenreAdapter(getActivity(), animeGenreAndSearchResultModel.getAnimeSearchResults());
+                            fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.setAdapter(searchAndGenreAdapter);
                             searchAndGenreAdapter.notifyDataSetChanged();
                         }
 
@@ -218,6 +217,33 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         return genreResultList;
     }
 
+    private List<AnimeGenreAndSearchResultModel.AnimeSearchResult> parseHTMLToReadableData(String htmlResult) {
+        List<AnimeGenreAndSearchResultModel.AnimeSearchResult> animeGenreAndSearchResultModelList = new ArrayList<>();
+        Document document = Jsoup.parse(htmlResult);
+        Elements getListData = document.getElementsByClass("col-6 col-md-4 col-lg-3 col-wd-per5 col-xl-per5 mb40");
+        for (Element element : getListData) {
+            String detailURL = element.select("a[href^=https://animeindo.to/anime/]").attr("href");
+            String thumbURL = element.getElementsByClass("episode-ratio background-cover").attr("style").substring(element.getElementsByClass("episode-ratio background-cover").attr("style").indexOf("https://"), element.getElementsByClass("episode-ratio background-cover").attr("style").indexOf(")"));
+            String animeTitle = element.getElementsByTag("h4").text();
+            String animeStatus = "", animeType = "";
+            if (element.getElementsByClass("text-h6").eachText().size() < 2) {
+                animeType = element.getElementsByClass("text-h6").eachText().get(0);
+            } else {
+                animeStatus = element.getElementsByClass("text-h6").eachText().get(0);
+                animeType = element.getElementsByClass("text-h6").eachText().get(1);
+            }
+
+            AnimeGenreAndSearchResultModel.AnimeSearchResult searchResult = new AnimeGenreAndSearchResultModel().new AnimeSearchResult();
+            searchResult.setAnimeDetailURL(detailURL);
+            searchResult.setAnimeThumb(thumbURL);
+            searchResult.setAnimeTitle(animeTitle);
+            searchResult.setAnimeStatus(animeStatus);
+            searchResult.setAnimeType(animeType);
+            animeGenreAndSearchResultModelList.add(searchResult);
+        }
+        return animeGenreAndSearchResultModelList;
+    }
+
     private void initEvent() {
         fragmentGenreAndSearchAnimeBinding.fabSelectGenre.setOnClickListener(v -> {
 
@@ -228,8 +254,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     public boolean onQueryTextSubmit(String query) {
         searchQuery = query;
         hitStatus = "searchList";
-        contentBySearchCount = 1;
-        getMainContentData("searchList", searchQuery);
+        getMainContentData("searchList", searchQuery, contentBySearchCount++);
         return true;
     }
 

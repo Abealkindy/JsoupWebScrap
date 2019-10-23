@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.activities.animepage.AnimeDetailActivity;
 import com.example.myapplication.activities.animepage.WatchAnimeEpisodeActivity;
 import com.example.myapplication.databinding.ItemListAnimeBinding;
 import com.example.myapplication.models.animemodels.AnimeGenreAndSearchResultModel;
@@ -42,7 +43,6 @@ public class AnimeRecyclerSearchAndGenreAdapter extends RecyclerView.Adapter<Ani
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemListBinding.textTitle.setText(searchResultList.get(position).getAnimeTitle());
         Picasso.get().load(searchResultList.get(position).getAnimeThumb()).into(holder.itemListBinding.imageViewBackground);
-
         if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.series_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.blue_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.series_string));
@@ -78,12 +78,12 @@ public class AnimeRecyclerSearchAndGenreAdapter extends RecyclerView.Adapter<Ani
         }
 
         holder.itemListBinding.relativeItem.setOnClickListener(v -> {
-            Intent intentToVideoWatchActivity = new Intent(context.getApplicationContext(), WatchAnimeEpisodeActivity.class);
-            intentToVideoWatchActivity.putExtra("animeEpisodeToWatch", searchResultList.get(position).getAnimeDetailURL());
-            intentToVideoWatchActivity.putExtra("animeEpisodeTitle", searchResultList.get(position).getAnimeTitle());
-            intentToVideoWatchActivity.putExtra("animeEpisodeType", searchResultList.get(position).getAnimeType());
-            intentToVideoWatchActivity.putExtra("animeEpisodeStatus", searchResultList.get(position).getAnimeStatus());
-            intentToVideoWatchActivity.putExtra("animeEpisodeThumb", searchResultList.get(position).getAnimeThumb());
+            Intent intentToVideoWatchActivity = new Intent(context.getApplicationContext(), AnimeDetailActivity.class);
+            intentToVideoWatchActivity.putExtra("animeDetailURL", searchResultList.get(position).getAnimeDetailURL());
+            intentToVideoWatchActivity.putExtra("animeDetailTitle", searchResultList.get(position).getAnimeTitle());
+            intentToVideoWatchActivity.putExtra("animeDetailType", searchResultList.get(position).getAnimeType());
+            intentToVideoWatchActivity.putExtra("animeDetailStatus", searchResultList.get(position).getAnimeStatus());
+            intentToVideoWatchActivity.putExtra("animeDetailThumb", searchResultList.get(position).getAnimeThumb());
             context.startActivity(intentToVideoWatchActivity);
         });
     }
