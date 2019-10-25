@@ -174,4 +174,11 @@ public class AnimeNewReleaseFragment extends Fragment {
         return animeNewReleaseResultModelList;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
 }

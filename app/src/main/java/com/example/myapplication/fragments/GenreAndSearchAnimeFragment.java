@@ -296,4 +296,12 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         hitQuery = animeGenreResultModelList.get(position).getGenreTitle().toLowerCase();
         setTags(animeGenreResultModelList.get(position).getGenreTitle().toLowerCase(), NEW_PAGE);
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
 }
