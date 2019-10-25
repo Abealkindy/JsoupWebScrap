@@ -48,7 +48,7 @@ import io.reactivex.schedulers.Schedulers;
  * A simple {@link Fragment} subclass.
  */
 public class DiscoverMangaFragment extends Fragment implements SearchView.OnQueryTextListener {
-    FragmentDiscoverMangaBinding discoverMangaBinding;
+    private FragmentDiscoverMangaBinding discoverMangaBinding;
     private int pageCount = 1;
     private static final int NEW_PAGE = 0;
     private static final int NEW_PAGE_SCROLL = 1;
@@ -58,11 +58,11 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     private List<DiscoverMangaModel> discoverMangaFragmentList = new ArrayList<>();
     private MangaRecyclerDiscoverAdapter mangaRecyclerDiscoverAdapter;
     private ProgressDialog progressDialog;
-    String hitStatus = "newPage";
-    String homeUrl = "/daftar-komik/page/" + pageCount;
-    String searchQuery = "";
-    int plusPage = 1;
-    int plusSearch = 1;
+    private String hitStatus = "newPage";
+    private String homeUrl = "/daftar-komik/page/" + pageCount;
+    private String searchQuery = "";
+    private int plusPage = 1;
+    private int plusSearch = 1;
 
     public DiscoverMangaFragment() {
         // Required empty public constructor
@@ -75,7 +75,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         discoverMangaBinding.swipeDiscoverManga.setOnRefreshListener(() -> {
             discoverMangaBinding.swipeDiscoverManga.setRefreshing(false);
             setTag(homeUrl, SWIPE_REFRESH);
-            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+            getChildFragmentManager().beginTransaction().detach(this).attach(this).commit();
         });
     }
 
@@ -97,11 +97,11 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         discoverMangaBinding.recyclerDiscoverManga.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int index, int totalItemsCount, RecyclerView view) {
-                if (hitStatus.equalsIgnoreCase("newPage") || hitStatus.equalsIgnoreCase("swipeRefresh")) {
-                    setTag("", NEW_PAGE_SCROLL);
+                if (discoverMangaFragmentList.size() < 30) {
+                    Log.e("listSize", "Can't scroll anymore");
                 } else {
-                    if (discoverMangaFragmentList.size() <= 5) {
-                        Log.e("listSize", "Can't scroll anymore");
+                    if (hitStatus.equalsIgnoreCase("newPage") || hitStatus.equalsIgnoreCase("swipeRefresh")) {
+                        setTag("", NEW_PAGE_SCROLL);
                     } else {
                         setTag(searchQuery, SEARCH_SWIPE_REQUEST);
                     }
@@ -111,7 +111,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         return discoverMangaBinding.getRoot();
     }
 
-    public void setTag(String searchQuery, int option) {
+    private void setTag(String searchQuery, int option) {
         discoverMangaFragmentList = new ArrayList<>();
         Log.e("option", String.valueOf(option));
         switch (option) {
@@ -161,9 +161,6 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     private void getDiscoverMangaData(String hitStatus) {
         progressDialog.show();
         this.hitStatus = hitStatus;
-        Log.e("pageCount", String.valueOf(pageCount));
-        Log.e("hitStatus", hitStatus);
-        Log.e("homeURL", homeUrl);
         ApiEndPointService apiEndPointService = RetrofitConfig.getInitMangaRetrofit();
         apiEndPointService.getDiscoverMangaData(homeUrl)
                 .subscribeOn(Schedulers.io())

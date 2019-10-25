@@ -7,11 +7,17 @@
         android:layout_height="match_parent"
         tools:context=".fragments.GenreAndSearchAnimeFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_genre_and_search_anime"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_search_and_genre"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_list_anime" />
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_genre_and_search_anime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_list_anime" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_select_genre"

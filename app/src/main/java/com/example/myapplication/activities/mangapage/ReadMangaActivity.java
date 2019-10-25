@@ -99,6 +99,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
                 if (readMangaModel.getNextMangaURL().isEmpty() || readMangaModel.getNextMangaURL() == null || readMangaModel.getNextMangaURL().equalsIgnoreCase("")) {
                     Toast.makeText(ReadMangaActivity.this, "There's no more next chapter", Toast.LENGTH_SHORT).show();
                 } else {
+                    readMangaBinding.recyclerImageContentManga.scrollToPosition(0);
                     getReadMangaContentData(readMangaModel.getNextMangaURL());
                 }
                 Log.e("swipeStatus", "Left");
@@ -110,6 +111,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
                 if (readMangaModel.getPreviousMangaURL().isEmpty() || readMangaModel.getPreviousMangaURL() == null) {
                     Toast.makeText(ReadMangaActivity.this, "There's no more previous chapter", Toast.LENGTH_SHORT).show();
                 } else {
+                    readMangaBinding.recyclerImageContentManga.scrollToPosition(0);
                     getReadMangaContentData(readMangaModel.getPreviousMangaURL());
                 }
                 Log.e("swipeStatus", "Right");
@@ -301,19 +303,16 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
 
         Elements getMangaDetail = doc.select("a[href^=https://komikcast.com/komik/]");
         readMangaModel.setMangaDetailURL(getMangaDetail.attr("href"));
-        readMangaBinding.mangaInfoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ReadMangaActivity.this, MangaDetailActivity.class);
-                intent.putExtra("detailURL", readMangaModel.getMangaDetailURL());
-                intent.putExtra("detailType", appColorBarStatus);
-                intent.putExtra("detailTitle", "");
-                intent.putExtra("detailRating", "");
-                intent.putExtra("detailStatus", "");
-                intent.putExtra("detailThumb", "");
-                startActivity(intent);
-                finish();
-            }
+        readMangaBinding.mangaInfoButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ReadMangaActivity.this, MangaDetailActivity.class);
+            intent.putExtra("detailURL", readMangaModel.getMangaDetailURL());
+            intent.putExtra("detailType", appColorBarStatus);
+            intent.putExtra("detailTitle", "");
+            intent.putExtra("detailRating", "");
+            intent.putExtra("detailStatus", "");
+            intent.putExtra("detailThumb", "");
+            startActivity(intent);
+            finish();
         });
     }
 

@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 public class AnimeGenreAndSearchResultModel {
-    private List<AnimeSearchResult> animeSearchResults;
-    private List<AnimeGenreResult> animeGenreResults;
+    private AnimeSearchResult animeSearchResults;
+    private AnimeGenreResult animeGenreResults;
 
     @Data
     public class AnimeSearchResult {

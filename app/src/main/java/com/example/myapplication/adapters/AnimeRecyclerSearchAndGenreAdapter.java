@@ -93,6 +93,10 @@ public class AnimeRecyclerSearchAndGenreAdapter extends RecyclerView.Adapter<Ani
         return searchResultList.size();
     }
 
+    public void recyclerRefresh() {
+        this.notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final ItemListAnimeBinding itemListBinding;
 
