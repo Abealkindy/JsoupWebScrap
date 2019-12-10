@@ -164,7 +164,7 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
             allChapterDatas.setChapterURL(chapterURL);
             detailAllChapterDatasList.add(allChapterDatas);
         }
-        List<DetailMangaModel.DetailAllChapterDatas> afterCut = new ArrayList<>(detailAllChapterDatasList.subList(8, detailAllChapterDatasList.size() - 6));
+        List<DetailMangaModel.DetailAllChapterDatas> afterCut = new ArrayList<>(detailAllChapterDatasList.subList(7, detailAllChapterDatasList.size() - 5));
         detailBinding.contentManga.recyclerAllChaptersDetail.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MangaDetailActivity.this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -199,13 +199,26 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
 
         //get Author and others
         Elements getAuthor = document.getElementsByTag("span");
-        if (getAuthor.eachText().get(15).length() < 8) {
-            detailBinding.contentManga.mangaAboutLayout.textAuthor.setText("-");
-        } else {
-            detailBinding.contentManga.mangaAboutLayout.textAuthor.setText(getAuthor.eachText().get(15).substring(8));
+
+        for (int position = 0; position < getAuthor.eachText().size(); position++) {
+
+            if (getAuthor.eachText().get(position).contains("Author")) {
+                if (getAuthor.eachText().get(position).length() < 8) {
+                    detailBinding.contentManga.mangaAboutLayout.textAuthor.setText("-");
+                } else {
+                    detailBinding.contentManga.mangaAboutLayout.textAuthor.setText(getAuthor.eachText().get(position).substring(getAuthor.eachText().get(position).indexOf("Author:") + 7));
+                }
+            }
+
+            if (getAuthor.eachText().get(position).contains("Released")) {
+                detailBinding.contentManga.mangaAboutLayout.textReleasedOn.setText(getAuthor.eachText().get(position).substring(getAuthor.eachText().get(position).indexOf("Released:") + 9));
+            }
+
+            if (getAuthor.eachText().get(position).contains("Total Chapter")) {
+                detailBinding.contentManga.mangaAboutLayout.textTotalChapters.setText(getAuthor.eachText().get(position).substring(getAuthor.eachText().get(position).indexOf("Total Chapter:") + 14));
+            }
+
         }
-        detailBinding.contentManga.mangaAboutLayout.textReleasedOn.setText(getAuthor.eachText().get(14).substring(10));
-        detailBinding.contentManga.mangaAboutLayout.textTotalChapters.setText(getAuthor.eachText().get(17).substring(15));
         if (String.valueOf(detailStatus).equalsIgnoreCase("")) {
             String getStatus = getAuthor.eachText().get(13).substring(8);
             if (getStatus.equalsIgnoreCase(getResources().getString(R.string.completed_text))) {

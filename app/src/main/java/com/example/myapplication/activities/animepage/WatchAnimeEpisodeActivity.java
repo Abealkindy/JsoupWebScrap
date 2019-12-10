@@ -41,7 +41,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
     private ActivityWatchAnimeEpisodeBinding animeEpisodeBinding;
     private VideoStreamResultModel videoStreamResultModel = new VideoStreamResultModel();
     private ProgressDialog progressDialog;
-    private String nowEpisodeNumber, nextEpisodeNumber, previousEpisodeNumber, nextURL, prevURL;
+    private String nowEpisodeNumber, nextEpisodeNumber, previousEpisodeNumber, nextURL, prevURL, episodeTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +86,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
         animeEpisodeBinding.webViewWatchAnime.getSettings().setJavaScriptEnabled(true);
         animeEpisodeBinding.webViewWatchAnime.setWebChromeClient(new WebChromeClient());
         String episodeURL = getIntent().getStringExtra("animeEpisodeToWatch");
-        String episodeTitle = getIntent().getStringExtra("animeEpisodeTitle");
+        episodeTitle = getIntent().getStringExtra("animeEpisodeTitle");
         String episodeType = getIntent().getStringExtra("animeEpisodeType");
         String episodeStatus = getIntent().getStringExtra("animeEpisodeStatus");
         String episodeThumb = getIntent().getStringExtra("animeEpisodeThumb");
@@ -127,6 +127,9 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
         progressDialog.show();
         String afterCut = animeEpisodeToWatch.substring(21);
         nowEpisodeNumber = afterCut.substring(afterCut.indexOf("episode-") + 8);
+        if (nowEpisodeNumber.contains("-")) {
+            nowEpisodeNumber.replace("-", ".");
+        }
         ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
         apiEndPointService.getWatchAnimeData(afterCut)
                 .subscribeOn(Schedulers.io())
@@ -172,7 +175,15 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                 videoStreamResultModel.setAnimeDetailURL(animeDetailsURL);
             }
         }
-
+        episodeTitle = doc.getElementsByTag("h1").text();
+        if (episodeTitle != null) {
+            if (episodeTitle.contains("Subtitle")) {
+                episodeTitle = episodeTitle.substring(0, episodeTitle.length() - 19);
+            } else {
+                Log.e("CUT?", "OF COURSE NO!");
+            }
+        }
+        animeEpisodeBinding.textAnimeTitleWatch.setText(episodeTitle);
         //get next and prev URL
         Elements getElementsNextAndPrevEpisode = doc.select("a[href^=https://animeindo.to/]");
         List<String> nextAndPrevURL = new ArrayList<>();
@@ -195,31 +206,75 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
             if (nextAndPrevURL.size() < 2) {
                 nextOrPrevURL = nextAndPrevURL.get(0);
                 nextOrPrevEpisodeNumber = nextOrPrevURL.substring(nextOrPrevURL.indexOf("episode-") + 8);
-                if (nowEpisodeNumber.endsWith("/")) {
-                    if (Integer.parseInt(nextOrPrevEpisodeNumber) < Integer.parseInt(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
-                        prevURL = nextAndPrevURL.get(0);
-                        nextURL = null;
-                        animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
-                        animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
-                    } else if (Integer.parseInt(nextOrPrevEpisodeNumber) > Integer.parseInt(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
-                        prevURL = null;
-                        nextURL = nextAndPrevURL.get(0);
-                        animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
-                        animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
+                if (nextOrPrevEpisodeNumber.contains("-") || nowEpisodeNumber.contains("-")) {
+                    String nextOrPrevEpisodeNumberCut = nextOrPrevEpisodeNumber.replace("-", ".");
+                    String nowEpisodeNumberCut = nowEpisodeNumber.replace("-", ".");
+                    if (nowEpisodeNumberCut.endsWith(".tamat/")) {
+                        String substring = nowEpisodeNumberCut.substring(0, nowEpisodeNumberCut.length() - 6);
+                        if (Double.parseDouble(nextOrPrevEpisodeNumberCut) < Double.parseDouble(substring)) {
+                            prevURL = nextAndPrevURL.get(0);
+                            nextURL = null;
+                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
+                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
+                        } else if (Double.parseDouble(nextOrPrevEpisodeNumberCut) > Double.parseDouble(substring)) {
+                            prevURL = null;
+                            nextURL = nextAndPrevURL.get(0);
+                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
+                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
+                        }
+                    } else if (nowEpisodeNumberCut.endsWith("/")) {
+                        if (Double.parseDouble(nextOrPrevEpisodeNumberCut) < Double.parseDouble(nowEpisodeNumberCut.substring(0, nowEpisodeNumberCut.length() - 1))) {
+                            prevURL = nextAndPrevURL.get(0);
+                            nextURL = null;
+                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
+                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
+                        } else if (Double.parseDouble(nextOrPrevEpisodeNumberCut) > Double.parseDouble(nowEpisodeNumberCut.substring(0, nowEpisodeNumberCut.length() - 1))) {
+                            prevURL = null;
+                            nextURL = nextAndPrevURL.get(0);
+                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
+                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        if (Double.parseDouble(nextOrPrevEpisodeNumberCut) < Double.parseDouble(nowEpisodeNumberCut)) {
+                            prevURL = nextAndPrevURL.get(0);
+                            nextURL = null;
+                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
+                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
+                        } else if (Double.parseDouble(nextOrPrevEpisodeNumberCut) > Double.parseDouble(nowEpisodeNumberCut)) {
+                            prevURL = null;
+                            nextURL = nextAndPrevURL.get(0);
+                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
+                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
+                        }
                     }
                 } else {
-                    if (Integer.parseInt(nextOrPrevEpisodeNumber) < Integer.parseInt(nowEpisodeNumber)) {
-                        prevURL = nextAndPrevURL.get(0);
-                        nextURL = null;
-                        animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
-                        animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
-                    } else if (Integer.parseInt(nextOrPrevEpisodeNumber) > Integer.parseInt(nowEpisodeNumber)) {
-                        prevURL = null;
-                        nextURL = nextAndPrevURL.get(0);
-                        animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
-                        animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
+                    if (nowEpisodeNumber.endsWith("/")) {
+                        if (Double.parseDouble(nextOrPrevEpisodeNumber) < Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
+                            prevURL = nextAndPrevURL.get(0);
+                            nextURL = null;
+                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
+                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
+                        } else if (Double.parseDouble(nextOrPrevEpisodeNumber) > Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
+                            prevURL = null;
+                            nextURL = nextAndPrevURL.get(0);
+                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
+                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        if (Double.parseDouble(nextOrPrevEpisodeNumber) < Double.parseDouble(nowEpisodeNumber)) {
+                            prevURL = nextAndPrevURL.get(0);
+                            nextURL = null;
+                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
+                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
+                        } else if (Double.parseDouble(nextOrPrevEpisodeNumber) > Double.parseDouble(nowEpisodeNumber)) {
+                            prevURL = null;
+                            nextURL = nextAndPrevURL.get(0);
+                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
+                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
+
             } else if (nextAndPrevURL.size() == 2) {
                 prevURL = nextAndPrevURL.get(0);
                 nextURL = nextAndPrevURL.get(1);

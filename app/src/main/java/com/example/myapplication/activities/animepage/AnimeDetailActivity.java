@@ -61,6 +61,15 @@ public class AnimeDetailActivity extends AppCompatActivity {
         animeDetailModel.setEpisodeThumb(getAnimeDetailThumb);
         animeDetailModel.setEpisodeStatus(getAnimeDetailStatus);
         animeDetailModel.setEpisodeType(getAnimeDetailType);
+
+        if (getAnimeDetailTitle != null) {
+            if (getAnimeDetailTitle.contains("Episode")) {
+                getAnimeDetailTitle = getAnimeDetailTitle.substring(0, getAnimeDetailTitle.length() - 11);
+            } else {
+                Log.e("CUT?", "NO");
+            }
+        }
+
         if (getAnimeDetailType != null) {
             if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.series_string))) {
                 animeDetailBinding.animeTypeDetail.setText(getResources().getString(R.string.series_string));
@@ -201,7 +210,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
             detailGenres.setGenreTitle(getGenreTitle);
             detailGenresList.add(detailGenres);
         }
-        List<DetailMangaModel.DetailMangaGenres> detailGenresListCut = new ArrayList<>(detailGenresList.subList(6, detailGenresList.size() - 3));
+        List<DetailMangaModel.DetailMangaGenres> detailGenresListCut = new ArrayList<>(detailGenresList.subList(10, detailGenresList.size() - 3));
         animeDetailBinding.contentAnime.animeAboutLayout.recyclerGenreAnime.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerGenre = new LinearLayoutManager(AnimeDetailActivity.this);
         linearLayoutManagerGenre.setOrientation(RecyclerView.HORIZONTAL);
@@ -216,6 +225,11 @@ public class AnimeDetailActivity extends AppCompatActivity {
             String episodeURL = element.getElementsByTag("a").attr("href");
             String episodeTitle = element.getElementsByTag("a").text();
             allEpisodeDatas.setChapterURL(episodeURL);
+            if (episodeTitle.contains("Episode")) {
+                episodeTitle = episodeTitle.substring(episodeTitle.indexOf("Episode"));
+            } else {
+                Log.e("CUT?", "BIG NO!");
+            }
             allEpisodeDatas.setChapterTitle(episodeTitle);
             allEpisodeDatasList.add(allEpisodeDatas);
         }

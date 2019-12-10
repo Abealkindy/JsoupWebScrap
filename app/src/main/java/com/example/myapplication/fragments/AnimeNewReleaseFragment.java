@@ -147,7 +147,7 @@ public class AnimeNewReleaseFragment extends Fragment {
         for (Element el : newepisodecon) {
             String animeThumbnailBackground = el.getElementsByClass("episode-ratio background-cover").attr("style");
             String thumbnailCut = animeThumbnailBackground.substring(animeThumbnailBackground.indexOf("https://"), animeThumbnailBackground.indexOf(")"));
-            String animeEpisode = el.getElementsByTag("h4").text();
+            String animeEpisode = el.getElementsByTag("h3").text();
             String animeEpisodeNumber = el.getElementsByClass("episode-number").text();
             List<String> animeStatusAndType = el.getElementsByClass("text-h6").eachText();
             String animeEpisodeStatus = "", animeEpisodeType = "";
