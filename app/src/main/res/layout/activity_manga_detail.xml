@@ -12,7 +12,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size315dp"
+            android:layout_height="255dp"
             android:fitsSystemWindows="true"
             android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -47,7 +47,7 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/gradient_black" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/detail_header_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -56,10 +56,12 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginTop="@dimen/size10dp"
                         android:layout_marginBottom="@dimen/size30dp"
+                        android:maxLines="3"
                         android:paddingStart="@dimen/size15dp"
                         android:paddingEnd="@dimen/size15dp"
                         android:textColor="@android:color/white"
                         android:textSize="28sp"
+                        app:minTextSize="@dimen/size15sp"
                         tools:text="Naruto Narutimate Hero 3: Finally a Clash! Jonin VS Genin!! Indescriminate Grand Melee Tournament Meeting!!" />
 
                     <RelativeLayout

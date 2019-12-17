@@ -78,7 +78,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/text_title_manga_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -87,9 +87,10 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/montserrat"
+            android:maxLines="3"
             android:textAlignment="center"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:textSize="@dimen/size18sp"
             android:textStyle="bold"
             tools:text="Class-goto Shuudan Teni Shimashita ga, ichiban Tsuyoi Ore wa Saijaku no Shounin ni Gisouchuu (ONGOING)" />
 

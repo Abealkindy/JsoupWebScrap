@@ -204,7 +204,14 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         List<DiscoverMangaModel> mangaNewReleaseResultModelList = new ArrayList<>();
         for (Element el : newchaptercon) {
             String mangaType = el.getElementsByAttributeValueContaining("class", "type ").text();
-            String mangaThumbnailBackground = el.getElementsByTag("img").attr("src");
+            String mangaThumbnailBackground = el.getElementsByTag("img").attr("data-src");
+
+            if (!mangaThumbnailBackground.contains("https")) {
+                mangaThumbnailBackground = "https:" + mangaThumbnailBackground;
+            } else if (!mangaThumbnailBackground.contains("http")) {
+                mangaThumbnailBackground = "http:" + mangaThumbnailBackground;
+            }
+
             String mangaTitle = el.getElementsByClass("tt").text();
             String chapterRating = el.getElementsByTag("i").text();
             String chapterUrl = el.select("a[href^=https://komikcast.com/chapter/]").attr("href");

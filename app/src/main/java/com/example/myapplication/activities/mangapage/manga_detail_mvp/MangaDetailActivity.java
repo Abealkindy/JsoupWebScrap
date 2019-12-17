@@ -15,6 +15,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
@@ -25,9 +26,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.TimeZone;
 
 public class MangaDetailActivity extends AppCompatActivity implements MangaDetailInterface {
 
@@ -144,8 +148,14 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
         }
 
         if (detailThumb.equalsIgnoreCase("")) {
-            Elements getThumb = document.select("img[src^=https://komikcast.com/wp-content/uploads/]");
-            Picasso.get().load(getThumb.eachAttr("src").get(1)).into(detailBinding.headerThumbnailDetail);
+            Elements getThumb = document.getElementsByTag("img");
+            String mangaThumbnailBackground = getThumb.eachAttr("data-src").get(1);
+            if (!mangaThumbnailBackground.contains("https")) {
+                mangaThumbnailBackground = "https:" + mangaThumbnailBackground;
+            } else if (!mangaThumbnailBackground.contains("http")) {
+                mangaThumbnailBackground = "http:" + mangaThumbnailBackground;
+            }
+            Picasso.get().load(mangaThumbnailBackground).into(detailBinding.headerThumbnailDetail);
         }
         //get Synopsis
         Elements getSynopsis = document.getElementsByTag("p");

@@ -175,6 +175,9 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         Document doc = Jsoup.parse(result);
         Elements getChapterTitle = doc.getElementsByTag("h1");
         String chapterTitle = getChapterTitle.text();
+        if (chapterTitle.contains(" Bahasa")) {
+            chapterTitle = chapterTitle.substring(0, chapterTitle.length() - 17);
+        }
         readMangaBinding.textViewChapterTitle.setText(chapterTitle);
 
         Elements getAllChapterDatas = doc.select("option[value^=https://komikcast.com/chapter/]");

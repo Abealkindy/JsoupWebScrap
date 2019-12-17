@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:background="@color/black_with_opacity" />
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/text_manga_type"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
@@ -35,7 +35,7 @@
             android:textColor="@android:color/white"
             tools:text="MANGA" />
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/text_view_hot_status"
             android:layout_width="@dimen/size75dp"
             android:layout_height="@dimen/size45dp"
@@ -51,7 +51,7 @@
             android:visibility="gone"
             tools:visibility="visible" />
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/text_title_manga"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,6 +60,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/montserrat"
+            android:maxLines="3"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="18sp"
@@ -87,7 +88,7 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/text_first_manga_chapter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -97,7 +98,7 @@
                         android:textColor="@android:color/black"
                         tools:text="Chapter 1000" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/text_first_manga_chapter_release_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -125,7 +126,7 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/text_second_manga_chapter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -135,7 +136,7 @@
                         android:textColor="@android:color/black"
                         tools:text="Chapter 1000" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/text_second_manga_chapter_release_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -163,7 +164,7 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/text_third_manga_chapter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -173,7 +174,7 @@
                         android:textColor="@android:color/black"
                         tools:text="Chapter 1000" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/text_third_manga_chapter_release_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -151,7 +151,17 @@ public class MangaNewReleaseFragment extends Fragment {
         List<MangaNewReleaseResultModel> mangaNewReleaseResultModelList = new ArrayList<>();
         for (Element el : newchaptercon) {
             String mangaType = el.getElementsByTag("ul").attr("class");
-            String mangaThumbnailBackground = el.getElementsByTag("img").attr("src");
+            String mangaThumbnailBackground = el.getElementsByTag("img").attr("data-src");
+
+            if (!mangaThumbnailBackground.isEmpty()) {
+                if (!mangaThumbnailBackground.contains("https")) {
+                    mangaThumbnailBackground = "https:" + mangaThumbnailBackground;
+                } else if (!mangaThumbnailBackground.contains("http")) {
+                    mangaThumbnailBackground = "http:" + mangaThumbnailBackground;
+                }
+
+            }
+
             String mangaTitle = el.getElementsByTag("h3").text();
             String url = el.getElementsByTag("a").attr("href");
             String mangaStatusParameter = el.getElementsByClass("hot").text();

@@ -18,10 +18,11 @@
             android:padding="@dimen/size10dp"
             tools:background="@color/blue_series_color">
 
-            <TextView
+            <me.grantland.widget.AutofitTextView
                 android:id="@+id/text_anime_title_watch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="2"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/size30sp"
