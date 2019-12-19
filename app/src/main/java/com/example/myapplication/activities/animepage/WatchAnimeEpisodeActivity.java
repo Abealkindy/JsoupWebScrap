@@ -275,7 +275,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                     }
                 }
 
-            } else if (nextAndPrevURL.size() == 2) {
+            } else if (nextAndPrevURL.size() > 2) {
                 prevURL = nextAndPrevURL.get(0);
                 nextURL = nextAndPrevURL.get(1);
                 previousEpisodeNumber = prevURL.substring(prevURL.indexOf("episode-") + 8);

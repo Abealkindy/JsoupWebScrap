@@ -37,7 +37,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/size18sp"
                     app:colorClickableText="@android:color/holo_blue_light"
-                    app:trimCollapsedText="Read Less"
+                    app:trimCollapsedText="Read less"
                     app:trimExpandedText="Read more"
                     app:trimLines="100"
                     app:trimMode="trimModeLength"

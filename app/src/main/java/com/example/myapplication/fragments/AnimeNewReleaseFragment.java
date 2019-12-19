@@ -141,7 +141,7 @@ public class AnimeNewReleaseFragment extends Fragment {
 
     private List<AnimeNewReleaseResultModel> parseResult(String result) {
         Document doc = Jsoup.parse(result);
-        Elements newepisodecon = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-lg-4 col-wd-3 col-xl-per5 mb40");
+        Elements newepisodecon = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-xl-per5 mb40");
         List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
 
         for (Element el : newepisodecon) {

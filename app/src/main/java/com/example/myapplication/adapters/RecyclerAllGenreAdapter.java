@@ -44,9 +44,7 @@ public class RecyclerAllGenreAdapter extends RecyclerView.Adapter<RecyclerAllGen
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemListBinding.textViewChapterAll.setText(allGenreList.get(position).getGenreTitle());
         Log.e("positionFromAdapter", "" + position);
-        holder.itemListBinding.linearViewChapterAll.setOnClickListener(v -> {
-            clickListener.onItemClickGenre(position);
-        });
+        holder.itemListBinding.linearViewChapterAll.setOnClickListener(v -> clickListener.onItemClickGenre(position));
     }
 
     @Override

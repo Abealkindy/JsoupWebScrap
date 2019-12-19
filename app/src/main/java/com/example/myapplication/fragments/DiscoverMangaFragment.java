@@ -205,7 +205,9 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         for (Element el : newchaptercon) {
             String mangaType = el.getElementsByAttributeValueContaining("class", "type ").text();
             String mangaThumbnailBackground = el.getElementsByTag("img").attr("data-src");
-
+            if (mangaThumbnailBackground.isEmpty()) {
+                mangaThumbnailBackground = el.getElementsByTag("img").attr("src");
+            }
             if (!mangaThumbnailBackground.contains("https")) {
                 mangaThumbnailBackground = "https:" + mangaThumbnailBackground;
             } else if (!mangaThumbnailBackground.contains("http")) {
