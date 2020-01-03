@@ -153,13 +153,14 @@ public class MangaNewReleaseFragment extends Fragment {
             String mangaType = el.getElementsByTag("ul").attr("class");
             String mangaThumbnailBackground = el.getElementsByTag("img").attr("data-src");
 
-            if (!mangaThumbnailBackground.isEmpty()) {
-                if (!mangaThumbnailBackground.contains("https")) {
-                    mangaThumbnailBackground = "https:" + mangaThumbnailBackground;
-                } else if (!mangaThumbnailBackground.contains("http")) {
-                    mangaThumbnailBackground = "http:" + mangaThumbnailBackground;
-                }
+            if (mangaThumbnailBackground.isEmpty()) {
+                mangaThumbnailBackground = el.getElementsByTag("img").attr("src");
+            }
 
+            if (!mangaThumbnailBackground.contains("https")) {
+                mangaThumbnailBackground = "https:" + mangaThumbnailBackground;
+            } else if (!mangaThumbnailBackground.contains("http")) {
+                mangaThumbnailBackground = "http:" + mangaThumbnailBackground;
             }
 
             String mangaTitle = el.getElementsByTag("h3").text();
