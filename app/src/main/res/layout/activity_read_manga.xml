@@ -51,8 +51,6 @@
             android:id="@+id/nested_base"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="@dimen/size10dp"
-            android:paddingEnd="@dimen/size10dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.recyclerview.widget.RecyclerView
