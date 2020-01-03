@@ -6,8 +6,6 @@ import com.example.myapplication.adapters.RecyclerAllChapterDetailAdapter;
 import com.example.myapplication.adapters.RecyclerGenreAdapter;
 import com.example.myapplication.databinding.ActivityMangaDetailBinding;
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
-import com.example.myapplication.networks.ApiEndPointService;
-import com.example.myapplication.networks.RetrofitConfig;
 import com.google.android.material.appbar.AppBarLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +13,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
@@ -26,12 +23,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.TimeZone;
 
 public class MangaDetailActivity extends AppCompatActivity implements MangaDetailInterface {
 
@@ -149,7 +143,10 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
 
         if (detailThumb.equalsIgnoreCase("")) {
             Elements getThumb = document.getElementsByTag("img");
-            String mangaThumbnailBackground = getThumb.eachAttr("data-src").get(1);
+            String mangaThumbnailBackground = getThumb.eachAttr("src").get(1);
+            if (mangaThumbnailBackground.isEmpty()) {
+                mangaThumbnailBackground = getThumb.eachAttr("data-src").get(1);
+            }
             if (!mangaThumbnailBackground.contains("https")) {
                 mangaThumbnailBackground = "https:" + mangaThumbnailBackground;
             } else if (!mangaThumbnailBackground.contains("http")) {

@@ -9,6 +9,21 @@
         android:layout_height="match_parent"
         tools:context=".activities.mangapage.ReadMangaActivity">
 
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nested_base"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_image_content_manga"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_list_manga_content"
+                tools:visibility="visible" />
+
+        </androidx.core.widget.NestedScrollView>
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_read_manga"
             android:layout_width="match_parent"
@@ -47,28 +62,15 @@
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nested_base"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_image_content_manga"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/item_list_manga_content"
-                tools:visibility="visible" />
-
-        </androidx.core.widget.NestedScrollView>
-
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/design_bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             app:hideOnScroll="true"
+            app:layout_scrollFlags="scroll|enterAlways"
             tools:backgroundTint="@color/manhwa_color">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -87,8 +89,8 @@
                     android:id="@+id/show_all_chap"
                     android:layout_width="@dimen/size35dp"
                     android:layout_height="@dimen/size35dp"
-                    android:layout_marginStart="@dimen/size10dp"
                     android:layout_marginEnd="@dimen/size10dp"
+                    android:layout_marginStart="@dimen/size10dp"
                     android:src="@drawable/ic_view_list_white_24dp" />
 
                 <ImageView
@@ -108,6 +110,7 @@
                 android:layout_marginEnd="@dimen/size15dp"
                 android:src="@drawable/ic_info_black_24dp"
                 android:visibility="visible" />
+
         </com.google.android.material.bottomappbar.BottomAppBar>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
