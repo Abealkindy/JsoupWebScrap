@@ -2,7 +2,6 @@ package com.example.myapplication.fragments;
 
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,8 +18,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.activities.MainActivity;
-import com.example.myapplication.activities.mangapage.MangaReleaseListActivity;
 import com.example.myapplication.adapters.MangaRecyclerNewReleasesAdapter;
 import com.example.myapplication.databinding.FragmentMangaNewReleaseBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
@@ -47,11 +44,11 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class MangaNewReleaseFragment extends Fragment {
 
-    FragmentMangaNewReleaseBinding newReleaseBinding;
+    private FragmentMangaNewReleaseBinding newReleaseBinding;
     private int pageCount = 1;
     private List<MangaNewReleaseResultModel> mangaNewReleaseResultModels = new ArrayList<>();
     private MangaRecyclerNewReleasesAdapter mangaRecyclerNewReleasesAdapter;
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
     public MangaNewReleaseFragment() {
         // Required empty public constructor

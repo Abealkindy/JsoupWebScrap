@@ -4,6 +4,7 @@ package com.example.myapplication.fragments;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -55,7 +56,7 @@ public class AnimeNewReleaseFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         animeNewReleaseBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_anime_new_release, container, false);
         progressDialog = new ProgressDialog(getActivity());
@@ -150,7 +151,7 @@ public class AnimeNewReleaseFragment extends Fragment {
             String animeEpisode = el.getElementsByTag("h3").text();
             String animeEpisodeNumber = el.getElementsByClass("episode-number").text();
             List<String> animeStatusAndType = el.getElementsByClass("text-h6").eachText();
-            String animeEpisodeStatus = "", animeEpisodeType = "";
+            String animeEpisodeStatus = "", animeEpisodeType;
             if (animeStatusAndType.size() < 2) {
                 animeEpisodeType = el.getElementsByClass("text-h6").eachText().get(0);
             } else {

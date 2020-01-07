@@ -21,7 +21,6 @@ import com.example.myapplication.networks.RetrofitConfig;
 import com.example.myapplication.models.animemodels.VideoStreamResultModel;
 import com.example.myapplication.databinding.ActivityWatchAnimeEpisodeBinding;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

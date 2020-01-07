@@ -77,6 +77,7 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
     }
 
     private void UISettings() {
+        setTitle("New releases");
         animeReleaseListBinding.tabHomeAnime.addTab(animeReleaseListBinding.tabHomeAnime.newTab().setIcon(getResources().getDrawable(R.drawable.ic_home_white_24dp)));
         animeReleaseListBinding.tabHomeAnime.addTab(animeReleaseListBinding.tabHomeAnime.newTab().setIcon(getResources().getDrawable(R.drawable.ic_view_list_white_24dp)));
         animeReleaseListBinding.tabHomeAnime.setTabIconTint(ColorStateList.valueOf(getResources().getColor(android.R.color.white)));
