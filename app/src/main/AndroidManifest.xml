@@ -16,22 +16,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity
-            android:name=".activities.animepage.AnimeDetailActivity"
-            android:parentActivityName=".activities.animepage.AnimeReleaseListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.myapplication.activities.animepage.AnimeReleaseListActivity" />
-        </activity>
-        <activity
-            android:name=".activities.mangapage.manga_detail_mvp.MangaDetailActivity"
-            android:parentActivityName=".activities.mangapage.MangaReleaseListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.myapplication.activities.mangapage.MangaReleaseListActivity" />
-        </activity>
+
         <activity
             android:name=".activities.SplashActivity"
             android:screenOrientation="userPortrait"
@@ -41,6 +26,24 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.animepage.AnimeDetailActivity"
+            android:parentActivityName=".activities.animepage.AnimeReleaseListActivity"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.myapplication.activities.animepage.AnimeReleaseListActivity" />
+        </activity>
+        <activity
+            android:name=".activities.mangapage.manga_detail_mvp.MangaDetailActivity"
+            android:parentActivityName=".activities.mangapage.MangaReleaseListActivity"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.myapplication.activities.mangapage.MangaReleaseListActivity" />
         </activity>
         <activity
             android:name=".activities.animepage.WatchAnimeEpisodeActivity"
