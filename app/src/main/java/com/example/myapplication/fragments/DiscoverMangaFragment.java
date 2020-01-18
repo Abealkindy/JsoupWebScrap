@@ -75,7 +75,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         discoverMangaBinding.swipeDiscoverManga.setOnRefreshListener(() -> {
             discoverMangaBinding.swipeDiscoverManga.setRefreshing(false);
             setTag(homeUrl, SWIPE_REFRESH);
-            getChildFragmentManager().beginTransaction().detach(this).attach(this).commit();
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
         });
     }
 
