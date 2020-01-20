@@ -18,6 +18,8 @@ import com.example.myapplication.databinding.ItemListMangaSearchResultBinding;
 import com.example.myapplication.models.mangamodels.DiscoverMangaModel;
 import com.squareup.picasso.Picasso;
 
+import org.jsoup.internal.StringUtil;
+
 import java.util.List;
 
 public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecyclerDiscoverAdapter.ViewHolder> {
@@ -43,7 +45,7 @@ public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecy
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemListBinding.textTitleMangaResult.setText(animeDiscoverResultModelList.get(position).getMangaTitle());
-        if (animeDiscoverResultModelList.get(position).getMangaThumb().isEmpty() || animeDiscoverResultModelList.get(position).getMangaThumb() == null) {
+        if (StringUtil.isBlank(animeDiscoverResultModelList.get(position).getMangaThumb())) {
             holder.itemListBinding.imageViewBackgroundMangaResult.setImageDrawable(context.getResources().getDrawable(R.drawable.imageplaceholder));
             Log.e("pathNull", "null");
         } else {

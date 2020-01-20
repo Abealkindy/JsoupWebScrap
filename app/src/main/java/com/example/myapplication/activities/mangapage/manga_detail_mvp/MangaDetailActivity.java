@@ -19,6 +19,7 @@ import com.example.myapplication.R;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
+import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -144,7 +145,7 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
         if (detailThumb.equalsIgnoreCase("")) {
             Elements getThumb = document.getElementsByTag("img");
             String mangaThumbnailBackground = getThumb.eachAttr("src").get(1);
-            if (mangaThumbnailBackground.isEmpty()) {
+            if (StringUtil.isBlank(mangaThumbnailBackground)) {
                 mangaThumbnailBackground = getThumb.eachAttr("data-src").get(1);
             }
             if (!mangaThumbnailBackground.contains("https")) {

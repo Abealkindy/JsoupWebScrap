@@ -27,6 +27,7 @@ import com.example.myapplication.networks.RetrofitConfig;
 import com.google.gson.Gson;
 
 import org.jsoup.Jsoup;
+import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -150,7 +151,7 @@ public class MangaNewReleaseFragment extends Fragment {
             String mangaType = el.getElementsByTag("ul").attr("class");
             String mangaThumbnailBackground = el.getElementsByTag("img").attr("data-src");
 
-            if (mangaThumbnailBackground.isEmpty()) {
+            if (StringUtil.isBlank(mangaThumbnailBackground)) {
                 mangaThumbnailBackground = el.getElementsByTag("img").attr("src");
             }
 
@@ -168,7 +169,7 @@ public class MangaNewReleaseFragment extends Fragment {
             List<String> chapterTitle = el.select("a[href^=https://komikcast.com/chapter/]").eachText();
             MangaNewReleaseResultModel mangaNewReleaseResultModel = new MangaNewReleaseResultModel();
             MangaNewReleaseResultModel.LatestMangaDetailModel mangaDetailModel = new MangaNewReleaseResultModel().new LatestMangaDetailModel();
-            if (!mangaStatusParameter.equalsIgnoreCase("Hot") || mangaStatusParameter.isEmpty() || mangaStatusParameter == null) {
+            if (!mangaStatusParameter.equalsIgnoreCase("Hot") || StringUtil.isBlank(mangaStatusParameter)) {
                 mangaNewReleaseResultModel.setMangaStatus(false);
             } else if (mangaStatusParameter.equalsIgnoreCase("Hot")) {
                 mangaNewReleaseResultModel.setMangaStatus(true);

@@ -27,6 +27,7 @@ import com.example.myapplication.networks.RetrofitConfig;
 import com.google.gson.Gson;
 
 import org.jsoup.Jsoup;
+import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -96,7 +97,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             @Override
             public void onSwipeLeft() {
                 super.onSwipeLeft();
-                if (readMangaModel.getNextMangaURL().isEmpty() || readMangaModel.getNextMangaURL() == null || readMangaModel.getNextMangaURL().equalsIgnoreCase("")) {
+                if (StringUtil.isBlank(readMangaModel.getNextMangaURL())) {
                     Toast.makeText(ReadMangaActivity.this, "There's no more next chapter", Toast.LENGTH_SHORT).show();
                 } else {
                     readMangaBinding.recyclerImageContentManga.scrollToPosition(0);
@@ -108,7 +109,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             @Override
             public void onSwipeRight() {
                 super.onSwipeRight();
-                if (readMangaModel.getPreviousMangaURL().isEmpty() || readMangaModel.getPreviousMangaURL() == null) {
+                if (StringUtil.isBlank(readMangaModel.getPreviousMangaURL())) {
                     Toast.makeText(ReadMangaActivity.this, "There's no more previous chapter", Toast.LENGTH_SHORT).show();
                 } else {
                     readMangaBinding.recyclerImageContentManga.scrollToPosition(0);

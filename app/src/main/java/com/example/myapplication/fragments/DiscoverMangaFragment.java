@@ -32,6 +32,7 @@ import com.example.myapplication.networks.RetrofitConfig;
 import com.google.gson.Gson;
 
 import org.jsoup.Jsoup;
+import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -205,7 +206,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         for (Element el : newchaptercon) {
             String mangaType = el.getElementsByAttributeValueContaining("class", "type ").text();
             String mangaThumbnailBackground = el.getElementsByTag("img").attr("data-src");
-            if (mangaThumbnailBackground.isEmpty()) {
+            if (StringUtil.isBlank(mangaThumbnailBackground)) {
                 mangaThumbnailBackground = el.getElementsByTag("img").attr("src");
             }
             if (!mangaThumbnailBackground.contains("https")) {
@@ -221,7 +222,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
             String chapterText = el.select("a[href^=https://komikcast.com/chapter/]").text();
             String completedStatusParameter = el.getElementsByClass("status Completed").text();
             DiscoverMangaModel mangaNewReleaseResultModel = new DiscoverMangaModel();
-            if (completedStatusParameter.isEmpty() || completedStatusParameter == null || !completedStatusParameter.equalsIgnoreCase("Completed")) {
+            if (StringUtil.isBlank(completedStatusParameter) || !completedStatusParameter.equalsIgnoreCase("Completed")) {
                 mangaNewReleaseResultModel.setMangaStatus(false);
             } else {
                 mangaNewReleaseResultModel.setMangaStatus(true);
