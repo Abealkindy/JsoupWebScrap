@@ -23,7 +23,6 @@ import com.example.myapplication.databinding.ActivityWatchAnimeEpisodeBinding;
 import com.google.gson.Gson;
 
 import org.jsoup.Jsoup;
-import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -198,8 +197,8 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
             }
         }
         Log.e("nextAndPrevURLstring", new Gson().toJson(nextAndPrevURL));
-        String nextOrPrevURL = "", nextOrPrevEpisodeNumber;
-        if (StringUtil.isBlank(nextOrPrevURL)) {
+        String nextOrPrevURL, nextOrPrevEpisodeNumber;
+        if (nextAndPrevURL.isEmpty()) {
             animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
             animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
         } else {
