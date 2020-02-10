@@ -90,24 +90,30 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
         String episodeStatus = getIntent().getStringExtra("animeEpisodeStatus");
         String episodeThumb = getIntent().getStringExtra("animeEpisodeThumb");
         if (episodeURL != null && episodeTitle != null && episodeType != null) {
-            if (episodeType.equalsIgnoreCase(getResources().getString(R.string.series_string))) {
+            if (episodeType.equalsIgnoreCase(getResources().getString(R.string.series_string)) ||
+                    episodeType.contains(getResources().getString(R.string.series_string))) {
                 animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.blue_series_color));
                 animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.blue_series_color));
-            } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.ona_string))) {
+            } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.ona_string)) ||
+                    episodeType.contains(getResources().getString(R.string.ona_string))) {
                 animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.purple_series_color));
                 animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.purple_series_color));
-            } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.movie_string))) {
+            } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.movie_string)) ||
+                    episodeType.contains(getResources().getString(R.string.movie_string_lower))) {
                 animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.green_series_color));
                 animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.green_series_color));
                 animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
                 animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
-            } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.la_string))) {
+            } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.la_string)) ||
+                    episodeType.contains(getResources().getString(R.string.la_string))) {
                 animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.red_series_color));
                 animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.red_series_color));
-            } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.special_string))) {
+            } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.special_string)) ||
+                    episodeType.contains(getResources().getString(R.string.special_string_lower))) {
                 animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.orange_series_color));
                 animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.orange_series_color));
-            } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.ova_string))) {
+            } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.ova_string)) ||
+                    episodeType.contains(getResources().getString(R.string.ova_string))) {
                 animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.pink_series_color));
                 animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.pink_series_color));
             }

@@ -43,27 +43,33 @@ public class AnimeRecyclerSearchAndGenreAdapter extends RecyclerView.Adapter<Ani
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemListBinding.textTitle.setText(searchResultList.get(position).getAnimeTitle());
         Picasso.get().load(searchResultList.get(position).getAnimeThumb()).into(holder.itemListBinding.imageViewBackground);
-        if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.series_string))) {
+        if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.series_string)) ||
+                searchResultList.get(position).getAnimeType().contains(context.getResources().getString(R.string.series_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.blue_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.series_string));
             holder.itemListBinding.cardEpisodeStatus.setVisibility(View.VISIBLE);
-        } else if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.ova_string))) {
+        } else if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.ova_string)) ||
+                searchResultList.get(position).getAnimeType().contains(context.getResources().getString(R.string.ova_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.pink_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.ova_string));
             holder.itemListBinding.cardEpisodeStatus.setVisibility(View.VISIBLE);
-        } else if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.ona_string))) {
+        } else if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.ona_string)) ||
+                searchResultList.get(position).getAnimeType().contains(context.getResources().getString(R.string.ona_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.purple_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.ona_string));
             holder.itemListBinding.cardEpisodeStatus.setVisibility(View.VISIBLE);
-        } else if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.la_string))) {
+        } else if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.la_string)) ||
+                searchResultList.get(position).getAnimeType().contains(context.getResources().getString(R.string.la_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.red_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.la_string));
             holder.itemListBinding.cardEpisodeStatus.setVisibility(View.VISIBLE);
-        } else if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.movie_string))) {
+        } else if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.movie_string)) ||
+                searchResultList.get(position).getAnimeType().contains(context.getResources().getString(R.string.movie_string_lower))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.green_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.movie_string));
             holder.itemListBinding.cardEpisodeStatus.setVisibility(View.GONE);
-        } else if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.special_string))) {
+        } else if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.special_string)) ||
+                searchResultList.get(position).getAnimeType().contains(context.getResources().getString(R.string.special_string_lower))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.orange_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.special_string));
             holder.itemListBinding.cardEpisodeStatus.setVisibility(View.VISIBLE);

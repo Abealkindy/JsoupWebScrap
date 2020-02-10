@@ -71,22 +71,28 @@ public class AnimeDetailActivity extends AppCompatActivity {
         }
 
         if (getAnimeDetailType != null) {
-            if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.series_string))) {
+            if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.series_string)) ||
+                    getAnimeDetailType.contains(getResources().getString(R.string.series_string))) {
                 animeDetailBinding.animeTypeDetail.setText(getResources().getString(R.string.series_string));
                 animeDetailBinding.animeTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_series));
-            } else if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.ova_string))) {
+            } else if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.ova_string)) ||
+                    getAnimeDetailType.contains(getResources().getString(R.string.ova_string))) {
                 animeDetailBinding.animeTypeDetail.setText(getResources().getString(R.string.ova_string));
                 animeDetailBinding.animeTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_ova));
-            } else if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.ona_string))) {
+            } else if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.ona_string)) ||
+                    getAnimeDetailType.contains(getResources().getString(R.string.ona_string))) {
                 animeDetailBinding.animeTypeDetail.setText(getResources().getString(R.string.ona_string));
                 animeDetailBinding.animeTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_ona));
-            } else if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.movie_string))) {
+            } else if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.movie_string)) ||
+                    getAnimeDetailType.contains(getResources().getString(R.string.movie_string_lower))) {
                 animeDetailBinding.animeTypeDetail.setText(getResources().getString(R.string.movie_string));
                 animeDetailBinding.animeTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_movie));
-            } else if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.special_string))) {
+            } else if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.special_string)) ||
+                    getAnimeDetailType.contains(getResources().getString(R.string.special_string))) {
                 animeDetailBinding.animeTypeDetail.setText(getResources().getString(R.string.special_string));
                 animeDetailBinding.animeTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_special));
-            } else if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.la_string))) {
+            } else if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.la_string)) ||
+                    getAnimeDetailType.contains(getResources().getString(R.string.la_string))) {
                 animeDetailBinding.animeTypeDetail.setText(getResources().getString(R.string.la_string));
                 animeDetailBinding.animeTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_la));
             }

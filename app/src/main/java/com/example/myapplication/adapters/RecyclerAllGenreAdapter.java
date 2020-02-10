@@ -26,8 +26,8 @@ public class RecyclerAllGenreAdapter extends RecyclerView.Adapter<RecyclerAllGen
     public RecyclerAllGenreAdapter(GenreAndSearchAnimeFragment context, List<AnimeGenreAndSearchResultModel.AnimeGenreResult> allGenreList) {
         this.context = context;
         this.allGenreList = allGenreList;
-        if (context instanceof ClickGenreListener) {
-            clickListener = (ClickGenreListener) context;
+        if (context != null) {
+            clickListener = context;
         }
     }
 

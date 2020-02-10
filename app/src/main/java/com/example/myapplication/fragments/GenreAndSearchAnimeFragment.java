@@ -31,6 +31,7 @@ import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
 import com.example.myapplication.models.animemodels.AnimeGenreAndSearchResultModel;
 import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.networks.RetrofitConfig;
+import com.google.gson.Gson;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -249,6 +250,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
             searchResult.setAnimeStatus(animeStatus);
             searchResult.setAnimeType(animeType);
             animeGenreAndSearchResultModelList.add(searchResult);
+            Log.e("GENRE AND SEARCH", new Gson().toJson(animeGenreAndSearchResultModelList));
         }
         return animeGenreAndSearchResultModelList;
     }

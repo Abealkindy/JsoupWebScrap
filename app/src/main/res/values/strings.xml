@@ -15,8 +15,10 @@
     <string name="ova_string">OVA</string>
     <string name="ona_string">ONA</string>
     <string name="special_string">SPECIAL</string>
+    <string name="special_string_lower">Special</string>
     <string name="la_string">LA</string>
     <string name="movie_string">MOVIE</string>
+    <string name="movie_string_lower">Movie</string>
     <!--    manga type    -->
     <string name="manga_string">MANGA</string>
     <string name="manhwa_string">MANHWA</string>
