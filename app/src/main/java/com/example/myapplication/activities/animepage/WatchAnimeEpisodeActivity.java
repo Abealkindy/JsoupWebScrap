@@ -253,30 +253,33 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                         }
                     }
                 } else {
-                    if (nowEpisodeNumber.endsWith("/")) {
-                        if (Double.parseDouble(nextOrPrevEpisodeNumber) < Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
-                            prevURL = nextAndPrevURL.get(0);
-                            nextURL = null;
-                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
-                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
-                        } else if (Double.parseDouble(nextOrPrevEpisodeNumber) > Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
-                            prevURL = null;
-                            nextURL = nextAndPrevURL.get(0);
-                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
-                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
+                    if (!nowEpisodeNumber.endsWith("special/") && !nowEpisodeNumber.endsWith("movie/") && !nowEpisodeNumber.endsWith("ona/") && !nowEpisodeNumber.endsWith("ova/")) {
+                        if (nowEpisodeNumber.endsWith("/")) {
+                            if (Double.parseDouble(nextOrPrevEpisodeNumber) < Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
+                                prevURL = nextAndPrevURL.get(0);
+                                nextURL = null;
+                                animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
+                                animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
+                            } else if (Double.parseDouble(nextOrPrevEpisodeNumber) > Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
+                                prevURL = null;
+                                nextURL = nextAndPrevURL.get(0);
+                                animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
+                                animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
+                            }
+                        } else {
+                            if (Double.parseDouble(nextOrPrevEpisodeNumber) < Double.parseDouble(nowEpisodeNumber)) {
+                                prevURL = nextAndPrevURL.get(0);
+                                nextURL = null;
+                                animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
+                                animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
+                            } else if (Double.parseDouble(nextOrPrevEpisodeNumber) > Double.parseDouble(nowEpisodeNumber)) {
+                                prevURL = null;
+                                nextURL = nextAndPrevURL.get(0);
+                                animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
+                                animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
+                            }
                         }
-                    } else {
-                        if (Double.parseDouble(nextOrPrevEpisodeNumber) < Double.parseDouble(nowEpisodeNumber)) {
-                            prevURL = nextAndPrevURL.get(0);
-                            nextURL = null;
-                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
-                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
-                        } else if (Double.parseDouble(nextOrPrevEpisodeNumber) > Double.parseDouble(nowEpisodeNumber)) {
-                            prevURL = null;
-                            nextURL = nextAndPrevURL.get(0);
-                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
-                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
-                        }
+
                     }
                 }
 
