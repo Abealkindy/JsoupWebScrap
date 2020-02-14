@@ -12,11 +12,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.activities.animepage.AnimeDetailActivity;
-import com.example.myapplication.activities.animepage.WatchAnimeEpisodeActivity;
+import com.example.myapplication.activities.animepage.anime_detail_mvp.AnimeDetailActivity;
 import com.example.myapplication.databinding.ItemListAnimeBinding;
 import com.example.myapplication.models.animemodels.AnimeGenreAndSearchResultModel;
-import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

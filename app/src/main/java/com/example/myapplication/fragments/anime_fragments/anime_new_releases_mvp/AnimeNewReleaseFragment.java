@@ -1,4 +1,4 @@
-package com.example.myapplication.fragments;
+package com.example.myapplication.fragments.anime_fragments.anime_new_releases_mvp;
 
 
 import android.app.ProgressDialog;
@@ -22,8 +22,6 @@ import com.example.myapplication.adapters.AnimeRecyclerNewReleasesAdapter;
 import com.example.myapplication.databinding.FragmentAnimeNewReleaseBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
 import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;
-import com.example.myapplication.networks.ApiEndPointService;
-import com.example.myapplication.networks.RetrofitConfig;
 import com.google.gson.Gson;
 
 import org.jsoup.Jsoup;
@@ -35,21 +33,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AnimeNewReleaseFragment extends Fragment {
+public class AnimeNewReleaseFragment extends Fragment implements AnimeNewReleasesInterface {
 
     private int pageCount = 1;
     private List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
     private AnimeRecyclerNewReleasesAdapter animeRecyclerNewReleasesAdapter;
     private ProgressDialog progressDialog;
     private FragmentAnimeNewReleaseBinding animeNewReleaseBinding;
+    private AnimeNewReleasesPresenter newReleasesPresenter = new AnimeNewReleasesPresenter(this);
 
     public AnimeNewReleaseFragment() {
         // Required empty public constructor
@@ -91,53 +85,7 @@ public class AnimeNewReleaseFragment extends Fragment {
                 this.pageCount--;
             }
         }
-        ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
-        apiEndPointService.getNewReleaseAnimeData("/page/" + pageCount)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(String result) {
-                        if (hitStatus.equalsIgnoreCase("newPage")) {
-                            if (progressDialog != null) {
-                                progressDialog.dismiss();
-                            }
-                            animeNewReleaseResultModelList.addAll(parseResult(result));
-                            animeRecyclerNewReleasesAdapter.notifyDataSetChanged();
-                        } else if (hitStatus.equalsIgnoreCase("swipeRefresh")) {
-                            if (progressDialog != null) {
-                                progressDialog.dismiss();
-                            }
-                            if (animeNewReleaseResultModelList != null) {
-                                animeNewReleaseResultModelList.clear();
-                            }
-                            animeNewReleaseResultModelList.addAll(parseResult(result));
-                            animeRecyclerNewReleasesAdapter.notifyDataSetChanged();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        progressDialog.dismiss();
-                        AlertDialog.Builder builder = new
-                                AlertDialog.Builder(Objects.requireNonNull(getActivity()));
-                        builder.setTitle("Oops...");
-                        builder.setIcon(getResources().getDrawable(R.drawable.appicon));
-                        builder.setMessage("Your internet connection is worse than your face onii-chan :3");
-                        builder.setPositiveButton("Reload", (dialog, which) -> Toast.makeText(getActivity(), "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show());
-                        builder.show();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+        newReleasesPresenter.getNewReleasesAnimeData(pageCount, "https://animeindo.to", hitStatus);
     }
 
     private List<AnimeNewReleaseResultModel> parseResult(String result) {
@@ -181,5 +129,37 @@ public class AnimeNewReleaseFragment extends Fragment {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
+    }
+
+    @Override
+    public void onGetNewReleasesDataSuccess(String newReleasesHTMLResult, String hitStatus) {
+        if (hitStatus.equalsIgnoreCase("newPage")) {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
+            animeNewReleaseResultModelList.addAll(parseResult(newReleasesHTMLResult));
+            animeRecyclerNewReleasesAdapter.notifyDataSetChanged();
+        } else if (hitStatus.equalsIgnoreCase("swipeRefresh")) {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
+            if (animeNewReleaseResultModelList != null) {
+                animeNewReleaseResultModelList.clear();
+            }
+            animeNewReleaseResultModelList.addAll(parseResult(newReleasesHTMLResult));
+            animeRecyclerNewReleasesAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onGetNewReleasesDataFailed() {
+        progressDialog.dismiss();
+        AlertDialog.Builder builder = new
+                AlertDialog.Builder(Objects.requireNonNull(getActivity()));
+        builder.setTitle("Oops...");
+        builder.setIcon(getResources().getDrawable(R.drawable.appicon));
+        builder.setMessage("Your internet connection is worse than your face onii-chan :3");
+        builder.setPositiveButton("Reload", (dialog, which) -> Toast.makeText(getActivity(), "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show());
+        builder.show();
     }
 }

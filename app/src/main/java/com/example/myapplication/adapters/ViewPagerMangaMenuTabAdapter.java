@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.myapplication.fragments.DiscoverMangaFragment;
-import com.example.myapplication.fragments.MangaNewReleaseFragment;
+import com.example.myapplication.fragments.manga_fragments.DiscoverMangaFragment;
+import com.example.myapplication.fragments.manga_fragments.manga_new_releases_mvp.MangaNewReleaseFragment;
 
 /*
  * Created by Rosinante24 on 2019-05-30.

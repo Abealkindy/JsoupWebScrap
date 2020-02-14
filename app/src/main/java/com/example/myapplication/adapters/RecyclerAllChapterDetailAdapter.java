@@ -3,7 +3,6 @@ package com.example.myapplication.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,11 +10,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.activities.mangapage.ReadMangaActivity;
-import com.example.myapplication.databinding.ItemListSelectChapterBinding;
+import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
 import com.example.myapplication.databinding.ItemListSelectChapterDetailBinding;
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
-import com.example.myapplication.models.mangamodels.ReadMangaModel;
 
 import java.util.List;
 

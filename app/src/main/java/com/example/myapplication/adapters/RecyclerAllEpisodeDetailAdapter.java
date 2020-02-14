@@ -11,8 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.activities.animepage.WatchAnimeEpisodeActivity;
-import com.example.myapplication.activities.mangapage.ReadMangaActivity;
+import com.example.myapplication.activities.animepage.watch_anime_mvp.WatchAnimeEpisodeActivity;
 import com.example.myapplication.databinding.ItemListSelectChapterDetailBinding;
 import com.example.myapplication.models.animemodels.AnimeDetailModel;
 import com.example.myapplication.models.mangamodels.DetailMangaModel;

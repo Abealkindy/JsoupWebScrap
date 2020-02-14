@@ -1,45 +1,17 @@
 package com.example.myapplication.activities.animepage;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.example.myapplication.adapters.ViewPagerAnimeMenuTabAdapter;
-import com.example.myapplication.adapters.ViewPagerMangaMenuTabAdapter;
-import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;
-import com.example.myapplication.adapters.AnimeRecyclerNewReleasesAdapter;
-import com.example.myapplication.networks.ApiEndPointService;
-import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
 import com.example.myapplication.R;
-import com.example.myapplication.networks.RetrofitConfig;
 import com.example.myapplication.activities.MainActivity;
 import com.example.myapplication.databinding.ActivityAnimeReleaseListBinding;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimeZone;
-
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class AnimeReleaseListActivity extends AppCompatActivity {
     ActivityAnimeReleaseListBinding animeReleaseListBinding;

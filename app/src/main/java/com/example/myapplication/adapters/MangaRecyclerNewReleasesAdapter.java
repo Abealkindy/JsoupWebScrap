@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.activities.mangapage.ReadMangaActivity;
+import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
 import com.example.myapplication.models.mangamodels.MangaNewReleaseResultModel;
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ItemListMangaBinding;

@@ -1,12 +1,11 @@
-package com.example.myapplication.activities.mangapage.manga_detail_mvp;
+package com.example.myapplication.activities.animepage.watch_anime_mvp;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.networks.RetrofitConfig;
 import com.zhkrb.cloudflare_scrape_android.Cloudflare;
-
-import org.jsoup.internal.StringUtil;
 
 import java.net.HttpCookie;
 import java.util.List;
@@ -16,15 +15,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MangaDetailPresenter {
-    private MangaDetailInterface mangaDetailInterface;
+public class WatchAnimeEpisodePresenter {
+    private WatchAnimeEpisodeInterface watchAnimeEpisodeInterface;
 
-    public MangaDetailPresenter(MangaDetailInterface mangaDetailInterface) {
-        this.mangaDetailInterface = mangaDetailInterface;
+    public WatchAnimeEpisodePresenter(WatchAnimeEpisodeInterface watchAnimeEpisodeInterface) {
+        this.watchAnimeEpisodeInterface = watchAnimeEpisodeInterface;
     }
 
-    public void getDetailMangaData(String detailPageURL) {
-        Cloudflare cf = new Cloudflare(detailPageURL);
+    public void getEpisodeToWatchData(String episodeURL) {
+        Cloudflare cf = new Cloudflare(episodeURL);
         cf.setUser_agent("Mozilla/5.0");
         cf.getCookies(new Cloudflare.cfCallback() {
             @Override
@@ -34,22 +33,20 @@ public class MangaDetailPresenter {
                     passToRetrofit(newUrl);
                     Log.e("NEWURL", newUrl);
                 } else {
-                    passToRetrofit(detailPageURL);
+                    passToRetrofit(episodeURL);
                 }
             }
 
             @Override
             public void onFail() {
-                mangaDetailInterface.onGetDetailDataFailed();
+                watchAnimeEpisodeInterface.onGetWatchAnimeEpisodeDataFailed();
             }
         });
     }
 
-    private void passToRetrofit(String newUrl) {
-
-        String URLAfterCut = newUrl.substring(22);
-        ApiEndPointService apiEndPointService = RetrofitConfig.getInitMangaRetrofit();
-        apiEndPointService.getDiscoverMangaData(URLAfterCut)
+    private void passToRetrofit(String episodeURL) {
+        ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
+        apiEndPointService.getWatchAnimeData(episodeURL)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
@@ -59,13 +56,13 @@ public class MangaDetailPresenter {
                     }
 
                     @Override
-                    public void onNext(String detailHTMLResult) {
-                        mangaDetailInterface.onGetDetailDataSuccess(detailHTMLResult);
+                    public void onNext(String result) {
+                        watchAnimeEpisodeInterface.onGetWatchAnimeEpisodeDataSuccess(result);
                     }
 
                     @Override
-                    public void onError(Throwable throwable) {
-                        mangaDetailInterface.onGetDetailDataFailed();
+                    public void onError(Throwable e) {
+                        watchAnimeEpisodeInterface.onGetWatchAnimeEpisodeDataFailed();
                     }
 
                     @Override

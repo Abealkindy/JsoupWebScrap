@@ -1,4 +1,4 @@
-package com.example.myapplication.activities.animepage;
+package com.example.myapplication.activities.animepage.watch_anime_mvp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -15,6 +15,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.example.myapplication.activities.animepage.anime_detail_mvp.AnimeDetailActivity;
 import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.R;
 import com.example.myapplication.networks.RetrofitConfig;
@@ -35,12 +36,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class WatchAnimeEpisodeActivity extends AppCompatActivity {
+public class WatchAnimeEpisodeActivity extends AppCompatActivity implements WatchAnimeEpisodeInterface {
 
     private ActivityWatchAnimeEpisodeBinding animeEpisodeBinding;
     private VideoStreamResultModel videoStreamResultModel = new VideoStreamResultModel();
     private ProgressDialog progressDialog;
     private String nowEpisodeNumber, nextEpisodeNumber, previousEpisodeNumber, nextURL, prevURL, episodeTitle;
+    private WatchAnimeEpisodePresenter episodePresenter = new WatchAnimeEpisodePresenter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,33 +137,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
         if (nowEpisodeNumber.contains("-")) {
             nowEpisodeNumber.replace("-", ".");
         }
-        ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
-        apiEndPointService.getWatchAnimeData(afterCut)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(String result) {
-                        progressDialog.dismiss();
-                        parseHtmlToViewableContent(result);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(WatchAnimeEpisodeActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+        episodePresenter.getEpisodeToWatchData(animeEpisodeToWatch);
     }
 
     private void parseHtmlToViewableContent(String result) {
@@ -381,5 +357,17 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity {
                         // Hide the nav bar and status bar
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+    @Override
+    public void onGetWatchAnimeEpisodeDataSuccess(String watchHTMLResult) {
+        progressDialog.dismiss();
+        parseHtmlToViewableContent(watchHTMLResult);
+    }
+
+    @Override
+    public void onGetWatchAnimeEpisodeDataFailed() {
+        progressDialog.dismiss();
+        Toast.makeText(WatchAnimeEpisodeActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
     }
 }

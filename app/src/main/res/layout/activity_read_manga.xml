@@ -7,7 +7,7 @@
         android:id="@+id/basic_read_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.mangapage.ReadMangaActivity">
+        tools:context=".activities.mangapage.read_manga_mvp.ReadMangaActivity">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nested_base"

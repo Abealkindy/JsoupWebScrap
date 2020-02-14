@@ -1,12 +1,10 @@
-package com.example.myapplication.activities.mangapage.manga_detail_mvp;
+package com.example.myapplication.activities.animepage.anime_detail_mvp;
 
 import android.util.Log;
 
 import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.networks.RetrofitConfig;
 import com.zhkrb.cloudflare_scrape_android.Cloudflare;
-
-import org.jsoup.internal.StringUtil;
 
 import java.net.HttpCookie;
 import java.util.List;
@@ -16,15 +14,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MangaDetailPresenter {
-    private MangaDetailInterface mangaDetailInterface;
+public class AnimeDetailPresenter {
+    private AnimeDetailInterface detailInterface;
 
-    public MangaDetailPresenter(MangaDetailInterface mangaDetailInterface) {
-        this.mangaDetailInterface = mangaDetailInterface;
+    public AnimeDetailPresenter(AnimeDetailInterface detailInterface) {
+        this.detailInterface = detailInterface;
     }
 
-    public void getDetailMangaData(String detailPageURL) {
-        Cloudflare cf = new Cloudflare(detailPageURL);
+    public void getAnimeDetailContent(String getAnimeDetailURL) {
+        Cloudflare cf = new Cloudflare(getAnimeDetailURL);
         cf.setUser_agent("Mozilla/5.0");
         cf.getCookies(new Cloudflare.cfCallback() {
             @Override
@@ -34,22 +32,22 @@ public class MangaDetailPresenter {
                     passToRetrofit(newUrl);
                     Log.e("NEWURL", newUrl);
                 } else {
-                    passToRetrofit(detailPageURL);
+                    passToRetrofit(getAnimeDetailURL);
                 }
             }
 
             @Override
             public void onFail() {
-                mangaDetailInterface.onGetDetailDataFailed();
+                detailInterface.onGetDetailDataFailed();
             }
         });
+
     }
 
     private void passToRetrofit(String newUrl) {
-
-        String URLAfterCut = newUrl.substring(22);
-        ApiEndPointService apiEndPointService = RetrofitConfig.getInitMangaRetrofit();
-        apiEndPointService.getDiscoverMangaData(URLAfterCut)
+//        String URLAfterCut = newUrl.substring(21);
+        ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
+        apiEndPointService.getSearchAnimeData(newUrl)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
@@ -59,13 +57,13 @@ public class MangaDetailPresenter {
                     }
 
                     @Override
-                    public void onNext(String detailHTMLResult) {
-                        mangaDetailInterface.onGetDetailDataSuccess(detailHTMLResult);
+                    public void onNext(String result) {
+                        detailInterface.onGetDetailDataSuccess(result);
                     }
 
                     @Override
-                    public void onError(Throwable throwable) {
-                        mangaDetailInterface.onGetDetailDataFailed();
+                    public void onError(Throwable e) {
+                        detailInterface.onGetDetailDataFailed();
                     }
 
                     @Override
@@ -74,4 +72,5 @@ public class MangaDetailPresenter {
                     }
                 });
     }
+
 }

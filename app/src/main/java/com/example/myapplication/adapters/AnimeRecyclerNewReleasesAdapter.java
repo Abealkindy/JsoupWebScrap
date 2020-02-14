@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;
 import com.example.myapplication.R;
-import com.example.myapplication.activities.animepage.WatchAnimeEpisodeActivity;
+import com.example.myapplication.activities.animepage.watch_anime_mvp.WatchAnimeEpisodeActivity;
 import com.example.myapplication.databinding.ItemListAnimeBinding;
 import com.squareup.picasso.Picasso;
 

@@ -5,10 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.myapplication.fragments.AnimeNewReleaseFragment;
-import com.example.myapplication.fragments.DiscoverMangaFragment;
-import com.example.myapplication.fragments.GenreAndSearchAnimeFragment;
-import com.example.myapplication.fragments.MangaNewReleaseFragment;
+import com.example.myapplication.fragments.anime_fragments.anime_new_releases_mvp.AnimeNewReleaseFragment;
+import com.example.myapplication.fragments.anime_fragments.genre_and_search_mvp.GenreAndSearchAnimeFragment;
 
 /*
  * Created by Rosinante24 on 2019-05-30.

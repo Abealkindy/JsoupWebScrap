@@ -1,4 +1,4 @@
-package com.example.myapplication.activities.animepage;
+package com.example.myapplication.activities.animepage.anime_detail_mvp;
 
 import android.os.Bundle;
 
@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
@@ -36,10 +35,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class AnimeDetailActivity extends AppCompatActivity {
+public class AnimeDetailActivity extends AppCompatActivity implements AnimeDetailInterface {
 
     ActivityAnimeDetailBinding animeDetailBinding;
     AnimeDetailModel animeDetailModel = new AnimeDetailModel();
+    private AnimeDetailPresenter detailPresenter = new AnimeDetailPresenter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,38 +111,10 @@ public class AnimeDetailActivity extends AppCompatActivity {
         initCollapsingToolbar(getAnimeDetailTitle);
         Picasso.get().load(getAnimeDetailThumb).into(animeDetailBinding.headerThumbnailDetailAnime);
         if (getAnimeDetailURL != null) {
-            getAnimeDetailContent(getAnimeDetailURL);
+            detailPresenter.getAnimeDetailContent(getAnimeDetailURL);
         }
     }
 
-    private void getAnimeDetailContent(String getAnimeDetailURL) {
-        String URLAfterCut = getAnimeDetailURL.substring(21);
-        ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
-        apiEndPointService.getSearchAnimeData(URLAfterCut)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(String result) {
-                        parseHtmlToViewableContent(result);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(AnimeDetailActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-    }
 
     private void initCollapsingToolbar(String titleManga) {
         animeDetailBinding.toolbarLayoutAnime.setTitle("");
@@ -260,5 +232,15 @@ public class AnimeDetailActivity extends AppCompatActivity {
             animeDetailBinding.ratingNumberDetailAnime.setText(animeDetailRating);
         }
 
+    }
+
+    @Override
+    public void onGetDetailDataSuccess(String detailHTMLResult) {
+        parseHtmlToViewableContent(detailHTMLResult);
+    }
+
+    @Override
+    public void onGetDetailDataFailed() {
+        Toast.makeText(AnimeDetailActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
     }
 }

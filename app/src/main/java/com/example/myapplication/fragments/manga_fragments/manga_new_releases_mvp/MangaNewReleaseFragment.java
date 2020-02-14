@@ -1,4 +1,4 @@
-package com.example.myapplication.fragments;
+package com.example.myapplication.fragments.manga_fragments.manga_new_releases_mvp;
 
 
 import android.app.ProgressDialog;

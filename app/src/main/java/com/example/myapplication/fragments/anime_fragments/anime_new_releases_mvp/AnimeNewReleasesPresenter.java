@@ -1,12 +1,10 @@
-package com.example.myapplication.activities.mangapage.manga_detail_mvp;
+package com.example.myapplication.fragments.anime_fragments.anime_new_releases_mvp;
 
 import android.util.Log;
 
 import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.networks.RetrofitConfig;
 import com.zhkrb.cloudflare_scrape_android.Cloudflare;
-
-import org.jsoup.internal.StringUtil;
 
 import java.net.HttpCookie;
 import java.util.List;
@@ -16,40 +14,38 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MangaDetailPresenter {
-    private MangaDetailInterface mangaDetailInterface;
+public class AnimeNewReleasesPresenter {
+    private AnimeNewReleasesInterface newReleasesInterface;
 
-    public MangaDetailPresenter(MangaDetailInterface mangaDetailInterface) {
-        this.mangaDetailInterface = mangaDetailInterface;
+    public AnimeNewReleasesPresenter(AnimeNewReleasesInterface newReleasesInterface) {
+        this.newReleasesInterface = newReleasesInterface;
     }
 
-    public void getDetailMangaData(String detailPageURL) {
-        Cloudflare cf = new Cloudflare(detailPageURL);
+    public void getNewReleasesAnimeData(int pageCount, String newReleasesURL, String hitStatus) {
+        Cloudflare cf = new Cloudflare(newReleasesURL);
         cf.setUser_agent("Mozilla/5.0");
         cf.getCookies(new Cloudflare.cfCallback() {
             @Override
             public void onSuccess(List<HttpCookie> cookieList, boolean hasNewUrl, String newUrl) {
                 Log.e("getNewURL?", String.valueOf(hasNewUrl));
                 if (hasNewUrl) {
-                    passToRetrofit(newUrl);
+                    passToRetrofit(pageCount, newUrl, hitStatus);
                     Log.e("NEWURL", newUrl);
                 } else {
-                    passToRetrofit(detailPageURL);
+                    passToRetrofit(pageCount, newReleasesURL, hitStatus);
                 }
             }
 
             @Override
             public void onFail() {
-                mangaDetailInterface.onGetDetailDataFailed();
+                newReleasesInterface.onGetNewReleasesDataFailed();
             }
         });
     }
 
-    private void passToRetrofit(String newUrl) {
-
-        String URLAfterCut = newUrl.substring(22);
-        ApiEndPointService apiEndPointService = RetrofitConfig.getInitMangaRetrofit();
-        apiEndPointService.getDiscoverMangaData(URLAfterCut)
+    private void passToRetrofit(int pageCount, String newUrl, String hitStatus) {
+        ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
+        apiEndPointService.getNewReleaseAnimeData(newUrl + "/page/" + pageCount)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
@@ -59,13 +55,13 @@ public class MangaDetailPresenter {
                     }
 
                     @Override
-                    public void onNext(String detailHTMLResult) {
-                        mangaDetailInterface.onGetDetailDataSuccess(detailHTMLResult);
+                    public void onNext(String result) {
+                        newReleasesInterface.onGetNewReleasesDataSuccess(result, hitStatus);
                     }
 
                     @Override
-                    public void onError(Throwable throwable) {
-                        mangaDetailInterface.onGetDetailDataFailed();
+                    public void onError(Throwable e) {
+                        newReleasesInterface.onGetNewReleasesDataFailed();
                     }
 
                     @Override

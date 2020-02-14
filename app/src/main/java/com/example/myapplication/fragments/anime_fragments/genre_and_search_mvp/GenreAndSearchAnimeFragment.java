@@ -1,4 +1,4 @@
-package com.example.myapplication.fragments;
+package com.example.myapplication.fragments.anime_fragments.genre_and_search_mvp;
 
 
 import android.app.Dialog;
@@ -49,23 +49,17 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.OnQueryTextListener, RecyclerAllGenreAdapter.ClickGenreListener {
-    private FragmentGenreAndSearchAnimeBinding fragmentGenreAndSearchAnimeBinding;
-    private List<AnimeGenreAndSearchResultModel.AnimeSearchResult> animeGenreAndSearchResultModelList = new ArrayList<>();
-    private List<AnimeGenreAndSearchResultModel.AnimeGenreResult> animeGenreResultModelList = new ArrayList<>();
+public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.OnQueryTextListener, RecyclerAllGenreAdapter.ClickGenreListener, GenreAndSearchAnimeInterface {
     private AnimeRecyclerSearchAndGenreAdapter searchAndGenreAdapter;
-    private static final int NEW_PAGE = 0;
-    private static final int NEW_PAGE_SCROLL = 1;
-    private static final int SWIPE_REFRESH = 2;
-    private static final int SEARCH_REQUEST = 3;
-    private static final int SEARCH_SWIPE_REQUEST = 4;
+    private FragmentGenreAndSearchAnimeBinding fragmentGenreAndSearchAnimeBinding;
+    private List<AnimeGenreAndSearchResultModel.AnimeGenreResult> animeGenreResultModelList = new ArrayList<>();
+    private List<AnimeGenreAndSearchResultModel.AnimeSearchResult> animeGenreAndSearchResultModelList = new ArrayList<>();
+    private GenreAndSearchAnimePresenter genreAndSearchAnimePresenter = new GenreAndSearchAnimePresenter(this);
     private ProgressDialog progressDialog;
-    private String hitStatus = "newPage";
-    private String homeUrl = "/genres/action" + "/page/" + 1;
-    private String hitQuery = "action";
-    private int plusPage = 1;
-    private int plusSearch = 1;
     private Dialog dialog;
+    private String hitStatus = "newPage", homeUrl = "/genres/action" + "/page/" + 1, hitQuery = "action";
+    private int plusPage = 1, plusSearch = 1;
+    private static final int NEW_PAGE = 0, NEW_PAGE_SCROLL = 1, SWIPE_REFRESH = 2, SEARCH_REQUEST = 3, SEARCH_SWIPE_REQUEST = 4;
 
     public GenreAndSearchAnimeFragment() {
         // Required empty public constructor
@@ -150,66 +144,13 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         this.hitStatus = hitStatus;
         progressDialog.show();
         Log.e("homeURL", homeUrl);
-        ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
-        apiEndPointService.getGenreAnimeData(homeUrl)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(String result) {
-                        progressDialog.dismiss();
-                        if (animeGenreAndSearchResultModelList != null) {
-                            animeGenreAndSearchResultModelList.clear();
-                        }
-                        animeGenreAndSearchResultModelList.addAll(parseHTMLToReadableData(result));
-                        searchAndGenreAdapter.recyclerRefresh();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getActivity(), "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
+        String genreAndSearchTotalURL = "https://animeindo.to" + homeUrl;
+        genreAndSearchAnimePresenter.getGenreAndSearchData(genreAndSearchTotalURL);
     }
 
     private void getGenreData() {
-        ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
-        apiEndPointService.getSearchAnimeData("/genre-list/")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(String result) {
-                        animeGenreResultModelList.addAll(parseGenrePageToReadableData(result));
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(getActivity(), "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+        String genreTotalURL = "https://animeindo.to/genre-list/";
+        genreAndSearchAnimePresenter.getOnlyGenreData(genreTotalURL);
     }
 
     private List<AnimeGenreAndSearchResultModel.AnimeGenreResult> parseGenrePageToReadableData(String result) {
@@ -305,5 +246,31 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
+    }
+
+    @Override
+    public void onGetSearchAndGenreDataSuccess(String searchAndGenreHTMLResult) {
+        progressDialog.dismiss();
+        if (animeGenreAndSearchResultModelList != null) {
+            animeGenreAndSearchResultModelList.clear();
+        }
+        animeGenreAndSearchResultModelList.addAll(parseHTMLToReadableData(searchAndGenreHTMLResult));
+        searchAndGenreAdapter.recyclerRefresh();
+    }
+
+    @Override
+    public void onGetSearchAndGenreDataFailed() {
+        progressDialog.dismiss();
+        Toast.makeText(getActivity(), "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetOnlyGenreDataSuccess(String onlyGenreHTMLResult) {
+        animeGenreResultModelList.addAll(parseGenrePageToReadableData(onlyGenreHTMLResult));
+    }
+
+    @Override
+    public void onGetOnlyGenreDataFailed() {
+        Toast.makeText(getActivity(), "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
     }
 }
