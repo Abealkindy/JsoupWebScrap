@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:id="@+id/relative_item_manga"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size250dp">
+        android:layout_height="@dimen/_220sdp">
 
         <ImageView
             android:id="@+id/image_view_background_manga"
@@ -15,10 +14,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/classgotoposter" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/black_with_opacity" />
+        <View style="@style/DarkBackGround" />
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/text_manga_type"
@@ -63,7 +59,7 @@
             android:maxLines="3"
             android:textAlignment="center"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:textSize="@dimen/_18ssp"
             android:textStyle="bold"
             tools:text="Class-goto Shuudan Teni Shimashita ga, ichiban Tsuyoi Ore wa Saijaku no Shounin ni Gisouchuu" />
 
@@ -75,115 +71,58 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_first_manga_chapter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_margin="15dp"
-                app:cardBackgroundColor="@color/white_with_opacity"
-                app:cardCornerRadius="10dp">
+                style="@style/BottomChapterPattern"
+                android:layout_alignParentStart="true">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                <LinearLayout style="@style/SmallLinearChapterAndRelease">
 
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/text_first_manga_chapter"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/montserrat"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/black"
-                        tools:text="Chapter 1000" />
+                        style="@style/SmallChapterItem"
+                        tools:text="Chapter 1000.0" />
 
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/text_first_manga_chapter_release_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/montserrat"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/black"
-                        android:textStyle="italic"
-                        tools:text="11 months ago" />
+                        style="@style/SmallTimeRelasesItem"
+                        tools:text="11 seconds ago" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_second_manga_chapter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="15dp"
-                app:cardBackgroundColor="@color/white_with_opacity"
-                app:cardCornerRadius="10dp">
+                style="@style/BottomChapterPattern"
+                android:layout_centerHorizontal="true">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                <LinearLayout style="@style/SmallLinearChapterAndRelease">
 
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/text_second_manga_chapter"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/montserrat"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/black"
+                        style="@style/SmallChapterItem"
                         tools:text="Chapter 1000" />
 
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/text_second_manga_chapter_release_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/montserrat"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/black"
-                        android:textStyle="italic"
-                        tools:text="11 months ago" />
+                        style="@style/SmallTimeRelasesItem"
+                        tools:text="11 seconds ago" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_third_manga_chapter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="15dp"
-                app:cardBackgroundColor="@color/white_with_opacity"
-                app:cardCornerRadius="10dp">
+                style="@style/BottomChapterPattern"
+                android:layout_alignParentEnd="true">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                <LinearLayout style="@style/SmallLinearChapterAndRelease">
 
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/text_third_manga_chapter"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/montserrat"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/black"
+                        style="@style/SmallChapterItem"
                         tools:text="Chapter 1000" />
 
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/text_third_manga_chapter_release_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/montserrat"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/black"
-                        android:textStyle="italic"
-                        tools:text="11 months ago" />
+                        style="@style/SmallTimeRelasesItem"
+                        tools:text="11 seconds ago" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

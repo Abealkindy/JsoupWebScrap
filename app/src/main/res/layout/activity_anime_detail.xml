@@ -4,25 +4,15 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        style="@style/CoordinatorLayoutDetail">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_anime"
-            android:layout_width="match_parent"
-            android:layout_height="255dp"
-            android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            style="@style/AppBarLayoutDetail">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/toolbar_layout_anime"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:toolbarId="@+id/toolbar">
+                style="@style/CollapsingLayoutDetail">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -30,37 +20,17 @@
 
                     <ImageView
                         android:id="@+id/header_thumbnail_detail_anime"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        app:layout_collapseMode="parallax"
+                        style="@style/ImageDetail"
                         tools:src="@drawable/classgotoposter" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/black_with_opacity" />
+                    <View style="@style/DarkBackGround" />
 
                     <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/gradient_black" />
+                        style="@style/GradientDarkBackGround" />
 
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/detail_header_title_anime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/relative_info_anime"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginTop="@dimen/size10dp"
-                        android:layout_marginBottom="@dimen/size30dp"
-                        android:maxLines="3"
-                        android:paddingStart="@dimen/size15dp"
-                        android:paddingEnd="@dimen/size15dp"
-                        android:textColor="@android:color/white"
-                        android:textSize="28sp"
-                        app:minTextSize="@dimen/size15sp"
+                        style="@style/TextTitleDetail"
                         tools:text="Naruto Narutimate Hero 3: Finally a Clash! Jonin VS Genin!! Indescriminate Grand Melee Tournament Meeting!!" />
 
                     <RelativeLayout

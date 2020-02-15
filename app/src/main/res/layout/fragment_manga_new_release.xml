@@ -15,6 +15,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_new_releases_manga"
                 android:layout_width="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:layout_height="match_parent"
                 tools:listitem="@layout/item_list_manga" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

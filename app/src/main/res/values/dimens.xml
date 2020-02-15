@@ -97,4 +97,5 @@
     <dimen name="size315dp">315dp</dimen>
     <dimen name="size200dp">200dp</dimen>
     <dimen name="size100dp">100dp</dimen>
+    <dimen name="size270dp">270dp</dimen>
 </resources>
