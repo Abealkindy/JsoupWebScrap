@@ -7,9 +7,6 @@ import com.example.myapplication.adapters.RecyclerGenreAdapter;
 import com.example.myapplication.databinding.ActivityAnimeDetailBinding;
 import com.example.myapplication.models.animemodels.AnimeDetailModel;
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
-import com.example.myapplication.networks.ApiEndPointService;
-import com.example.myapplication.networks.RetrofitConfig;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,10 +27,6 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class AnimeDetailActivity extends AppCompatActivity implements AnimeDetailInterface {
 
@@ -231,16 +224,97 @@ public class AnimeDetailActivity extends AppCompatActivity implements AnimeDetai
             animeDetailBinding.ratingBarDetailAnime.setRating(Float.parseFloat(animeDetailRating) / 2 / 10);
             animeDetailBinding.ratingNumberDetailAnime.setText(animeDetailRating);
         }
-
     }
 
     @Override
-    public void onGetDetailDataSuccess(String detailHTMLResult) {
-        parseHtmlToViewableContent(detailHTMLResult);
+    public void onGetDetailDataSuccess(DetailMangaModel detailData) {
+        runOnUiThread(() -> {
+            //get synopsis
+            if (detailData.getMangaSynopsis() == null || detailData.getMangaSynopsis().isEmpty()) {
+                animeDetailBinding.contentAnime.textSynopsisAnime.setText("-");
+            } else {
+                animeDetailBinding.contentAnime.textSynopsisAnime.setText(detailData.getMangaSynopsis());
+            }
+
+            if (detailData.getFirstUpdateYear() == null || detailData.getFirstUpdateYear().isEmpty()) {
+                animeDetailBinding.contentAnime.animeAboutLayout.textReleasedOnAnime.setText("-");
+            } else {
+                animeDetailBinding.contentAnime.animeAboutLayout.textReleasedOnAnime.setText(detailData.getFirstUpdateYear());
+            }
+
+            if (detailData.getLastMangaUpdateDate() == null || detailData.getLastMangaUpdateDate().isEmpty()) {
+                animeDetailBinding.contentAnime.animeAboutLayout.textDuration.setText("-");
+            } else {
+                animeDetailBinding.contentAnime.animeAboutLayout.textDuration.setText(detailData.getLastMangaUpdateDate());
+            }
+
+            if (detailData.getTotalMangaChapter() == null || detailData.getTotalMangaChapter().isEmpty()) {
+                animeDetailBinding.contentAnime.animeAboutLayout.textTotalEpisode.setText("-");
+            } else {
+                animeDetailBinding.contentAnime.animeAboutLayout.textTotalEpisode.setText(detailData.getTotalMangaChapter());
+            }
+
+            if (detailData.getMangaAuthor() == null || detailData.getMangaAuthor().isEmpty()) {
+                animeDetailBinding.contentAnime.animeAboutLayout.textStudio.setText("-");
+            } else {
+                animeDetailBinding.contentAnime.animeAboutLayout.textStudio.setText(detailData.getMangaAuthor());
+            }
+
+            if (detailData.getOtherNames() == null || detailData.getOtherNames().isEmpty()) {
+                animeDetailBinding.contentAnime.animeAboutLayout.textOtherNameAnime.setText("-");
+            } else {
+                animeDetailBinding.contentAnime.animeAboutLayout.textOtherNameAnime.setText(detailData.getOtherNames());
+            }
+
+            String animeDetailRating = detailData.getMangaRating();
+            animeDetailBinding.ratingBarDetailAnime.setNumStars(5);
+            if (animeDetailRating.equalsIgnoreCase("N/A") || animeDetailRating.equalsIgnoreCase("?") || animeDetailRating.equalsIgnoreCase("-")) {
+                animeDetailBinding.ratingBarDetailAnime.setRating(0);
+                animeDetailBinding.ratingNumberDetailAnime.setText(animeDetailRating);
+            } else if (Float.parseFloat(animeDetailRating) <= 0) {
+                animeDetailBinding.ratingBarDetailAnime.setRating(0);
+                animeDetailBinding.ratingNumberDetailAnime.setText(animeDetailRating);
+            } else {
+                animeDetailBinding.ratingBarDetailAnime.setRating(Float.parseFloat(animeDetailRating) / 2 / 10);
+                animeDetailBinding.ratingNumberDetailAnime.setText(animeDetailRating);
+            }
+        });
     }
 
     @Override
     public void onGetDetailDataFailed() {
-        Toast.makeText(AnimeDetailActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
+        runOnUiThread(() -> Toast.makeText(AnimeDetailActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show());
+    }
+
+    @Override
+    public void onGetAllEpisodeSuccess(List<DetailMangaModel.DetailAllChapterDatas> detailAllEpisodeDataList) {
+        runOnUiThread(() -> {
+            animeDetailBinding.contentAnime.recyclerAllEpisodesDetail.setHasFixedSize(true);
+            LinearLayoutManager linearLayoutManagerAllEpisode = new LinearLayoutManager(AnimeDetailActivity.this);
+            linearLayoutManagerAllEpisode.setOrientation(RecyclerView.VERTICAL);
+            animeDetailBinding.contentAnime.recyclerAllEpisodesDetail.setLayoutManager(linearLayoutManagerAllEpisode);
+            animeDetailBinding.contentAnime.recyclerAllEpisodesDetail.setAdapter(new RecyclerAllEpisodeDetailAdapter(AnimeDetailActivity.this, detailAllEpisodeDataList, animeDetailModel));
+        });
+    }
+
+    @Override
+    public void onGetAllEpisodeFailed() {
+        runOnUiThread(() -> Toast.makeText(AnimeDetailActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show());
+    }
+
+    @Override
+    public void onGetGenreSuccess(List<DetailMangaModel.DetailMangaGenres> genresList) {
+        runOnUiThread(() -> {
+            animeDetailBinding.contentAnime.animeAboutLayout.recyclerGenreAnime.setHasFixedSize(true);
+            LinearLayoutManager linearLayoutManagerGenre = new LinearLayoutManager(AnimeDetailActivity.this);
+            linearLayoutManagerGenre.setOrientation(RecyclerView.HORIZONTAL);
+            animeDetailBinding.contentAnime.animeAboutLayout.recyclerGenreAnime.setLayoutManager(linearLayoutManagerGenre);
+            animeDetailBinding.contentAnime.animeAboutLayout.recyclerGenreAnime.setAdapter(new RecyclerGenreAdapter(AnimeDetailActivity.this, genresList));
+        });
+    }
+
+    @Override
+    public void onGetGenreFailed() {
+        runOnUiThread(() -> Toast.makeText(AnimeDetailActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show());
     }
 }

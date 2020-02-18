@@ -231,18 +231,22 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
                 } else {
                     if (!nowEpisodeNumber.endsWith("special/") && !nowEpisodeNumber.endsWith("movie/") && !nowEpisodeNumber.endsWith("ona/") && !nowEpisodeNumber.endsWith("ova/")) {
                         if (nowEpisodeNumber.endsWith("/")) {
-                            if (Double.parseDouble(nextOrPrevEpisodeNumber) < Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
+                            Log.e("WITH SLASH?", "yes");
+                            Log.e("URL1", nextOrPrevEpisodeNumber);
+                            Log.e("URL2", nowEpisodeNumber);
+                            if (Double.parseDouble(nextOrPrevEpisodeNumber.substring(0, nextOrPrevEpisodeNumber.length() - 1)) < Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
                                 prevURL = nextAndPrevURL.get(0);
                                 nextURL = null;
                                 animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
                                 animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
-                            } else if (Double.parseDouble(nextOrPrevEpisodeNumber) > Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
+                            } else if (Double.parseDouble(nextOrPrevEpisodeNumber.substring(0, nextOrPrevEpisodeNumber.length() - 1)) > Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
                                 prevURL = null;
                                 nextURL = nextAndPrevURL.get(0);
                                 animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
                                 animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
                             }
                         } else {
+                            Log.e("WITHOUT SLASH?", "YES");
                             if (Double.parseDouble(nextOrPrevEpisodeNumber) < Double.parseDouble(nowEpisodeNumber)) {
                                 prevURL = nextAndPrevURL.get(0);
                                 nextURL = null;
