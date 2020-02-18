@@ -18,13 +18,6 @@ import android.widget.Toast;
 import com.example.myapplication.R;
 import com.squareup.picasso.Picasso;
 
-import org.jsoup.Jsoup;
-import org.jsoup.internal.StringUtil;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -132,156 +125,136 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
         }
     }
 
-    private void parseHtmlToViewableContent(String result) {
-        Document document = Jsoup.parse(result);
-        //get title
-        if (detailTitle.equalsIgnoreCase("")) {
-            Elements getTitle = document.select("h1[itemprop=headline]");
-            detailTitle = getTitle.text().substring(0, getTitle.text().indexOf(" Bahasa Indonesia"));
-            detailBinding.detailHeaderTitle.setText(detailTitle);
-            initCollapsingToolbar(detailTitle);
-        }
-
-        if (detailThumb.equalsIgnoreCase("")) {
-            Elements getThumb = document.getElementsByTag("img");
-            String mangaThumbnailBackground = getThumb.eachAttr("src").get(1);
-            if (StringUtil.isBlank(mangaThumbnailBackground)) {
-                mangaThumbnailBackground = getThumb.eachAttr("data-src").get(1);
+    @Override
+    public void onGetDetailDataSuccess(DetailMangaModel detailMangaModel) {
+        runOnUiThread(() -> {
+            //get title
+            if (detailTitle.equalsIgnoreCase("")) {
+                detailBinding.detailHeaderTitle.setText(detailMangaModel.getMangaTitle());
+                initCollapsingToolbar(detailTitle);
             }
-            if (!mangaThumbnailBackground.contains("https")) {
-                mangaThumbnailBackground = "https:" + mangaThumbnailBackground;
-            } else if (!mangaThumbnailBackground.contains("http")) {
-                mangaThumbnailBackground = "http:" + mangaThumbnailBackground;
+
+            //get thumb
+            if (detailThumb.equalsIgnoreCase("")) {
+                Picasso.get().load(detailMangaModel.getMangaThumb()).into(detailBinding.headerThumbnailDetail);
             }
-            Picasso.get().load(mangaThumbnailBackground).into(detailBinding.headerThumbnailDetail);
-        }
-        //get Synopsis
-        Elements getSynopsis = document.getElementsByTag("p");
-        detailBinding.contentManga.textSynopsis.setText(getSynopsis.text());
 
-        //get All chapter data
-        List<DetailMangaModel.DetailAllChapterDatas> detailAllChapterDatasList = new ArrayList<>();
-        Elements getAllMangaChapters = document.getElementsByTag("li");
-        for (Element element : getAllMangaChapters) {
-            DetailMangaModel.DetailAllChapterDatas allChapterDatas = new DetailMangaModel().new DetailAllChapterDatas();
-            String chapterReleaseTime = element.getElementsByClass("rightoff").text();
-            String chapterTitle = element.select("a[href^=https://komikcast.com/chapter/]").text();
-            String chapterURL = element.select("a[href^=https://komikcast.com/chapter/]").attr("href");
-            allChapterDatas.setChapterReleaseTime(chapterReleaseTime);
-            allChapterDatas.setChapterTitle(chapterTitle);
-            allChapterDatas.setChapterURL(chapterURL);
-            detailAllChapterDatasList.add(allChapterDatas);
-        }
-        List<DetailMangaModel.DetailAllChapterDatas> afterCut = new ArrayList<>(detailAllChapterDatasList.subList(7, detailAllChapterDatasList.size() - 5));
-        detailBinding.contentManga.recyclerAllChaptersDetail.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MangaDetailActivity.this);
-        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        detailBinding.contentManga.recyclerAllChaptersDetail.setLayoutManager(linearLayoutManager);
-        detailBinding.contentManga.recyclerAllChaptersDetail.setAdapter(new RecyclerAllChapterDetailAdapter(MangaDetailActivity.this, afterCut, mangaType));
+            //get Synopsis
+            detailBinding.contentManga.textSynopsis.setText(detailMangaModel.getMangaSynopsis());
 
-        //get genre data
-        List<DetailMangaModel.DetailMangaGenres> genresList = new ArrayList<>();
-        Elements getGenres = document.select("a[rel=tag]");
-        for (Element element : getGenres) {
-            String genreTitle = element.text();
-            String genreURL = element.attr("href");
-            DetailMangaModel.DetailMangaGenres mangaGenres = new DetailMangaModel().new DetailMangaGenres();
-            mangaGenres.setGenreTitle(genreTitle);
-            mangaGenres.setGenreURL(genreURL);
-            genresList.add(mangaGenres);
-        }
-        List<DetailMangaModel.DetailMangaGenres> genreCut = new ArrayList<>(genresList.subList(0, genresList.size() - 1));
-        detailBinding.contentManga.mangaAboutLayout.recyclerGenre.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManagerGenre = new LinearLayoutManager(MangaDetailActivity.this);
-        linearLayoutManagerGenre.setOrientation(RecyclerView.HORIZONTAL);
-        detailBinding.contentManga.mangaAboutLayout.recyclerGenre.setLayoutManager(linearLayoutManagerGenre);
-        detailBinding.contentManga.mangaAboutLayout.recyclerGenre.setAdapter(new RecyclerGenreAdapter(MangaDetailActivity.this, genreCut));
+            //get Updated on
+            detailBinding.contentManga.mangaAboutLayout.latestUpdateDate.setText(detailMangaModel.getLastMangaUpdateDate());
 
-        //get Updated on
-        Elements getLatestUpdate = document.select("time[itemprop=dateModified]");
-        detailBinding.contentManga.mangaAboutLayout.latestUpdateDate.setText(getLatestUpdate.text());
+            //get Other name
+            detailBinding.contentManga.mangaAboutLayout.textOtherName.setText(detailMangaModel.getOtherNames());
 
-        //get Other name
-        Elements getOtherName = document.getElementsByClass("alter");
-        detailBinding.contentManga.mangaAboutLayout.textOtherName.setText(getOtherName.text());
+            //get Author
+            if (detailMangaModel.getMangaAuthor() == null || detailMangaModel.getMangaAuthor().isEmpty()) {
+                detailBinding.contentManga.mangaAboutLayout.textAuthor.setText("-");
+            } else {
+                detailBinding.contentManga.mangaAboutLayout.textAuthor.setText(detailMangaModel.getMangaAuthor());
+            }
 
-        //get Author and others
-        Elements getAuthor = document.getElementsByTag("span");
+            //get released on
+            if (detailMangaModel.getFirstUpdateYear() == null || detailMangaModel.getFirstUpdateYear().isEmpty()) {
+                detailBinding.contentManga.mangaAboutLayout.textReleasedOn.setText("-");
+            } else {
+                detailBinding.contentManga.mangaAboutLayout.textReleasedOn.setText(detailMangaModel.getFirstUpdateYear());
+            }
 
-        for (int position = 0; position < getAuthor.eachText().size(); position++) {
+            //get total chapter
+            if (detailMangaModel.getTotalMangaChapter() == null || detailMangaModel.getTotalMangaChapter().isEmpty()) {
+                detailBinding.contentManga.mangaAboutLayout.textTotalChapters.setText("-");
+            } else {
+                detailBinding.contentManga.mangaAboutLayout.textTotalChapters.setText(detailMangaModel.getTotalMangaChapter());
+            }
 
-            if (getAuthor.eachText().get(position).contains("Author")) {
-                if (getAuthor.eachText().get(position).length() < 8) {
-                    detailBinding.contentManga.mangaAboutLayout.textAuthor.setText("-");
+            //get manga status
+            if (String.valueOf(detailStatus).equalsIgnoreCase("")) {
+                if (detailMangaModel.getMangaStatus().equalsIgnoreCase(getResources().getString(R.string.completed_text))) {
+                    detailBinding.detailStatus.setBackground(getResources().getDrawable(R.drawable.bubble_background_completed));
+                    detailBinding.detailStatus.setText(getResources().getString(R.string.completed_text));
                 } else {
-                    detailBinding.contentManga.mangaAboutLayout.textAuthor.setText(getAuthor.eachText().get(position).substring(getAuthor.eachText().get(position).indexOf("Author:") + 7));
+                    detailBinding.detailStatus.setBackground(getResources().getDrawable(R.drawable.bubble_background_ongoing));
+                    detailBinding.detailStatus.setText(getResources().getString(R.string.ongoing_text));
                 }
             }
 
-            if (getAuthor.eachText().get(position).contains("Released")) {
-                detailBinding.contentManga.mangaAboutLayout.textReleasedOn.setText(getAuthor.eachText().get(position).substring(getAuthor.eachText().get(position).indexOf("Released:") + 9));
+            //get manga type
+            if (detailType.equalsIgnoreCase("")) {
+                detailType = detailMangaModel.getMangaType();
+                mangaType = detailType;
+                if (detailType.equalsIgnoreCase(getResources().getString(R.string.manga_string))) {
+                    detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manga_string));
+                    detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+                } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.manhua_string))) {
+                    detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manhua_string));
+                    detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manhua));
+                } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.manhwa_string))) {
+                    detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manhwa_string));
+                    detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manhwa));
+                } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.mangaoneshot_string))) {
+                    detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.mangaoneshot_string));
+                    detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+                } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.oneshot_string))) {
+                    detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.oneshot_string));
+                    detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+                }
             }
 
-            if (getAuthor.eachText().get(position).contains("Total Chapter")) {
-                detailBinding.contentManga.mangaAboutLayout.textTotalChapters.setText(getAuthor.eachText().get(position).substring(getAuthor.eachText().get(position).indexOf("Total Chapter:") + 14));
+            //get manga rating
+            if (detailRating.equalsIgnoreCase("")) {
+                detailRating = detailMangaModel.getMangaRating();
+                detailBinding.ratingBarDetail.setNumStars(5);
+                if (detailRating.equalsIgnoreCase("N/A") || detailRating.equalsIgnoreCase("?") || detailRating.equalsIgnoreCase("-")) {
+                    detailBinding.ratingBarDetail.setRating(0);
+                    detailBinding.ratingNumberDetail.setText(detailRating);
+                } else if (Float.parseFloat(detailRating) <= 0) {
+                    detailBinding.ratingBarDetail.setRating(0);
+                    detailBinding.ratingNumberDetail.setText(detailRating);
+                } else {
+                    detailBinding.ratingBarDetail.setRating(Float.parseFloat(detailRating) / 2);
+                    detailBinding.ratingNumberDetail.setText(detailRating);
+                }
             }
-
-        }
-        if (String.valueOf(detailStatus).equalsIgnoreCase("")) {
-            String getStatus = getAuthor.eachText().get(13).substring(8);
-            if (getStatus.equalsIgnoreCase(getResources().getString(R.string.completed_text))) {
-                detailBinding.detailStatus.setBackground(getResources().getDrawable(R.drawable.bubble_background_completed));
-                detailBinding.detailStatus.setText(getResources().getString(R.string.completed_text));
-            } else {
-                detailBinding.detailStatus.setBackground(getResources().getDrawable(R.drawable.bubble_background_ongoing));
-                detailBinding.detailStatus.setText(getResources().getString(R.string.ongoing_text));
-            }
-        }
-        if (detailType.equalsIgnoreCase("")) {
-            detailType = getAuthor.eachText().get(16).substring(6);
-            mangaType = detailType;
-            if (detailType.equalsIgnoreCase(getResources().getString(R.string.manga_string))) {
-                detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manga_string));
-                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
-            } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.manhua_string))) {
-                detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manhua_string));
-                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manhua));
-            } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.manhwa_string))) {
-                detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manhwa_string));
-                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manhwa));
-            } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.mangaoneshot_string))) {
-                detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.mangaoneshot_string));
-                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
-            } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.oneshot_string))) {
-                detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.oneshot_string));
-                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
-            }
-        }
-        if (detailRating.equalsIgnoreCase("")) {
-            Elements getRating = document.getElementsByClass("rating");
-            detailRating = getRating.eachText().get(0).substring(7, getRating.eachText().get(0).length() - 10);
-            detailBinding.ratingBarDetail.setNumStars(5);
-            if (detailRating.equalsIgnoreCase("N/A") || detailRating.equalsIgnoreCase("?") || detailRating.equalsIgnoreCase("-")) {
-                detailBinding.ratingBarDetail.setRating(0);
-                detailBinding.ratingNumberDetail.setText(detailRating);
-            } else if (Float.parseFloat(detailRating) <= 0) {
-                detailBinding.ratingBarDetail.setRating(0);
-                detailBinding.ratingNumberDetail.setText(detailRating);
-            } else {
-                detailBinding.ratingBarDetail.setRating(Float.parseFloat(detailRating) / 2);
-                detailBinding.ratingNumberDetail.setText(detailRating);
-            }
-        }
-
-    }
-
-    @Override
-    public void onGetDetailDataSuccess(String detailHTMLResult) {
-        parseHtmlToViewableContent(detailHTMLResult);
+        });
     }
 
     @Override
     public void onGetDetailDataFailed() {
+        Toast.makeText(this, "Failed!!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetAllChapterSuccess(List<DetailMangaModel.DetailAllChapterDatas> detailAllChapterDatasList) {
+        runOnUiThread(() -> {
+            detailBinding.contentManga.recyclerAllChaptersDetail.setHasFixedSize(true);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MangaDetailActivity.this);
+            linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+            detailBinding.contentManga.recyclerAllChaptersDetail.setLayoutManager(linearLayoutManager);
+            detailBinding.contentManga.recyclerAllChaptersDetail.setAdapter(new RecyclerAllChapterDetailAdapter(MangaDetailActivity.this, detailAllChapterDatasList, mangaType));
+        });
+    }
+
+    @Override
+    public void onGetAllChapterFailed() {
+        Toast.makeText(this, "Failed!!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetGenreSuccess(List<DetailMangaModel.DetailMangaGenres> genresList) {
+        runOnUiThread(() -> {
+            detailBinding.contentManga.mangaAboutLayout.recyclerGenre.setHasFixedSize(true);
+            LinearLayoutManager linearLayoutManagerGenre = new LinearLayoutManager(MangaDetailActivity.this);
+            linearLayoutManagerGenre.setOrientation(RecyclerView.HORIZONTAL);
+            detailBinding.contentManga.mangaAboutLayout.recyclerGenre.setLayoutManager(linearLayoutManagerGenre);
+            detailBinding.contentManga.mangaAboutLayout.recyclerGenre.setAdapter(new RecyclerGenreAdapter(MangaDetailActivity.this, genresList));
+        });
+
+    }
+
+    @Override
+    public void onGetGenreFailed() {
         Toast.makeText(this, "Failed!!", Toast.LENGTH_SHORT).show();
     }
 }

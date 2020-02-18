@@ -28,23 +28,9 @@ import com.example.myapplication.adapters.MangaRecyclerDiscoverAdapter;
 import com.example.myapplication.databinding.FragmentDiscoverMangaBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
 import com.example.myapplication.models.mangamodels.DiscoverMangaModel;
-import com.example.myapplication.networks.ApiEndPointService;
-import com.example.myapplication.networks.RetrofitConfig;
-import com.google.gson.Gson;
-
-import org.jsoup.Jsoup;
-import org.jsoup.internal.StringUtil;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * A simple {@link Fragment} subclass.

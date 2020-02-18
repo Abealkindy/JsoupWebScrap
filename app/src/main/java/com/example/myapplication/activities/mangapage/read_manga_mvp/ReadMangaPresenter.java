@@ -193,10 +193,8 @@ public class ReadMangaPresenter {
     private static List<ReadMangaModel.AllChapterDatas> removeDuplicates(List<ReadMangaModel.AllChapterDatas> list) {
 
         // Create a new LinkedHashSet
-        Set<ReadMangaModel.AllChapterDatas> set = new LinkedHashSet<>();
-
         // Add the elements to set
-        set.addAll(list);
+        Set<ReadMangaModel.AllChapterDatas> set = new LinkedHashSet<>(list);
 
         // Clear the list
         list.clear();
