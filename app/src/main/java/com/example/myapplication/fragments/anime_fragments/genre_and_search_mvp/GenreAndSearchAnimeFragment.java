@@ -175,6 +175,9 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         for (Element element : getListData) {
             String detailURL = element.select("a[href^=https://animeindo.to/anime/]").attr("href");
             String thumbURL = element.getElementsByClass("episode-ratio background-cover").attr("style").substring(element.getElementsByClass("episode-ratio background-cover").attr("style").indexOf("https://"), element.getElementsByClass("episode-ratio background-cover").attr("style").indexOf(")"));
+            if (thumbURL.contains("'")) {
+                thumbURL = thumbURL.replace("'", "");
+            }
             String animeTitle = element.getElementsByTag("h4").text();
             String animeStatus = "", animeType = "";
             if (element.getElementsByClass("text-h6").eachText().size() < 2) {

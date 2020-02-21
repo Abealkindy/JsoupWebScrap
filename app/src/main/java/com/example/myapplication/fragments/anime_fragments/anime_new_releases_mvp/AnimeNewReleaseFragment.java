@@ -22,12 +22,6 @@ import com.example.myapplication.adapters.AnimeRecyclerNewReleasesAdapter;
 import com.example.myapplication.databinding.FragmentAnimeNewReleaseBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
 import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;
-import com.google.gson.Gson;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,41 +82,6 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
         newReleasesPresenter.getNewReleasesAnimeData(pageCount, "https://animeindo.to", hitStatus);
     }
 
-    private List<AnimeNewReleaseResultModel> parseResult(String result) {
-        Document doc = Jsoup.parse(result);
-        Elements newepisodecon = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-xl-per5 mb40");
-        List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
-
-        for (Element el : newepisodecon) {
-            String animeThumbnailBackground = el.getElementsByClass("episode-ratio background-cover").attr("style");
-            String thumbnailCut = animeThumbnailBackground.substring(animeThumbnailBackground.indexOf("https://"), animeThumbnailBackground.indexOf(")"));
-            String animeEpisode = el.getElementsByTag("h3").text();
-            String animeEpisodeNumber = el.getElementsByClass("episode-number").text();
-            List<String> animeStatusAndType = el.getElementsByClass("text-h6").eachText();
-            String animeEpisodeStatus = "", animeEpisodeType;
-            if (animeStatusAndType.size() < 2) {
-                animeEpisodeType = el.getElementsByClass("text-h6").eachText().get(0);
-            } else {
-                animeEpisodeStatus = el.getElementsByClass("text-h6").eachText().get(0);
-                animeEpisodeType = el.getElementsByClass("text-h6").eachText().get(1);
-            }
-            String epsiodeURL = el.getElementsByTag("a").attr("href");
-
-            AnimeNewReleaseResultModel animeNewReleaseResultModel = new AnimeNewReleaseResultModel();
-            animeNewReleaseResultModel.setAnimeEpisode(animeEpisode);
-            animeNewReleaseResultModel.setEpisodeThumb(thumbnailCut);
-            animeNewReleaseResultModel.setEpisodeURL(epsiodeURL);
-            animeNewReleaseResultModel.setAnimeEpisodeNumber(animeEpisodeNumber);
-            animeNewReleaseResultModel.setAnimeEpisodeType(animeEpisodeType);
-            animeNewReleaseResultModel.setAnimeEpisodeStatus(animeEpisodeStatus);
-            animeNewReleaseResultModelList.add(animeNewReleaseResultModel);
-        }
-        List<AnimeNewReleaseResultModel> animeNewReleaseResultModelListAfterCut = new ArrayList<>(animeNewReleaseResultModelList.subList(6, animeNewReleaseResultModelList.size() - 1));
-        Log.e("resultBeforeCut", new Gson().toJson(animeNewReleaseResultModelList));
-        Log.e("resultAfterCut", new Gson().toJson(animeNewReleaseResultModelListAfterCut));
-        return animeNewReleaseResultModelList;
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -132,23 +91,23 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
     }
 
     @Override
-    public void onGetNewReleasesDataSuccess(String newReleasesHTMLResult, String hitStatus) {
-        if (hitStatus.equalsIgnoreCase("newPage")) {
-            if (progressDialog != null) {
-                progressDialog.dismiss();
+    public void onGetNewReleasesDataSuccess(List<AnimeNewReleaseResultModel> animeNewReleases, String hitStatus) {
+        getActivity().runOnUiThread(() -> {
+            if (hitStatus.equalsIgnoreCase("newPage")) {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+            } else if (hitStatus.equalsIgnoreCase("swipeRefresh")) {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+                if (animeNewReleaseResultModelList != null) {
+                    animeNewReleaseResultModelList.clear();
+                }
             }
-            animeNewReleaseResultModelList.addAll(parseResult(newReleasesHTMLResult));
+            animeNewReleaseResultModelList.addAll(animeNewReleases);
             animeRecyclerNewReleasesAdapter.notifyDataSetChanged();
-        } else if (hitStatus.equalsIgnoreCase("swipeRefresh")) {
-            if (progressDialog != null) {
-                progressDialog.dismiss();
-            }
-            if (animeNewReleaseResultModelList != null) {
-                animeNewReleaseResultModelList.clear();
-            }
-            animeNewReleaseResultModelList.addAll(parseResult(newReleasesHTMLResult));
-            animeRecyclerNewReleasesAdapter.notifyDataSetChanged();
-        }
+        });
     }
 
     @Override

@@ -2,12 +2,22 @@ package com.example.myapplication.fragments.anime_fragments.anime_new_releases_m
 
 import android.util.Log;
 
+import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;
 import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.networks.RetrofitConfig;
+import com.google.gson.Gson;
 import com.zhkrb.cloudflare_scrape_android.Cloudflare;
 
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.net.HttpCookie;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -28,11 +38,12 @@ public class AnimeNewReleasesPresenter {
             @Override
             public void onSuccess(List<HttpCookie> cookieList, boolean hasNewUrl, String newUrl) {
                 Log.e("getNewURL?", String.valueOf(hasNewUrl));
+                Map<String, String> cookies = Cloudflare.List2Map(cookieList);
                 if (hasNewUrl) {
-                    passToRetrofit(pageCount, newUrl, hitStatus);
+                    passToRetrofit(pageCount, newUrl, hitStatus, cookies);
                     Log.e("NEWURL", newUrl);
                 } else {
-                    passToRetrofit(pageCount, newReleasesURL, hitStatus);
+                    passToRetrofit(pageCount, newReleasesURL, hitStatus, cookies);
                 }
             }
 
@@ -43,31 +54,51 @@ public class AnimeNewReleasesPresenter {
         });
     }
 
-    private void passToRetrofit(int pageCount, String newUrl, String hitStatus) {
-        ApiEndPointService apiEndPointService = RetrofitConfig.getInitAnimeRetrofit();
-        apiEndPointService.getNewReleaseAnimeData(newUrl + "/page/" + pageCount)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+    private void passToRetrofit(int pageCount, String newUrl, String hitStatus, Map<String, String> cookies) {
+        try {
+            Connection.Response jsoupResponse = Jsoup
+                    .connect(newUrl + "/page/" + pageCount)
+                    .userAgent("Mozilla/5.0")
+                    .cookies(cookies)
+                    .execute();
+            Document doc = jsoupResponse.parse();
+            Elements newepisodecon = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-xl-per5 mb40");
+            List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
 
-                    }
+            for (Element el : newepisodecon) {
+                String animeThumbnailBackground = el.getElementsByClass("episode-ratio background-cover").attr("style");
+                if (animeThumbnailBackground.contains("'")) {
+                    animeThumbnailBackground = animeThumbnailBackground.replace("'", "");
+                }
+                String thumbnailCut = animeThumbnailBackground.substring(animeThumbnailBackground.indexOf("https://"), animeThumbnailBackground.indexOf(")"));
+                String animeEpisode = el.getElementsByTag("h3").text();
+                String animeEpisodeNumber = el.getElementsByClass("episode-number").text();
+                List<String> animeStatusAndType = el.getElementsByClass("text-h6").eachText();
+                String animeEpisodeStatus = "", animeEpisodeType;
+                if (animeStatusAndType.size() < 2) {
+                    animeEpisodeType = el.getElementsByClass("text-h6").eachText().get(0);
+                } else {
+                    animeEpisodeStatus = el.getElementsByClass("text-h6").eachText().get(0);
+                    animeEpisodeType = el.getElementsByClass("text-h6").eachText().get(1);
+                }
+                String epsiodeURL = el.getElementsByTag("a").attr("href");
 
-                    @Override
-                    public void onNext(String result) {
-                        newReleasesInterface.onGetNewReleasesDataSuccess(result, hitStatus);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        newReleasesInterface.onGetNewReleasesDataFailed();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+                AnimeNewReleaseResultModel animeNewReleaseResultModel = new AnimeNewReleaseResultModel();
+                animeNewReleaseResultModel.setAnimeEpisode(animeEpisode);
+                animeNewReleaseResultModel.setEpisodeThumb(thumbnailCut);
+                animeNewReleaseResultModel.setEpisodeURL(epsiodeURL);
+                animeNewReleaseResultModel.setAnimeEpisodeNumber(animeEpisodeNumber);
+                animeNewReleaseResultModel.setAnimeEpisodeType(animeEpisodeType);
+                animeNewReleaseResultModel.setAnimeEpisodeStatus(animeEpisodeStatus);
+                animeNewReleaseResultModelList.add(animeNewReleaseResultModel);
+            }
+            List<AnimeNewReleaseResultModel> animeNewReleaseResultModelListAfterCut = new ArrayList<>(animeNewReleaseResultModelList.subList(6, animeNewReleaseResultModelList.size() - 1));
+            Log.e("resultBeforeCut", new Gson().toJson(animeNewReleaseResultModelList));
+            Log.e("resultAfterCut", new Gson().toJson(animeNewReleaseResultModelListAfterCut));
+            newReleasesInterface.onGetNewReleasesDataSuccess(animeNewReleaseResultModelListAfterCut, hitStatus);
+        } catch (Exception e) {
+            e.printStackTrace();
+            newReleasesInterface.onGetNewReleasesDataFailed();
+        }
     }
 }
