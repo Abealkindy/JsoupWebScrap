@@ -3,6 +3,7 @@ package com.example.myapplication.fragments.anime_fragments.genre_and_search_mvp
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,8 +30,6 @@ import com.example.myapplication.databinding.FragmentGenreAndSearchAnimeBinding;
 import com.example.myapplication.databinding.SelectChapterDialogBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
 import com.example.myapplication.models.animemodels.AnimeGenreAndSearchResultModel;
-import com.example.myapplication.networks.ApiEndPointService;
-import com.example.myapplication.networks.RetrofitConfig;
 import com.google.gson.Gson;
 
 import org.jsoup.Jsoup;
@@ -40,11 +39,6 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,6 +50,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     private List<AnimeGenreAndSearchResultModel.AnimeSearchResult> animeGenreAndSearchResultModelList = new ArrayList<>();
     private GenreAndSearchAnimePresenter genreAndSearchAnimePresenter = new GenreAndSearchAnimePresenter(this);
     private ProgressDialog progressDialog;
+    private Context mContext;
     private Dialog dialog;
     private String hitStatus = "newPage", homeUrl = "/genres/action" + "/page/" + 1, hitQuery = "action";
     private int plusPage = 1, plusSearch = 1;
@@ -65,11 +60,17 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         // Required empty public constructor
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentGenreAndSearchAnimeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_genre_and_search_anime, container, false);
-        progressDialog = new ProgressDialog(getActivity());
+        progressDialog = new ProgressDialog(mContext);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
@@ -78,9 +79,9 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         setHasOptionsMenu(true);
         initEvent();
         fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.setHasFixedSize(true);
-        searchAndGenreAdapter = new AnimeRecyclerSearchAndGenreAdapter(getActivity(), animeGenreAndSearchResultModelList);
+        searchAndGenreAdapter = new AnimeRecyclerSearchAndGenreAdapter(mContext, animeGenreAndSearchResultModelList);
         fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.setAdapter(searchAndGenreAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.setLayoutManager(linearLayoutManager);
         fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
@@ -100,7 +101,9 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         fragmentGenreAndSearchAnimeBinding.swipeRefreshSearchAndGenre.setOnRefreshListener(() -> {
             fragmentGenreAndSearchAnimeBinding.swipeRefreshSearchAndGenre.setRefreshing(false);
             setTags(homeUrl, SWIPE_REFRESH);
-            getFragmentManager().beginTransaction().detach(this).attach(this).commitNow();
+            if (getFragmentManager() != null) {
+                getFragmentManager().beginTransaction().detach(this).attach(this).commitNow();
+            }
         });
         return fragmentGenreAndSearchAnimeBinding.getRoot();
     }
@@ -112,13 +115,17 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
                 plusPage++;
                 homeUrl = "/genres/" + searchQuery + "/page/" + plusPage;
                 hitStatus = "newPage";
-                getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+                if (getFragmentManager() != null) {
+                    getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+                }
                 break;
             case NEW_PAGE:
                 plusPage = 1;
                 homeUrl = "/genres/" + searchQuery + "/page/" + 1;
                 hitStatus = "newPage";
-                getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+                if (getFragmentManager() != null) {
+                    getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+                }
                 break;
             case SWIPE_REFRESH:
                 plusPage = 1;
@@ -134,7 +141,9 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
                 plusSearch++;
                 homeUrl = "/page/" + plusSearch + "/?s=" + searchQuery + "&post_type=anime";
                 hitStatus = "searchScrollRequest";
-                getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+                if (getFragmentManager() != null) {
+                    getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+                }
                 break;
         }
 
@@ -155,6 +164,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
 
     private List<AnimeGenreAndSearchResultModel.AnimeGenreResult> parseGenrePageToReadableData(String result) {
         List<AnimeGenreAndSearchResultModel.AnimeGenreResult> genreResultList = new ArrayList<>();
+        genreResultList.clear();
         Document document = Jsoup.parse(result);
         Elements getGenreData = document.select("a[href^=https://animeindo.to/genres/]");
         for (Element element : getGenreData) {
@@ -224,12 +234,12 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
 
     private void initEvent() {
         fragmentGenreAndSearchAnimeBinding.fabSelectGenre.setOnClickListener(v -> {
-            dialog = new Dialog(getActivity());
-            SelectChapterDialogBinding chapterDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.select_chapter_dialog, null, false);
+            dialog = new Dialog(mContext);
+            SelectChapterDialogBinding chapterDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.select_chapter_dialog, null, false);
             dialog.setContentView(chapterDialogBinding.getRoot());
             dialog.setTitle("Select other chapter");
             chapterDialogBinding.recyclerAllChapters.setHasFixedSize(true);
-            chapterDialogBinding.recyclerAllChapters.setLayoutManager(new LinearLayoutManager(getActivity()));
+            chapterDialogBinding.recyclerAllChapters.setLayoutManager(new LinearLayoutManager(mContext));
             chapterDialogBinding.recyclerAllChapters.setAdapter(new RecyclerAllGenreAdapter(this, animeGenreResultModelList));
             dialog.show();
         });
@@ -264,7 +274,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     @Override
     public void onGetSearchAndGenreDataFailed() {
         progressDialog.dismiss();
-        Toast.makeText(getActivity(), "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -274,6 +284,6 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
 
     @Override
     public void onGetOnlyGenreDataFailed() {
-        Toast.makeText(getActivity(), "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
     }
 }
