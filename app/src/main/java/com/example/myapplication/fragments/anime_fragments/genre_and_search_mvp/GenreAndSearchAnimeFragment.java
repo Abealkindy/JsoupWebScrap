@@ -30,12 +30,6 @@ import com.example.myapplication.databinding.FragmentGenreAndSearchAnimeBinding;
 import com.example.myapplication.databinding.SelectChapterDialogBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
 import com.example.myapplication.models.animemodels.AnimeGenreAndSearchResultModel;
-import com.google.gson.Gson;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -162,53 +156,6 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         genreAndSearchAnimePresenter.getOnlyGenreData(genreTotalURL);
     }
 
-    private List<AnimeGenreAndSearchResultModel.AnimeGenreResult> parseGenrePageToReadableData(String result) {
-        List<AnimeGenreAndSearchResultModel.AnimeGenreResult> genreResultList = new ArrayList<>();
-        genreResultList.clear();
-        Document document = Jsoup.parse(result);
-        Elements getGenreData = document.select("a[href^=https://animeindo.to/genres/]");
-        for (Element element : getGenreData) {
-            String genreURL = element.attr("href");
-            String genreTitle = element.text();
-            AnimeGenreAndSearchResultModel.AnimeGenreResult genreResult = new AnimeGenreAndSearchResultModel().new AnimeGenreResult();
-            genreResult.setGenreTitle(genreTitle);
-            genreResult.setGenreURL(genreURL);
-            genreResultList.add(genreResult);
-        }
-        return genreResultList;
-    }
-
-    private List<AnimeGenreAndSearchResultModel.AnimeSearchResult> parseHTMLToReadableData(String htmlResult) {
-        List<AnimeGenreAndSearchResultModel.AnimeSearchResult> animeGenreAndSearchResultModelList = new ArrayList<>();
-        Document document = Jsoup.parse(htmlResult);
-        Elements getListData = document.getElementsByClass("col-6 col-md-4 col-lg-3 col-wd-per5 col-xl-per5 mb40");
-        for (Element element : getListData) {
-            String detailURL = element.select("a[href^=https://animeindo.to/anime/]").attr("href");
-            String thumbURL = element.getElementsByClass("episode-ratio background-cover").attr("style").substring(element.getElementsByClass("episode-ratio background-cover").attr("style").indexOf("https://"), element.getElementsByClass("episode-ratio background-cover").attr("style").indexOf(")"));
-            if (thumbURL.contains("'")) {
-                thumbURL = thumbURL.replace("'", "");
-            }
-            String animeTitle = element.getElementsByTag("h4").text();
-            String animeStatus = "", animeType = "";
-            if (element.getElementsByClass("text-h6").eachText().size() < 2) {
-                animeType = element.getElementsByClass("text-h6").eachText().get(0);
-            } else {
-                animeStatus = element.getElementsByClass("text-h6").eachText().get(0);
-                animeType = element.getElementsByClass("text-h6").eachText().get(1);
-            }
-
-            AnimeGenreAndSearchResultModel.AnimeSearchResult searchResult = new AnimeGenreAndSearchResultModel().new AnimeSearchResult();
-            searchResult.setAnimeDetailURL(detailURL);
-            searchResult.setAnimeThumb(thumbURL);
-            searchResult.setAnimeTitle(animeTitle);
-            searchResult.setAnimeStatus(animeStatus);
-            searchResult.setAnimeType(animeType);
-            animeGenreAndSearchResultModelList.add(searchResult);
-            Log.e("GENRE AND SEARCH", new Gson().toJson(animeGenreAndSearchResultModelList));
-        }
-        return animeGenreAndSearchResultModelList;
-    }
-
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
@@ -262,12 +209,12 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     }
 
     @Override
-    public void onGetSearchAndGenreDataSuccess(String searchAndGenreHTMLResult) {
+    public void onGetSearchAndGenreDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeSearchResult> searchAndGenreHTMLResult) {
         progressDialog.dismiss();
         if (animeGenreAndSearchResultModelList != null) {
             animeGenreAndSearchResultModelList.clear();
         }
-        animeGenreAndSearchResultModelList.addAll(parseHTMLToReadableData(searchAndGenreHTMLResult));
+        animeGenreAndSearchResultModelList.addAll(searchAndGenreHTMLResult);
         searchAndGenreAdapter.recyclerRefresh();
     }
 
@@ -278,8 +225,8 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     }
 
     @Override
-    public void onGetOnlyGenreDataSuccess(String onlyGenreHTMLResult) {
-        animeGenreResultModelList.addAll(parseGenrePageToReadableData(onlyGenreHTMLResult));
+    public void onGetOnlyGenreDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> onlyGenreHTMLResult) {
+        animeGenreResultModelList.addAll(onlyGenreHTMLResult);
     }
 
     @Override

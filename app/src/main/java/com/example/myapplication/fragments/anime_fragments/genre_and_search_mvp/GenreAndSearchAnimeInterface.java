@@ -1,11 +1,15 @@
 package com.example.myapplication.fragments.anime_fragments.genre_and_search_mvp;
 
+import com.example.myapplication.models.animemodels.AnimeGenreAndSearchResultModel;
+
+import java.util.List;
+
 public interface GenreAndSearchAnimeInterface {
-    void onGetSearchAndGenreDataSuccess(String searchAndGenreHTMLResult);
+    void onGetSearchAndGenreDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeSearchResult> searchAndGenreHTMLResult);
 
     void onGetSearchAndGenreDataFailed();
 
-    void onGetOnlyGenreDataSuccess(String onlyGenreHTMLResult);
+    void onGetOnlyGenreDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> onlyGenreHTMLResult);
 
     void onGetOnlyGenreDataFailed();
 }
