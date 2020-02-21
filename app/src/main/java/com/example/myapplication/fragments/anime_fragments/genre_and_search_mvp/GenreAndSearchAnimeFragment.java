@@ -210,12 +210,14 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
 
     @Override
     public void onGetSearchAndGenreDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeSearchResult> searchAndGenreHTMLResult) {
-        progressDialog.dismiss();
-        if (animeGenreAndSearchResultModelList != null) {
-            animeGenreAndSearchResultModelList.clear();
-        }
-        animeGenreAndSearchResultModelList.addAll(searchAndGenreHTMLResult);
-        searchAndGenreAdapter.recyclerRefresh();
+        getActivity().runOnUiThread(() -> {
+            progressDialog.dismiss();
+            if (animeGenreAndSearchResultModelList != null) {
+                animeGenreAndSearchResultModelList.clear();
+            }
+            animeGenreAndSearchResultModelList.addAll(searchAndGenreHTMLResult);
+            searchAndGenreAdapter.recyclerRefresh();
+        });
     }
 
     @Override
@@ -226,6 +228,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
 
     @Override
     public void onGetOnlyGenreDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> onlyGenreHTMLResult) {
+        animeGenreResultModelList.clear();
         animeGenreResultModelList.addAll(onlyGenreHTMLResult);
     }
 
