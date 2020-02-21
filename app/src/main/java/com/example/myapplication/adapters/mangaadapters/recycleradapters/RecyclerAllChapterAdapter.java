@@ -1,4 +1,4 @@
-package com.example.myapplication.adapters;
+package com.example.myapplication.adapters.mangaadapters.recycleradapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package com.example.myapplication.adapters;
+package com.example.myapplication.adapters.animeadapters.recycleradapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,21 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;
 import com.example.myapplication.R;
-import com.example.myapplication.activities.animepage.watch_anime_mvp.WatchAnimeEpisodeActivity;
+import com.example.myapplication.activities.animepage.anime_detail_mvp.AnimeDetailActivity;
 import com.example.myapplication.databinding.ItemListAnimeBinding;
+import com.example.myapplication.models.animemodels.AnimeGenreAndSearchResultModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class AnimeRecyclerNewReleasesAdapter extends RecyclerView.Adapter<AnimeRecyclerNewReleasesAdapter.ViewHolder> {
+public class AnimeRecyclerSearchAndGenreAdapter extends RecyclerView.Adapter<AnimeRecyclerSearchAndGenreAdapter.ViewHolder> {
     private Context context;
-    private List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList;
+    private List<AnimeGenreAndSearchResultModel.AnimeSearchResult> searchResultList;
 
-    public AnimeRecyclerNewReleasesAdapter(Context context, List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList) {
+    public AnimeRecyclerSearchAndGenreAdapter(Context context, List<AnimeGenreAndSearchResultModel.AnimeSearchResult> searchResultList) {
         this.context = context;
-        this.animeNewReleaseResultModelList = animeNewReleaseResultModelList;
+        this.searchResultList = searchResultList;
     }
 
     @NonNull
@@ -39,60 +39,66 @@ public class AnimeRecyclerNewReleasesAdapter extends RecyclerView.Adapter<AnimeR
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        holder.itemListBinding.textTitle.setText(animeNewReleaseResultModelList.get(position).getAnimeEpisode() + " Episode " + animeNewReleaseResultModelList.get(position).getAnimeEpisodeNumber());
-        holder.itemListBinding.textTitle.setText(animeNewReleaseResultModelList.get(position).getAnimeEpisode());
-        Picasso.get().load(animeNewReleaseResultModelList.get(position).getEpisodeThumb()).into(holder.itemListBinding.imageViewBackground);
-
-        if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.series_string))) {
+        holder.itemListBinding.textTitle.setText(searchResultList.get(position).getAnimeTitle());
+        Picasso.get().load(searchResultList.get(position).getAnimeThumb()).into(holder.itemListBinding.imageViewBackground);
+        if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.series_string)) ||
+                searchResultList.get(position).getAnimeType().contains(context.getResources().getString(R.string.series_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.blue_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.series_string));
             holder.itemListBinding.cardEpisodeStatus.setVisibility(View.VISIBLE);
-        } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.ova_string))) {
+        } else if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.ova_string)) ||
+                searchResultList.get(position).getAnimeType().contains(context.getResources().getString(R.string.ova_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.pink_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.ova_string));
             holder.itemListBinding.cardEpisodeStatus.setVisibility(View.VISIBLE);
-        } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.ona_string))) {
+        } else if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.ona_string)) ||
+                searchResultList.get(position).getAnimeType().contains(context.getResources().getString(R.string.ona_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.purple_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.ona_string));
             holder.itemListBinding.cardEpisodeStatus.setVisibility(View.VISIBLE);
-        } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.la_string))) {
+        } else if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.la_string)) ||
+                searchResultList.get(position).getAnimeType().contains(context.getResources().getString(R.string.la_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.red_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.la_string));
             holder.itemListBinding.cardEpisodeStatus.setVisibility(View.VISIBLE);
-        } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.movie_string))) {
+        } else if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.movie_string)) ||
+                searchResultList.get(position).getAnimeType().contains(context.getResources().getString(R.string.movie_string_lower))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.green_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.movie_string));
             holder.itemListBinding.cardEpisodeStatus.setVisibility(View.GONE);
-        } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeType().equalsIgnoreCase(context.getResources().getString(R.string.special_string))) {
+        } else if (searchResultList.get(position).getAnimeType().equalsIgnoreCase(context.getResources().getString(R.string.special_string)) ||
+                searchResultList.get(position).getAnimeType().contains(context.getResources().getString(R.string.special_string_lower))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.getResources().getColor(R.color.orange_series_color));
             holder.itemListBinding.textEpisodeType.setText(context.getResources().getString(R.string.special_string));
             holder.itemListBinding.cardEpisodeStatus.setVisibility(View.VISIBLE);
         }
 
-        if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeStatus().equalsIgnoreCase(context.getResources().getString(R.string.ongoing_text))) {
+        if (searchResultList.get(position).getAnimeStatus().equalsIgnoreCase(context.getResources().getString(R.string.ongoing_text))) {
             holder.itemListBinding.cardEpisodeStatus.setCardBackgroundColor(context.getResources().getColor(R.color.ongoing_color));
             holder.itemListBinding.textEpisodeStatus.setText(context.getResources().getString(R.string.ongoing_text));
-        } else if (animeNewReleaseResultModelList.get(position).getAnimeEpisodeStatus().equalsIgnoreCase(context.getResources().getString(R.string.completed_text))) {
+        } else if (searchResultList.get(position).getAnimeStatus().equalsIgnoreCase(context.getResources().getString(R.string.completed_text))) {
             holder.itemListBinding.cardEpisodeStatus.setCardBackgroundColor(context.getResources().getColor(R.color.completed_color));
             holder.itemListBinding.textEpisodeStatus.setText(context.getResources().getString(R.string.completed_text));
         }
 
-//        holder.itemListBinding.cardEpisodeNumber.setCardBackgroundColor(context.getResources().getColor(R.color.white_with_opacity));
-//        holder.itemListBinding.textEpisodeNumber.setText("Episode " + animeNewReleaseResultModelList.get(position).getAnimeEpisodeNumber());
         holder.itemListBinding.relativeItem.setOnClickListener(v -> {
-            Intent intentToVideoWatchActivity = new Intent(context.getApplicationContext(), WatchAnimeEpisodeActivity.class);
-            intentToVideoWatchActivity.putExtra("animeEpisodeToWatch", animeNewReleaseResultModelList.get(position).getEpisodeURL());
-            intentToVideoWatchActivity.putExtra("animeEpisodeTitle", animeNewReleaseResultModelList.get(position).getAnimeEpisode());
-            intentToVideoWatchActivity.putExtra("animeEpisodeType", animeNewReleaseResultModelList.get(position).getAnimeEpisodeType());
-            intentToVideoWatchActivity.putExtra("animeEpisodeStatus", animeNewReleaseResultModelList.get(position).getAnimeEpisodeStatus());
-            intentToVideoWatchActivity.putExtra("animeEpisodeThumb", animeNewReleaseResultModelList.get(position).getEpisodeThumb());
+            Intent intentToVideoWatchActivity = new Intent(context.getApplicationContext(), AnimeDetailActivity.class);
+            intentToVideoWatchActivity.putExtra("animeDetailURL", searchResultList.get(position).getAnimeDetailURL());
+            intentToVideoWatchActivity.putExtra("animeDetailTitle", searchResultList.get(position).getAnimeTitle());
+            intentToVideoWatchActivity.putExtra("animeDetailType", searchResultList.get(position).getAnimeType());
+            intentToVideoWatchActivity.putExtra("animeDetailStatus", searchResultList.get(position).getAnimeStatus());
+            intentToVideoWatchActivity.putExtra("animeDetailThumb", searchResultList.get(position).getAnimeThumb());
             context.startActivity(intentToVideoWatchActivity);
         });
     }
 
     @Override
     public int getItemCount() {
-        return animeNewReleaseResultModelList.size();
+        return searchResultList.size();
+    }
+
+    public void recyclerRefresh() {
+        this.notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

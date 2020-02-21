@@ -1,4 +1,4 @@
-package com.example.myapplication.adapters;
+package com.example.myapplication.adapters.animeadapters.viewpageradapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

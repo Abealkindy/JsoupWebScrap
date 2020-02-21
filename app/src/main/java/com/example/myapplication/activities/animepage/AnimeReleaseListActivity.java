@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
-import com.example.myapplication.adapters.ViewPagerAnimeMenuTabAdapter;
+import com.example.myapplication.adapters.animeadapters.viewpageradapter.ViewPagerAnimeMenuTabAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.MainActivity;
 import com.example.myapplication.databinding.ActivityAnimeReleaseListBinding;

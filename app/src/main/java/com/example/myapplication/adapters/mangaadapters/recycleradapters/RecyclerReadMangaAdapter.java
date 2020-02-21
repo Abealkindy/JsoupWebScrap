@@ -1,4 +1,4 @@
-package com.example.myapplication.adapters;
+package com.example.myapplication.adapters.mangaadapters.recycleradapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

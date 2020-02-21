@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapters.MangaRecyclerNewReleasesAdapter;
+import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerNewReleasesAdapter;
 import com.example.myapplication.databinding.FragmentMangaNewReleaseBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
 import com.example.myapplication.models.mangamodels.MangaNewReleaseResultModel;

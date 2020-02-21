@@ -1,4 +1,4 @@
-package com.example.myapplication.adapters;
+package com.example.myapplication.adapters.animeadapters.recycleradapters;
 
 import android.content.Context;
 import android.content.Intent;

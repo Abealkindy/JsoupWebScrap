@@ -8,7 +8,7 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import com.example.myapplication.activities.MainActivity;
-import com.example.myapplication.adapters.ViewPagerMangaMenuTabAdapter;
+import com.example.myapplication.adapters.mangaadapters.viewpageradapter.ViewPagerMangaMenuTabAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ActivityMangaReleaseListBinding;
 import com.google.android.material.tabs.TabLayout;

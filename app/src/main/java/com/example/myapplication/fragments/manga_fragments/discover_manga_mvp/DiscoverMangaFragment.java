@@ -24,7 +24,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
-import com.example.myapplication.adapters.MangaRecyclerDiscoverAdapter;
+import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerDiscoverAdapter;
 import com.example.myapplication.databinding.FragmentDiscoverMangaBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
 import com.example.myapplication.models.mangamodels.DiscoverMangaModel;

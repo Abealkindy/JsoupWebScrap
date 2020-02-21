@@ -2,7 +2,7 @@ package com.example.myapplication.activities.mangapage.manga_detail_mvp;
 
 import android.os.Bundle;
 
-import com.example.myapplication.adapters.RecyclerAllChapterDetailAdapter;
+import com.example.myapplication.adapters.mangaadapters.recycleradapters.RecyclerAllChapterDetailAdapter;
 import com.example.myapplication.adapters.RecyclerGenreAdapter;
 import com.example.myapplication.databinding.ActivityMangaDetailBinding;
 import com.example.myapplication.models.mangamodels.DetailMangaModel;

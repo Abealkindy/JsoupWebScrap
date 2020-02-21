@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapters.AnimeRecyclerNewReleasesAdapter;
+import com.example.myapplication.adapters.animeadapters.recycleradapters.AnimeRecyclerNewReleasesAdapter;
 import com.example.myapplication.databinding.FragmentAnimeNewReleaseBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
 import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;

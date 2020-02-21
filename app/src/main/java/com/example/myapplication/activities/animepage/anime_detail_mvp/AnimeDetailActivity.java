@@ -2,7 +2,7 @@ package com.example.myapplication.activities.animepage.anime_detail_mvp;
 
 import android.os.Bundle;
 
-import com.example.myapplication.adapters.RecyclerAllEpisodeDetailAdapter;
+import com.example.myapplication.adapters.animeadapters.recycleradapters.RecyclerAllEpisodeDetailAdapter;
 import com.example.myapplication.adapters.RecyclerGenreAdapter;
 import com.example.myapplication.databinding.ActivityAnimeDetailBinding;
 import com.example.myapplication.models.animemodels.AnimeDetailModel;

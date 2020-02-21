@@ -24,8 +24,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapters.AnimeRecyclerSearchAndGenreAdapter;
-import com.example.myapplication.adapters.RecyclerAllGenreAdapter;
+import com.example.myapplication.adapters.animeadapters.recycleradapters.AnimeRecyclerSearchAndGenreAdapter;
+import com.example.myapplication.adapters.animeadapters.recycleradapters.RecyclerAllGenreAdapter;
 import com.example.myapplication.databinding.FragmentGenreAndSearchAnimeBinding;
 import com.example.myapplication.databinding.SelectChapterDialogBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
