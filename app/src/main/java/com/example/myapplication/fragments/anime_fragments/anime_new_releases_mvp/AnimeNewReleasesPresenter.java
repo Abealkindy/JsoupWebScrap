@@ -3,8 +3,6 @@ package com.example.myapplication.fragments.anime_fragments.anime_new_releases_m
 import android.util.Log;
 
 import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;
-import com.example.myapplication.networks.ApiEndPointService;
-import com.example.myapplication.networks.RetrofitConfig;
 import com.google.gson.Gson;
 import com.zhkrb.cloudflare_scrape_android.Cloudflare;
 
@@ -18,11 +16,6 @@ import java.net.HttpCookie;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class AnimeNewReleasesPresenter {
     private AnimeNewReleasesInterface newReleasesInterface;
