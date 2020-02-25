@@ -20,7 +20,7 @@ class ReadMangaPresenter(private val readMangaInterface: ReadMangaInterface) {
     private val allChapterDatasList = ArrayList<AllChapterDatas>()
     private lateinit var allChapterDatas: List<AllChapterDatas>
 
-    fun getMangaContent(contentURL: String) {
+    fun getMangaContent(contentURL: String?) {
         val cf = Cloudflare(contentURL)
         cf.user_agent = "Mozilla/5.0"
         cf.getCookies(object : Cloudflare.cfCallback {
@@ -42,7 +42,7 @@ class ReadMangaPresenter(private val readMangaInterface: ReadMangaInterface) {
     }
 
     @SuppressLint("LongLogTag")
-    private fun passToJsoup(newUrl: String, cookies: Map<String, String>) {
+    private fun passToJsoup(newUrl: String?, cookies: Map<String, String>) {
         try {
             val jsoupResponse = Jsoup.connect(newUrl).userAgent("Mozilla/5.0").cookies(cookies).execute()
             val doc = jsoupResponse.parse()

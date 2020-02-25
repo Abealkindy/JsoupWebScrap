@@ -27,27 +27,27 @@ class AnimeRecyclerSearchAndGenreAdapter(private val context: Context, private v
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemListBinding.textTitle.text = searchResultList[position].animeTitle
         Picasso.get().load(searchResultList[position].animeThumb).into(holder.itemListBinding.imageViewBackground)
-        if (searchResultList[position].animeType.equals(context.resources.getString(R.string.series_string), ignoreCase = true) || searchResultList[position].animeType.contains(context.resources.getString(R.string.series_string))) {
+        if (searchResultList[position].animeType.equals(context.resources.getString(R.string.series_string), ignoreCase = true) || searchResultList[position].animeType!!.contains(context.resources.getString(R.string.series_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.resources.getColor(R.color.blue_series_color))
             holder.itemListBinding.textEpisodeType.text = context.resources.getString(R.string.series_string)
             holder.itemListBinding.cardEpisodeStatus.visibility = View.VISIBLE
-        } else if (searchResultList[position].animeType.equals(context.resources.getString(R.string.ova_string), ignoreCase = true) || searchResultList[position].animeType.contains(context.resources.getString(R.string.ova_string))) {
+        } else if (searchResultList[position].animeType.equals(context.resources.getString(R.string.ova_string), ignoreCase = true) || searchResultList[position].animeType!!.contains(context.resources.getString(R.string.ova_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.resources.getColor(R.color.pink_series_color))
             holder.itemListBinding.textEpisodeType.text = context.resources.getString(R.string.ova_string)
             holder.itemListBinding.cardEpisodeStatus.visibility = View.VISIBLE
-        } else if (searchResultList[position].animeType.equals(context.resources.getString(R.string.ona_string), ignoreCase = true) || searchResultList[position].animeType.contains(context.resources.getString(R.string.ona_string))) {
+        } else if (searchResultList[position].animeType.equals(context.resources.getString(R.string.ona_string), ignoreCase = true) || searchResultList[position].animeType!!.contains(context.resources.getString(R.string.ona_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.resources.getColor(R.color.purple_series_color))
             holder.itemListBinding.textEpisodeType.text = context.resources.getString(R.string.ona_string)
             holder.itemListBinding.cardEpisodeStatus.visibility = View.VISIBLE
-        } else if (searchResultList[position].animeType.equals(context.resources.getString(R.string.la_string), ignoreCase = true) || searchResultList[position].animeType.contains(context.resources.getString(R.string.la_string))) {
+        } else if (searchResultList[position].animeType.equals(context.resources.getString(R.string.la_string), ignoreCase = true) || searchResultList[position].animeType!!.contains(context.resources.getString(R.string.la_string))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.resources.getColor(R.color.red_series_color))
             holder.itemListBinding.textEpisodeType.text = context.resources.getString(R.string.la_string)
             holder.itemListBinding.cardEpisodeStatus.visibility = View.VISIBLE
-        } else if (searchResultList[position].animeType.equals(context.resources.getString(R.string.movie_string), ignoreCase = true) || searchResultList[position].animeType.contains(context.resources.getString(R.string.movie_string_lower))) {
+        } else if (searchResultList[position].animeType.equals(context.resources.getString(R.string.movie_string), ignoreCase = true) || searchResultList[position].animeType!!.contains(context.resources.getString(R.string.movie_string_lower))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.resources.getColor(R.color.green_series_color))
             holder.itemListBinding.textEpisodeType.text = context.resources.getString(R.string.movie_string)
             holder.itemListBinding.cardEpisodeStatus.visibility = View.GONE
-        } else if (searchResultList[position].animeType.equals(context.resources.getString(R.string.special_string), ignoreCase = true) || searchResultList[position].animeType.contains(context.resources.getString(R.string.special_string_lower))) {
+        } else if (searchResultList[position].animeType.equals(context.resources.getString(R.string.special_string), ignoreCase = true) || searchResultList[position].animeType!!.contains(context.resources.getString(R.string.special_string_lower))) {
             holder.itemListBinding.cardEpisodeType.setCardBackgroundColor(context.resources.getColor(R.color.orange_series_color))
             holder.itemListBinding.textEpisodeType.text = context.resources.getString(R.string.special_string)
             holder.itemListBinding.cardEpisodeStatus.visibility = View.VISIBLE

@@ -73,8 +73,8 @@ class MangaNewReleaseFragment : Fragment(), MangaNewReleaseInterface {
         mangaRecyclerNewReleasesAdapter = MangaRecyclerNewReleasesAdapter(activity!!, mangaNewReleaseResultModels)
         newReleaseBinding!!.recyclerNewReleasesManga.adapter = mangaRecyclerNewReleasesAdapter
         val linearLayoutManager = newReleaseBinding!!.recyclerNewReleasesManga.layoutManager as LinearLayoutManager?
-        newReleaseBinding!!.recyclerNewReleasesManga.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            override fun onLoadMore(index: Int, totalItemsCount: Int, view: RecyclerView) {
+        newReleaseBinding!!.recyclerNewReleasesManga.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager!!) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 getNewReleasesManga(pageCount++, "newPage")
             }
         })
@@ -92,17 +92,17 @@ class MangaNewReleaseFragment : Fragment(), MangaNewReleaseInterface {
         newReleasePresenter.getNewReleasesMangaData(pageCount, "https://komikcast.com", hitStatus)
     }
 
-    override fun onGetNewReleasesDataSuccess(mangaNewReleaseResultModel: List<MangaNewReleaseResultModel>, hitStatus: String) {
+    override fun onGetNewReleasesDataSuccess(mangaNewReleaseResultModels: List<MangaNewReleaseResultModel>, hitStatus: String) {
         activity!!.runOnUiThread {
             if (hitStatus.equals("newPage", ignoreCase = true)) {
                 progressDialog!!.dismiss()
-                mangaNewReleaseResultModels.addAll(mangaNewReleaseResultModel)
+                this.mangaNewReleaseResultModels.addAll(mangaNewReleaseResultModels)
                 mangaRecyclerNewReleasesAdapter!!.notifyDataSetChanged()
             } else if (hitStatus.equals("swipeRefresh", ignoreCase = true)) {
                 progressDialog!!.dismiss()
-                if (mangaNewReleaseResultModels.isNotEmpty()) {
-                    mangaNewReleaseResultModels.clear()
-                    mangaNewReleaseResultModels.addAll(mangaNewReleaseResultModel)
+                if (this.mangaNewReleaseResultModels.isNotEmpty()) {
+                    this.mangaNewReleaseResultModels.clear()
+                    this.mangaNewReleaseResultModels.addAll(mangaNewReleaseResultModels)
                 }
                 mangaRecyclerNewReleasesAdapter!!.notifyDataSetChanged()
             }

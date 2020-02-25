@@ -67,7 +67,7 @@ class MangaRecyclerDiscoverAdapter(private val context: Context, private val ani
             }
         }
         holder.itemListBinding.mangaRatingBar.numStars = 5
-        val replaceComma = animeDiscoverResultModelList[position].mangaRating.replace(",", ".")
+        val replaceComma = animeDiscoverResultModelList[position].mangaRating!!.replace(",", ".")
         if (animeDiscoverResultModelList[position].mangaRating.equals("N/A", ignoreCase = true) || animeDiscoverResultModelList[position].mangaRating.equals("?", ignoreCase = true) || animeDiscoverResultModelList[position].mangaRating.equals("-", ignoreCase = true)) {
             holder.itemListBinding.mangaRatingBar.rating = 0f
             holder.itemListBinding.mangaRatingNumber.text = animeDiscoverResultModelList[position].mangaRating
@@ -78,7 +78,7 @@ class MangaRecyclerDiscoverAdapter(private val context: Context, private val ani
             holder.itemListBinding.mangaRatingBar.rating = java.lang.Float.parseFloat(replaceComma) / 2
             holder.itemListBinding.mangaRatingNumber.text = replaceComma
         }
-        val replaceCh = animeDiscoverResultModelList[position].mangaLatestChapterText.replace("Ch.", "Chapter ")
+        val replaceCh = animeDiscoverResultModelList[position].mangaLatestChapterText!!.replace("Ch.", "Chapter ")
         holder.itemListBinding.textLatestChapterRelease.text = replaceCh
         holder.itemListBinding.cardLatestMangaRelease.setOnClickListener {
             val intent = Intent(context.applicationContext, ReadMangaActivity::class.java)

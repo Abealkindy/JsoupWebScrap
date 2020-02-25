@@ -16,7 +16,7 @@ import com.example.myapplication.databinding.ItemListMangaContentBinding
 import java.net.MalformedURLException
 import java.net.URL
 
-class RecyclerReadMangaAdapter(private val context: Context, private val imageContent: List<String>) : RecyclerView.Adapter<RecyclerReadMangaAdapter.ViewHolder>() {
+class RecyclerReadMangaAdapter(private val context: Context, private val imageContent: List<String>?) : RecyclerView.Adapter<RecyclerReadMangaAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(context)
@@ -29,7 +29,7 @@ class RecyclerReadMangaAdapter(private val context: Context, private val imageCo
         try {
             Glide.with(context)
                     .asDrawable()
-                    .load(URL(imageContent[position]))
+                    .load(URL(this.imageContent?.get(position)))
                     .apply(RequestOptions().timeout(30000))
                     .error(context.resources.getDrawable(R.drawable.error))
                     .placeholder(context.resources.getDrawable(R.drawable.imageplaceholder))
@@ -43,7 +43,7 @@ class RecyclerReadMangaAdapter(private val context: Context, private val imageCo
     }
 
     override fun getItemCount(): Int {
-        return imageContent.size
+        return imageContent!!.size
     }
 
     inner class ViewHolder(val itemListBinding: ItemListMangaContentBinding) : RecyclerView.ViewHolder(itemListBinding.root)

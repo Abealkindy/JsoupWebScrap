@@ -120,37 +120,37 @@ class AnimeDetailActivity : AppCompatActivity(), AnimeDetailInterface {
     override fun onGetDetailDataSuccess(detailMangaModel: DetailMangaModel) {
         runOnUiThread {
             //get synopsis
-            if (detailMangaModel.mangaSynopsis == null || detailMangaModel.mangaSynopsis.isEmpty()) {
+            if (detailMangaModel.mangaSynopsis == null || detailMangaModel.mangaSynopsis!!.isEmpty()) {
                 animeDetailBinding.contentAnime.textSynopsisAnime.text = "-"
             } else {
                 animeDetailBinding.contentAnime.textSynopsisAnime.text = detailMangaModel.mangaSynopsis
             }
 
-            if (detailMangaModel.firstUpdateYear == null || detailMangaModel.firstUpdateYear.isEmpty()) {
+            if (detailMangaModel.firstUpdateYear == null || detailMangaModel.firstUpdateYear!!.isEmpty()) {
                 animeDetailBinding.contentAnime.animeAboutLayout.textReleasedOnAnime.text = "-"
             } else {
                 animeDetailBinding.contentAnime.animeAboutLayout.textReleasedOnAnime.text = detailMangaModel.firstUpdateYear
             }
 
-            if (detailMangaModel.lastMangaUpdateDate == null || detailMangaModel.lastMangaUpdateDate.isEmpty()) {
+            if (detailMangaModel.lastMangaUpdateDate == null || detailMangaModel.lastMangaUpdateDate!!.isEmpty()) {
                 animeDetailBinding.contentAnime.animeAboutLayout.textDuration.text = "-"
             } else {
                 animeDetailBinding.contentAnime.animeAboutLayout.textDuration.text = detailMangaModel.lastMangaUpdateDate
             }
 
-            if (detailMangaModel.totalMangaChapter == null || detailMangaModel.totalMangaChapter.isEmpty()) {
+            if (detailMangaModel.totalMangaChapter == null || detailMangaModel.totalMangaChapter!!.isEmpty()) {
                 animeDetailBinding.contentAnime.animeAboutLayout.textTotalEpisode.text = "-"
             } else {
                 animeDetailBinding.contentAnime.animeAboutLayout.textTotalEpisode.text = detailMangaModel.totalMangaChapter
             }
 
-            if (detailMangaModel.mangaAuthor == null || detailMangaModel.mangaAuthor.isEmpty()) {
+            if (detailMangaModel.mangaAuthor == null || detailMangaModel.mangaAuthor!!.isEmpty()) {
                 animeDetailBinding.contentAnime.animeAboutLayout.textStudio.text = "-"
             } else {
                 animeDetailBinding.contentAnime.animeAboutLayout.textStudio.text = detailMangaModel.mangaAuthor
             }
 
-            if (detailMangaModel.otherNames == null || detailMangaModel.otherNames.isEmpty()) {
+            if (detailMangaModel.otherNames == null || detailMangaModel.otherNames!!.isEmpty()) {
                 animeDetailBinding.contentAnime.animeAboutLayout.textOtherNameAnime.text = "-"
             } else {
                 animeDetailBinding.contentAnime.animeAboutLayout.textOtherNameAnime.text = detailMangaModel.otherNames
@@ -161,7 +161,7 @@ class AnimeDetailActivity : AppCompatActivity(), AnimeDetailInterface {
             if (animeDetailRating.equals("N/A", ignoreCase = true) || animeDetailRating.equals("?", ignoreCase = true) || animeDetailRating.equals("-", ignoreCase = true)) {
                 animeDetailBinding.ratingBarDetailAnime.rating = 0f
                 animeDetailBinding.ratingNumberDetailAnime.text = animeDetailRating
-            } else if (java.lang.Float.parseFloat(animeDetailRating) <= 0) {
+            } else if (java.lang.Float.parseFloat(animeDetailRating!!) <= 0) {
                 animeDetailBinding.ratingBarDetailAnime.rating = 0f
                 animeDetailBinding.ratingNumberDetailAnime.text = animeDetailRating
             } else {

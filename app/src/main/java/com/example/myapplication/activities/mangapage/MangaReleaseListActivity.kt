@@ -19,7 +19,7 @@ class MangaReleaseListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mangaReleaseListBinding = DataBindingUtil.setContentView(this, R.layout.activity_manga_release_list)
-        UISettings()
+        uiSettings()
         addUIEvents()
     }
 
@@ -44,7 +44,7 @@ class MangaReleaseListActivity : AppCompatActivity() {
         })
     }
 
-    private fun UISettings() {
+    private fun uiSettings() {
         title = "New releases"
         mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(resources.getDrawable(R.drawable.ic_home_white_24dp)))
         mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(resources.getDrawable(R.drawable.ic_view_list_white_24dp)))

@@ -154,21 +154,21 @@ class MangaDetailActivity : AppCompatActivity(), MangaDetailInterface {
             detailBinding.contentManga.mangaAboutLayout.textOtherName.text = detailMangaModel.otherNames
 
             //get Author
-            if (detailMangaModel.mangaAuthor == null || detailMangaModel.mangaAuthor.isEmpty()) {
+            if (detailMangaModel.mangaAuthor == null || detailMangaModel.mangaAuthor!!.isEmpty()) {
                 detailBinding.contentManga.mangaAboutLayout.textAuthor.text = "-"
             } else {
                 detailBinding.contentManga.mangaAboutLayout.textAuthor.text = detailMangaModel.mangaAuthor
             }
 
             //get released on
-            if (detailMangaModel.firstUpdateYear == null || detailMangaModel.firstUpdateYear.isEmpty()) {
+            if (detailMangaModel.firstUpdateYear == null || detailMangaModel.firstUpdateYear!!.isEmpty()) {
                 detailBinding.contentManga.mangaAboutLayout.textReleasedOn.text = "-"
             } else {
                 detailBinding.contentManga.mangaAboutLayout.textReleasedOn.text = detailMangaModel.firstUpdateYear
             }
 
             //get total chapter
-            if (detailMangaModel.totalMangaChapter == null || detailMangaModel.totalMangaChapter.isEmpty()) {
+            if (detailMangaModel.totalMangaChapter == null || detailMangaModel.totalMangaChapter!!.isEmpty()) {
                 detailBinding.contentManga.mangaAboutLayout.textTotalChapters.text = "-"
             } else {
                 detailBinding.contentManga.mangaAboutLayout.textTotalChapters.text = detailMangaModel.totalMangaChapter

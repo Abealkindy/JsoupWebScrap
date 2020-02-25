@@ -86,7 +86,7 @@ class DiscoverMangaFragment : Fragment(), SearchView.OnQueryTextListener, Discov
         val linearLayoutManager = LinearLayoutManager(activity)
         discoverMangaBinding!!.recyclerDiscoverManga.layoutManager = linearLayoutManager
         discoverMangaBinding!!.recyclerDiscoverManga.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            override fun onLoadMore(index: Int, totalItemsCount: Int, view: RecyclerView) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 if (discoverMangaFragmentList!!.size < 30) {
                     Log.e("listSize", "Can't scroll anymore")
                 } else {

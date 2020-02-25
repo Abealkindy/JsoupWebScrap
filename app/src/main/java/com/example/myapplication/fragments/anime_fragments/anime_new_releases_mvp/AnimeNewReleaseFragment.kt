@@ -51,7 +51,7 @@ class AnimeNewReleaseFragment : Fragment(), AnimeNewReleasesInterface {
         val linearLayoutManager = LinearLayoutManager(activity)
         animeNewReleaseBinding!!.recyclerNewReleasesAnime.layoutManager = linearLayoutManager
         animeNewReleaseBinding!!.recyclerNewReleasesAnime.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            override fun onLoadMore(index: Int, totalItemsCount: Int, view: RecyclerView) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 getNewReleasesAnime(pageCount++, "newPage")
             }
         })

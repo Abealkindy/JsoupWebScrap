@@ -66,7 +66,7 @@ class MangaDetailPresenter(private val mangaDetailInterface: MangaDetailInterfac
             val detailAllChapterDatasList = ArrayList<DetailMangaModel.DetailAllChapterDatas>()
             val getAllMangaChapters = document.getElementsByTag("li")
             for (element in getAllMangaChapters) {
-                val allChapterDatas = DetailMangaModel().DetailAllChapterDatas()
+                val allChapterDatas = DetailMangaModel.DetailAllChapterDatas()
                 val chapterReleaseTime = element.getElementsByClass("rightoff").text()
                 val chapterTitle = element.select("a[href^=https://komikcast.com/chapter/]").text()
                 val chapterURL = element.select("a[href^=https://komikcast.com/chapter/]").attr("href")
@@ -84,7 +84,7 @@ class MangaDetailPresenter(private val mangaDetailInterface: MangaDetailInterfac
             for (element in getGenres) {
                 val genreTitle = element.text()
                 val genreURL = element.attr("href")
-                val mangaGenres = DetailMangaModel().DetailMangaGenres()
+                val mangaGenres = DetailMangaModel.DetailMangaGenres()
                 mangaGenres.genreTitle = genreTitle
                 mangaGenres.genreURL = genreURL
                 genresList.add(mangaGenres)

@@ -12,7 +12,7 @@ import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaAc
 import com.example.myapplication.databinding.ItemListSelectChapterDetailBinding
 import com.example.myapplication.models.mangamodels.DetailMangaModel
 
-class RecyclerAllChapterDetailAdapter(private val context: Context, private val allChapterDatasArrayList: List<DetailMangaModel.DetailAllChapterDatas>, private val mangaType: String) : RecyclerView.Adapter<RecyclerAllChapterDetailAdapter.ViewHolder>() {
+class RecyclerAllChapterDetailAdapter(private val context: Context, private val allChapterDatasArrayList: List<DetailMangaModel.DetailAllChapterDatas>, private val mangaType: String?) : RecyclerView.Adapter<RecyclerAllChapterDetailAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(context)
