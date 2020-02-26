@@ -206,9 +206,11 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
 
     @Override
     public void onGetDiscoverMangaDataFailed() {
-        progressDialog.dismiss();
-        discoverMangaBinding.recyclerDiscoverManga.setVisibility(View.GONE);
-        Glide.with(mContext).asGif().load(R.raw.aquacry).into(discoverMangaBinding.imageError);
-        discoverMangaBinding.linearError.setVisibility(View.VISIBLE);
+        getActivity().runOnUiThread(() -> {
+            progressDialog.dismiss();
+            discoverMangaBinding.recyclerDiscoverManga.setVisibility(View.GONE);
+            Glide.with(mContext).asGif().load(R.raw.aquacry).into(discoverMangaBinding.imageError);
+            discoverMangaBinding.linearError.setVisibility(View.VISIBLE);
+        });
     }
 }

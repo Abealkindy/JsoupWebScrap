@@ -222,18 +222,24 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
 
     @Override
     public void onGetSearchAndGenreDataFailed() {
-        progressDialog.dismiss();
-        Toast.makeText(mContext, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
+        getActivity().runOnUiThread(() -> {
+            progressDialog.dismiss();
+            Toast.makeText(mContext, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
     public void onGetOnlyGenreDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> onlyGenreHTMLResult) {
-        animeGenreResultModelList.clear();
-        animeGenreResultModelList.addAll(onlyGenreHTMLResult);
+        getActivity().runOnUiThread(() -> {
+            animeGenreResultModelList.clear();
+            animeGenreResultModelList.addAll(onlyGenreHTMLResult);
+        });
     }
 
     @Override
     public void onGetOnlyGenreDataFailed() {
-        Toast.makeText(mContext, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
+        getActivity().runOnUiThread(() -> {
+            Toast.makeText(mContext, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
+        });
     }
 }

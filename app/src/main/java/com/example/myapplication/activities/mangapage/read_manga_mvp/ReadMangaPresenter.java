@@ -4,16 +4,14 @@ import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.example.myapplication.models.mangamodels.ReadMangaModel;
+import com.example.myapplication.networks.JsoupConfig;
 import com.google.gson.Gson;
 import com.zhkrb.cloudflare_scrape_android.Cloudflare;
 
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.net.HttpCookie;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -56,9 +54,8 @@ public class ReadMangaPresenter {
 
     @SuppressLint("LongLogTag")
     private void passToJsoup(String newUrl, Map<String, String> cookies) {
-        try {
-            Connection.Response jsoupResponse = Jsoup.connect(newUrl).userAgent("Mozilla/5.0").cookies(cookies).execute();
-            Document doc = jsoupResponse.parse();
+        Document doc = JsoupConfig.setInitJsoup(newUrl, cookies);
+        if (doc != null) {
             //get chapter title
             Elements getChapterTitle = doc.getElementsByTag("h1");
             String chapterTitle = getChapterTitle.text();
@@ -183,11 +180,9 @@ public class ReadMangaPresenter {
             //store data from JSOUP
             readMangaInterface.onGetMangaChaptersDataSuccess(allChapterDatas);
             readMangaInterface.onGetMangaContentDataSuccess(readMangaModel);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
             readMangaInterface.onGetMangaContentDataFailed();
         }
-
     }
 
     private static List<ReadMangaModel.AllChapterDatas> removeDuplicates(List<ReadMangaModel.AllChapterDatas> list) {

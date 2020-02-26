@@ -3,17 +3,15 @@ package com.example.myapplication.fragments.manga_fragments.manga_new_releases_m
 import android.util.Log;
 
 import com.example.myapplication.models.mangamodels.MangaNewReleaseResultModel;
+import com.example.myapplication.networks.JsoupConfig;
 import com.google.gson.Gson;
 import com.zhkrb.cloudflare_scrape_android.Cloudflare;
 
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.net.HttpCookie;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,14 +49,8 @@ public class MangaNewReleasePresenter {
     }
 
     private void passToJsoup(int pageCount, String newReleasesURL, String hitStatus, Map<String, String> cookies) {
-
-        try {
-            Connection.Response jsoupResponse = Jsoup
-                    .connect(newReleasesURL + "/page/" + pageCount)
-                    .userAgent("Mozilla/5.0")
-                    .cookies(cookies)
-                    .execute();
-            Document doc = jsoupResponse.parse();
+        Document doc = JsoupConfig.setInitJsoup(newReleasesURL + "/page/" + pageCount, cookies);
+        if (doc != null) {
             Elements newchaptercon = doc.getElementsByClass("utao");
             List<MangaNewReleaseResultModel> mangaNewReleaseResultModelList = new ArrayList<>();
             for (Element el : newchaptercon) {
@@ -107,11 +99,9 @@ public class MangaNewReleasePresenter {
             Log.e("resultAfterCut", new Gson().toJson(mangaNewReleaseResultModelListAfterCut));
             //store data from JSOUP
             newReleaseInterface.onGetNewReleasesDataSuccess(mangaNewReleaseResultModelListAfterCut, hitStatus);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
             newReleaseInterface.onGetNewReleasesDataFailed();
         }
-
     }
 
 }

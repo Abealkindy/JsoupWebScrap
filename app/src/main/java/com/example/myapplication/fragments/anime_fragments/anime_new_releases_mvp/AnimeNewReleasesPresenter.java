@@ -3,11 +3,10 @@ package com.example.myapplication.fragments.anime_fragments.anime_new_releases_m
 import android.util.Log;
 
 import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;
+import com.example.myapplication.networks.JsoupConfig;
 import com.google.gson.Gson;
 import com.zhkrb.cloudflare_scrape_android.Cloudflare;
 
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -48,13 +47,8 @@ public class AnimeNewReleasesPresenter {
     }
 
     private void passToRetrofit(int pageCount, String newUrl, String hitStatus, Map<String, String> cookies) {
-        try {
-            Connection.Response jsoupResponse = Jsoup
-                    .connect(newUrl + "/page/" + pageCount)
-                    .userAgent("Mozilla/5.0")
-                    .cookies(cookies)
-                    .execute();
-            Document doc = jsoupResponse.parse();
+        Document doc = JsoupConfig.setInitJsoup(newUrl + "/page/" + pageCount, cookies);
+        if (doc != null) {
             Elements newepisodecon = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-xl-per5 mb40");
             List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
 
@@ -89,8 +83,7 @@ public class AnimeNewReleasesPresenter {
             Log.e("resultBeforeCut", new Gson().toJson(animeNewReleaseResultModelList));
             Log.e("resultAfterCut", new Gson().toJson(animeNewReleaseResultModelListAfterCut));
             newReleasesInterface.onGetNewReleasesDataSuccess(animeNewReleaseResultModelListAfterCut, hitStatus);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
             newReleasesInterface.onGetNewReleasesDataFailed();
         }
     }

@@ -3,15 +3,13 @@ package com.example.myapplication.activities.animepage.anime_detail_mvp;
 import android.util.Log;
 
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
+import com.example.myapplication.networks.JsoupConfig;
 import com.zhkrb.cloudflare_scrape_android.Cloudflare;
 
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.net.HttpCookie;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +48,8 @@ public class AnimeDetailPresenter {
     }
 
     private void passToJsoup(String newUrl, Map<String, String> cookies) {
-        try {
-            Connection.Response jsoupResponse = Jsoup.connect(newUrl).userAgent("Mozilla/5.0").cookies(cookies).execute();
-            Document document = jsoupResponse.parse();
-
+        Document document = JsoupConfig.setInitJsoup(newUrl, cookies);
+        if (document != null) {
             //get synopsis
             Elements getSynopsis = document.getElementsByTag("p");
             if (getSynopsis.eachText().size() < 2) {
@@ -129,8 +125,7 @@ public class AnimeDetailPresenter {
             detailInterface.onGetGenreSuccess(detailGenresListCut);
             detailInterface.onGetAllEpisodeSuccess(allEpisodeDatasList);
             detailInterface.onGetDetailDataSuccess(detailMangaModel);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
             detailInterface.onGetAllEpisodeFailed();
             detailInterface.onGetGenreFailed();
             detailInterface.onGetDetailDataFailed();

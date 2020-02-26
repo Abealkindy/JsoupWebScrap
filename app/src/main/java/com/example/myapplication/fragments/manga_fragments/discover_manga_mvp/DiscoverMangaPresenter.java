@@ -3,17 +3,15 @@ package com.example.myapplication.fragments.manga_fragments.discover_manga_mvp;
 import android.util.Log;
 
 import com.example.myapplication.models.mangamodels.DiscoverMangaModel;
+import com.example.myapplication.networks.JsoupConfig;
 import com.google.gson.Gson;
 import com.zhkrb.cloudflare_scrape_android.Cloudflare;
 
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.net.HttpCookie;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,13 +48,8 @@ public class DiscoverMangaPresenter {
     }
 
     private void passToJsoup(String discoverOrSearchURL, Map<String, String> cookies) {
-        try {
-            Connection.Response jsoupResponse = Jsoup
-                    .connect(discoverOrSearchURL)
-                    .userAgent("Mozilla/5.0")
-                    .cookies(cookies)
-                    .execute();
-            Document doc = jsoupResponse.parse();
+        Document doc = JsoupConfig.setInitJsoup(discoverOrSearchURL, cookies);
+        if (doc != null) {
             Elements newchaptercon = doc.getElementsByClass("bs");
             List<DiscoverMangaModel> mangaNewReleaseResultModelList = new ArrayList<>();
             for (Element el : newchaptercon) {
@@ -95,8 +88,7 @@ public class DiscoverMangaPresenter {
             Log.e("resultBeforeCutDiscover", new Gson().toJson(mangaNewReleaseResultModelList));
             //store data from JSOUP
             discoverMangaInterface.onGetDiscoverMangaDataSuccess(mangaNewReleaseResultModelList);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
             discoverMangaInterface.onGetDiscoverMangaDataFailed();
         }
 

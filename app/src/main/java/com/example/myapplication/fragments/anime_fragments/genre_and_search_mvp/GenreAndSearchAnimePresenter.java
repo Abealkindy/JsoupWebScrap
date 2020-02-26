@@ -3,11 +3,10 @@ package com.example.myapplication.fragments.anime_fragments.genre_and_search_mvp
 import android.util.Log;
 
 import com.example.myapplication.models.animemodels.AnimeGenreAndSearchResultModel;
+import com.example.myapplication.networks.JsoupConfig;
 import com.google.gson.Gson;
 import com.zhkrb.cloudflare_scrape_android.Cloudflare;
 
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -71,13 +70,8 @@ public class GenreAndSearchAnimePresenter {
     }
 
     private void passToRetrofitGenre(String genrePageURL, Map<String, String> cookies) {
-        try {
-            Connection.Response jsoupResponse = Jsoup
-                    .connect(genrePageURL)
-                    .userAgent("Mozilla/5.0")
-                    .cookies(cookies)
-                    .execute();
-            Document doc = jsoupResponse.parse();
+        Document doc = JsoupConfig.setInitJsoup(genrePageURL, cookies);
+        if (doc != null) {
             List<AnimeGenreAndSearchResultModel.AnimeGenreResult> genreResultList = new ArrayList<>();
             genreResultList.clear();
             Elements getGenreData = doc.select("a[href^=https://animeindo.to/genres/]");
@@ -90,20 +84,14 @@ public class GenreAndSearchAnimePresenter {
                 genreResultList.add(genreResult);
             }
             genreAndSearchAnimeInterface.onGetOnlyGenreDataSuccess(genreResultList);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
             genreAndSearchAnimeInterface.onGetOnlyGenreDataFailed();
         }
     }
 
     private void passToRetrofit(String genreAndSearchURL, Map<String, String> cookies) {
-        try {
-            Connection.Response jsoupResponse = Jsoup
-                    .connect(genreAndSearchURL)
-                    .userAgent("Mozilla/5.0")
-                    .cookies(cookies)
-                    .execute();
-            Document doc = jsoupResponse.parse();
+        Document doc = JsoupConfig.setInitJsoup(genreAndSearchURL, cookies);
+        if (doc != null) {
             List<AnimeGenreAndSearchResultModel.AnimeSearchResult> animeGenreAndSearchResultModelList = new ArrayList<>();
             Elements getListData = doc.getElementsByClass("col-6 col-md-4 col-lg-3 col-wd-per5 col-xl-per5 mb40");
             for (Element element : getListData) {
@@ -131,8 +119,7 @@ public class GenreAndSearchAnimePresenter {
                 Log.e("GENRE AND SEARCH", new Gson().toJson(animeGenreAndSearchResultModelList));
             }
             genreAndSearchAnimeInterface.onGetSearchAndGenreDataSuccess(animeGenreAndSearchResultModelList);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
             genreAndSearchAnimeInterface.onGetSearchAndGenreDataFailed();
         }
     }

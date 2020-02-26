@@ -123,13 +123,15 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
 
     @Override
     public void onGetNewReleasesDataFailed() {
-        progressDialog.dismiss();
-        AlertDialog.Builder builder = new
-                AlertDialog.Builder(mContext);
-        builder.setTitle("Oops...");
-        builder.setIcon(getResources().getDrawable(R.drawable.appicon));
-        builder.setMessage("Your internet connection is worse than your face onii-chan :3");
-        builder.setPositiveButton("Reload", (dialog, which) -> Toast.makeText(getActivity(), "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show());
-        builder.show();
+        getActivity().runOnUiThread(() -> {
+            progressDialog.dismiss();
+            AlertDialog.Builder builder = new
+                    AlertDialog.Builder(mContext);
+            builder.setTitle("Oops...");
+            builder.setIcon(getResources().getDrawable(R.drawable.appicon));
+            builder.setMessage("Your internet connection is worse than your face onii-chan :3");
+            builder.setPositiveButton("Reload", (dialog, which) -> Toast.makeText(getActivity(), "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show());
+            builder.show();
+        });
     }
 }

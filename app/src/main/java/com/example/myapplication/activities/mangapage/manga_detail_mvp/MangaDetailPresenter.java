@@ -3,16 +3,14 @@ package com.example.myapplication.activities.mangapage.manga_detail_mvp;
 import android.util.Log;
 
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
+import com.example.myapplication.networks.JsoupConfig;
 import com.zhkrb.cloudflare_scrape_android.Cloudflare;
 
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.net.HttpCookie;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +48,8 @@ public class MangaDetailPresenter {
     }
 
     private void passToJsoup(String newUrl, Map<String, String> cookies) {
-        try {
-            Connection.Response jsoupResponse = Jsoup.connect(newUrl).userAgent("Mozilla/5.0").cookies(cookies).execute();
-            Document document = jsoupResponse.parse();
-
+        Document document = JsoupConfig.setInitJsoup(newUrl, cookies);
+        if (document != null) {
             //get title
             Elements getTitle = document.select("h1[itemprop=headline]");
             detailMangaModel.setMangaTitle(getTitle.text().substring(0, getTitle.text().indexOf(" Bahasa Indonesia")));
@@ -154,8 +150,7 @@ public class MangaDetailPresenter {
             mangaDetailInterface.onGetGenreSuccess(genreCut);
             mangaDetailInterface.onGetAllChapterSuccess(afterCut);
             mangaDetailInterface.onGetDetailDataSuccess(detailMangaModel);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
             mangaDetailInterface.onGetAllChapterFailed();
             mangaDetailInterface.onGetGenreFailed();
             mangaDetailInterface.onGetDetailDataFailed();
