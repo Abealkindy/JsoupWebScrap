@@ -46,9 +46,15 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     private ProgressDialog progressDialog;
     private Context mContext;
     private Dialog dialog;
-    private String hitStatus = "newPage", homeUrl = "/genres/action" + "/page/" + 1, hitQuery = "action";
-    private int plusPage = 1, plusSearch = 1;
-    private static final int NEW_PAGE = 0, NEW_PAGE_SCROLL = 1, SWIPE_REFRESH = 2, SEARCH_REQUEST = 3, SEARCH_SWIPE_REQUEST = 4;
+    private String hitStatus = "newPage", homeUrl = "/anime/page/" + 1, hitQuery = "action";
+    private int plusPage = 1, plusSearch = 1, plusGenre = 1;
+    private static final int NEW_PAGE = 0,
+            NEW_PAGE_SCROLL = 1,
+            SWIPE_REFRESH = 2,
+            SEARCH_REQUEST = 3,
+            SEARCH_SCROLL_REQUEST = 4,
+            GENRE_HIT_REQUEST = 5,
+            GENRE_SCROLL_REQUEST = 6;
 
     public GenreAndSearchAnimeFragment() {
         // Required empty public constructor
@@ -86,8 +92,10 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
                     fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.scrollToPosition(0);
                     if (hitStatus.equalsIgnoreCase("newPage") || hitStatus.equalsIgnoreCase("swipeRefresh")) {
                         setTags(hitQuery, NEW_PAGE_SCROLL);
-                    } else {
-                        setTags(hitQuery, SEARCH_SWIPE_REQUEST);
+                    } else if (hitStatus.equalsIgnoreCase("searchScrollRequest")) {
+                        setTags(hitQuery, SEARCH_SCROLL_REQUEST);
+                    } else if (hitStatus.equalsIgnoreCase("genrePage")) {
+                        setTags(hitQuery, GENRE_SCROLL_REQUEST);
                     }
                 }
             }
@@ -107,7 +115,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         switch (option) {
             case NEW_PAGE_SCROLL:
                 plusPage++;
-                homeUrl = "/genres/" + searchQuery + "/page/" + plusPage;
+                homeUrl = "/anime/page/" + plusPage;
                 hitStatus = "newPage";
                 if (getFragmentManager() != null) {
                     getFragmentManager().beginTransaction().detach(this).attach(this).commit();
@@ -115,15 +123,31 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
                 break;
             case NEW_PAGE:
                 plusPage = 1;
-                homeUrl = "/genres/" + searchQuery + "/page/" + 1;
+                homeUrl = "/anime/page/" + 1;
                 hitStatus = "newPage";
+                if (getFragmentManager() != null) {
+                    getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+                }
+                break;
+            case GENRE_HIT_REQUEST:
+                plusGenre = 1;
+                homeUrl = "/genres/" + searchQuery + "/page/" + 1;
+                hitStatus = "genrePage";
+                if (getFragmentManager() != null) {
+                    getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+                }
+                break;
+            case GENRE_SCROLL_REQUEST:
+                plusGenre++;
+                homeUrl = "/genres/" + searchQuery + "/page/" + plusGenre;
+                hitStatus = "genrePage";
                 if (getFragmentManager() != null) {
                     getFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 }
                 break;
             case SWIPE_REFRESH:
                 plusPage = 1;
-                homeUrl = "/genres/action" + "/page/" + 1;
+                homeUrl = "/anime/page/" + 1;
                 hitStatus = "swipeRefresh";
                 break;
             case SEARCH_REQUEST:
@@ -131,7 +155,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
                 homeUrl = "/page/" + 1 + "/?s=" + searchQuery + "&post_type=anime";
                 hitStatus = "searchRequest";
                 break;
-            case SEARCH_SWIPE_REQUEST:
+            case SEARCH_SCROLL_REQUEST:
                 plusSearch++;
                 homeUrl = "/page/" + plusSearch + "/?s=" + searchQuery + "&post_type=anime";
                 hitStatus = "searchScrollRequest";
@@ -197,7 +221,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         dialog.dismiss();
         fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.scrollToPosition(0);
         hitQuery = animeGenreResultModelList.get(position).getGenreTitle().toLowerCase();
-        setTags(animeGenreResultModelList.get(position).getGenreTitle().toLowerCase(), NEW_PAGE);
+        setTags(animeGenreResultModelList.get(position).getGenreTitle().toLowerCase(), GENRE_HIT_REQUEST);
     }
 
     @Override
@@ -239,6 +263,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     @Override
     public void onGetOnlyGenreDataFailed() {
         getActivity().runOnUiThread(() -> {
+            progressDialog.dismiss();
             Toast.makeText(mContext, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
         });
     }
