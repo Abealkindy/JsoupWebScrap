@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
@@ -36,7 +35,7 @@ public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecy
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         ViewHolder viewHolder;
-        ItemListMangaSearchResultBinding itemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_list_manga_search_result, parent, false);
+        ItemListMangaSearchResultBinding itemListBinding = ItemListMangaSearchResultBinding.inflate(layoutInflater, parent, false);
         viewHolder = new ViewHolder(itemListBinding);
         return viewHolder;
     }

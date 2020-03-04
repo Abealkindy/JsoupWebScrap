@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,7 +59,7 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        newReleaseBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_manga_new_release, container, false);
+        newReleaseBinding = FragmentMangaNewReleaseBinding.inflate(inflater, container, false);
         initProgressDialog();
         getNewReleasesManga(pageCount++, "newPage");
         initRecyclerView();

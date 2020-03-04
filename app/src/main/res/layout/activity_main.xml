@@ -1,85 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MainActivity">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".activities.MainActivity">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="10dp">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_read_manga"
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/colorPrimary"
+            app:cardCornerRadius="10dp">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_read_manga"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="160dp"
-                android:layout_marginEnd="20dp"
-                android:backgroundTint="@color/colorPrimary"
-                app:cardCornerRadius="10dp">
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-                <LinearLayout
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/comic" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/read_manga_text"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/comic" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_watch_anime"
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:layout_marginStart="20dp"
+            android:backgroundTint="@color/colorPrimary"
+            app:cardCornerRadius="10dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat"
-                        android:text="@string/read_manga_text"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_watch_anime"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="160dp"
-                android:layout_marginStart="20dp"
-                android:backgroundTint="@color/colorPrimary"
-                app:cardCornerRadius="10dp">
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-                <LinearLayout
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/watchanime" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/watch_anime_text"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/watchanime" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat"
-                        android:text="@string/watch_anime_text"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-    </ScrollView>
-</layout>
+</ScrollView>

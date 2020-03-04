@@ -1,36 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relative_item_manga_result"
+    android:layout_width="match_parent"
+    android:layout_height="250dp">
 
-    <RelativeLayout
-        android:id="@+id/relative_item_manga_result"
+    <ImageView
+        android:id="@+id/image_view_background_manga_result"
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/classgotoposter" />
 
-        <ImageView
-            android:id="@+id/image_view_background_manga_result"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/classgotoposter" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_with_opacity" />
 
-        <View
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_manga_type_result"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_margin="15dp"
+        app:cardBackgroundColor="@color/manga_color"
+        app:cardCornerRadius="10dp">
+
+        <TextView
+            android:id="@+id/text_manga_type_result"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/black_with_opacity" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/montserrat"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            tools:text="MANGA" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <RatingBar
+                android:id="@+id/manga_rating_bar"
+                style="?attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progressBackgroundTint="@color/gray"
+                android:progressTint="@color/yellow"
+                android:secondaryProgressTint="@color/gray"
+                android:stepSize="0.1"
+                tools:rating="3.5" />
+
+            <TextView
+                android:id="@+id/manga_rating_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                tools:text="10.00" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/text_title_manga_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/montserrat"
+        android:maxLines="3"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/size18sp"
+        android:textStyle="bold"
+        tools:text="Class-goto Shuudan Teni Shimashita ga, ichiban Tsuyoi Ore wa Saijaku no Shounin ni Gisouchuu (ONGOING)" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_manga_type_result"
+            android:id="@+id/card_manga_status"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_alignParentStart="true"
             android:layout_margin="15dp"
-            app:cardBackgroundColor="@color/manga_color"
+            app:cardBackgroundColor="@color/manga_ongoing_color"
             app:cardCornerRadius="10dp">
 
             <TextView
-                android:id="@+id/text_manga_type_result"
+                android:id="@+id/text_manga_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -38,110 +116,29 @@
                 android:fontFamily="@font/montserrat"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
-                tools:text="MANGA" />
+                tools:text="COMPLETED" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_latest_manga_release"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_alignParentEnd="true"
             android:layout_margin="15dp"
+            app:cardBackgroundColor="@color/white_with_opacity"
             app:cardCornerRadius="10dp">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/text_latest_chapter_release"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="horizontal"
-                android:padding="10dp">
+                android:layout_margin="10dp"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@android:color/black"
+                tools:text="Chapter 1000 - End" />
 
-                <RatingBar
-                    android:id="@+id/manga_rating_bar"
-                    style="?attr/ratingBarStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:isIndicator="true"
-                    android:numStars="5"
-                    android:progressBackgroundTint="@color/gray"
-                    android:progressTint="@color/yellow"
-                    android:secondaryProgressTint="@color/gray"
-                    android:stepSize="0.1"
-                    tools:rating="3.5" />
-
-                <TextView
-                    android:id="@+id/manga_rating_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    tools:text="10.00" />
-            </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <me.grantland.widget.AutofitTextView
-            android:id="@+id/text_title_manga_result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="@font/montserrat"
-            android:maxLines="3"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/size18sp"
-            android:textStyle="bold"
-            tools:text="Class-goto Shuudan Teni Shimashita ga, ichiban Tsuyoi Ore wa Saijaku no Shounin ni Gisouchuu (ONGOING)" />
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_manga_status"
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_margin="15dp"
-                app:cardBackgroundColor="@color/manga_ongoing_color"
-                app:cardCornerRadius="10dp">
-
-                <TextView
-                    android:id="@+id/text_manga_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:fontFamily="@font/montserrat"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/white"
-                    tools:text="COMPLETED" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_latest_manga_release"
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_margin="15dp"
-                app:cardBackgroundColor="@color/white_with_opacity"
-                app:cardCornerRadius="10dp">
-
-                <TextView
-                    android:id="@+id/text_latest_chapter_release"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:fontFamily="@font/montserrat"
-                    android:textColor="@android:color/black"
-                    tools:text="Chapter 1000 - End" />
-
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
-
-    </RelativeLayout>
-</layout>
+</RelativeLayout>

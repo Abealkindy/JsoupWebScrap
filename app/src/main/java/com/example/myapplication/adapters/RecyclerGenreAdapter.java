@@ -2,18 +2,12 @@ package com.example.myapplication.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.myapplication.R;
 import com.example.myapplication.databinding.ItemListGenreBinding;
-import com.example.myapplication.databinding.ItemListSelectChapterBinding;
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
-import com.example.myapplication.models.mangamodels.ReadMangaModel;
 
 import java.util.List;
 
@@ -30,7 +24,8 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        ItemListGenreBinding itemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_list_genre, parent, false);
+        ItemListGenreBinding itemListBinding = ItemListGenreBinding.inflate(layoutInflater, parent, false);
+
         return new ViewHolder(itemListBinding);
     }
 

@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -69,7 +68,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fragmentGenreAndSearchAnimeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_genre_and_search_anime, container, false);
+        fragmentGenreAndSearchAnimeBinding = FragmentGenreAndSearchAnimeBinding.inflate(inflater, container, false);
         progressDialog = new ProgressDialog(mContext);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
@@ -171,12 +170,12 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         this.hitStatus = hitStatus;
         progressDialog.show();
         Log.e("homeURL", homeUrl);
-        String genreAndSearchTotalURL = "https://animeindo.to" + homeUrl;
+        String genreAndSearchTotalURL = "https://animeindo.co" + homeUrl;
         genreAndSearchAnimePresenter.getGenreAndSearchData(genreAndSearchTotalURL);
     }
 
     private void getGenreData() {
-        String genreTotalURL = "https://animeindo.to/genre-list/";
+        String genreTotalURL = "https://animeindo.co/genre-list/";
         genreAndSearchAnimePresenter.getOnlyGenreData(genreTotalURL);
     }
 
@@ -206,7 +205,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     private void initEvent() {
         fragmentGenreAndSearchAnimeBinding.fabSelectGenre.setOnClickListener(v -> {
             dialog = new Dialog(mContext);
-            SelectChapterDialogBinding chapterDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.select_chapter_dialog, null, false);
+            SelectChapterDialogBinding chapterDialogBinding = SelectChapterDialogBinding.inflate(LayoutInflater.from(mContext), null, false);
             dialog.setContentView(chapterDialogBinding.getRoot());
             dialog.setTitle("Select other chapter");
             chapterDialogBinding.recyclerAllChapters.setHasFixedSize(true);

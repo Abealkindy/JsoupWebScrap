@@ -1,79 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.mangapage.manga_detail_mvp.MangaDetailActivity"
+    tools:showIn="@layout/activity_manga_detail">
 
-    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".activities.mangapage.manga_detail_mvp.MangaDetailActivity"
-        tools:showIn="@layout/activity_manga_detail">
+        android:layout_height="wrap_content"
+        android:background="@color/dark_theme"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/dark_theme"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/size15dp">
 
-            <LinearLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sinopsis_text"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/size18sp" />
+
+            <com.borjabravo.readmoretextview.ReadMoreTextView
+                android:id="@+id/text_synopsis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/size15dp">
+                android:layout_marginTop="@dimen/size10dp"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/size18sp"
+                app:colorClickableText="@android:color/holo_blue_light"
+                app:trimCollapsedText="Read less"
+                app:trimExpandedText="Read more"
+                app:trimLines="100"
+                app:trimMode="trimModeLength"
+                tools:text="Nanananananananananananananananananananananananananananananananananananananananananananananananananananananananananananananananananananannananananananananananananananan" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sinopsis_text"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="@dimen/size18sp" />
-
-                <com.borjabravo.readmoretextview.ReadMoreTextView
-                    android:id="@+id/text_synopsis"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size10dp"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/size18sp"
-                    app:colorClickableText="@android:color/holo_blue_light"
-                    app:trimCollapsedText="Read less"
-                    app:trimExpandedText="Read more"
-                    app:trimLines="100"
-                    app:trimMode="trimModeLength"
-                    tools:text="Nanananananananananananananananananananananananananananananananananananananananananananananananananananananananananananananananananananannananananananananananananananan" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size250dp"
-                android:background="@color/blue"
-                android:orientation="vertical"
-                android:padding="@dimen/size15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/select_chapter_manga_text"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="@dimen/size18sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_all_chapters_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/size10dp"
-                    tools:listitem="@layout/item_list_select_chapter_detail" />
-
-            </LinearLayout>
-
-            <include
-                android:id="@+id/manga_about_layout"
-                layout="@layout/manga_about" />
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
-</layout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size250dp"
+            android:background="@color/blue"
+            android:orientation="vertical"
+            android:padding="@dimen/size15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_chapter_manga_text"
+                android:textAllCaps="true"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/size18sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_all_chapters_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/size10dp"
+                tools:listitem="@layout/item_list_select_chapter_detail" />
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/manga_about_layout"
+            layout="@layout/manga_about" />
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

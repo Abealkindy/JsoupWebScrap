@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
@@ -33,7 +32,7 @@ public class MangaRecyclerNewReleasesAdapter extends RecyclerView.Adapter<MangaR
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         ViewHolder viewHolder;
-        ItemListMangaBinding itemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_list_manga, parent, false);
+        ItemListMangaBinding itemListBinding = ItemListMangaBinding.inflate(layoutInflater, parent, false);
         viewHolder = new ViewHolder(itemListBinding);
         return viewHolder;
     }
@@ -149,7 +148,7 @@ public class MangaRecyclerNewReleasesAdapter extends RecyclerView.Adapter<MangaR
         return animeNewReleaseResultModelList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private ItemListMangaBinding itemListBinding;
 
         public ViewHolder(final ItemListMangaBinding itemViewList) {

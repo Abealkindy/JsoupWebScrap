@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -81,7 +80,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        discoverMangaBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_discover_manga, container, false);
+        discoverMangaBinding = FragmentDiscoverMangaBinding.inflate(inflater, container, false);
         initUI();
         return discoverMangaBinding.getRoot();
     }

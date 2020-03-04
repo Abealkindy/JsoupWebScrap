@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear_view_chapter_all"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="PrivateResource">
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/linear_view_chapter_all"
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/text_view_chapter_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:ignore="PrivateResource">
+        android:layout_gravity="start|center_vertical"
+        android:layout_margin="@dimen/size10dp"
+        android:fontFamily="@font/montserrat"
+        android:textAlignment="textStart"
+        android:textSize="20sp"
+        app:minTextSize="@dimen/size15sp"
+        tools:text="Chapter 1000" />
 
-        <me.grantland.widget.AutofitTextView
-            android:id="@+id/text_view_chapter_all"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            android:layout_margin="@dimen/size10dp"
-            android:fontFamily="@font/montserrat"
-            android:textAlignment="textStart"
-            android:textSize="20sp"
-            app:minTextSize="@dimen/size15sp"
-            tools:text="Chapter 1000" />
-
-    </androidx.cardview.widget.CardView>
-</layout>
+</androidx.cardview.widget.CardView>

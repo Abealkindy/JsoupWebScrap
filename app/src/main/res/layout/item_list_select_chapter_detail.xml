@@ -1,39 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear_chapter_detail"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/size10dp"
+    android:background="@drawable/bubble_background_darker_blue"
+    android:orientation="horizontal"
+    android:padding="@dimen/size5dp">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/linear_chapter_detail"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/text_view_chapter_all_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/size10dp"
-        android:background="@drawable/bubble_background_darker_blue"
-        android:orientation="horizontal"
-        android:padding="@dimen/size5dp">
+        android:layout_gravity="start|center_vertical"
+        android:layout_margin="@dimen/size10dp"
+        android:fontFamily="@font/montserrat"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/size20sp"
+        tools:text="Chapter 1000" />
 
-        <TextView
-            android:id="@+id/text_view_chapter_all_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            android:layout_margin="@dimen/size10dp"
-            android:fontFamily="@font/montserrat"
-            android:textAlignment="textStart"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/size20sp"
-            tools:text="Chapter 1000" />
-
-        <TextView
-            android:id="@+id/text_view_chapter_all_release_time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size10dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/montserrat"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/size18sp"
-            android:textStyle="italic"
-            tools:text="11 months ago" />
-    </LinearLayout>
-</layout>
+    <TextView
+        android:id="@+id/text_view_chapter_all_release_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size10dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/montserrat"
+        android:textAlignment="textEnd"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/size18sp"
+        android:textStyle="italic"
+        tools:text="11 months ago" />
+</LinearLayout>

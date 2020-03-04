@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,7 +45,7 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        animeNewReleaseBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_anime_new_release, container, false);
+        animeNewReleaseBinding = FragmentAnimeNewReleaseBinding.inflate(inflater, container, false);
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
@@ -79,7 +78,7 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
                 this.pageCount--;
             }
         }
-        newReleasesPresenter.getNewReleasesAnimeData(pageCount, "https://animeindo.to", hitStatus);
+        newReleasesPresenter.getNewReleasesAnimeData(pageCount, "https://animeindo.co", hitStatus);
     }
 
     @Override

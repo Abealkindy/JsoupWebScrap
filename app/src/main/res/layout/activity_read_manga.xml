@@ -1,116 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/basic_read_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.mangapage.read_manga_mvp.ReadMangaActivity">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/basic_read_layout"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_base"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.mangapage.read_manga_mvp.ReadMangaActivity">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nested_base"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_image_content_manga"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            tools:listitem="@layout/item_list_manga_content"
+            tools:visibility="visible" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_image_content_manga"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/item_list_manga_content"
-                tools:visibility="visible" />
+    </androidx.core.widget.NestedScrollView>
 
-        </androidx.core.widget.NestedScrollView>
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_read_manga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:background="@color/manga_color">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar_read_manga"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            tools:background="@color/manga_color">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:padding="@dimen/size10dp"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:layout_collapseMode="pin"
-                app:layout_scrollFlags="scroll|enterAlways|snap">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <me.grantland.widget.AutofitTextView
-                        android:id="@+id/text_view_chapter_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/size5dp"
-                        android:fontFamily="@font/montserrat"
-                        android:gravity="center"
-                        android:maxLines="3"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/size30sp"
-                        app:minTextSize="@dimen/size15sp"
-                        tools:text="Naruto Narutimate Hero 3: Finally a Clash! Jonin VS Genin!! Indescriminate Grand Melee Tournament Meeting!! Chapter 900.9" />
-                </LinearLayout>
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/design_bottom_sheet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:hideOnScroll="true"
-            app:layout_scrollFlags="scroll|enterAlways"
-            tools:backgroundTint="@color/manhwa_color">
-
+            android:background="@android:color/transparent"
+            android:padding="@dimen/size10dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/size10dp">
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/prev_chap_button"
-                    android:layout_width="@dimen/size40dp"
-                    android:layout_height="@dimen/size40dp"
-                    android:src="@drawable/ic_skip_previous_black_24dp"
-                    android:visibility="visible" />
-
-                <ImageView
-                    android:id="@+id/show_all_chap"
-                    android:layout_width="@dimen/size35dp"
-                    android:layout_height="@dimen/size35dp"
-                    android:layout_marginEnd="@dimen/size10dp"
-                    android:layout_marginStart="@dimen/size10dp"
-                    android:src="@drawable/ic_view_list_white_24dp" />
-
-                <ImageView
-                    android:id="@+id/next_chap_button"
-                    android:layout_width="@dimen/size40dp"
-                    android:layout_height="@dimen/size40dp"
-                    android:src="@drawable/ic_skip_next_black_24dp"
-                    android:visibility="visible" />
-
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/text_view_chapter_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size5dp"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/size30sp"
+                    app:minTextSize="@dimen/size15sp"
+                    tools:text="Naruto Narutimate Hero 3: Finally a Clash! Jonin VS Genin!! Indescriminate Grand Melee Tournament Meeting!! Chapter 900.9" />
             </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/design_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:hideOnScroll="true"
+        app:layout_scrollFlags="scroll|enterAlways"
+        tools:backgroundTint="@color/manhwa_color">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/size10dp">
 
             <ImageView
-                android:id="@+id/manga_info_button"
-                android:layout_width="@dimen/size30dp"
-                android:layout_height="@dimen/size30dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/size15dp"
-                android:src="@drawable/ic_info_black_24dp"
+                android:id="@+id/prev_chap_button"
+                android:layout_width="@dimen/size40dp"
+                android:layout_height="@dimen/size40dp"
+                android:src="@drawable/ic_skip_previous_black_24dp"
                 android:visibility="visible" />
 
-        </com.google.android.material.bottomappbar.BottomAppBar>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</layout>
+            <ImageView
+                android:id="@+id/show_all_chap"
+                android:layout_width="@dimen/size35dp"
+                android:layout_height="@dimen/size35dp"
+                android:layout_marginStart="@dimen/size10dp"
+                android:layout_marginEnd="@dimen/size10dp"
+                android:src="@drawable/ic_view_list_white_24dp" />
+
+            <ImageView
+                android:id="@+id/next_chap_button"
+                android:layout_width="@dimen/size40dp"
+                android:layout_height="@dimen/size40dp"
+                android:src="@drawable/ic_skip_next_black_24dp"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/manga_info_button"
+            android:layout_width="@dimen/size30dp"
+            android:layout_height="@dimen/size30dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/size15dp"
+            android:src="@drawable/ic_info_black_24dp"
+            android:visibility="visible" />
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

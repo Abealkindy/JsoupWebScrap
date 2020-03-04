@@ -1,7 +1,6 @@
 package com.example.myapplication.activities.animepage.watch_anime_mvp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -16,9 +15,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.example.myapplication.activities.animepage.anime_detail_mvp.AnimeDetailActivity;
-import com.example.myapplication.networks.ApiEndPointService;
 import com.example.myapplication.R;
-import com.example.myapplication.networks.RetrofitConfig;
 import com.example.myapplication.models.animemodels.VideoStreamResultModel;
 import com.example.myapplication.databinding.ActivityWatchAnimeEpisodeBinding;
 import com.google.gson.Gson;
@@ -31,11 +28,6 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-
 public class WatchAnimeEpisodeActivity extends AppCompatActivity implements WatchAnimeEpisodeInterface {
 
     private ActivityWatchAnimeEpisodeBinding animeEpisodeBinding;
@@ -47,7 +39,8 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        animeEpisodeBinding = DataBindingUtil.setContentView(this, R.layout.activity_watch_anime_episode);
+        animeEpisodeBinding = ActivityWatchAnimeEpisodeBinding.inflate(getLayoutInflater());
+        setContentView(animeEpisodeBinding.getRoot());
         initUI();
         initEvent();
     }
@@ -144,12 +137,12 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
         Document doc = Jsoup.parse(result);
 
         //Anime Details URL settings
-        Elements getElementsAnimeDetails = doc.select("a[href^=https://animeindo.to/anime/]");
+        Elements getElementsAnimeDetails = doc.select("a[href^=https://animeindo.co/anime/]");
         if (getElementsAnimeDetails.isEmpty()) {
             Log.e("VideoDetailNull?", "Ya");
         } else {
             String animeDetailsURL = getElementsAnimeDetails.attr("href");
-            if (!animeDetailsURL.startsWith("https://animeindo.to/")) {
+            if (!animeDetailsURL.startsWith("https://animeindo.co/")) {
                 Log.e("VideoresultURLError?", "Ya");
                 videoStreamResultModel.setAnimeDetailURL(null);
             } else {
@@ -166,7 +159,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
         }
         animeEpisodeBinding.textAnimeTitleWatch.setText(episodeTitle);
         //get next and prev URL
-        Elements getElementsNextAndPrevEpisode = doc.select("a[href^=https://animeindo.to/]");
+        Elements getElementsNextAndPrevEpisode = doc.select("a[href^=https://animeindo.co/]");
         List<String> nextAndPrevURL = new ArrayList<>();
         if (nextAndPrevURL != null) {
             nextAndPrevURL.clear();
@@ -174,7 +167,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
         for (int position = 0; position < getElementsNextAndPrevEpisode.size(); position++) {
             Element element = getElementsNextAndPrevEpisode.get(position);
             String nextandprevurlsingle = element.absUrl("href");
-            if (!nextandprevurlsingle.startsWith("https://animeindo.to/anime/") && nextandprevurlsingle.contains("episode")) {
+            if (!nextandprevurlsingle.startsWith("https://animeindo.co/anime/") && nextandprevurlsingle.contains("episode")) {
                 nextAndPrevURL.add(nextandprevurlsingle);
             }
         }
@@ -204,12 +197,13 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
                             animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
                         }
                     } else if (nowEpisodeNumberCut.endsWith("/")) {
-                        if (Double.parseDouble(nextOrPrevEpisodeNumberCut) < Double.parseDouble(nowEpisodeNumberCut.substring(0, nowEpisodeNumberCut.length() - 1))) {
+                        double v = Double.parseDouble(nowEpisodeNumberCut.substring(0, nowEpisodeNumberCut.length() - 1));
+                        if (Double.parseDouble(nextOrPrevEpisodeNumberCut) < v) {
                             prevURL = nextAndPrevURL.get(0);
                             nextURL = null;
                             animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
                             animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
-                        } else if (Double.parseDouble(nextOrPrevEpisodeNumberCut) > Double.parseDouble(nowEpisodeNumberCut.substring(0, nowEpisodeNumberCut.length() - 1))) {
+                        } else if (Double.parseDouble(nextOrPrevEpisodeNumberCut) > v) {
                             prevURL = null;
                             nextURL = nextAndPrevURL.get(0);
                             animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
@@ -234,12 +228,13 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
                             Log.e("WITH SLASH?", "yes");
                             Log.e("URL1", nextOrPrevEpisodeNumber);
                             Log.e("URL2", nowEpisodeNumber);
-                            if (Double.parseDouble(nextOrPrevEpisodeNumber.substring(0, nextOrPrevEpisodeNumber.length() - 1)) < Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
+                            double v = Double.parseDouble(nextOrPrevEpisodeNumber.substring(0, nextOrPrevEpisodeNumber.length() - 1));
+                            if (v < Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
                                 prevURL = nextAndPrevURL.get(0);
                                 nextURL = null;
                                 animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
                                 animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
-                            } else if (Double.parseDouble(nextOrPrevEpisodeNumber.substring(0, nextOrPrevEpisodeNumber.length() - 1)) > Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
+                            } else if (v > Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
                                 prevURL = null;
                                 nextURL = nextAndPrevURL.get(0);
                                 animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);

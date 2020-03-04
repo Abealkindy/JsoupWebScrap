@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;
@@ -32,7 +31,7 @@ public class AnimeRecyclerNewReleasesAdapter extends RecyclerView.Adapter<AnimeR
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        ItemListAnimeBinding itemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_list_anime, parent, false);
+        ItemListAnimeBinding itemListBinding = ItemListAnimeBinding.inflate(layoutInflater, parent, false);
         return new ViewHolder(itemListBinding);
     }
 

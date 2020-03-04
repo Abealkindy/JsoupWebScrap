@@ -9,7 +9,6 @@ import com.example.myapplication.models.mangamodels.DetailMangaModel;
 import com.google.android.material.appbar.AppBarLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,7 +31,8 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        detailBinding = DataBindingUtil.setContentView(this, R.layout.activity_manga_detail);
+        detailBinding = ActivityMangaDetailBinding.inflate(getLayoutInflater());
+        setContentView(detailBinding.getRoot());
         setSupportActionBar(detailBinding.toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

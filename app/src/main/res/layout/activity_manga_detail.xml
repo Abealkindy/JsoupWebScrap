@@ -1,120 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/CoordinatorLayoutDetail">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        style="@style/CoordinatorLayoutDetail">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        style="@style/AppBarLayoutDetail">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar"
-            style="@style/AppBarLayoutDetail">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            style="@style/CollapsingLayoutDetail">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/toolbar_layout"
-                style="@style/CollapsingLayoutDetail">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/header_thumbnail_detail"
+                    style="@style/ImageDetail"
+                    tools:src="@drawable/classgotoposter" />
+
+                <View style="@style/DarkBackGround" />
+
+                <View style="@style/GradientDarkBackGround" />
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/detail_header_title"
+                    style="@style/TextTitleDetail"
+                    tools:text="Naruto Narutimate Hero 3: Finally a Clash! Jonin VS Genin!! Indescriminate Grand Melee Tournament Meeting!!" />
 
                 <RelativeLayout
+                    android:id="@+id/relative_info"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="@dimen/size10dp"
+                    android:layout_marginTop="@dimen/size30dp"
+                    android:layout_marginEnd="@dimen/size10dp">
 
-                    <ImageView
-                        android:id="@+id/header_thumbnail_detail"
-                        style="@style/ImageDetail"
-                        tools:src="@drawable/classgotoposter" />
-
-                    <View style="@style/DarkBackGround" />
-
-                    <View style="@style/GradientDarkBackGround" />
-
-                    <me.grantland.widget.AutofitTextView
-                        android:id="@+id/detail_header_title"
-                        style="@style/TextTitleDetail"
-                        tools:text="Naruto Narutimate Hero 3: Finally a Clash! Jonin VS Genin!! Indescriminate Grand Melee Tournament Meeting!!" />
-
-                    <RelativeLayout
-                        android:id="@+id/relative_info"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/detail_status"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="@dimen/size10dp"
-                        android:layout_marginTop="@dimen/size30dp"
-                        android:layout_marginEnd="@dimen/size10dp">
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/size10dp"
+                        android:textColor="@android:color/white"
+                        tools:background="@drawable/bubble_background_completed"
+                        tools:text="COMPLETED" />
 
-                        <TextView
-                            android:id="@+id/detail_status"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:padding="@dimen/size10dp"
-                            android:textColor="@android:color/white"
-                            tools:background="@drawable/bubble_background_completed"
-                            tools:text="COMPLETED" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="vertical">
 
                         <LinearLayout
+                            android:id="@+id/linear_rating_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:orientation="vertical">
+                            android:layout_marginBottom="@dimen/size10dp">
 
-                            <LinearLayout
-                                android:id="@+id/linear_rating_detail"
+                            <RatingBar
+                                android:id="@+id/rating_bar_detail"
+                                style="?attr/ratingBarStyleSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/size10dp">
-
-                                <RatingBar
-                                    android:id="@+id/rating_bar_detail"
-                                    style="?attr/ratingBarStyleSmall"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/size12dp"
-                                    android:layout_marginEnd="@dimen/size10dp"
-                                    android:isIndicator="true"
-                                    android:numStars="5"
-                                    android:progressBackgroundTint="@color/gray"
-                                    android:progressTint="@color/yellow"
-                                    android:rating="5"
-                                    android:secondaryProgressTint="@color/gray"
-                                    android:stepSize="0.1" />
-
-                                <TextView
-                                    android:id="@+id/rating_number_detail"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/size10dp"
-                                    android:fontFamily="@font/montserrat"
-                                    android:textColor="@android:color/white"
-                                    android:textStyle="bold"
-                                    tools:text="9,75" />
-                            </LinearLayout>
-
+                                android:layout_marginTop="@dimen/size12dp"
+                                android:layout_marginEnd="@dimen/size10dp"
+                                android:isIndicator="true"
+                                android:numStars="5"
+                                android:progressBackgroundTint="@color/gray"
+                                android:progressTint="@color/yellow"
+                                android:rating="5"
+                                android:secondaryProgressTint="@color/gray"
+                                android:stepSize="0.1" />
 
                             <TextView
-                                android:id="@+id/manga_type_detail"
+                                android:id="@+id/rating_number_detail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:padding="@dimen/size10dp"
+                                android:layout_marginTop="@dimen/size10dp"
+                                android:fontFamily="@font/montserrat"
                                 android:textColor="@android:color/white"
-                                tools:background="@drawable/bubble_background_manga"
-                                tools:text="MANGA" />
+                                android:textStyle="bold"
+                                tools:text="9,75" />
                         </LinearLayout>
-                    </RelativeLayout>
+
+
+                        <TextView
+                            android:id="@+id/manga_type_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:padding="@dimen/size10dp"
+                            android:textColor="@android:color/white"
+                            tools:background="@drawable/bubble_background_manga"
+                            tools:text="MANGA" />
+                    </LinearLayout>
                 </RelativeLayout>
+            </RelativeLayout>
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <include
-            android:id="@+id/content_manga"
-            layout="@layout/content_manga_detail" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</layout>
+    <include
+        android:id="@+id/content_manga"
+        layout="@layout/content_manga_detail" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -74,7 +74,7 @@ public class GenreAndSearchAnimePresenter {
         if (doc != null) {
             List<AnimeGenreAndSearchResultModel.AnimeGenreResult> genreResultList = new ArrayList<>();
             genreResultList.clear();
-            Elements getGenreData = doc.select("a[href^=https://animeindo.to/genres/]");
+            Elements getGenreData = doc.select("a[href^=https://animeindo.co/genres/]");
             for (Element element : getGenreData) {
                 String genreURL = element.attr("href");
                 String genreTitle = element.text();
@@ -95,7 +95,7 @@ public class GenreAndSearchAnimePresenter {
             List<AnimeGenreAndSearchResultModel.AnimeSearchResult> animeGenreAndSearchResultModelList = new ArrayList<>();
             Elements getListData = doc.getElementsByClass("col-6 col-md-4 col-lg-3 col-wd-per5 col-xl-per5 mb40");
             for (Element element : getListData) {
-                String detailURL = element.select("a[href^=https://animeindo.to/anime/]").attr("href");
+                String detailURL = element.select("a[href^=https://animeindo.co/anime/]").attr("href");
                 String thumbURL = element.getElementsByClass("episode-ratio background-cover").attr("style").substring(element.getElementsByClass("episode-ratio background-cover").attr("style").indexOf("https://"), element.getElementsByClass("episode-ratio background-cover").attr("style").indexOf(")"));
                 if (thumbURL.contains("'")) {
                     thumbURL = thumbURL.replace("'", "");

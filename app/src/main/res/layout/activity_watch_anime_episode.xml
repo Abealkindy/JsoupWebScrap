@@ -1,75 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context=".activities.animepage.watch_anime_mvp.WatchAnimeEpisodeActivity">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/linear_above"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/black"
-        tools:context=".activities.animepage.watch_anime_mvp.WatchAnimeEpisodeActivity">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:padding="@dimen/size10dp"
+        tools:background="@color/blue_series_color">
 
-        <LinearLayout
-            android:id="@+id/linear_above"
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/text_anime_title_watch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:gravity="center"
-            android:padding="@dimen/size10dp"
-            tools:background="@color/blue_series_color">
+            android:maxLines="2"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/size30sp"
+            tools:text="@string/app_name" />
+    </LinearLayout>
 
-            <me.grantland.widget.AutofitTextView
-                android:id="@+id/text_anime_title_watch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/size30sp"
-                tools:text="@string/app_name" />
-        </LinearLayout>
+    <WebView
+        android:id="@+id/web_view_watch_anime"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size300dp"
+        android:layout_above="@id/linear_below"
+        android:layout_below="@id/linear_above"
+        android:layout_marginTop="@dimen/size10dp"
+        android:layout_marginBottom="@dimen/size10dp" />
 
-        <WebView
-            android:id="@+id/web_view_watch_anime"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size300dp"
-            android:layout_above="@id/linear_below"
-            android:layout_below="@id/linear_above"
-            android:layout_marginTop="@dimen/size10dp"
-            android:layout_marginBottom="@dimen/size10dp" />
+    <LinearLayout
+        android:id="@+id/linear_below"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:padding="@dimen/size10dp"
+        tools:background="@color/blue_series_color">
 
-        <LinearLayout
-            android:id="@+id/linear_below"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:gravity="center"
-            android:padding="@dimen/size10dp"
-            tools:background="@color/blue_series_color">
+        <ImageView
+            android:id="@+id/prev_episode_button"
+            android:layout_width="@dimen/size40dp"
+            android:layout_height="@dimen/size40dp"
+            android:src="@drawable/ic_skip_previous_black_24dp"
+            android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/prev_episode_button"
-                android:layout_width="@dimen/size40dp"
-                android:layout_height="@dimen/size40dp"
-                android:src="@drawable/ic_skip_previous_black_24dp"
-                android:visibility="gone" />
+        <ImageView
+            android:id="@+id/anime_info_button"
+            android:layout_width="@dimen/size35dp"
+            android:layout_height="@dimen/size35dp"
+            android:layout_marginStart="@dimen/size10dp"
+            android:layout_marginEnd="@dimen/size10dp"
+            android:src="@drawable/ic_info_black_24dp" />
 
-            <ImageView
-                android:id="@+id/anime_info_button"
-                android:layout_width="@dimen/size35dp"
-                android:layout_height="@dimen/size35dp"
-                android:layout_marginStart="@dimen/size10dp"
-                android:layout_marginEnd="@dimen/size10dp"
-                android:src="@drawable/ic_info_black_24dp" />
+        <ImageView
+            android:id="@+id/next_episode_button"
+            android:layout_width="@dimen/size40dp"
+            android:layout_height="@dimen/size40dp"
+            android:src="@drawable/ic_skip_next_black_24dp"
+            android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/next_episode_button"
-                android:layout_width="@dimen/size40dp"
-                android:layout_height="@dimen/size40dp"
-                android:src="@drawable/ic_skip_next_black_24dp"
-                android:visibility="gone" />
-
-        </LinearLayout>
-    </RelativeLayout>
-</layout>
+    </LinearLayout>
+</RelativeLayout>

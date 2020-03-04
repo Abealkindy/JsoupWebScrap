@@ -91,8 +91,8 @@ public class AnimeDetailPresenter {
             List<DetailMangaModel.DetailMangaGenres> detailGenresList = new ArrayList<>();
             for (Element element : getGenre) {
                 DetailMangaModel.DetailMangaGenres detailGenres = new DetailMangaModel().new DetailMangaGenres();
-                String getGenreURL = element.select("a[href^=https://animeindo.to/genres/]").attr("href");
-                String getGenreTitle = element.select("a[href^=https://animeindo.to/genres/]").text();
+                String getGenreURL = element.select("a[href^=https://animeindo.co/genres/]").attr("href");
+                String getGenreTitle = element.select("a[href^=https://animeindo.co/genres/]").text();
                 detailGenres.setGenreURL(getGenreURL);
                 detailGenres.setGenreTitle(getGenreTitle);
                 detailGenresList.add(detailGenres);

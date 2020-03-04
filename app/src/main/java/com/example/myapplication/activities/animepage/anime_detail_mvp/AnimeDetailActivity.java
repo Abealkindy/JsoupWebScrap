@@ -9,11 +9,11 @@ import com.example.myapplication.models.animemodels.AnimeDetailModel;
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
@@ -32,7 +32,9 @@ public class AnimeDetailActivity extends AppCompatActivity implements AnimeDetai
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        animeDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_anime_detail);
+        animeDetailBinding = ActivityAnimeDetailBinding.inflate(getLayoutInflater());
+        View view = animeDetailBinding.getRoot();
+        setContentView(view);
         setSupportActionBar(animeDetailBinding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

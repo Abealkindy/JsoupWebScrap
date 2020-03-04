@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -32,7 +31,7 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        ItemListMangaContentBinding itemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_list_manga_content, parent, false);
+        ItemListMangaContentBinding itemListBinding = ItemListMangaContentBinding.inflate(layoutInflater);
         return new ViewHolder(itemListBinding);
     }
 

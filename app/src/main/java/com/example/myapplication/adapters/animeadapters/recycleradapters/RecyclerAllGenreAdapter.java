@@ -5,11 +5,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.R;
 import com.example.myapplication.databinding.ItemListSelectChapterBinding;
+import com.example.myapplication.databinding.ItemListSelectChapterDetailBinding;
 import com.example.myapplication.fragments.anime_fragments.genre_and_search_mvp.GenreAndSearchAnimeFragment;
 import com.example.myapplication.models.animemodels.AnimeGenreAndSearchResultModel;
 
@@ -33,7 +32,7 @@ public class RecyclerAllGenreAdapter extends RecyclerView.Adapter<RecyclerAllGen
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context.getContext());
-        ItemListSelectChapterBinding itemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_list_select_chapter, parent, false);
+        ItemListSelectChapterBinding itemListBinding = ItemListSelectChapterBinding.inflate(layoutInflater, parent, false);
         return new ViewHolder(itemListBinding);
     }
 
@@ -49,7 +48,8 @@ public class RecyclerAllGenreAdapter extends RecyclerView.Adapter<RecyclerAllGen
         return allGenreList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ItemListSelectChapterBinding itemListBinding;
 
         public ViewHolder(final ItemListSelectChapterBinding itemView) {

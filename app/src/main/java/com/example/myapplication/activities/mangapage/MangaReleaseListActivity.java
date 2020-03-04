@@ -1,7 +1,6 @@
 package com.example.myapplication.activities.mangapage;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -19,7 +18,8 @@ public class MangaReleaseListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mangaReleaseListBinding = DataBindingUtil.setContentView(this, R.layout.activity_manga_release_list);
+        mangaReleaseListBinding = ActivityMangaReleaseListBinding.inflate(getLayoutInflater());
+        setContentView(mangaReleaseListBinding.getRoot());
         UISettings();
         addUIEvents();
     }

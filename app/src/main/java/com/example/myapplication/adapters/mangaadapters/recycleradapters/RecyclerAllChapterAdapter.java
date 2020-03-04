@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
@@ -32,7 +31,7 @@ public class RecyclerAllChapterAdapter extends RecyclerView.Adapter<RecyclerAllC
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        ItemListSelectChapterBinding itemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_list_select_chapter, parent, false);
+        ItemListSelectChapterBinding itemListBinding = ItemListSelectChapterBinding.inflate(layoutInflater, parent, false);
         return new ViewHolder(itemListBinding);
     }
 
@@ -47,7 +46,7 @@ public class RecyclerAllChapterAdapter extends RecyclerView.Adapter<RecyclerAllC
         return allChapterDatasArrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ItemListSelectChapterBinding itemListBinding;
 
         public ViewHolder(final ItemListSelectChapterBinding itemView) {

@@ -1,7 +1,6 @@
 package com.example.myapplication.activities.mangapage.read_manga_mvp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
@@ -9,7 +8,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
@@ -36,7 +34,8 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readMangaBinding = DataBindingUtil.setContentView(this, R.layout.activity_read_manga);
+        readMangaBinding = ActivityReadMangaBinding.inflate(getLayoutInflater());
+        setContentView(readMangaBinding.getRoot());
         setUI();
     }
 
@@ -174,7 +173,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         allChapterDatasList = allChapters;
         readMangaBinding.showAllChap.setOnClickListener(v -> {
             dialog = new Dialog(ReadMangaActivity.this);
-            SelectChapterDialogBinding chapterDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(ReadMangaActivity.this), R.layout.select_chapter_dialog, null, false);
+            SelectChapterDialogBinding chapterDialogBinding = SelectChapterDialogBinding.inflate(getLayoutInflater(), null, false);
             dialog.setContentView(chapterDialogBinding.getRoot());
             dialog.setTitle("Select other chapter");
             chapterDialogBinding.recyclerAllChapters.setHasFixedSize(true);
