@@ -82,7 +82,7 @@ public class AnimeNewReleasesPresenter {
             List<AnimeNewReleaseResultModel> animeNewReleaseResultModelListAfterCut = new ArrayList<>(animeNewReleaseResultModelList.subList(6, animeNewReleaseResultModelList.size() - 1));
             Log.e("resultBeforeCut", new Gson().toJson(animeNewReleaseResultModelList));
             Log.e("resultAfterCut", new Gson().toJson(animeNewReleaseResultModelListAfterCut));
-            newReleasesInterface.onGetNewReleasesDataSuccess(animeNewReleaseResultModelListAfterCut, hitStatus);
+            newReleasesInterface.onGetNewReleasesDataSuccess(animeNewReleaseResultModelList, hitStatus);
         } else {
             newReleasesInterface.onGetNewReleasesDataFailed();
         }
