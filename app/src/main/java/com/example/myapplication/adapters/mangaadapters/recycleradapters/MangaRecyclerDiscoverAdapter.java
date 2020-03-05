@@ -115,7 +115,7 @@ public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecy
         return animeDiscoverResultModelList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private ItemListMangaSearchResultBinding itemListBinding;
 
         public ViewHolder(final ItemListMangaSearchResultBinding itemViewList) {

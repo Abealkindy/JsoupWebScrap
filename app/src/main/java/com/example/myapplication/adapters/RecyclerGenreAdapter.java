@@ -39,7 +39,7 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
         return detailMangaGenresList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ItemListGenreBinding itemListBinding;
 
         public ViewHolder(final ItemListGenreBinding itemView) {

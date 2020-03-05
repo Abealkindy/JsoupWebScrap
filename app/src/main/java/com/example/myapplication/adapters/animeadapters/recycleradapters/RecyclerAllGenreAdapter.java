@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.databinding.ItemListSelectChapterBinding;
-import com.example.myapplication.databinding.ItemListSelectChapterDetailBinding;
 import com.example.myapplication.fragments.anime_fragments.genre_and_search_mvp.GenreAndSearchAnimeFragment;
 import com.example.myapplication.models.animemodels.AnimeGenreAndSearchResultModel;
 

@@ -58,7 +58,7 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
         return imageContent.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ItemListMangaContentBinding itemListBinding;
 
         public ViewHolder(final ItemListMangaContentBinding itemView) {

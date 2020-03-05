@@ -94,7 +94,7 @@ public class AnimeRecyclerNewReleasesAdapter extends RecyclerView.Adapter<AnimeR
         return animeNewReleaseResultModelList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ItemListAnimeBinding itemListBinding;
 
         public ViewHolder(final ItemListAnimeBinding itemView) {

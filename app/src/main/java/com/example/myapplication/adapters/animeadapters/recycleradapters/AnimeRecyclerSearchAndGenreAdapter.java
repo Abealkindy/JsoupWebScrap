@@ -100,7 +100,7 @@ public class AnimeRecyclerSearchAndGenreAdapter extends RecyclerView.Adapter<Ani
         this.notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ItemListAnimeBinding itemListBinding;
 
         public ViewHolder(final ItemListAnimeBinding itemView) {

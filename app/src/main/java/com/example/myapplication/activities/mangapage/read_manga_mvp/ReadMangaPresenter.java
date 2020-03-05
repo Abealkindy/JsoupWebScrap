@@ -23,7 +23,7 @@ public class ReadMangaPresenter {
     private ReadMangaInterface readMangaInterface;
     private ReadMangaModel readMangaModel = new ReadMangaModel();
     private List<ReadMangaModel.AllChapterDatas> allChapterDatasList = new ArrayList<>();
-    List<ReadMangaModel.AllChapterDatas> allChapterDatas;
+    private List<ReadMangaModel.AllChapterDatas> allChapterDatas;
 
     public ReadMangaPresenter(ReadMangaInterface readMangaInterface) {
         this.readMangaInterface = readMangaInterface;

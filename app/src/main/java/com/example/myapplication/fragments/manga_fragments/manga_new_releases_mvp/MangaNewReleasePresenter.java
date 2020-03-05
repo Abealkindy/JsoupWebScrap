@@ -19,7 +19,6 @@ import java.util.Map;
 
 public class MangaNewReleasePresenter {
     private MangaNewReleaseInterface newReleaseInterface;
-    private List<MangaNewReleaseResultModel> mangaNewReleaseResultModels = new ArrayList<>();
 
     public MangaNewReleasePresenter(MangaNewReleaseInterface newReleaseInterface) {
         this.newReleaseInterface = newReleaseInterface;
