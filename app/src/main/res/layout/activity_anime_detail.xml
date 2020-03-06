@@ -1,118 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        style="@style/CoordinatorLayoutDetail">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/CoordinatorLayoutDetail">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar_anime"
-            style="@style/AppBarLayoutDetail">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_anime"
+        style="@style/AppBarLayoutDetail">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/toolbar_layout_anime"
-                style="@style/CollapsingLayoutDetail">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout_anime"
+            style="@style/CollapsingLayoutDetail">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/header_thumbnail_detail_anime"
+                    style="@style/ImageDetail"
+                    tools:src="@drawable/classgotoposter" />
+
+                <View style="@style/DarkBackGround" />
+
+                <View style="@style/GradientDarkBackGround" />
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/detail_header_title_anime"
+                    style="@style/TextTitleDetail"
+                    tools:text="Naruto Narutimate Hero 3: Finally a Clash! Jonin VS Genin!! Indescriminate Grand Melee Tournament Meeting!!" />
 
                 <RelativeLayout
+                    android:id="@+id/relative_info_anime"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="@dimen/size10dp"
+                    android:layout_marginTop="@dimen/size30dp"
+                    android:layout_marginEnd="@dimen/size10dp">
 
-                    <ImageView
-                        android:id="@+id/header_thumbnail_detail_anime"
-                        style="@style/ImageDetail"
-                        tools:src="@drawable/classgotoposter" />
-
-                    <View style="@style/DarkBackGround" />
-
-                    <View
-                        style="@style/GradientDarkBackGround" />
-
-                    <me.grantland.widget.AutofitTextView
-                        android:id="@+id/detail_header_title_anime"
-                        style="@style/TextTitleDetail"
-                        tools:text="Naruto Narutimate Hero 3: Finally a Clash! Jonin VS Genin!! Indescriminate Grand Melee Tournament Meeting!!" />
-
-                    <RelativeLayout
-                        android:id="@+id/relative_info_anime"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/detail_status_anime"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="@dimen/size10dp"
-                        android:layout_marginTop="@dimen/size30dp"
-                        android:layout_marginEnd="@dimen/size10dp">
+                        android:padding="@dimen/size10dp"
+                        android:textColor="@android:color/white"
+                        tools:background="@drawable/bubble_background_completed"
+                        tools:text="COMPLETED" />
+
+                    <LinearLayout
+                        android:id="@+id/linear_favourite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/detail_status_anime"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/detail_status_anime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:padding="@dimen/size10dp"
+                            android:fontFamily="@font/montserrat"
+                            android:text="@string/favourite_text"
                             android:textColor="@android:color/white"
-                            tools:background="@drawable/bubble_background_completed"
-                            tools:text="COMPLETED" />
+                            android:textSize="@dimen/_16ssp" />
+
+                        <ImageView
+                            android:id="@+id/favourite_image_inactive"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:src="@drawable/ic_favorite_border_white_24dp"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/favourite_image_active"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:src="@drawable/ic_favorite_black_24dp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="vertical">
 
                         <LinearLayout
+                            android:id="@+id/linear_rating_detail_anime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:orientation="vertical">
+                            android:layout_marginBottom="@dimen/size10dp">
 
-                            <LinearLayout
-                                android:id="@+id/linear_rating_detail_anime"
+                            <RatingBar
+                                android:id="@+id/rating_bar_detail_anime"
+                                style="?attr/ratingBarStyleSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/size10dp">
-
-                                <RatingBar
-                                    android:id="@+id/rating_bar_detail_anime"
-                                    style="?attr/ratingBarStyleSmall"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/size12dp"
-                                    android:layout_marginEnd="@dimen/size10dp"
-                                    android:isIndicator="true"
-                                    android:numStars="5"
-                                    android:progressBackgroundTint="@color/gray"
-                                    android:progressTint="@color/yellow"
-                                    android:rating="5"
-                                    android:secondaryProgressTint="@color/gray"
-                                    android:stepSize="0.1" />
-
-                                <TextView
-                                    android:id="@+id/rating_number_detail_anime"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/size10dp"
-                                    android:fontFamily="@font/montserrat"
-                                    android:textColor="@android:color/white"
-                                    android:textStyle="bold"
-                                    tools:text="9,75" />
-                            </LinearLayout>
-
+                                android:layout_marginTop="@dimen/size12dp"
+                                android:layout_marginEnd="@dimen/size10dp"
+                                android:isIndicator="true"
+                                android:numStars="5"
+                                android:progressBackgroundTint="@color/gray"
+                                android:progressTint="@color/yellow"
+                                android:rating="5"
+                                android:secondaryProgressTint="@color/gray"
+                                android:stepSize="0.1" />
 
                             <TextView
-                                android:id="@+id/anime_type_detail"
+                                android:id="@+id/rating_number_detail_anime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:padding="@dimen/size10dp"
+                                android:layout_marginTop="@dimen/size10dp"
+                                android:fontFamily="@font/montserrat"
                                 android:textColor="@android:color/white"
-                                tools:background="@drawable/bubble_background_series"
-                                tools:text="MOVIE" />
+                                android:textStyle="bold"
+                                tools:text="9,75" />
                         </LinearLayout>
-                    </RelativeLayout>
+
+
+                        <TextView
+                            android:id="@+id/anime_type_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:padding="@dimen/size10dp"
+                            android:textColor="@android:color/white"
+                            tools:background="@drawable/bubble_background_series"
+                            tools:text="MOVIE" />
+                    </LinearLayout>
                 </RelativeLayout>
+            </RelativeLayout>
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <include
-            android:id="@+id/content_anime"
-            layout="@layout/content_anime_detail" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <include
+        android:id="@+id/content_anime"
+        layout="@layout/content_anime_detail" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

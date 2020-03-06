@@ -1,11 +1,14 @@
 package com.example.myapplication.activities.animepage.anime_detail_mvp;
 
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.example.myapplication.adapters.animeadapters.recycleradapters.RecyclerAllEpisodeDetailAdapter;
 import com.example.myapplication.adapters.RecyclerGenreAdapter;
 import com.example.myapplication.databinding.ActivityAnimeDetailBinding;
 import com.example.myapplication.models.animemodels.AnimeDetailModel;
+import com.example.myapplication.models.animemodels.roommodels.AnimeBookmarkModel;
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,15 +21,23 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import static com.example.myapplication.MyApp.animeLocalDB;
 
 
 public class AnimeDetailActivity extends AppCompatActivity implements AnimeDetailInterface {
 
     ActivityAnimeDetailBinding animeDetailBinding;
     AnimeDetailModel animeDetailModel = new AnimeDetailModel();
+    AnimeBookmarkModel animeBookmarkModel = new AnimeBookmarkModel();
+    String getAnimeDetailURL = "", getAnimeDetailTitle = "", getAnimeDetailThumb = "", getAnimeDetailStatus = "", getAnimeDetailType = "";
     private AnimeDetailPresenter detailPresenter = new AnimeDetailPresenter(this);
 
     @Override
@@ -39,19 +50,60 @@ public class AnimeDetailActivity extends AppCompatActivity implements AnimeDetai
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         initVariables();
+        initEvent();
+    }
+
+    private void initEvent() {
+        animeDetailBinding.linearFavourite.setOnClickListener(v -> {
+            Log.e("FAVCLICKED? ", "YES");
+            if (animeDetailBinding.favouriteImageInactive.getVisibility() == View.VISIBLE) {
+                Date dateNow = Calendar.getInstance().getTime();
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("ddMMyyyyhhmmss");
+                String formattedDate = df.format(dateNow);
+                animeBookmarkModel.setAnimeAddedDate(formattedDate);
+                animeBookmarkModel.setAnimeTitle(getAnimeDetailTitle);
+                animeBookmarkModel.setAnimeThumb(getAnimeDetailThumb);
+                animeBookmarkModel.setAnimeDetailURL(getAnimeDetailURL);
+                animeBookmarkModel.setAnimeStatus(getAnimeDetailStatus);
+                animeBookmarkModel.setAnimeType(getAnimeDetailType);
+                animeLocalDB.animeBookmarkDAO().insertBookmarkData(animeBookmarkModel);
+                animeDetailBinding.favouriteImageInactive.setVisibility(View.GONE);
+                animeDetailBinding.favouriteImageActive.setVisibility(View.VISIBLE);
+            } else if (animeDetailBinding.favouriteImageActive.getVisibility() == View.VISIBLE) {
+                animeLocalDB.animeBookmarkDAO().deleteBookmarkItem(getAnimeDetailURL);
+                animeDetailBinding.favouriteImageInactive.setVisibility(View.VISIBLE);
+                animeDetailBinding.favouriteImageActive.setVisibility(View.GONE);
+            }
+
+        });
     }
 
     private void initVariables() {
-        String getAnimeDetailURL = getIntent().getStringExtra("animeDetailURL");
-        String getAnimeDetailTitle = getIntent().getStringExtra("animeDetailTitle");
-        String getAnimeDetailThumb = getIntent().getStringExtra("animeDetailThumb");
-        String getAnimeDetailStatus = getIntent().getStringExtra("animeDetailStatus");
-        String getAnimeDetailType = getIntent().getStringExtra("animeDetailType");
+        getAnimeDetailURL = getIntent().getStringExtra("animeDetailURL");
+        getAnimeDetailTitle = getIntent().getStringExtra("animeDetailTitle");
+        getAnimeDetailThumb = getIntent().getStringExtra("animeDetailThumb");
+        getAnimeDetailStatus = getIntent().getStringExtra("animeDetailStatus");
+        getAnimeDetailType = getIntent().getStringExtra("animeDetailType");
         animeDetailModel.setEpisodeTitle(getAnimeDetailTitle);
         animeDetailModel.setEpisodeThumb(getAnimeDetailThumb);
         animeDetailModel.setEpisodeStatus(getAnimeDetailStatus);
         animeDetailModel.setEpisodeType(getAnimeDetailType);
+        AnimeBookmarkModel animeStoredURL = animeLocalDB.animeBookmarkDAO().findByName(getAnimeDetailURL);
+        if (animeStoredURL != null && animeStoredURL.getAnimeDetailURL() != null) {
+            if (animeStoredURL.getAnimeDetailURL().equals(getAnimeDetailURL)) {
+                animeDetailBinding.favouriteImageInactive.setVisibility(View.GONE);
+                animeDetailBinding.favouriteImageActive.setVisibility(View.VISIBLE);
+            } else {
+                animeDetailBinding.favouriteImageInactive.setVisibility(View.VISIBLE);
+                animeDetailBinding.favouriteImageActive.setVisibility(View.GONE);
+            }
 
+        } else {
+            animeDetailBinding.favouriteImageInactive.setVisibility(View.VISIBLE);
+            animeDetailBinding.favouriteImageActive.setVisibility(View.GONE);
+        }
+
+        Log.e("bookmark data ", new Gson().toJson(animeLocalDB.animeBookmarkDAO().getAnimeBookmarkData()));
         if (getAnimeDetailTitle != null) {
             if (getAnimeDetailTitle.contains("Episode")) {
                 getAnimeDetailTitle = getAnimeDetailTitle.substring(0, getAnimeDetailTitle.length() - 11);
