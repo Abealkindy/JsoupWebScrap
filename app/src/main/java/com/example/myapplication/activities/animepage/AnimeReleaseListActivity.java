@@ -33,6 +33,8 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
                     setTitle("New releases");
                 } else if (tab.getPosition() == 1) {
                     setTitle("Discover");
+                } else if (tab.getPosition() == 2) {
+                    setTitle("Bookmarks");
                 }
             }
 
@@ -52,6 +54,7 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
         setTitle("New releases");
         animeReleaseListBinding.tabHomeAnime.addTab(animeReleaseListBinding.tabHomeAnime.newTab().setIcon(getResources().getDrawable(R.drawable.ic_home_white_24dp)));
         animeReleaseListBinding.tabHomeAnime.addTab(animeReleaseListBinding.tabHomeAnime.newTab().setIcon(getResources().getDrawable(R.drawable.ic_view_list_white_24dp)));
+        animeReleaseListBinding.tabHomeAnime.addTab(animeReleaseListBinding.tabHomeAnime.newTab().setIcon(getResources().getDrawable(R.drawable.ic_favorite_black_24dp)));
         animeReleaseListBinding.tabHomeAnime.setTabIconTint(ColorStateList.valueOf(getResources().getColor(android.R.color.white)));
         animeReleaseListBinding.viewPagerTabsAnime.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(animeReleaseListBinding.tabHomeAnime));
         animeReleaseListBinding.viewPagerTabsAnime.setAdapter(new ViewPagerAnimeMenuTabAdapter(getSupportFragmentManager()));

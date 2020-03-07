@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey;
 
 import lombok.Data;
 
-@Entity(tableName = "tb_anime_bookmark")
 @Data
+@Entity(tableName = "tb_anime_bookmark")
 public class AnimeBookmarkModel {
     @PrimaryKey
     @NonNull

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.myapplication.fragments.anime_fragments.anime_bookmark_page.AnimeBookmarkFragment;
 import com.example.myapplication.fragments.anime_fragments.anime_new_releases_mvp.AnimeNewReleaseFragment;
 import com.example.myapplication.fragments.anime_fragments.genre_and_search_mvp.GenreAndSearchAnimeFragment;
 
@@ -23,12 +24,14 @@ public class ViewPagerAnimeMenuTabAdapter extends FragmentStatePagerAdapter {
             return new AnimeNewReleaseFragment();
         } else if (position == 1) {
             return new GenreAndSearchAnimeFragment();
+        } else if (position == 2) {
+            return new AnimeBookmarkFragment();
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 }
