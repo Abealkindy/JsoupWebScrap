@@ -34,7 +34,7 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
                 } else if (tab.getPosition() == 1) {
                     setTitle("Discover");
                 } else if (tab.getPosition() == 2) {
-                    setTitle("Bookmarks");
+                    setTitle("Favourites");
                 }
             }
 
