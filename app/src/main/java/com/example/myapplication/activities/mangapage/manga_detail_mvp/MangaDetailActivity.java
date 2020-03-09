@@ -56,16 +56,6 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
                 Date dateNow = Calendar.getInstance().getTime();
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("ddMMyyyyhhmmss");
                 String formattedDate = df.format(dateNow);
-                if (formattedDate != null) {
-                    Log.e("DATE", formattedDate);
-                    Log.e("TITLE", detailTitle);
-                    Log.e("THUMB", detailThumb);
-                    Log.e("DETAILURL", mangaDetailURL);
-                    Log.e("STATUS", "" + detailStatus);
-                    Log.e("TYPE", detailType);
-                } else {
-                    Log.e("DATE", "NULL");
-                }
                 mangaBookmarkModel.setMangaAddedDate(formattedDate);
                 mangaBookmarkModel.setMangaTitle(detailTitle);
                 mangaBookmarkModel.setMangaThumb(detailThumb);
