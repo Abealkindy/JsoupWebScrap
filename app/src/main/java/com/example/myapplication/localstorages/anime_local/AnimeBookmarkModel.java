@@ -1,4 +1,4 @@
-package com.example.myapplication.models.animemodels.roommodels;
+package com.example.myapplication.localstorages.anime_local;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

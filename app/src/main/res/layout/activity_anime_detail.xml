@@ -28,6 +28,7 @@
                 <me.grantland.widget.AutofitTextView
                     android:id="@+id/detail_header_title_anime"
                     style="@style/TextTitleDetail"
+                    android:layout_below="@+id/relative_info_anime"
                     tools:text="Naruto Narutimate Hero 3: Finally a Clash! Jonin VS Genin!! Indescriminate Grand Melee Tournament Meeting!!" />
 
                 <RelativeLayout

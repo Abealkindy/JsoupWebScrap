@@ -1,27 +1,27 @@
-package com.example.myapplication.fragments.anime_fragments.anime_bookmark_page;
+package com.example.myapplication.fragments.manga_fragments.manga_bookmark_page;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+
+import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerBookmarkAdapter;
+import com.example.myapplication.databinding.FragmentAnimeBookmarkBinding;
 
 import static com.example.myapplication.MyApp.localAppDB;
-
-import com.example.myapplication.adapters.animeadapters.recycleradapters.AnimeRecyclerBookmarkAdapter;
-import com.example.myapplication.databinding.FragmentAnimeBookmarkBinding;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AnimeBookmarkFragment extends Fragment {
+public class MangaBookmarkFragment extends Fragment {
     private FragmentAnimeBookmarkBinding mBinding;
 
-    public AnimeBookmarkFragment() {
+    public MangaBookmarkFragment() {
         // Required empty public constructor
     }
 
@@ -53,8 +53,8 @@ public class AnimeBookmarkFragment extends Fragment {
     }
 
     private void getDataFromLocalDB() {
-        if (localAppDB.animeBookmarkDAO().getAnimeBookmarkData() != null) {
-            mBinding.recylerAnimeBookmark.setAdapter(new AnimeRecyclerBookmarkAdapter(getActivity(), localAppDB.animeBookmarkDAO().getAnimeBookmarkData()));
+        if (localAppDB.mangaBookmarkDAO().getMangaBookmarkData() != null) {
+            mBinding.recylerAnimeBookmark.setAdapter(new MangaRecyclerBookmarkAdapter(getActivity(), localAppDB.mangaBookmarkDAO().getMangaBookmarkData()));
             mBinding.recylerAnimeBookmark.setHasFixedSize(true);
         }
     }

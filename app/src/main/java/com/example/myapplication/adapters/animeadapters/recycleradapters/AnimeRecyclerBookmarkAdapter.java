@@ -13,9 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.animepage.anime_detail_mvp.AnimeDetailActivity;
 import com.example.myapplication.databinding.ItemListAnimeBinding;
-import com.example.myapplication.fragments.anime_fragments.anime_bookmark_page.AnimeBookmarkFragment;
-import com.example.myapplication.models.animemodels.AnimeGenreAndSearchResultModel;
-import com.example.myapplication.models.animemodels.roommodels.AnimeBookmarkModel;
+import com.example.myapplication.localstorages.anime_local.AnimeBookmarkModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

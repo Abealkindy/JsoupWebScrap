@@ -1,10 +1,12 @@
 package com.example.myapplication.activities.mangapage.manga_detail_mvp;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.RecyclerAllChapterDetailAdapter;
 import com.example.myapplication.adapters.RecyclerGenreAdapter;
 import com.example.myapplication.databinding.ActivityMangaDetailBinding;
+import com.example.myapplication.localstorages.manga_local.MangaBookmarkModel;
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -12,21 +14,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
+import static com.example.myapplication.MyApp.localAppDB;
 
 public class MangaDetailActivity extends AppCompatActivity implements MangaDetailInterface {
 
     ActivityMangaDetailBinding detailBinding;
-    String mangaType;
-    private String detailType, detailTitle, detailThumb, detailRating;
+    private String mangaType = "", detailType = "", detailTitle = "", detailThumb = "", detailRating = "", mangaDetailURL = "";
     private boolean detailStatus;
     private MangaDetailPresenter mangaDetailPresenter = new MangaDetailPresenter(this);
+    MangaBookmarkModel mangaBookmarkModel = new MangaBookmarkModel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +46,43 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         initVariables();
+        initEvent();
+    }
+
+    private void initEvent() {
+        detailBinding.linearFavourite.setOnClickListener(v -> {
+            Log.e("FAVCLICKED? ", "YES");
+            if (detailBinding.favouriteImageInactive.getVisibility() == View.VISIBLE) {
+                Date dateNow = Calendar.getInstance().getTime();
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("ddMMyyyyhhmmss");
+                String formattedDate = df.format(dateNow);
+                if (formattedDate != null) {
+                    Log.e("DATE", formattedDate);
+                    Log.e("TITLE", detailTitle);
+                    Log.e("THUMB", detailThumb);
+                    Log.e("DETAILURL", mangaDetailURL);
+                    Log.e("STATUS", "" + detailStatus);
+                    Log.e("TYPE", detailType);
+                } else {
+                    Log.e("DATE", "NULL");
+                }
+                mangaBookmarkModel.setMangaAddedDate(formattedDate);
+                mangaBookmarkModel.setMangaTitle(detailTitle);
+                mangaBookmarkModel.setMangaThumb(detailThumb);
+                mangaBookmarkModel.setMangaDetailURL(mangaDetailURL);
+                mangaBookmarkModel.setMangaStatus(detailStatus);
+                mangaBookmarkModel.setMangaType(detailType);
+                mangaBookmarkModel.setMangaRating(detailRating);
+                localAppDB.mangaBookmarkDAO().insertBookmarkData(mangaBookmarkModel);
+                detailBinding.favouriteImageInactive.setVisibility(View.GONE);
+                detailBinding.favouriteImageActive.setVisibility(View.VISIBLE);
+            } else if (detailBinding.favouriteImageActive.getVisibility() == View.VISIBLE) {
+                localAppDB.mangaBookmarkDAO().deleteBookmarkItem(mangaDetailURL);
+                detailBinding.favouriteImageInactive.setVisibility(View.VISIBLE);
+                detailBinding.favouriteImageActive.setVisibility(View.GONE);
+            }
+
+        });
     }
 
     private void initCollapsingToolbar(String titleManga) {
@@ -63,12 +109,21 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
     }
 
     private void initVariables() {
-        String detailURL = getIntent().getStringExtra("detailURL");
+        mangaDetailURL = getIntent().getStringExtra("detailURL");
         detailType = getIntent().getStringExtra("detailType");
         detailThumb = getIntent().getStringExtra("detailThumb");
         detailTitle = getIntent().getStringExtra("detailTitle");
         detailRating = getIntent().getStringExtra("detailRating");
         detailStatus = getIntent().getBooleanExtra("detailStatus", false);
+
+        MangaBookmarkModel mangaBookmarkModel = localAppDB.mangaBookmarkDAO().findByName(mangaDetailURL);
+        if (mangaBookmarkModel != null && mangaBookmarkModel.getMangaDetailURL() != null && mangaBookmarkModel.getMangaDetailURL().equals(mangaDetailURL)) {
+            detailBinding.favouriteImageInactive.setVisibility(View.GONE);
+            detailBinding.favouriteImageActive.setVisibility(View.VISIBLE);
+        } else {
+            detailBinding.favouriteImageInactive.setVisibility(View.VISIBLE);
+            detailBinding.favouriteImageActive.setVisibility(View.GONE);
+        }
 
         if (!detailThumb.equalsIgnoreCase("")) {
             Picasso.get().load(detailThumb).into(detailBinding.headerThumbnailDetail);
@@ -120,8 +175,8 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
             }
 
         }
-        if (detailURL != null) {
-            mangaDetailPresenter.getDetailMangaData(detailURL);
+        if (mangaDetailURL != null) {
+            mangaDetailPresenter.getDetailMangaData(mangaDetailURL);
         }
     }
 
@@ -130,12 +185,14 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
         runOnUiThread(() -> {
             //get title
             if (detailTitle.equalsIgnoreCase("")) {
+                detailTitle = detailMangaModel.getMangaTitle();
                 detailBinding.detailHeaderTitle.setText(detailMangaModel.getMangaTitle());
                 initCollapsingToolbar(detailTitle);
             }
 
             //get thumb
             if (detailThumb.equalsIgnoreCase("")) {
+                detailThumb = detailMangaModel.getMangaThumb();
                 Picasso.get().load(detailMangaModel.getMangaThumb()).into(detailBinding.headerThumbnailDetail);
             }
 

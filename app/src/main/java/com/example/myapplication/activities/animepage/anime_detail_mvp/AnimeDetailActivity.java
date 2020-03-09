@@ -8,7 +8,7 @@ import com.example.myapplication.adapters.animeadapters.recycleradapters.Recycle
 import com.example.myapplication.adapters.RecyclerGenreAdapter;
 import com.example.myapplication.databinding.ActivityAnimeDetailBinding;
 import com.example.myapplication.models.animemodels.AnimeDetailModel;
-import com.example.myapplication.models.animemodels.roommodels.AnimeBookmarkModel;
+import com.example.myapplication.localstorages.anime_local.AnimeBookmarkModel;
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.myapplication.MyApp.animeLocalDB;
+import static com.example.myapplication.MyApp.localAppDB;
 
 
 public class AnimeDetailActivity extends AppCompatActivity implements AnimeDetailInterface {
@@ -66,11 +66,11 @@ public class AnimeDetailActivity extends AppCompatActivity implements AnimeDetai
                 animeBookmarkModel.setAnimeDetailURL(getAnimeDetailURL);
                 animeBookmarkModel.setAnimeStatus(getAnimeDetailStatus);
                 animeBookmarkModel.setAnimeType(getAnimeDetailType);
-                animeLocalDB.animeBookmarkDAO().insertBookmarkData(animeBookmarkModel);
+                localAppDB.animeBookmarkDAO().insertBookmarkData(animeBookmarkModel);
                 animeDetailBinding.favouriteImageInactive.setVisibility(View.GONE);
                 animeDetailBinding.favouriteImageActive.setVisibility(View.VISIBLE);
             } else if (animeDetailBinding.favouriteImageActive.getVisibility() == View.VISIBLE) {
-                animeLocalDB.animeBookmarkDAO().deleteBookmarkItem(getAnimeDetailURL);
+                localAppDB.animeBookmarkDAO().deleteBookmarkItem(getAnimeDetailURL);
                 animeDetailBinding.favouriteImageInactive.setVisibility(View.VISIBLE);
                 animeDetailBinding.favouriteImageActive.setVisibility(View.GONE);
             }
@@ -88,22 +88,16 @@ public class AnimeDetailActivity extends AppCompatActivity implements AnimeDetai
         animeDetailModel.setEpisodeThumb(getAnimeDetailThumb);
         animeDetailModel.setEpisodeStatus(getAnimeDetailStatus);
         animeDetailModel.setEpisodeType(getAnimeDetailType);
-        AnimeBookmarkModel animeStoredURL = animeLocalDB.animeBookmarkDAO().findByName(getAnimeDetailURL);
-        if (animeStoredURL != null && animeStoredURL.getAnimeDetailURL() != null) {
-            if (animeStoredURL.getAnimeDetailURL().equals(getAnimeDetailURL)) {
-                animeDetailBinding.favouriteImageInactive.setVisibility(View.GONE);
-                animeDetailBinding.favouriteImageActive.setVisibility(View.VISIBLE);
-            } else {
-                animeDetailBinding.favouriteImageInactive.setVisibility(View.VISIBLE);
-                animeDetailBinding.favouriteImageActive.setVisibility(View.GONE);
-            }
-
+        AnimeBookmarkModel animeStoredURL = localAppDB.animeBookmarkDAO().findByName(getAnimeDetailURL);
+        if (animeStoredURL != null && animeStoredURL.getAnimeDetailURL() != null && animeStoredURL.getAnimeDetailURL().equals(getAnimeDetailURL)) {
+            animeDetailBinding.favouriteImageInactive.setVisibility(View.GONE);
+            animeDetailBinding.favouriteImageActive.setVisibility(View.VISIBLE);
         } else {
             animeDetailBinding.favouriteImageInactive.setVisibility(View.VISIBLE);
             animeDetailBinding.favouriteImageActive.setVisibility(View.GONE);
         }
 
-        Log.e("bookmark data ", new Gson().toJson(animeLocalDB.animeBookmarkDAO().getAnimeBookmarkData()));
+        Log.e("bookmark data ", new Gson().toJson(localAppDB.animeBookmarkDAO().getAnimeBookmarkData()));
         if (getAnimeDetailTitle != null) {
             if (getAnimeDetailTitle.contains("Episode")) {
                 getAnimeDetailTitle = getAnimeDetailTitle.substring(0, getAnimeDetailTitle.length() - 11);

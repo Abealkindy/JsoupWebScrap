@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
 import com.example.myapplication.networks.JsoupConfig;
+import com.google.gson.Gson;
 import com.zhkrb.cloudflare_scrape_android.Cloudflare;
 
 import org.jsoup.nodes.Document;
@@ -115,7 +116,6 @@ public class AnimeDetailPresenter {
                 allEpisodeDatas.setChapterTitle(episodeTitle);
                 allEpisodeDatasList.add(allEpisodeDatas);
             }
-
             //get Rating
             Elements getRatingAnime = document.getElementsByClass("series-rating");
             String animeDetailRating = getRatingAnime.attr("style").substring(17, getRatingAnime.attr("style").indexOf("%"));

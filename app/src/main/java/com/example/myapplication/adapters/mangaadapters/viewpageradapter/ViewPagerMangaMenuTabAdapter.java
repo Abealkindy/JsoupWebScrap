@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.myapplication.fragments.manga_fragments.discover_manga_mvp.DiscoverMangaFragment;
+import com.example.myapplication.fragments.manga_fragments.manga_bookmark_page.MangaBookmarkFragment;
 import com.example.myapplication.fragments.manga_fragments.manga_new_releases_mvp.MangaNewReleaseFragment;
 
 /*
@@ -23,12 +24,14 @@ public class ViewPagerMangaMenuTabAdapter extends FragmentStatePagerAdapter {
             return new MangaNewReleaseFragment();
         } else if (position == 1) {
             return new DiscoverMangaFragment();
+        } else if (position == 2) {
+            return new MangaBookmarkFragment();
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 }

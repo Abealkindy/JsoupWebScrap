@@ -4,18 +4,18 @@ import android.app.Application;
 
 import androidx.room.Room;
 
-import com.example.myapplication.models.animemodels.roommodels.AnimeAppDatabase;
+import com.example.myapplication.localstorages.LocalAppDB;
 
 public class MyApp extends Application {
-    public static AnimeAppDatabase animeLocalDB;
+    public static LocalAppDB localAppDB;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        animeLocalDB = Room.databaseBuilder(
+        localAppDB = Room.databaseBuilder(
                 getApplicationContext(),
-                AnimeAppDatabase.class,
-                "anime_bookmark_db"
+                LocalAppDB.class,
+                "local_bookmark_db"
         )
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
