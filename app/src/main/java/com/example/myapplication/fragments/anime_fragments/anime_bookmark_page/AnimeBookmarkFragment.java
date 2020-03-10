@@ -33,6 +33,7 @@ public class AnimeBookmarkFragment extends Fragment {
         mBinding = FragmentAnimeBookmarkBinding.inflate(inflater, container, false);
         getDataFromLocalDB();
         initEvent();
+//        getUserVisibleHint()
         return mBinding.getRoot();
     }
 

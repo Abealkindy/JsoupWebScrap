@@ -50,7 +50,9 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
-        getNewReleasesAnime(pageCount++, "newPage");
+        if (getUserVisibleHint()) {
+            getNewReleasesAnime(pageCount++, "newPage");
+        }
         animeNewReleaseBinding.recyclerNewReleasesAnime.setHasFixedSize(true);
         animeRecyclerNewReleasesAdapter = new AnimeRecyclerNewReleasesAdapter(getActivity(), animeNewReleaseResultModelList);
         animeNewReleaseBinding.recyclerNewReleasesAnime.setAdapter(animeRecyclerNewReleasesAdapter);
@@ -67,6 +69,14 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
             getNewReleasesAnime(1, "swipeRefresh");
         });
         return animeNewReleaseBinding.getRoot();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isResumed()) {
+            getNewReleasesAnime(pageCount++, "newPage");
+        }
     }
 
     private void getNewReleasesAnime(int pageCount, String hitStatus) {

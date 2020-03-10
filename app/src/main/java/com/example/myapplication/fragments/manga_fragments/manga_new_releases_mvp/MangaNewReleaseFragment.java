@@ -61,13 +61,23 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         newReleaseBinding = FragmentMangaNewReleaseBinding.inflate(inflater, container, false);
         initProgressDialog();
-        getNewReleasesManga(pageCount++, "newPage");
+        if (getUserVisibleHint()) {
+            getNewReleasesManga(pageCount++, "newPage");
+        }
         initRecyclerView();
         newReleaseBinding.swipeRefreshMangaList.setOnRefreshListener(() -> {
             newReleaseBinding.swipeRefreshMangaList.setRefreshing(false);
             getNewReleasesManga(1, "swipeRefresh");
         });
         return newReleaseBinding.getRoot();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isResumed()) {
+            getNewReleasesManga(pageCount++, "newPage");
+        }
     }
 
     private void initProgressDialog() {

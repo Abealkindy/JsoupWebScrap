@@ -66,7 +66,9 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getDiscoverMangaData(hitStatus);
+        if (getUserVisibleHint()) {
+            getDiscoverMangaData(hitStatus);
+        }
         discoverMangaBinding.swipeDiscoverManga.setOnRefreshListener(() -> {
             discoverMangaBinding.swipeDiscoverManga.setRefreshing(false);
             setTag(homeUrl, SWIPE_REFRESH);
@@ -74,6 +76,14 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
                 getFragmentManager().beginTransaction().detach(this).attach(this).commit();
             }
         });
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isResumed()) {
+            getDiscoverMangaData(hitStatus);
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")

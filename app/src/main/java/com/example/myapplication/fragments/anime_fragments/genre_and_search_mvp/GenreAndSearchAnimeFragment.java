@@ -73,8 +73,10 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
-        getMainContentData(hitStatus);
-        getGenreData();
+        if (getUserVisibleHint()) {
+            getMainContentData(hitStatus);
+            getGenreData();
+        }
         setHasOptionsMenu(true);
         initEvent();
         fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.setHasFixedSize(true);
@@ -107,6 +109,15 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
             }
         });
         return fragmentGenreAndSearchAnimeBinding.getRoot();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isResumed()) {
+            getMainContentData(hitStatus);
+            getGenreData();
+        }
     }
 
     private void setTags(String searchQuery, int option) {
