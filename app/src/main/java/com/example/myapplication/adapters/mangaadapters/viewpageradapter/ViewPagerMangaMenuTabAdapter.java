@@ -14,7 +14,7 @@ import com.example.myapplication.fragments.manga_fragments.manga_new_releases_mv
  */
 public class ViewPagerMangaMenuTabAdapter extends FragmentStatePagerAdapter {
     public ViewPagerMangaMenuTabAdapter(FragmentManager supportFragmentManager) {
-        super(supportFragmentManager);
+        super(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
     @NonNull

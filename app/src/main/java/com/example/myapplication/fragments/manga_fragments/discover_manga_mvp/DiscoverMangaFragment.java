@@ -52,6 +52,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     private String searchQuery = "";
     private int plusPage = 1;
     private int plusSearch = 1;
+    private boolean hitAPI = false;
 
     public DiscoverMangaFragment() {
         // Required empty public constructor
@@ -66,9 +67,6 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (getUserVisibleHint()) {
-            getDiscoverMangaData(hitStatus);
-        }
         discoverMangaBinding.swipeDiscoverManga.setOnRefreshListener(() -> {
             discoverMangaBinding.swipeDiscoverManga.setRefreshing(false);
             setTag(homeUrl, SWIPE_REFRESH);
@@ -79,9 +77,10 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed()) {
+    public void onResume() {
+        super.onResume();
+        if (!hitAPI) {
+            hitAPI = true;
             getDiscoverMangaData(hitStatus);
         }
     }

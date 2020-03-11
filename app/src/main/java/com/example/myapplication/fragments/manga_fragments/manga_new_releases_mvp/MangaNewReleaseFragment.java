@@ -38,6 +38,7 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
     private MangaRecyclerNewReleasesAdapter mangaRecyclerNewReleasesAdapter;
     private MangaNewReleasePresenter newReleasePresenter = new MangaNewReleasePresenter(this);
     private ProgressDialog progressDialog;
+    private boolean hitAPI = false;
 
     public MangaNewReleaseFragment() {
         // Required empty public constructor
@@ -61,9 +62,6 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         newReleaseBinding = FragmentMangaNewReleaseBinding.inflate(inflater, container, false);
         initProgressDialog();
-        if (getUserVisibleHint()) {
-            getNewReleasesManga(pageCount++, "newPage");
-        }
         initRecyclerView();
         newReleaseBinding.swipeRefreshMangaList.setOnRefreshListener(() -> {
             newReleaseBinding.swipeRefreshMangaList.setRefreshing(false);
@@ -73,9 +71,10 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed()) {
+    public void onResume() {
+        super.onResume();
+        if (!hitAPI) {
+            hitAPI = true;
             getNewReleasesManga(pageCount++, "newPage");
         }
     }

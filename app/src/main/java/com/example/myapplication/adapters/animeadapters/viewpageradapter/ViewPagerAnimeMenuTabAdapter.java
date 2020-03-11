@@ -14,7 +14,7 @@ import com.example.myapplication.fragments.anime_fragments.genre_and_search_mvp.
  */
 public class ViewPagerAnimeMenuTabAdapter extends FragmentStatePagerAdapter {
     public ViewPagerAnimeMenuTabAdapter(FragmentManager supportFragmentManager) {
-        super(supportFragmentManager);
+        super(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
     @NonNull

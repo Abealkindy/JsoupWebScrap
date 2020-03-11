@@ -35,6 +35,7 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
     private List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
     private AnimeRecyclerNewReleasesAdapter animeRecyclerNewReleasesAdapter;
     private ProgressDialog progressDialog;
+    private boolean hitAPI = false;
     private FragmentAnimeNewReleaseBinding animeNewReleaseBinding;
     private AnimeNewReleasesPresenter newReleasesPresenter = new AnimeNewReleasesPresenter(this);
 
@@ -50,9 +51,6 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
-        if (getUserVisibleHint()) {
-            getNewReleasesAnime(pageCount++, "newPage");
-        }
         animeNewReleaseBinding.recyclerNewReleasesAnime.setHasFixedSize(true);
         animeRecyclerNewReleasesAdapter = new AnimeRecyclerNewReleasesAdapter(getActivity(), animeNewReleaseResultModelList);
         animeNewReleaseBinding.recyclerNewReleasesAnime.setAdapter(animeRecyclerNewReleasesAdapter);
@@ -72,10 +70,11 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed()) {
+    public void onResume() {
+        super.onResume();
+        if (!hitAPI) {
             getNewReleasesAnime(pageCount++, "newPage");
+            hitAPI = true;
         }
     }
 
