@@ -36,23 +36,18 @@ import java.util.List;
  */
 public class DiscoverMangaFragment extends Fragment implements SearchView.OnQueryTextListener, DiscoverMangaInterface {
     private FragmentDiscoverMangaBinding discoverMangaBinding;
-    private int pageCount = 1;
-    private static final int NEW_PAGE = 0;
-    private static final int NEW_PAGE_SCROLL = 1;
-    private static final int SWIPE_REFRESH = 2;
-    private final int SEARCH_REQUEST = 3;
-    private final int SEARCH_SWIPE_REQUEST = 4;
+    private int pageCount = 1, plusPage = 1, plusSearch = 1;
+    private static final int NEW_PAGE = 0,
+            NEW_PAGE_SCROLL = 1,
+            SWIPE_REFRESH = 2,
+            SEARCH_REQUEST = 3,
+            SEARCH_SWIPE_REQUEST = 4;
     private List<DiscoverMangaModel> discoverMangaFragmentList = new ArrayList<>();
     private MangaRecyclerDiscoverAdapter mangaRecyclerDiscoverAdapter;
     private DiscoverMangaPresenter discoverMangaPresenter = new DiscoverMangaPresenter(this);
     private ProgressDialog progressDialog;
     private Context mContext;
-    private String hitStatus = "newPage";
-    private String homeUrl = "/daftar-komik/page/" + pageCount;
-    private String searchQuery = "";
-    private int plusPage = 1;
-    private int plusSearch = 1;
-    private boolean hitAPI = false;
+    private String hitStatus = "newPage", homeUrl = "/daftar-komik/page/" + pageCount, searchQuery = "";
 
     public DiscoverMangaFragment() {
         // Required empty public constructor
@@ -79,10 +74,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     @Override
     public void onResume() {
         super.onResume();
-        if (!hitAPI) {
-            hitAPI = true;
-            getDiscoverMangaData(hitStatus);
-        }
+        getDiscoverMangaData(hitStatus);
     }
 
     @SuppressLint("ClickableViewAccessibility")

@@ -47,7 +47,6 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     private Dialog dialog;
     private String hitStatus = "newPage", homeUrl = "/anime/page/" + 1, hitQuery = "action";
     private int plusPage = 1, plusSearch = 1, plusGenre = 1;
-    private boolean hitAPI = false;
     private static final int NEW_PAGE = 0,
             NEW_PAGE_SCROLL = 1,
             SWIPE_REFRESH = 2,
@@ -111,11 +110,8 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     @Override
     public void onResume() {
         super.onResume();
-        if (!hitAPI) {
-            hitAPI = true;
-            getMainContentData(hitStatus);
-            getGenreData();
-        }
+        getMainContentData(hitStatus);
+        getGenreData();
     }
 
     private void setTags(String searchQuery, int option) {
