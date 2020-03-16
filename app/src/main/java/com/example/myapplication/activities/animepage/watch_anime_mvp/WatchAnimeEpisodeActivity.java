@@ -137,12 +137,12 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
         Document doc = Jsoup.parse(result);
 
         //Anime Details URL settings
-        Elements getElementsAnimeDetails = doc.select("a[href^=https://animeindo.co/anime/]");
+        Elements getElementsAnimeDetails = doc.select("a[href^=https://animeindo.fun/anime/]");
         if (getElementsAnimeDetails.isEmpty()) {
             Log.e("VideoDetailNull?", "Ya");
         } else {
             String animeDetailsURL = getElementsAnimeDetails.attr("href");
-            if (!animeDetailsURL.startsWith("https://animeindo.co/")) {
+            if (!animeDetailsURL.startsWith("https://animeindo.fun/")) {
                 Log.e("VideoresultURLError?", "Ya");
                 videoStreamResultModel.setAnimeDetailURL(null);
             } else {
@@ -159,7 +159,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
         }
         animeEpisodeBinding.textAnimeTitleWatch.setText(episodeTitle);
         //get next and prev URL
-        Elements getElementsNextAndPrevEpisode = doc.select("a[href^=https://animeindo.co/]");
+        Elements getElementsNextAndPrevEpisode = doc.select("a[href^=https://animeindo.fun/]");
         List<String> nextAndPrevURL = new ArrayList<>();
         if (nextAndPrevURL != null) {
             nextAndPrevURL.clear();
@@ -167,7 +167,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
         for (int position = 0; position < getElementsNextAndPrevEpisode.size(); position++) {
             Element element = getElementsNextAndPrevEpisode.get(position);
             String nextandprevurlsingle = element.absUrl("href");
-            if (!nextandprevurlsingle.startsWith("https://animeindo.co/anime/") && nextandprevurlsingle.contains("episode")) {
+            if (!nextandprevurlsingle.startsWith("https://animeindo.fun/anime/") && nextandprevurlsingle.contains("episode")) {
                 nextAndPrevURL.add(nextandprevurlsingle);
             }
         }

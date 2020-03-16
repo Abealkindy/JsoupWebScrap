@@ -59,41 +59,42 @@ public class AnimeDetailPresenter {
                 detailMangaModel.setMangaSynopsis(getSynopsis.eachText().get(0));
             }
 
-            //get Other name
-            Elements getOtherName = document.getElementsByClass("text-h3");
-            if (getOtherName.eachText().size() < 7) {
-                detailMangaModel.setOtherNames(null);
-                detailMangaModel.setTotalMangaChapter(getOtherName.eachText().get(1).substring(0, getOtherName.eachText().get(1).length() - 8));
-                detailMangaModel.setLastMangaUpdateDate(getOtherName.eachText().get(2).replace(" per", "/").replace(" episode", "episode"));
-                detailMangaModel.setFirstUpdateYear(getOtherName.eachText().get(3).substring(12));
-                if (getOtherName.eachText().get(4).length() < 7) {
-                    detailMangaModel.setMangaAuthor(null);
-                } else {
-                    detailMangaModel.setMangaAuthor(getOtherName.eachText().get(4).substring(7));
-                }
-            } else {
-                if (getOtherName.eachText().get(0) == null) {
-                    detailMangaModel.setOtherNames(null);
-                } else {
-                    detailMangaModel.setOtherNames(getOtherName.eachText().get(0));
-                }
-                detailMangaModel.setTotalMangaChapter(getOtherName.eachText().get(3).substring(0, getOtherName.eachText().get(3).length() - 8));
-                detailMangaModel.setLastMangaUpdateDate(getOtherName.eachText().get(4).replace(" per", "/").replace(" episode", "episode"));
-                detailMangaModel.setFirstUpdateYear(getOtherName.eachText().get(5).substring(12));
-                if (getOtherName.eachText().get(6).length() < 7) {
-                    detailMangaModel.setMangaAuthor("-");
-                } else {
-                    detailMangaModel.setMangaAuthor(getOtherName.eachText().get(6).substring(7));
-                }
-            }
+//            //get Other name
+//            Elements getOtherName = document.getElementsByClass("text-h3");
+//            if (getOtherName.eachText().size() < 7) {
+//                detailMangaModel.setOtherNames(null);
+//                detailMangaModel.setTotalMangaChapter(getOtherName.eachText().get(1).substring(0, getOtherName.eachText().get(1).length() - 8));
+//                detailMangaModel.setLastMangaUpdateDate(getOtherName.eachText().get(2).replace(" per", "/").replace(" episode", "episode"));
+//                detailMangaModel.setFirstUpdateYear(getOtherName.eachText().get(3).substring(12));
+//                if (getOtherName.eachText().get(4).length() < 7) {
+//                    detailMangaModel.setMangaAuthor(null);
+//                } else {
+//                    detailMangaModel.setMangaAuthor(getOtherName.eachText().get(4).substring(7));
+//                }
+//            } else {
+//                if (getOtherName.eachText().get(0) == null) {
+//                    detailMangaModel.setOtherNames(null);
+//                } else {
+//                    detailMangaModel.setOtherNames(getOtherName.eachText().get(0));
+//                }
+//                detailMangaModel.setTotalMangaChapter(getOtherName.eachText().get(3).substring(0, getOtherName.eachText().get(3).length() - 8));
+//                detailMangaModel.setLastMangaUpdateDate(getOtherName.eachText().get(4).replace(" per", "/").replace(" episode", "episode"));
+//                detailMangaModel.setFirstUpdateYear(getOtherName.eachText().get(5).substring(12));
+//                if (getOtherName.eachText().get(6).length() < 7) {
+//                    detailMangaModel.setMangaAuthor("-");
+//                } else {
+//                    detailMangaModel.setMangaAuthor(getOtherName.eachText().get(6).substring(7));
+//                }
+//            }
 
+            String getOtherName = document.getElementsByClass("text-h3 japannm").text();
             //get Genre
             Elements getGenre = document.getElementsByTag("li");
             List<DetailMangaModel.DetailMangaGenres> detailGenresList = new ArrayList<>();
             for (Element element : getGenre) {
                 DetailMangaModel.DetailMangaGenres detailGenres = new DetailMangaModel().new DetailMangaGenres();
-                String getGenreURL = element.select("a[href^=https://animeindo.co/genres/]").attr("href");
-                String getGenreTitle = element.select("a[href^=https://animeindo.co/genres/]").text();
+                String getGenreURL = element.select("a[href^=https://animeindo.fun/genres/]").attr("href");
+                String getGenreTitle = element.select("a[href^=https://animeindo.fun/genres/]").text();
                 detailGenres.setGenreURL(getGenreURL);
                 detailGenres.setGenreTitle(getGenreTitle);
                 detailGenresList.add(detailGenres);

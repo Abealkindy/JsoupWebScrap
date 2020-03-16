@@ -175,12 +175,12 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         this.hitStatus = hitStatus;
         progressDialog.show();
         Log.e("homeURL", homeUrl);
-        String genreAndSearchTotalURL = "https://animeindo.co" + homeUrl;
+        String genreAndSearchTotalURL = "https://animeindo.fun" + homeUrl;
         genreAndSearchAnimePresenter.getGenreAndSearchData(genreAndSearchTotalURL);
     }
 
     private void getGenreData() {
-        String genreTotalURL = "https://animeindo.co/genre-list/";
+        String genreTotalURL = "https://animeindo.fun/genre-list/";
         genreAndSearchAnimePresenter.getOnlyGenreData(genreTotalURL);
     }
 

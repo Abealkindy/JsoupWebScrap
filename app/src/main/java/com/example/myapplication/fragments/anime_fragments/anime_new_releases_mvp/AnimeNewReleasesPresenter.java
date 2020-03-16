@@ -49,7 +49,7 @@ public class AnimeNewReleasesPresenter {
     private void passToRetrofit(int pageCount, String newUrl, String hitStatus, Map<String, String> cookies) {
         Document doc = JsoupConfig.setInitJsoup(newUrl + "/page/" + pageCount, cookies);
         if (doc != null) {
-            Elements newepisodecon = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-xl-per5 mb40");
+            Elements newepisodecon = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-lg-3 mb40");
             List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
 
             for (Element el : newepisodecon) {
@@ -58,7 +58,7 @@ public class AnimeNewReleasesPresenter {
                     animeThumbnailBackground = animeThumbnailBackground.replace("'", "");
                 }
                 String thumbnailCut = animeThumbnailBackground.substring(animeThumbnailBackground.indexOf("https://"), animeThumbnailBackground.indexOf(")"));
-                String animeEpisode = el.getElementsByTag("h3").text();
+                String animeEpisode = el.getElementsByTag("h4").text();
                 String animeEpisodeNumber = el.getElementsByClass("episode-number").text();
                 List<String> animeStatusAndType = el.getElementsByClass("text-h6").eachText();
                 String animeEpisodeStatus = "", animeEpisodeType;
@@ -79,10 +79,10 @@ public class AnimeNewReleasesPresenter {
                 animeNewReleaseResultModel.setAnimeEpisodeStatus(animeEpisodeStatus);
                 animeNewReleaseResultModelList.add(animeNewReleaseResultModel);
             }
-            List<AnimeNewReleaseResultModel> animeNewReleaseResultModelListAfterCut = new ArrayList<>(animeNewReleaseResultModelList.subList(6, animeNewReleaseResultModelList.size() - 1));
+            List<AnimeNewReleaseResultModel> animeNewReleaseResultModelListAfterCut = new ArrayList<>(animeNewReleaseResultModelList.subList(0, animeNewReleaseResultModelList.size() - 32));
             Log.e("resultBeforeCut", new Gson().toJson(animeNewReleaseResultModelList));
             Log.e("resultAfterCut", new Gson().toJson(animeNewReleaseResultModelListAfterCut));
-            newReleasesInterface.onGetNewReleasesDataSuccess(animeNewReleaseResultModelList, hitStatus);
+            newReleasesInterface.onGetNewReleasesDataSuccess(animeNewReleaseResultModelListAfterCut, hitStatus);
         } else {
             newReleasesInterface.onGetNewReleasesDataFailed();
         }
