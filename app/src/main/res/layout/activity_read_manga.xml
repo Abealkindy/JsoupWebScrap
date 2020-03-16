@@ -70,10 +70,19 @@
         app:layout_scrollFlags="scroll|enterAlways"
         tools:backgroundTint="@color/manhwa_color">
 
+        <ImageView
+            android:id="@+id/refresh_button"
+            android:layout_width="@dimen/size32dp"
+            android:layout_height="@dimen/size32dp"
+            android:layout_gravity="start"
+            android:layout_marginStart="@dimen/size15dp"
+            android:src="@drawable/ic_refresh_white_24dp"
+            android:visibility="visible" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:padding="@dimen/size10dp">
 

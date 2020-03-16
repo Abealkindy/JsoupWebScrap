@@ -28,8 +28,8 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
     private ReadMangaPresenter readMangaPresenter = new ReadMangaPresenter(this);
     private List<ReadMangaModel.AllChapterDatas> allChapterDatasList = new ArrayList<>();
     private Dialog dialog;
+    private String chapterURL = "", chapterNextURL = "", chapterPrevURL = "", detailURL = "", appColorBarStatus = "";
     ProgressDialog progressDialog;
-    String appColorBarStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,36 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         readMangaBinding = ActivityReadMangaBinding.inflate(getLayoutInflater());
         setContentView(readMangaBinding.getRoot());
         setUI();
+        initEvent();
+    }
+
+    private void initEvent() {
+        readMangaBinding.nextChapButton.setOnClickListener(v -> {
+            if (chapterNextURL != null && !chapterNextURL.isEmpty()) {
+                getReadMangaContentData(chapterNextURL);
+            }
+        });
+        readMangaBinding.prevChapButton.setOnClickListener(v -> {
+            if (chapterPrevURL != null && !chapterPrevURL.isEmpty()) {
+                getReadMangaContentData(chapterPrevURL);
+            }
+        });
+        readMangaBinding.refreshButton.setOnClickListener(v -> {
+            if (chapterURL != null && !chapterURL.isEmpty()) {
+                getReadMangaContentData(chapterURL);
+            }
+        });
+        readMangaBinding.mangaInfoButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ReadMangaActivity.this, MangaDetailActivity.class);
+            intent.putExtra("detailURL", detailURL);
+            intent.putExtra("detailType", appColorBarStatus);
+            intent.putExtra("detailTitle", "");
+            intent.putExtra("detailRating", "");
+            intent.putExtra("detailStatus", "");
+            intent.putExtra("detailThumb", "");
+            startActivity(intent);
+            finish();
+        });
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -46,7 +76,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
         appColorBarStatus = getIntent().getStringExtra("appBarColorStatus");
-        String chapterURL = getIntent().getStringExtra("chapterURL");
+        chapterURL = getIntent().getStringExtra("chapterURL");
 
         if (chapterURL != null) {
             getReadMangaContentData(chapterURL);
@@ -77,6 +107,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
     }
 
     public void getReadMangaContentData(String chapterURL) {
+        this.chapterURL = chapterURL;
         progressDialog.show();
         readMangaPresenter.getMangaContent(chapterURL);
     }
@@ -130,33 +161,21 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ReadMangaActivity.this);
             readMangaBinding.recyclerImageContentManga.setLayoutManager(linearLayoutManager);
 
-            String getNextChapterURL = mangaContents.getNextMangaURL();
-            if (getNextChapterURL == null || getNextChapterURL.isEmpty()) {
+            chapterNextURL = mangaContents.getNextMangaURL();
+            if (chapterNextURL == null || chapterNextURL.isEmpty()) {
                 readMangaBinding.nextChapButton.setVisibility(View.GONE);
             } else {
                 readMangaBinding.nextChapButton.setVisibility(View.VISIBLE);
-                readMangaBinding.nextChapButton.setOnClickListener(v -> getReadMangaContentData(getNextChapterURL));
             }
 
-            String getPrevChapterURL = mangaContents.getPreviousMangaURL();
-            if (getPrevChapterURL == null || getPrevChapterURL.isEmpty()) {
+            chapterPrevURL = mangaContents.getPreviousMangaURL();
+            if (chapterPrevURL == null || chapterPrevURL.isEmpty()) {
                 readMangaBinding.prevChapButton.setVisibility(View.GONE);
             } else {
                 readMangaBinding.prevChapButton.setVisibility(View.VISIBLE);
-                readMangaBinding.prevChapButton.setOnClickListener(v -> getReadMangaContentData(getPrevChapterURL));
             }
 
-            readMangaBinding.mangaInfoButton.setOnClickListener(v -> {
-                Intent intent = new Intent(ReadMangaActivity.this, MangaDetailActivity.class);
-                intent.putExtra("detailURL", mangaContents.getMangaDetailURL());
-                intent.putExtra("detailType", appColorBarStatus);
-                intent.putExtra("detailTitle", "");
-                intent.putExtra("detailRating", "");
-                intent.putExtra("detailStatus", "");
-                intent.putExtra("detailThumb", "");
-                startActivity(intent);
-                finish();
-            });
+            detailURL = mangaContents.getMangaDetailURL();
         });
 
     }
