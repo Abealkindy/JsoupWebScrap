@@ -59,50 +59,45 @@ public class AnimeDetailPresenter {
                 detailMangaModel.setMangaSynopsis(getSynopsis.eachText().get(0));
             }
 
-//            //get Other name
-//            Elements getOtherName = document.getElementsByClass("text-h3");
-//            if (getOtherName.eachText().size() < 7) {
-//                detailMangaModel.setOtherNames(null);
-//                detailMangaModel.setTotalMangaChapter(getOtherName.eachText().get(1).substring(0, getOtherName.eachText().get(1).length() - 8));
-//                detailMangaModel.setLastMangaUpdateDate(getOtherName.eachText().get(2).replace(" per", "/").replace(" episode", "episode"));
-//                detailMangaModel.setFirstUpdateYear(getOtherName.eachText().get(3).substring(12));
-//                if (getOtherName.eachText().get(4).length() < 7) {
-//                    detailMangaModel.setMangaAuthor(null);
-//                } else {
-//                    detailMangaModel.setMangaAuthor(getOtherName.eachText().get(4).substring(7));
-//                }
-//            } else {
-//                if (getOtherName.eachText().get(0) == null) {
-//                    detailMangaModel.setOtherNames(null);
-//                } else {
-//                    detailMangaModel.setOtherNames(getOtherName.eachText().get(0));
-//                }
-//                detailMangaModel.setTotalMangaChapter(getOtherName.eachText().get(3).substring(0, getOtherName.eachText().get(3).length() - 8));
-//                detailMangaModel.setLastMangaUpdateDate(getOtherName.eachText().get(4).replace(" per", "/").replace(" episode", "episode"));
-//                detailMangaModel.setFirstUpdateYear(getOtherName.eachText().get(5).substring(12));
-//                if (getOtherName.eachText().get(6).length() < 7) {
-//                    detailMangaModel.setMangaAuthor("-");
-//                } else {
-//                    detailMangaModel.setMangaAuthor(getOtherName.eachText().get(6).substring(7));
-//                }
-//            }
-
+            //get Other name
             String getOtherName = document.getElementsByClass("text-h3 japannm").text();
+            if (getOtherName != null && !getOtherName.isEmpty()) {
+                detailMangaModel.setOtherNames(getOtherName);
+            } else {
+                detailMangaModel.setOtherNames(null);
+            }
+
+            Elements getPrintilanDetail = document.getElementsByClass("text-h3 block");
+            if (getPrintilanDetail.size() > 2) {
+                //set total episode
+                detailMangaModel.setLastMangaUpdateDate(getPrintilanDetail.eachText().get(1));
+                //set duration/episodes
+                detailMangaModel.setTotalMangaChapter(getPrintilanDetail.eachText().get(0));
+                //set first release
+                detailMangaModel.setFirstUpdateYear(getPrintilanDetail.eachText().get(2));
+            } else {
+                //set total episode
+                detailMangaModel.setLastMangaUpdateDate(getPrintilanDetail.eachText().get(1));
+                //set duration/episodes
+                detailMangaModel.setTotalMangaChapter(getPrintilanDetail.eachText().get(0));
+                //set first release
+                detailMangaModel.setFirstUpdateYear(null);
+            }
             //get Genre
-            Elements getGenre = document.getElementsByTag("li");
+            Elements getGenre = document.select("a[href^=https://animeindo.fun/genre/]");
             List<DetailMangaModel.DetailMangaGenres> detailGenresList = new ArrayList<>();
             for (Element element : getGenre) {
                 DetailMangaModel.DetailMangaGenres detailGenres = new DetailMangaModel().new DetailMangaGenres();
-                String getGenreURL = element.select("a[href^=https://animeindo.fun/genres/]").attr("href");
-                String getGenreTitle = element.select("a[href^=https://animeindo.fun/genres/]").text();
+                String getGenreURL = element.select("a[href^=https://animeindo.fun/genre/]").attr("href");
+                String getGenreTitle = element.select("a[href^=https://animeindo.fun/genre/]").text();
                 detailGenres.setGenreURL(getGenreURL);
                 detailGenres.setGenreTitle(getGenreTitle);
                 detailGenresList.add(detailGenres);
             }
-            List<DetailMangaModel.DetailMangaGenres> detailGenresListCut = new ArrayList<>(detailGenresList.subList(10, detailGenresList.size() - 3));
+            Log.e("GENREWITHOUTCUT", new Gson().toJson(detailGenresList));
 
             //get All episodes
-            Elements getAllEpisodes = document.getElementsByClass("col-12 col-sm-6 mb10");
+            Elements getAllEpisodes = document.getElementsByClass("row episodes text-h4 py-3");
             List<DetailMangaModel.DetailAllChapterDatas> allEpisodeDatasList = new ArrayList<>();
             for (Element element : getAllEpisodes) {
                 DetailMangaModel.DetailAllChapterDatas allEpisodeDatas = new DetailMangaModel().new DetailAllChapterDatas();
@@ -123,7 +118,7 @@ public class AnimeDetailPresenter {
             detailMangaModel.setMangaRating(animeDetailRating);
 
             //store data from JSOUP
-            detailInterface.onGetGenreSuccess(detailGenresListCut);
+            detailInterface.onGetGenreSuccess(detailGenresList);
             detailInterface.onGetAllEpisodeSuccess(allEpisodeDatasList);
             detailInterface.onGetDetailDataSuccess(detailMangaModel);
         } else {
