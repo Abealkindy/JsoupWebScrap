@@ -160,7 +160,6 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             new Handler().post(new Runnable() {
                 @Override
                 public void run() {
-                    readMangaBinding.nestedBase.scrollTo(0, 0);
                     readMangaBinding.nestedBase.smoothScrollTo(0, 0);
                 }
             });
