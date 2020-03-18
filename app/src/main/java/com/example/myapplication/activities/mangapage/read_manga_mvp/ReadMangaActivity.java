@@ -8,6 +8,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -155,12 +157,16 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         runOnUiThread(() -> {
             progressDialog.dismiss();
             readMangaBinding.textViewChapterTitle.setText(mangaContents.getChapterTitle());
-            readMangaBinding.recyclerImageContentManga.setHasFixedSize(true);
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    readMangaBinding.nestedBase.scrollTo(0, 0);
+                    readMangaBinding.nestedBase.smoothScrollTo(0, 0);
+                }
+            });
+            readMangaBinding.recyclerImageContentManga.scrollToPosition(0);
             RecyclerReadMangaAdapter mangaRecyclerNewReleasesAdapter = new RecyclerReadMangaAdapter(ReadMangaActivity.this, mangaContents.getImageContent());
             readMangaBinding.recyclerImageContentManga.setAdapter(mangaRecyclerNewReleasesAdapter);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ReadMangaActivity.this);
-            readMangaBinding.recyclerImageContentManga.setLayoutManager(linearLayoutManager);
-
             chapterNextURL = mangaContents.getNextMangaURL();
             if (chapterNextURL == null || chapterNextURL.isEmpty()) {
                 readMangaBinding.nextChapButton.setVisibility(View.GONE);

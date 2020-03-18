@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -117,7 +119,11 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
             videoStreamResultModel.setAnimeType(episodeType);
             videoStreamResultModel.setAnimeStatus(episodeStatus);
             videoStreamResultModel.setAnimeThumb(episodeThumb);
-            getAnimeWatchData(episodeURL);
+//            getAnimeWatchData(episodeURL);
+            Intent webViewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(episodeURL));
+            startActivity(webViewIntent);
+            finish();
+//            animeEpisodeBinding.webViewWatchAnime.loadUrl(episodeURL);
         } else {
             Log.e("nowURL", "gak ada");
         }
@@ -270,58 +276,68 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
 
 
         //Anime videos URL settings
-        Elements getVideoEmbedURL = doc.select("iframe[allowfullscreen=allowfullscreen]");
-        String getURLFromElementSrc = getVideoEmbedURL.attr("src");
-        String getURLFromElementLazy = getVideoEmbedURL.attr("data-lazy-src");
-        String getURLFromElementDataSrc = getVideoEmbedURL.attr("data-src");
-        Log.e("VID URL 1", getURLFromElementSrc);
-        Log.e("VID URL 2", getURLFromElementLazy);
-        Log.e("VID URL 3", getURLFromElementDataSrc);
-        Log.e("VID URL 4", getVideoEmbedURL.toString());
-        String animeVideoEmbedURL;
-        if (!getURLFromElementSrc.startsWith("//")) {
-            if (getURLFromElementLazy.startsWith("https:")) {
-                animeVideoEmbedURL = getURLFromElementLazy;
-            } else {
-                if (!getURLFromElementLazy.startsWith("http:")) {
-                    animeVideoEmbedURL = "http:" + getURLFromElementLazy;
-                } else {
-                    animeVideoEmbedURL = getURLFromElementLazy;
+        Elements getVideoEmbedURL = doc.getElementsByClass("playeriframe");
+        if (getVideoEmbedURL.isEmpty()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Elements getVideoEmbedURL = doc.getElementsByClass("playeriframe");
+                    String getURLFromElementSrc = getVideoEmbedURL.attr("src");
+                    String getURLFromElementLazy = getVideoEmbedURL.attr("data-lazy-src");
+                    String getURLFromElementDataSrc = getVideoEmbedURL.attr("data-src");
+                    Log.e("RESULTvid", new Gson().toJson(getVideoEmbedURL));
+                    Log.e("VID URL 1", getURLFromElementSrc);
+                    Log.e("VID URL 2", getURLFromElementLazy);
+                    Log.e("VID URL 3", getURLFromElementDataSrc);
+                    Log.e("VID URL 4", getVideoEmbedURL.toString());
+                    String animeVideoEmbedURL;
+                    if (!getURLFromElementSrc.startsWith("//")) {
+                        if (getURLFromElementLazy.startsWith("https:")) {
+                            animeVideoEmbedURL = getURLFromElementLazy;
+                        } else {
+                            if (!getURLFromElementLazy.startsWith("http:")) {
+                                animeVideoEmbedURL = "http:" + getURLFromElementLazy;
+                            } else {
+                                animeVideoEmbedURL = getURLFromElementLazy;
+                            }
+                        }
+                        String animeStreamURL3 = "<html><body style=\"margin: 0; padding: 0\"><iframe width=\"100%\" height=\"100%\" src=\"" + animeVideoEmbedURL + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
+                        videoStreamResultModel.setVideoUrl(animeStreamURL3);
+                        Log.e("allData", new Gson().toJson(videoStreamResultModel));
+                        animeEpisodeBinding.webViewWatchAnime.loadData(videoStreamResultModel.getVideoUrl(), "text/html", "utf-8");
+                    } else if (!getURLFromElementLazy.startsWith("//")) {
+                        if (getURLFromElementSrc.startsWith("https:")) {
+                            animeVideoEmbedURL = getURLFromElementSrc;
+                        } else {
+                            if (!getURLFromElementSrc.startsWith("http:")) {
+                                animeVideoEmbedURL = "http:" + getURLFromElementSrc;
+                            } else {
+                                animeVideoEmbedURL = getURLFromElementSrc;
+                            }
+                        }
+                        String animeStreamURL = "<html><body style=\"margin: 0; padding: 0\"><iframe width=\"100%\" height=\"100%\" src=\"" + animeVideoEmbedURL + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
+                        videoStreamResultModel.setVideoUrl(animeStreamURL);
+                        Log.e("allData", new Gson().toJson(videoStreamResultModel));
+                        animeEpisodeBinding.webViewWatchAnime.loadData(videoStreamResultModel.getVideoUrl(), "text/html", "utf-8");
+                    } else {
+                        if (getURLFromElementDataSrc.startsWith("https:")) {
+                            animeVideoEmbedURL = getURLFromElementDataSrc;
+                        } else {
+                            if (!getURLFromElementDataSrc.startsWith("http:")) {
+                                animeVideoEmbedURL = "http:" + getURLFromElementDataSrc;
+                            } else {
+                                animeVideoEmbedURL = getURLFromElementDataSrc;
+                            }
+                        }
+                        String animeStreamURL2 = "<html><body style=\"margin: 0; padding: 0\"><iframe width=\"100%\" height=\"100%\" src=\"" + animeVideoEmbedURL + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
+                        videoStreamResultModel.setVideoUrl(animeStreamURL2);
+                        Log.e("allData", new Gson().toJson(videoStreamResultModel));
+                        animeEpisodeBinding.webViewWatchAnime.loadData(videoStreamResultModel.getVideoUrl(), "text/html", "utf-8");
+                    }
                 }
-            }
-            String animeStreamURL3 = "<html><body style=\"margin: 0; padding: 0\"><iframe width=\"100%\" height=\"100%\" src=\"" + animeVideoEmbedURL + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
-            videoStreamResultModel.setVideoUrl(animeStreamURL3);
-            Log.e("allData", new Gson().toJson(videoStreamResultModel));
-            animeEpisodeBinding.webViewWatchAnime.loadData(videoStreamResultModel.getVideoUrl(), "text/html", "utf-8");
-        } else if (!getURLFromElementLazy.startsWith("//")) {
-            if (getURLFromElementSrc.startsWith("https:")) {
-                animeVideoEmbedURL = getURLFromElementSrc;
-            } else {
-                if (!getURLFromElementSrc.startsWith("http:")) {
-                    animeVideoEmbedURL = "http:" + getURLFromElementSrc;
-                } else {
-                    animeVideoEmbedURL = getURLFromElementSrc;
-                }
-            }
-            String animeStreamURL = "<html><body style=\"margin: 0; padding: 0\"><iframe width=\"100%\" height=\"100%\" src=\"" + animeVideoEmbedURL + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
-            videoStreamResultModel.setVideoUrl(animeStreamURL);
-            Log.e("allData", new Gson().toJson(videoStreamResultModel));
-            animeEpisodeBinding.webViewWatchAnime.loadData(videoStreamResultModel.getVideoUrl(), "text/html", "utf-8");
-        } else {
-            if (getURLFromElementDataSrc.startsWith("https:")) {
-                animeVideoEmbedURL = getURLFromElementDataSrc;
-            } else {
-                if (!getURLFromElementDataSrc.startsWith("http:")) {
-                    animeVideoEmbedURL = "http:" + getURLFromElementDataSrc;
-                } else {
-                    animeVideoEmbedURL = getURLFromElementDataSrc;
-                }
-            }
-            String animeStreamURL2 = "<html><body style=\"margin: 0; padding: 0\"><iframe width=\"100%\" height=\"100%\" src=\"" + animeVideoEmbedURL + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
-            videoStreamResultModel.setVideoUrl(animeStreamURL2);
-            Log.e("allData", new Gson().toJson(videoStreamResultModel));
-            animeEpisodeBinding.webViewWatchAnime.loadData(videoStreamResultModel.getVideoUrl(), "text/html", "utf-8");
+            }, 2000);
         }
+
     }
 
     @Override

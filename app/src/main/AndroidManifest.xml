@@ -48,7 +48,7 @@
         </activity>
         <activity
             android:name=".activities.animepage.watch_anime_mvp.WatchAnimeEpisodeActivity"
-            android:screenOrientation="userLandscape"
+            android:screenOrientation="userPortrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.MainActivity"
