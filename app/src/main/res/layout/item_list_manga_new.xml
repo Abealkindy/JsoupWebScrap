@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relative_item_manga"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
+    app:cardBackgroundColor="@color/dark_theme"
+    app:cardCornerRadius="@dimen/_5sdp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_9sdp">
+
+        <ImageView
+            android:id="@+id/manga_thumb"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_170sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:src="@drawable/classgotoposter" />
+
+        <LinearLayout
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_toEndOf="@+id/manga_thumb"
+            android:orientation="vertical">
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/manga_title_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:maxLines="4"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
+                app:sizeToFit="true"
+                tools:text="Class-goto Shuudan Teni Shimashita ga, ichiban Tsuyoi Ore wa Saijaku no Shounin ni Gisouchuu" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp">
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/text_manga_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bubble_background_manga"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center"
+                    android:padding="@dimen/_6sdp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    tools:text="Manhwa" />
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/text_view_hot_status"
+                    android:layout_width="@dimen/_53sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@drawable/bubble_background_hot"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center"
+                    android:padding="@dimen/_7sdp"
+                    android:text="@string/hot_text"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textIsSelectable="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_newest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp">
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/newest_text_chapter_release"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bubble_background_darker_blue"
+                    android:fontFamily="@font/montserrat"
+                    android:maxLines="1"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_8sdp"
+                    android:textColor="@android:color/white"
+                    tools:ignore="PrivateResource"
+                    tools:text="Ch. 9999.9" />
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/newest_text_chapter_release_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_8sdp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="italic"
+                    tools:ignore="PrivateResource"
+                    tools:text="44 Seconds Ago" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_second_newest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp">
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/second_newest_text_chapter_release"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bubble_background_darker_blue"
+                    android:fontFamily="@font/montserrat"
+                    android:maxLines="1"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_8sdp"
+                    android:textColor="@android:color/white"
+                    tools:ignore="PrivateResource"
+                    tools:text="Ch. 999" />
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/second_newest_text_chapter_release_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_8sdp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="italic"
+                    tools:ignore="PrivateResource"
+                    tools:text="44 Seconds Ago" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_third_newest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp">
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/third_newest_text_chapter_release"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bubble_background_darker_blue"
+                    android:fontFamily="@font/montserrat"
+                    android:maxLines="1"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_8sdp"
+                    android:textColor="@android:color/white"
+                    tools:ignore="PrivateResource"
+                    tools:text="Ch. 9999.9" />
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/third_newest_text_chapter_release_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_8sdp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="italic"
+                    tools:ignore="PrivateResource"
+                    tools:text="44 Seconds Ago" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

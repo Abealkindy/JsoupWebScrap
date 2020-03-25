@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerNewReleasesAdapter;
+import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerNewReleasesAdapterNew;
 import com.example.myapplication.databinding.FragmentMangaNewReleaseBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
 import com.example.myapplication.models.mangamodels.MangaNewReleaseResultModel;
@@ -35,7 +36,7 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
     private int pageCount = 1;
     private Context mContext;
     private List<MangaNewReleaseResultModel> mangaNewReleaseResultModels = new ArrayList<>();
-    private MangaRecyclerNewReleasesAdapter mangaRecyclerNewReleasesAdapter;
+    private MangaRecyclerNewReleasesAdapterNew mangaRecyclerNewReleasesAdapter;
     private MangaNewReleasePresenter newReleasePresenter = new MangaNewReleasePresenter(this);
     private ProgressDialog progressDialog;
     private boolean hitAPI = false;
@@ -88,7 +89,7 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
 
     private void initRecyclerView() {
         newReleaseBinding.recyclerNewReleasesManga.setHasFixedSize(true);
-        mangaRecyclerNewReleasesAdapter = new MangaRecyclerNewReleasesAdapter(getActivity(), mangaNewReleaseResultModels);
+        mangaRecyclerNewReleasesAdapter = new MangaRecyclerNewReleasesAdapterNew(getActivity(), mangaNewReleaseResultModels);
         newReleaseBinding.recyclerNewReleasesManga.setAdapter(mangaRecyclerNewReleasesAdapter);
         LinearLayoutManager linearLayoutManager = (LinearLayoutManager) newReleaseBinding.recyclerNewReleasesManga.getLayoutManager();
         newReleaseBinding.recyclerNewReleasesManga.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {

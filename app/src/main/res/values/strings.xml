@@ -20,11 +20,11 @@
     <string name="movie_string">MOVIE</string>
     <string name="movie_string_lower">Movie</string>
     <!--    manga type    -->
-    <string name="manga_string">MANGA</string>
-    <string name="manhwa_string">MANHWA</string>
-    <string name="manhua_string">MANHUA</string>
-    <string name="oneshot_string">ONE-SHOT</string>
-    <string name="mangaoneshot_string">MANGAONE-SHOT</string>
+    <string name="manga_string">Manga</string>
+    <string name="manhwa_string">Manhwa</string>
+    <string name="manhua_string">Manhua</string>
+    <string name="oneshot_string">One-Shot</string>
+    <string name="mangaoneshot_string">Mangaone-Shot</string>
     <string name="all_chapters_here_text">ALL CHAPTERS HERE</string>
 
     <string name="select_chapter_manga_text">Select manga chapter</string>
@@ -34,7 +34,7 @@
     <string name="action_settings">Settings</string>
     <string name="oops_there_is_some_problem_in_this_app_please_scroll_to_repair_text">Oops, there is some problem in this app, please scroll to refresh</string>
     <!--    Manga detail string-->
-    <string name="hot_text">HOT</string>
+    <string name="hot_text">Hot</string>
     <string name="sinopsis_text">SINOPSIS</string>
     <string name="genre_text">GENRE</string>
     <string name="author_text">AUTHOR</string>
