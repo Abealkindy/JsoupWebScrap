@@ -11,21 +11,28 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.mangapage.manga_detail_mvp.MangaDetailActivity;
+import com.example.myapplication.databinding.ItemListMangaNewBinding;
 import com.example.myapplication.databinding.ItemListMangaSearchResultBinding;
 import com.example.myapplication.localstorages.manga_local.MangaBookmarkModel;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.internal.StringUtil;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
-public class MangaRecyclerBookmarkAdapter extends RecyclerView.Adapter<MangaRecyclerBookmarkAdapter.ViewHolder> {
+public class MangaRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<MangaRecyclerBookmarkAdapterNew.ViewHolder> {
     private Context context;
     private List<MangaBookmarkModel> animeDiscoverResultModelList;
 
-    public MangaRecyclerBookmarkAdapter(Context context, List<MangaBookmarkModel> animeDiscoverResultModelList) {
+    public MangaRecyclerBookmarkAdapterNew(Context context, List<MangaBookmarkModel> animeDiscoverResultModelList) {
         this.context = context;
         this.animeDiscoverResultModelList = animeDiscoverResultModelList;
     }
@@ -35,7 +42,7 @@ public class MangaRecyclerBookmarkAdapter extends RecyclerView.Adapter<MangaRecy
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         ViewHolder viewHolder;
-        ItemListMangaSearchResultBinding itemListBinding = ItemListMangaSearchResultBinding.inflate(layoutInflater, parent, false);
+        ItemListMangaNewBinding itemListBinding = ItemListMangaNewBinding.inflate(layoutInflater, parent, false);
         viewHolder = new ViewHolder(itemListBinding);
         return viewHolder;
     }
@@ -43,35 +50,58 @@ public class MangaRecyclerBookmarkAdapter extends RecyclerView.Adapter<MangaRecy
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.itemListBinding.textTitleMangaResult.setText(animeDiscoverResultModelList.get(position).getMangaTitle());
+        holder.itemListBinding.textViewStatus.setVisibility(View.VISIBLE);
+        holder.itemListBinding.linearRatingList.setVisibility(View.VISIBLE);
+        holder.itemListBinding.textViewHotStatus.setVisibility(View.GONE);
+        holder.itemListBinding.linearNewest.setVisibility(View.GONE);
+        holder.itemListBinding.linearSecondNewest.setVisibility(View.GONE);
+        holder.itemListBinding.linearThirdNewest.setVisibility(View.GONE);
+        holder.itemListBinding.newestTextChapterReleaseTime.setVisibility(View.GONE);
+        holder.itemListBinding.mangaTitleText.setText(animeDiscoverResultModelList.get(position).getMangaTitle());
         if (StringUtil.isBlank(animeDiscoverResultModelList.get(position).getMangaThumb())) {
-            holder.itemListBinding.imageViewBackgroundMangaResult.setImageDrawable(context.getResources().getDrawable(R.drawable.imageplaceholder));
+            holder.itemListBinding.mangaThumb.setImageDrawable(context.getResources().getDrawable(R.drawable.imageplaceholder));
             Log.e("pathNull", "null");
         } else {
-            Picasso.get().load(animeDiscoverResultModelList.get(position).getMangaThumb()).placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder)).into(holder.itemListBinding.imageViewBackgroundMangaResult);
+            try {
+                Glide.with(context)
+                        .asDrawable()
+                        .load(new URL(animeDiscoverResultModelList.get(position).getMangaThumb()))
+                        .apply(
+                                new RequestOptions()
+                                        .transform(new RoundedCorners(20))
+                                        .timeout(30000)
+                        )
+                        .error(context.getResources().getDrawable(R.drawable.error))
+                        .placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder))
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(holder.itemListBinding.mangaThumb);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
         if (!animeDiscoverResultModelList.get(position).isMangaStatus()) {
-            holder.itemListBinding.textMangaStatus.setText(context.getResources().getString(R.string.ongoing_text));
-            holder.itemListBinding.cardMangaStatus.setCardBackgroundColor(context.getResources().getColor(R.color.orange_series_color));
+            holder.itemListBinding.textViewStatus.setText(context.getResources().getString(R.string.ongoing_text));
+            holder.itemListBinding.textViewStatus.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_ongoing));
         } else if (animeDiscoverResultModelList.get(position).isMangaStatus()) {
-            holder.itemListBinding.textMangaStatus.setText(context.getResources().getString(R.string.completed_text));
-            holder.itemListBinding.cardMangaStatus.setCardBackgroundColor(context.getResources().getColor(R.color.green_series_color));
+            holder.itemListBinding.textViewStatus.setText(context.getResources().getString(R.string.completed_text));
+            holder.itemListBinding.textViewStatus.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_completed));
         }
         if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manga_string))) {
-            holder.itemListBinding.cardMangaTypeResult.setCardBackgroundColor(context.getResources().getColor(R.color.manga_color));
-            holder.itemListBinding.textMangaTypeResult.setText(context.getResources().getString(R.string.manga_string));
+            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manga));
+            holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manga_string));
         } else if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manhwa_string))) {
-            holder.itemListBinding.cardMangaTypeResult.setCardBackgroundColor(context.getResources().getColor(R.color.manhwa_color));
-            holder.itemListBinding.textMangaTypeResult.setText(context.getResources().getString(R.string.manhwa_string));
+            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manhwa));
+            holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manhwa_string));
         } else if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manhua_string))) {
-            holder.itemListBinding.cardMangaTypeResult.setCardBackgroundColor(context.getResources().getColor(R.color.manhua_color));
-            holder.itemListBinding.textMangaTypeResult.setText(context.getResources().getString(R.string.manhua_string));
+            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manhua));
+            holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manhua_string));
         } else if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.mangaoneshot_string))) {
-            holder.itemListBinding.cardMangaTypeResult.setCardBackgroundColor(context.getResources().getColor(R.color.manga_color));
-            holder.itemListBinding.textMangaTypeResult.setText(context.getResources().getString(R.string.mangaoneshot_string));
+            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manga));
+            holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.oneshot_string));
         } else if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.oneshot_string))) {
-            holder.itemListBinding.cardMangaTypeResult.setCardBackgroundColor(context.getResources().getColor(R.color.manga_color));
-            holder.itemListBinding.textMangaTypeResult.setText(context.getResources().getString(R.string.oneshot_string));
+            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manga));
+            holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.oneshot_string));
         }
         holder.itemListBinding.mangaRatingBar.setNumStars(5);
         String replaceComma = animeDiscoverResultModelList.get(position).getMangaRating().replace(",", ".");
@@ -85,8 +115,7 @@ public class MangaRecyclerBookmarkAdapter extends RecyclerView.Adapter<MangaRecy
             holder.itemListBinding.mangaRatingBar.setRating(Float.parseFloat(replaceComma) / 2);
             holder.itemListBinding.mangaRatingNumber.setText(replaceComma);
         }
-        holder.itemListBinding.cardLatestMangaRelease.setVisibility(View.GONE);
-        holder.itemListBinding.relativeItemMangaResult.setOnClickListener(v -> {
+        holder.itemListBinding.relativeItemManga.setOnClickListener(v -> {
             Intent intent = new Intent(context.getApplicationContext(), MangaDetailActivity.class);
             intent.putExtra("detailURL", animeDiscoverResultModelList.get(position).getMangaDetailURL());
             intent.putExtra("detailType", animeDiscoverResultModelList.get(position).getMangaType());
@@ -108,9 +137,9 @@ public class MangaRecyclerBookmarkAdapter extends RecyclerView.Adapter<MangaRecy
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ItemListMangaSearchResultBinding itemListBinding;
+        private ItemListMangaNewBinding itemListBinding;
 
-        public ViewHolder(final ItemListMangaSearchResultBinding itemViewList) {
+        public ViewHolder(final ItemListMangaNewBinding itemViewList) {
             super(itemViewList.getRoot());
             this.itemListBinding = itemViewList;
         }

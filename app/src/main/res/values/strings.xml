@@ -8,8 +8,8 @@
     <string name="yes_text">Yes</string>
     <string name="no_text">No</string>
     <!--episode status-->
-    <string name="ongoing_text">ONGOING</string>
-    <string name="completed_text">COMPLETED</string>
+    <string name="ongoing_text">Ongoing</string>
+    <string name="completed_text">Completed</string>
     <!--    episode type    -->
     <string name="series_string">TV</string>
     <string name="ova_string">OVA</string>

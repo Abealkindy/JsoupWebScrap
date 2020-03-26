@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
-import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerDiscoverAdapter;
+import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerDiscoverAdapterNew;
 import com.example.myapplication.databinding.FragmentDiscoverMangaBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
 import com.example.myapplication.models.mangamodels.DiscoverMangaModel;
@@ -43,7 +43,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
             SEARCH_REQUEST = 3,
             SEARCH_SWIPE_REQUEST = 4;
     private List<DiscoverMangaModel> discoverMangaFragmentList = new ArrayList<>();
-    private MangaRecyclerDiscoverAdapter mangaRecyclerDiscoverAdapter;
+    private MangaRecyclerDiscoverAdapterNew mangaRecyclerDiscoverAdapter;
     private DiscoverMangaPresenter discoverMangaPresenter = new DiscoverMangaPresenter(this);
     private ProgressDialog progressDialog;
     private Context mContext;
@@ -97,7 +97,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
 
     private void initRecyclerView() {
         discoverMangaBinding.recyclerDiscoverManga.setHasFixedSize(true);
-        mangaRecyclerDiscoverAdapter = new MangaRecyclerDiscoverAdapter(getActivity(), discoverMangaFragmentList);
+        mangaRecyclerDiscoverAdapter = new MangaRecyclerDiscoverAdapterNew(getActivity(), discoverMangaFragmentList);
         discoverMangaBinding.recyclerDiscoverManga.setAdapter(mangaRecyclerDiscoverAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         discoverMangaBinding.recyclerDiscoverManga.setLayoutManager(linearLayoutManager);

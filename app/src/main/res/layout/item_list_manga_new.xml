@@ -23,7 +23,7 @@
             android:src="@drawable/classgotoposter" />
 
         <LinearLayout
-            android:layout_width="@dimen/_170sdp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_3sdp"
@@ -41,6 +41,37 @@
                 android:textStyle="bold"
                 app:sizeToFit="true"
                 tools:text="Class-goto Shuudan Teni Shimashita ga, ichiban Tsuyoi Ore wa Saijaku no Shounin ni Gisouchuu" />
+
+            <LinearLayout
+                android:id="@+id/linear_rating_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:visibility="gone">
+
+                <RatingBar
+                    android:id="@+id/manga_rating_bar"
+                    style="?attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:progressBackgroundTint="@color/gray"
+                    android:progressTint="@color/yellow"
+                    android:secondaryProgressTint="@color/gray"
+                    android:stepSize="0.1"
+                    tools:rating="3.5" />
+
+                <TextView
+                    android:id="@+id/manga_rating_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@android:color/white"
+                    tools:text="10.00" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,8 +102,27 @@
                     android:text="@string/hot_text"
                     android:textAlignment="center"
                     android:textColor="@android:color/white"
-                    android:textIsSelectable="true" />
+                    android:textIsSelectable="true"
+                    tools:visibility="gone" />
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/text_view_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@drawable/bubble_background_ongoing"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:padding="@dimen/_6sdp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textIsSelectable="true"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    tools:text="Completed" />
             </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/linear_newest"
@@ -87,7 +137,6 @@
                     android:background="@drawable/bubble_background_darker_blue"
                     android:fontFamily="@font/montserrat"
                     android:maxLines="1"
-                    android:orientation="vertical"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@android:color/white"
                     tools:ignore="PrivateResource"
@@ -100,7 +149,6 @@
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:orientation="vertical"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@android:color/white"
                     android:textStyle="italic"
@@ -121,7 +169,6 @@
                     android:background="@drawable/bubble_background_darker_blue"
                     android:fontFamily="@font/montserrat"
                     android:maxLines="1"
-                    android:orientation="vertical"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@android:color/white"
                     tools:ignore="PrivateResource"
@@ -134,7 +181,6 @@
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:orientation="vertical"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@android:color/white"
                     android:textStyle="italic"
@@ -155,7 +201,6 @@
                     android:background="@drawable/bubble_background_darker_blue"
                     android:fontFamily="@font/montserrat"
                     android:maxLines="1"
-                    android:orientation="vertical"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@android:color/white"
                     tools:ignore="PrivateResource"
@@ -168,7 +213,6 @@
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:orientation="vertical"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@android:color/white"
                     android:textStyle="italic"

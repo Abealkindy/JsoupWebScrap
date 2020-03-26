@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
-import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerBookmarkAdapter;
+import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerBookmarkAdapterNew;
 import com.example.myapplication.databinding.FragmentAnimeBookmarkBinding;
 
 import static com.example.myapplication.MyApp.localAppDB;
@@ -54,7 +54,7 @@ public class MangaBookmarkFragment extends Fragment {
 
     private void getDataFromLocalDB() {
         if (localAppDB.mangaBookmarkDAO().getMangaBookmarkData() != null) {
-            mBinding.recylerAnimeBookmark.setAdapter(new MangaRecyclerBookmarkAdapter(getActivity(), localAppDB.mangaBookmarkDAO().getMangaBookmarkData()));
+            mBinding.recylerAnimeBookmark.setAdapter(new MangaRecyclerBookmarkAdapterNew(getActivity(), localAppDB.mangaBookmarkDAO().getMangaBookmarkData()));
             mBinding.recylerAnimeBookmark.setHasFixedSize(true);
         }
     }
