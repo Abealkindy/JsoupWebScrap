@@ -46,7 +46,7 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
                     .error(context.getResources().getDrawable(R.drawable.error))
                     .placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder))
                     .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(holder.itemListBinding.imageMangaContentItem);
         } catch (MalformedURLException e) {
             e.printStackTrace();
