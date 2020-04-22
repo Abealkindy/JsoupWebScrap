@@ -18,9 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.mangapage.manga_detail_mvp.MangaDetailActivity;
 import com.example.myapplication.databinding.ItemListMangaNewBinding;
-import com.example.myapplication.databinding.ItemListMangaSearchResultBinding;
 import com.example.myapplication.localstorages.manga_local.MangaBookmarkModel;
-import com.squareup.picasso.Picasso;
 
 import org.jsoup.internal.StringUtil;
 
@@ -125,10 +123,6 @@ public class MangaRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<MangaR
             intent.putExtra("detailThumb", animeDiscoverResultModelList.get(position).getMangaThumb());
             context.startActivity(intent);
         });
-    }
-
-    public void recyclerRefresh() {
-        this.notifyDataSetChanged();
     }
 
     @Override
