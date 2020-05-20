@@ -59,8 +59,6 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                     )
                     .error(context.getResources().getDrawable(R.drawable.error))
                     .placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder))
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(holder.itemListBinding.mangaThumb);
         } catch (MalformedURLException e) {
             e.printStackTrace();

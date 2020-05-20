@@ -30,7 +30,10 @@ public interface MangaBookmarkDAO {
     @Query("SELECT * FROM tb_manga_bookmark ORDER BY manga_type DESC")
     List<MangaBookmarkModel> sortByTypeDESC();
 
-    @Query("SELECT * FROM tb_manga_bookmark WHERE manga_url LIKE :mangaURL ")
+    @Query("SELECT * FROM tb_manga_bookmark WHERE manga_title LIKE :mangaTitle ORDER BY manga_title ASC")
+    List<MangaBookmarkModel> searchByName(String mangaTitle);
+
+    @Query("SELECT * FROM tb_manga_bookmark WHERE manga_url LIKE :mangaURL")
     MangaBookmarkModel findByName(String mangaURL);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -181,6 +181,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             }
 
             detailURL = mangaContents.getMangaDetailURL();
+
         });
 
     }

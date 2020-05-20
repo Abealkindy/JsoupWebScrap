@@ -12,6 +12,8 @@ import com.example.myapplication.R;
 import com.example.myapplication.databinding.ActivityMangaReleaseListBinding;
 import com.google.android.material.tabs.TabLayout;
 
+import static com.example.myapplication.MyApp.localAppDB;
+
 public class MangaReleaseListActivity extends AppCompatActivity {
     ActivityMangaReleaseListBinding mangaReleaseListBinding;
 
@@ -34,7 +36,13 @@ public class MangaReleaseListActivity extends AppCompatActivity {
                 } else if (tab.getPosition() == 1) {
                     setTitle("Discover");
                 } else if (tab.getPosition() == 2) {
-                    setTitle("Favourites");
+                    if (localAppDB.mangaBookmarkDAO().getMangaBookmarkData() != null && localAppDB.mangaBookmarkDAO().getMangaBookmarkData().size() > 1) {
+                        setTitle(localAppDB.mangaBookmarkDAO().getMangaBookmarkData().size() + " titles in Favourite menu");
+                    } else if (localAppDB.mangaBookmarkDAO().getMangaBookmarkData() != null && localAppDB.mangaBookmarkDAO().getMangaBookmarkData().size() == 1) {
+                        setTitle("Just a title in Favourite menu");
+                    } else {
+                        setTitle("0 title in Favourite menu");
+                    }
                 }
             }
 

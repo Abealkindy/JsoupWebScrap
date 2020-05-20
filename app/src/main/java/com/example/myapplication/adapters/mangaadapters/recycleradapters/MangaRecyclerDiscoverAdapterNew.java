@@ -73,8 +73,6 @@ public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaR
                         )
                         .error(context.getResources().getDrawable(R.drawable.error))
                         .placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder))
-                        .skipMemoryCache(true)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .into(holder.itemListBinding.mangaThumb);
             } catch (MalformedURLException e) {
                 e.printStackTrace();

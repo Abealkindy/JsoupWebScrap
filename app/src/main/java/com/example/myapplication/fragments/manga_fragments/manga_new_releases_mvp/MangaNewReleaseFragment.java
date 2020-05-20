@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerNewReleasesAdapter;
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerNewReleasesAdapterNew;
@@ -115,6 +116,8 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
     @Override
     public void onGetNewReleasesDataSuccess(List<MangaNewReleaseResultModel> mangaNewReleaseResultModel, String hitStatus) {
         getActivity().runOnUiThread(() -> {
+            newReleaseBinding.recyclerNewReleasesManga.setVisibility(View.VISIBLE);
+            newReleaseBinding.linearError.setVisibility(View.GONE);
             if (hitStatus.equalsIgnoreCase("newPage")) {
                 progressDialog.dismiss();
                 mangaNewReleaseResultModels.addAll(mangaNewReleaseResultModel);
@@ -133,14 +136,12 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
     @Override
     public void onGetNewReleasesDataFailed() {
         getActivity().runOnUiThread(() -> {
-            progressDialog.dismiss();
-            AlertDialog.Builder builder = new
-                    AlertDialog.Builder(mContext);
-            builder.setTitle("Oops...");
-            builder.setIcon(getResources().getDrawable(R.drawable.appicon));
-            builder.setMessage("Your internet connection is worse than your face onii-chan :3");
-            builder.setPositiveButton("Reload", (dialog, which) -> Toast.makeText(getActivity(), "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show());
-            builder.show();
+            getActivity().runOnUiThread(() -> {
+                progressDialog.dismiss();
+                newReleaseBinding.recyclerNewReleasesManga.setVisibility(View.GONE);
+                Glide.with(mContext).asGif().load(R.raw.aquacry).into(newReleaseBinding.imageError);
+                newReleaseBinding.linearError.setVisibility(View.VISIBLE);
+            });
         });
     }
 }
