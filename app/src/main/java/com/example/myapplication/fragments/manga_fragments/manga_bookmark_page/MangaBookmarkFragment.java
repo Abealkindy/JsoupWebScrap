@@ -1,5 +1,6 @@
 package com.example.myapplication.fragments.manga_fragments.manga_bookmark_page;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerBookmarkAdapterNew;
 import com.example.myapplication.databinding.FragmentAnimeBookmarkBinding;
@@ -27,6 +29,7 @@ import static com.example.myapplication.MyApp.localAppDB;
  */
 public class MangaBookmarkFragment extends Fragment implements SearchView.OnQueryTextListener {
     private FragmentAnimeBookmarkBinding mBinding;
+    private Context mContext;
 
     public MangaBookmarkFragment() {
         // Required empty public constructor
@@ -46,6 +49,12 @@ public class MangaBookmarkFragment extends Fragment implements SearchView.OnQuer
 
     private void initUI() {
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     private void initEvent() {
@@ -74,13 +83,29 @@ public class MangaBookmarkFragment extends Fragment implements SearchView.OnQuer
 
     private void getDataFromLocalDB(String hitStatus, String newText) {
         if (hitStatus.equalsIgnoreCase("ordinary")) {
-            if (localAppDB.mangaBookmarkDAO().getMangaBookmarkData() != null) {
+            if (localAppDB.mangaBookmarkDAO().getMangaBookmarkData() != null && localAppDB.mangaBookmarkDAO().getMangaBookmarkData().size() > 0) {
+                mBinding.recylerAnimeBookmark.setVisibility(View.VISIBLE);
+                mBinding.linearError.setVisibility(View.GONE);
                 mBinding.recylerAnimeBookmark.setAdapter(new MangaRecyclerBookmarkAdapterNew(getActivity(), localAppDB.mangaBookmarkDAO().sortByNameASC()));
                 mBinding.recylerAnimeBookmark.setHasFixedSize(true);
+            } else {
+                mBinding.recylerAnimeBookmark.setVisibility(View.GONE);
+                Glide.with(mContext).asGif().load(R.raw.aquacry).into(mBinding.imageError);
+                mBinding.textViewErrorMessage.setText("Oops, you haven't marked your favourite manga");
+                mBinding.linearError.setVisibility(View.VISIBLE);
             }
         } else {
-            mBinding.recylerAnimeBookmark.setAdapter(new MangaRecyclerBookmarkAdapterNew(getActivity(), localAppDB.mangaBookmarkDAO().searchByName("%" + newText + "%")));
-            mBinding.recylerAnimeBookmark.setHasFixedSize(true);
+            if (localAppDB.mangaBookmarkDAO().searchByName("%" + newText + "%") != null && localAppDB.mangaBookmarkDAO().searchByName("%" + newText + "%").size() > 0) {
+                mBinding.recylerAnimeBookmark.setVisibility(View.VISIBLE);
+                mBinding.linearError.setVisibility(View.GONE);
+                mBinding.recylerAnimeBookmark.setAdapter(new MangaRecyclerBookmarkAdapterNew(getActivity(), localAppDB.mangaBookmarkDAO().searchByName("%" + newText + "%")));
+                mBinding.recylerAnimeBookmark.setHasFixedSize(true);
+            } else {
+                mBinding.recylerAnimeBookmark.setVisibility(View.GONE);
+                Glide.with(mContext).asGif().load(R.raw.aquacry).into(mBinding.imageError);
+                mBinding.textViewErrorMessage.setText("Oops, please type correctly");
+                mBinding.linearError.setVisibility(View.VISIBLE);
+            }
         }
     }
 
