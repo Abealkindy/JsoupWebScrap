@@ -18,6 +18,8 @@
         <ImageView
             android:id="@+id/manga_thumb"
             android:layout_width="@dimen/_120sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_1sdp"
             android:layout_height="@dimen/_170sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:src="@drawable/classgotoposter" />
@@ -25,7 +27,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_3sdp"
             android:layout_toEndOf="@+id/manga_thumb"
             android:orientation="vertical">
