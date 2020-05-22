@@ -18,10 +18,12 @@
         <ImageView
             android:id="@+id/manga_thumb"
             android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_170sdp"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/_1sdp"
-            android:layout_height="@dimen/_170sdp"
             android:layout_marginBottom="@dimen/_5sdp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             android:src="@drawable/classgotoposter" />
 
         <LinearLayout
@@ -121,8 +123,8 @@
                     android:textColor="@android:color/white"
                     android:textIsSelectable="true"
                     android:visibility="gone"
-                    tools:visibility="visible"
-                    tools:text="Completed" />
+                    tools:text="Completed"
+                    tools:visibility="visible" />
             </LinearLayout>
 
 

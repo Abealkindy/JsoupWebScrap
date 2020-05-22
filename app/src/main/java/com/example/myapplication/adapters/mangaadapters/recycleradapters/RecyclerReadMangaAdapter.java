@@ -13,6 +13,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ItemListMangaContentBinding;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -38,17 +40,11 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        try {
-            Glide.with(context)
-                    .asDrawable()
-                    .load(new URL(imageContent.get(position)))
-                    .apply(new RequestOptions().timeout(30000))
-                    .error(context.getResources().getDrawable(R.drawable.error))
-                    .placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder))
-                    .into(holder.itemListBinding.imageMangaContentItem);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        Picasso.get()
+                .load(imageContent.get(position))
+                .placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder))
+                .error(context.getResources().getDrawable(R.drawable.error))
+                .into(holder.itemListBinding.imageMangaContentItem);
     }
 
     @Override
