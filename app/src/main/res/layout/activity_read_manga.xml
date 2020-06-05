@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <me.grantland.widget.AutofitTextView
+                <TextView
                     android:id="@+id/text_view_chapter_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -57,8 +57,10 @@
                     android:maxLines="3"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/size30sp"
-                    app:minTextSize="@dimen/size15sp"
-                    tools:text="Naruto Narutimate Hero 3: Finally a Clash! Jonin VS Genin!! Indescriminate Grand Melee Tournament Meeting!! Chapter 900.9" />
+                    android:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="@dimen/_20ssp"
+                    tools:text="Naruto Narutimate Hero 3: Finally a Clash! Jonin VS Genin!! Indescriminate Grand Melee Tournament Meeting!! Chapter 900.9"
+                    tools:targetApi="o" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>

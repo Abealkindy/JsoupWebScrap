@@ -48,9 +48,8 @@ public class MangaRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<MangaR
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.itemListBinding.textViewStatus.setVisibility(View.VISIBLE);
+        holder.itemListBinding.hotLabel.setVisibility(View.VISIBLE);
         holder.itemListBinding.linearRatingList.setVisibility(View.VISIBLE);
-        holder.itemListBinding.textViewHotStatus.setVisibility(View.GONE);
         holder.itemListBinding.linearNewest.setVisibility(View.GONE);
         holder.itemListBinding.linearSecondNewest.setVisibility(View.GONE);
         holder.itemListBinding.linearThirdNewest.setVisibility(View.GONE);
@@ -77,27 +76,27 @@ public class MangaRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<MangaR
             }
         }
         if (!animeDiscoverResultModelList.get(position).isMangaStatus()) {
-            holder.itemListBinding.textViewStatus.setText(context.getResources().getString(R.string.ongoing_text));
-            holder.itemListBinding.textViewStatus.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_ongoing));
+            holder.itemListBinding.hotLabel.setText(context.getResources().getString(R.string.ongoing_text))
+                    .setSlantedBackgroundColor(context.getResources().getColor(R.color.orange_series_color));
         } else if (animeDiscoverResultModelList.get(position).isMangaStatus()) {
-            holder.itemListBinding.textViewStatus.setText(context.getResources().getString(R.string.completed_text));
-            holder.itemListBinding.textViewStatus.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_completed));
+            holder.itemListBinding.hotLabel.setText(context.getResources().getString(R.string.completed_text))
+                    .setSlantedBackgroundColor(context.getResources().getColor(R.color.green_series_color));
         }
         if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manga_string))) {
-            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manga));
-            holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manga_string));
+            holder.itemListBinding.textMangaTypes.setBackgroundColor(context.getResources().getColor(R.color.manga_color));
+            holder.itemListBinding.textMangaTypes.setText(context.getResources().getString(R.string.manga_string));
         } else if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manhwa_string))) {
-            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manhwa));
-            holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manhwa_string));
+            holder.itemListBinding.textMangaTypes.setBackgroundColor(context.getResources().getColor(R.color.manhwa_color));
+            holder.itemListBinding.textMangaTypes.setText(context.getResources().getString(R.string.manhwa_string));
         } else if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manhua_string))) {
-            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manhua));
-            holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manhua_string));
+            holder.itemListBinding.textMangaTypes.setBackgroundColor(context.getResources().getColor(R.color.manhua_color));
+            holder.itemListBinding.textMangaTypes.setText(context.getResources().getString(R.string.manhua_string));
         } else if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.mangaoneshot_string))) {
-            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manga));
-            holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.oneshot_string));
+            holder.itemListBinding.textMangaTypes.setBackgroundColor(context.getResources().getColor(R.color.manga_color));
+            holder.itemListBinding.textMangaTypes.setText(context.getResources().getString(R.string.mangaoneshot_string));
         } else if (animeDiscoverResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.oneshot_string))) {
-            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manga));
-            holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.oneshot_string));
+            holder.itemListBinding.textMangaTypes.setBackgroundColor(context.getResources().getColor(R.color.manga_color));
+            holder.itemListBinding.textMangaTypes.setText(context.getResources().getString(R.string.oneshot_string));
         }
         holder.itemListBinding.mangaRatingBar.setNumStars(5);
         String replaceComma = animeDiscoverResultModelList.get(position).getMangaRating().replace(",", ".");

@@ -32,6 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size10dp"
+                android:fontFamily="@font/montserrat"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/size18sp"
                 app:colorClickableText="@android:color/holo_blue_light"

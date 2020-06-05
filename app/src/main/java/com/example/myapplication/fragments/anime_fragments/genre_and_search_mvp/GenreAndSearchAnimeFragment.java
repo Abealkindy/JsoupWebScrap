@@ -83,7 +83,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int index, int totalItemsCount, RecyclerView view) {
-                if (animeGenreAndSearchResultModelList.size() < 16) {
+                if (animeGenreAndSearchResultModelList.size() < 15) {
                     Log.e("listSize", "Can't scroll anymore");
                 } else {
                     fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.scrollToPosition(0);
@@ -180,7 +180,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     }
 
     private void getGenreData() {
-        String genreTotalURL = "https://animeindo.fun/genre-list/";
+        String genreTotalURL = "https://animeindo.fun/anime-list/";
         genreAndSearchAnimePresenter.getOnlyGenreData(genreTotalURL);
     }
 

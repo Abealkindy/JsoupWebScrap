@@ -64,25 +64,25 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
             e.printStackTrace();
         }
         if (!animeNewReleaseResultModelList.get(position).isMangaStatus()) {
-            holder.itemListBinding.textViewHotStatus.setVisibility(View.GONE);
+            holder.itemListBinding.hotLabel.setVisibility(View.GONE);
         } else {
-            holder.itemListBinding.textViewHotStatus.setVisibility(View.VISIBLE);
+            holder.itemListBinding.hotLabel.setVisibility(View.VISIBLE);
         }
         if (animeNewReleaseResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manga_string))) {
-            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manga));
-            holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manga_string));
+            holder.itemListBinding.textMangaTypes.setBackgroundColor(context.getResources().getColor(R.color.manga_color));
+            holder.itemListBinding.textMangaTypes.setText(context.getResources().getString(R.string.manga_string));
         } else if (animeNewReleaseResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manhwa_string))) {
-            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manhwa));
-            holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manhwa_string));
+            holder.itemListBinding.textMangaTypes.setBackgroundColor(context.getResources().getColor(R.color.manhwa_color));
+            holder.itemListBinding.textMangaTypes.setText(context.getResources().getString(R.string.manhwa_string));
         } else if (animeNewReleaseResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manhua_string))) {
-            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manhua));
-            holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manhua_string));
+            holder.itemListBinding.textMangaTypes.setBackgroundColor(context.getResources().getColor(R.color.manhua_color));
+            holder.itemListBinding.textMangaTypes.setText(context.getResources().getString(R.string.manhua_string));
         } else if (animeNewReleaseResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.mangaoneshot_string))) {
-            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manga));
-            holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.mangaoneshot_string));
+            holder.itemListBinding.textMangaTypes.setBackgroundColor(context.getResources().getColor(R.color.manga_color));
+            holder.itemListBinding.textMangaTypes.setText(context.getResources().getString(R.string.mangaoneshot_string));
         } else if (animeNewReleaseResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.oneshot_string))) {
-            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manga));
-            holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.oneshot_string));
+            holder.itemListBinding.textMangaTypes.setBackgroundColor(context.getResources().getColor(R.color.manga_color));
+            holder.itemListBinding.textMangaTypes.setText(context.getResources().getString(R.string.oneshot_string));
         }
         if (animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().size() > 0)
             if (animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().size() == 0

@@ -15,35 +15,75 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/_9sdp">
 
-        <ImageView
-            android:id="@+id/manga_thumb"
+        <RelativeLayout
+            android:id="@+id/manga_thumb_parent"
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_170sdp"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/_1sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/classgotoposter" />
+            android:layout_marginBottom="@dimen/_5sdp">
+
+            <ImageView
+                android:id="@+id/manga_thumb"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_170sdp"
+                android:layout_centerVertical="true"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/classgotoposter" />
+
+            <com.haozhang.lib.SlantedTextView
+                android:id="@+id/hot_label"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_alignTop="@id/manga_thumb"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:visibility="gone"
+                app:slantedBackgroundColor="@color/uniqlo_red"
+                app:slantedLength="@dimen/_40sdp"
+                app:slantedMode="left"
+                app:slantedText="@string/hot_text"
+                app:slantedTextColor="@android:color/white"
+                app:slantedTextSize="@dimen/_12ssp"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/text_manga_types"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_alignParentBottom="true"
+                android:autoSizeTextType="uniform"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                tools:background="@color/manhua_color"
+                tools:targetApi="o"
+                tools:text="@string/mangaoneshot_string" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_3sdp"
-            android:layout_toEndOf="@+id/manga_thumb"
+            android:layout_toEndOf="@+id/manga_thumb_parent"
             android:orientation="vertical">
 
-            <me.grantland.widget.AutofitTextView
+            <TextView
                 android:id="@+id/manga_title_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autoSizeTextType="uniform"
                 android:fontFamily="@font/montserrat"
                 android:maxLines="4"
+                app:autoSizeMinTextSize="@dimen/_13ssp"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_13ssp"
                 android:textStyle="bold"
-                app:sizeToFit="true"
+                tools:targetApi="o"
                 tools:text="Class-goto Shuudan Teni Shimashita ga, ichiban Tsuyoi Ore wa Saijaku no Shounin ni Gisouchuu" />
 
             <LinearLayout
@@ -78,78 +118,30 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp">
-
-                <me.grantland.widget.AutofitTextView
-                    android:id="@+id/text_manga_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bubble_background_manga"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center"
-                    android:padding="@dimen/_6sdp"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/white"
-                    tools:text="Manhwa" />
-
-                <me.grantland.widget.AutofitTextView
-                    android:id="@+id/text_view_hot_status"
-                    android:layout_width="@dimen/_53sdp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:background="@drawable/bubble_background_hot"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center"
-                    android:padding="@dimen/_7sdp"
-                    android:text="@string/hot_text"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/white"
-                    android:textIsSelectable="true"
-                    tools:visibility="gone" />
-
-                <me.grantland.widget.AutofitTextView
-                    android:id="@+id/text_view_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:background="@drawable/bubble_background_ongoing"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:padding="@dimen/_6sdp"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/white"
-                    android:textIsSelectable="true"
-                    android:visibility="gone"
-                    tools:text="Completed"
-                    tools:visibility="visible" />
-            </LinearLayout>
-
-
-            <LinearLayout
                 android:id="@+id/linear_newest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp">
 
-                <me.grantland.widget.AutofitTextView
+                <TextView
                     android:id="@+id/newest_text_chapter_release"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:autoSizeTextType="uniform"
                     android:background="@drawable/bubble_background_darker_blue"
                     android:fontFamily="@font/montserrat"
                     android:maxLines="1"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@android:color/white"
                     tools:ignore="PrivateResource"
+                    tools:targetApi="o"
                     tools:text="Ch. 9999.9" />
 
-                <me.grantland.widget.AutofitTextView
+                <TextView
                     android:id="@+id/newest_text_chapter_release_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:autoSizeTextType="uniform"
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
                     android:maxLines="1"
@@ -157,6 +149,7 @@
                     android:textColor="@android:color/white"
                     android:textStyle="italic"
                     tools:ignore="PrivateResource"
+                    tools:targetApi="o"
                     tools:text="44 Seconds Ago" />
             </LinearLayout>
 
@@ -166,22 +159,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp">
 
-                <me.grantland.widget.AutofitTextView
+                <TextView
                     android:id="@+id/second_newest_text_chapter_release"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:autoSizeTextType="uniform"
                     android:background="@drawable/bubble_background_darker_blue"
                     android:fontFamily="@font/montserrat"
                     android:maxLines="1"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@android:color/white"
                     tools:ignore="PrivateResource"
+                    tools:targetApi="o"
                     tools:text="Ch. 999" />
 
-                <me.grantland.widget.AutofitTextView
+                <TextView
                     android:id="@+id/second_newest_text_chapter_release_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:autoSizeTextType="uniform"
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
                     android:maxLines="1"
@@ -189,6 +185,7 @@
                     android:textColor="@android:color/white"
                     android:textStyle="italic"
                     tools:ignore="PrivateResource"
+                    tools:targetApi="o"
                     tools:text="44 Seconds Ago" />
             </LinearLayout>
 
@@ -198,22 +195,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp">
 
-                <me.grantland.widget.AutofitTextView
+                <TextView
                     android:id="@+id/third_newest_text_chapter_release"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:autoSizeTextType="uniform"
                     android:background="@drawable/bubble_background_darker_blue"
                     android:fontFamily="@font/montserrat"
                     android:maxLines="1"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@android:color/white"
                     tools:ignore="PrivateResource"
+                    tools:targetApi="o"
                     tools:text="Ch. 9999.9" />
 
-                <me.grantland.widget.AutofitTextView
+                <TextView
                     android:id="@+id/third_newest_text_chapter_release_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:autoSizeTextType="uniform"
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
                     android:maxLines="1"
@@ -221,6 +221,7 @@
                     android:textColor="@android:color/white"
                     android:textStyle="italic"
                     tools:ignore="PrivateResource"
+                    tools:targetApi="o"
                     tools:text="44 Seconds Ago" />
             </LinearLayout>
         </LinearLayout>

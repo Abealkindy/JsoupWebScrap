@@ -74,13 +74,13 @@ public class GenreAndSearchAnimePresenter {
         if (doc != null) {
             List<AnimeGenreAndSearchResultModel.AnimeGenreResult> genreResultList = new ArrayList<>();
             genreResultList.clear();
-            Elements getGenreData = doc.select("a[href^=https://animeindo.fun/genres/]");
+            Elements getGenreData = doc.getElementsByClass("tax_fil");
             for (Element element : getGenreData) {
-                String genreURL = element.attr("href");
+//                String genreURL = element.text();
                 String genreTitle = element.text();
                 AnimeGenreAndSearchResultModel.AnimeGenreResult genreResult = new AnimeGenreAndSearchResultModel().new AnimeGenreResult();
                 genreResult.setGenreTitle(genreTitle);
-                genreResult.setGenreURL(genreURL);
+//                genreResult.setGenreURL(genreURL);
                 genreResultList.add(genreResult);
             }
             genreAndSearchAnimeInterface.onGetOnlyGenreDataSuccess(genreResultList);
@@ -93,7 +93,7 @@ public class GenreAndSearchAnimePresenter {
         Document doc = JsoupConfig.setInitJsoup(genreAndSearchURL, cookies);
         if (doc != null) {
             List<AnimeGenreAndSearchResultModel.AnimeSearchResult> animeGenreAndSearchResultModelList = new ArrayList<>();
-            Elements getListData = doc.getElementsByClass("col-6 col-md-4 col-lg-3 col-wd-per5 col-xl-per5 mb40");
+            Elements getListData = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-lg-3 mb40");
             for (Element element : getListData) {
                 String detailURL = element.select("a[href^=https://animeindo.fun/anime/]").attr("href");
                 String thumbURL = element.getElementsByClass("episode-ratio background-cover").attr("style").substring(element.getElementsByClass("episode-ratio background-cover").attr("style").indexOf("https://"), element.getElementsByClass("episode-ratio background-cover").attr("style").indexOf(")"));

@@ -5,11 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -35,7 +36,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
     private ActivityWatchAnimeEpisodeBinding animeEpisodeBinding;
     private VideoStreamResultModel videoStreamResultModel = new VideoStreamResultModel();
     private ProgressDialog progressDialog;
-    private String nowEpisodeNumber, nextEpisodeNumber, previousEpisodeNumber, nextURL, prevURL, episodeTitle;
+    private String nowEpisodeNumber = "", animeType = "", animeStatus = "", animeThumb = "";
     private WatchAnimeEpisodePresenter episodePresenter = new WatchAnimeEpisodePresenter(this);
 
     @Override
@@ -55,15 +56,15 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
                 Intent intent = new Intent(WatchAnimeEpisodeActivity.this, AnimeDetailActivity.class);
                 intent.putExtra("animeDetailURL", videoStreamResultModel.getAnimeDetailURL());
                 intent.putExtra("animeDetailTitle", videoStreamResultModel.getEpisodeTitle());
-                intent.putExtra("animeDetailType", videoStreamResultModel.getAnimeType());
-                intent.putExtra("animeDetailStatus", videoStreamResultModel.getAnimeStatus());
-                intent.putExtra("animeDetailThumb", videoStreamResultModel.getAnimeThumb());
+                intent.putExtra("animeDetailType", animeType);
+                intent.putExtra("animeDetailStatus", animeStatus);
+                intent.putExtra("animeDetailThumb", animeThumb);
                 startActivity(intent);
                 finish();
             }
         });
-        animeEpisodeBinding.prevEpisodeButton.setOnClickListener(view -> getAnimeWatchData(prevURL));
-        animeEpisodeBinding.nextEpisodeButton.setOnClickListener(view -> getAnimeWatchData(nextURL));
+        animeEpisodeBinding.prevEpisodeButton.setOnClickListener(view -> getWatchAnimeDataFromWebView(videoStreamResultModel.getVideoPrevUrl()));
+        animeEpisodeBinding.nextEpisodeButton.setOnClickListener(view -> getWatchAnimeDataFromWebView(videoStreamResultModel.getVideoNextUrl()));
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -82,260 +83,132 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
         animeEpisodeBinding.webViewWatchAnime.getSettings().setJavaScriptEnabled(true);
         animeEpisodeBinding.webViewWatchAnime.setWebChromeClient(new WebChromeClient());
         String episodeURL = getIntent().getStringExtra("animeEpisodeToWatch");
-        episodeTitle = getIntent().getStringExtra("animeEpisodeTitle");
-        String episodeType = getIntent().getStringExtra("animeEpisodeType");
-        String episodeStatus = getIntent().getStringExtra("animeEpisodeStatus");
-        String episodeThumb = getIntent().getStringExtra("animeEpisodeThumb");
-        if (episodeURL != null && episodeTitle != null && episodeType != null) {
-            if (episodeType.equalsIgnoreCase(getResources().getString(R.string.series_string)) ||
-                    episodeType.contains(getResources().getString(R.string.series_string))) {
+        String episodeTitle = getIntent().getStringExtra("animeEpisodeTitle");
+        animeType = getIntent().getStringExtra("animeEpisodeType");
+        animeStatus = getIntent().getStringExtra("animeEpisodeStatus");
+        animeThumb = getIntent().getStringExtra("animeEpisodeThumb");
+        if (episodeURL != null && episodeTitle != null && animeType != null) {
+            if (animeType.equalsIgnoreCase(getResources().getString(R.string.series_string)) ||
+                    animeType.contains(getResources().getString(R.string.series_string))) {
                 animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.blue_series_color));
                 animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.blue_series_color));
-            } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.ona_string)) ||
-                    episodeType.contains(getResources().getString(R.string.ona_string))) {
+            } else if (animeType.equalsIgnoreCase(getResources().getString(R.string.ona_string)) ||
+                    animeType.contains(getResources().getString(R.string.ona_string))) {
                 animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.purple_series_color));
                 animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.purple_series_color));
-            } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.movie_string)) ||
-                    episodeType.contains(getResources().getString(R.string.movie_string_lower))) {
+            } else if (animeType.equalsIgnoreCase(getResources().getString(R.string.movie_string)) ||
+                    animeType.contains(getResources().getString(R.string.movie_string_lower))) {
                 animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.green_series_color));
                 animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.green_series_color));
                 animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
                 animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
-            } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.la_string)) ||
-                    episodeType.contains(getResources().getString(R.string.la_string))) {
+            } else if (animeType.equalsIgnoreCase(getResources().getString(R.string.la_string)) ||
+                    animeType.contains(getResources().getString(R.string.la_string))) {
                 animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.red_series_color));
                 animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.red_series_color));
-            } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.special_string)) ||
-                    episodeType.contains(getResources().getString(R.string.special_string_lower))) {
+            } else if (animeType.equalsIgnoreCase(getResources().getString(R.string.special_string)) ||
+                    animeType.contains(getResources().getString(R.string.special_string_lower))) {
                 animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.orange_series_color));
                 animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.orange_series_color));
-            } else if (episodeType.equalsIgnoreCase(getResources().getString(R.string.ova_string)) ||
-                    episodeType.contains(getResources().getString(R.string.ova_string))) {
+            } else if (animeType.equalsIgnoreCase(getResources().getString(R.string.ova_string)) ||
+                    animeType.contains(getResources().getString(R.string.ova_string))) {
                 animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.pink_series_color));
                 animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.pink_series_color));
             }
             animeEpisodeBinding.textAnimeTitleWatch.setText(episodeTitle);
-            videoStreamResultModel.setEpisodeTitle(episodeTitle);
-            videoStreamResultModel.setAnimeType(episodeType);
-            videoStreamResultModel.setAnimeStatus(episodeStatus);
-            videoStreamResultModel.setAnimeThumb(episodeThumb);
-//            getAnimeWatchData(episodeURL);
-            Intent webViewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(episodeURL));
-            startActivity(webViewIntent);
-            finish();
-//            animeEpisodeBinding.webViewWatchAnime.loadUrl(episodeURL);
+            getWatchAnimeDataFromWebView(episodeURL);
         } else {
             Log.e("nowURL", "gak ada");
         }
     }
 
-    private void getAnimeWatchData(String animeEpisodeToWatch) {
+    @SuppressLint("SetJavaScriptEnabled")
+    private void getWatchAnimeDataFromWebView(String episodeURL) {
         progressDialog.show();
-        String afterCut = animeEpisodeToWatch.substring(21);
+        String afterCut = episodeURL.substring(21);
         nowEpisodeNumber = afterCut.substring(afterCut.indexOf("episode-") + 8);
         if (nowEpisodeNumber.contains("-")) {
             nowEpisodeNumber.replace("-", ".");
         }
-        episodePresenter.getEpisodeToWatchData(animeEpisodeToWatch);
+        animeEpisodeBinding.webViewWatchAnimeBg.getSettings().setJavaScriptEnabled(true);
+        animeEpisodeBinding.webViewWatchAnimeBg.addJavascriptInterface(new LoadListener(), "HTMLOUT");
+        animeEpisodeBinding.webViewWatchAnimeBg.loadUrl(episodeURL);
+        if (animeEpisodeBinding.webViewWatchAnimeBg.isShown()) {
+            animeEpisodeBinding.webViewWatchAnimeBg.reload();
+        }
+        animeEpisodeBinding.webViewWatchAnimeBg.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                return true;
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url,
+                                      Bitmap favicon) {
+            }
+
+            public void onPageFinished(WebView view, String url) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.loadUrl("javascript:window.HTMLOUT.processHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                    }
+                }, 5000);
+            }
+
+        });
     }
 
-    private void parseHtmlToViewableContent(String result) {
-        Document doc = Jsoup.parse(result);
-
-        //Anime Details URL settings
-        Elements getElementsAnimeDetails = doc.select("a[href^=https://animeindo.fun/anime/]");
-        if (getElementsAnimeDetails.isEmpty()) {
-            Log.e("VideoDetailNull?", "Ya");
-        } else {
-            String animeDetailsURL = getElementsAnimeDetails.attr("href");
-            if (!animeDetailsURL.startsWith("https://animeindo.fun/")) {
-                Log.e("VideoresultURLError?", "Ya");
-                videoStreamResultModel.setAnimeDetailURL(null);
+    public void showToast(String getURLFromElementSrc, String message) {
+        runOnUiThread(() -> {
+            Toast.makeText(WatchAnimeEpisodeActivity.this, message, Toast.LENGTH_SHORT).show();
+            if (!getURLFromElementSrc.isEmpty()) {
+                episodePresenter.getEpisodeToWatchData(nowEpisodeNumber, message);
             } else {
-                videoStreamResultModel.setAnimeDetailURL(animeDetailsURL);
+                animeEpisodeBinding.webViewWatchAnimeBg.reload();
+                Toast.makeText(WatchAnimeEpisodeActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
             }
+        });
+    }
+
+    class LoadListener {
+        public String content = "";
+
+        @JavascriptInterface
+        public void processHTML(String html) {
+            Document doc = Jsoup.parse(html);
+            Elements getVideoEmbedURL = doc.getElementsByClass("playeriframe");
+            String getURLFromElementSrc = getVideoEmbedURL.attr("src");
+            Log.e("result", getURLFromElementSrc);
+            nextToAct(getURLFromElementSrc, html);
         }
-        episodeTitle = doc.getElementsByTag("h1").text();
-        if (episodeTitle != null) {
-            if (episodeTitle.contains("Subtitle")) {
-                episodeTitle = episodeTitle.substring(0, episodeTitle.length() - 19);
+
+        private void nextToAct(String getURLFromElementSrc, String content) {
+            showToast(getURLFromElementSrc, content);
+        }
+    }
+
+
+    private void parseHtmlToViewableContent(VideoStreamResultModel result) {
+        videoStreamResultModel = result;
+        if (result != null) {
+            animeEpisodeBinding.textAnimeTitleWatch.setText(result.getEpisodeTitle());
+            if (result.getVideoPrevUrl() != null && !result.getVideoPrevUrl().isEmpty()) {
+                animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
             } else {
-                Log.e("CUT?", "OF COURSE NO!");
-            }
-        }
-        animeEpisodeBinding.textAnimeTitleWatch.setText(episodeTitle);
-        //get next and prev URL
-        Elements getElementsNextAndPrevEpisode = doc.select("a[href^=https://animeindo.fun/]");
-        List<String> nextAndPrevURL = new ArrayList<>();
-        if (nextAndPrevURL != null) {
-            nextAndPrevURL.clear();
-        }
-        for (int position = 0; position < getElementsNextAndPrevEpisode.size(); position++) {
-            Element element = getElementsNextAndPrevEpisode.get(position);
-            String nextandprevurlsingle = element.absUrl("href");
-            if (!nextandprevurlsingle.startsWith("https://animeindo.fun/anime/") && nextandprevurlsingle.contains("episode")) {
-                nextAndPrevURL.add(nextandprevurlsingle);
-            }
-        }
-        Log.e("nextAndPrevURLstring", new Gson().toJson(nextAndPrevURL));
-        String nextOrPrevURL, nextOrPrevEpisodeNumber;
-        if (nextAndPrevURL.isEmpty()) {
-            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
-            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
-        } else {
-            if (nextAndPrevURL.size() < 2) {
-                nextOrPrevURL = nextAndPrevURL.get(0);
-                nextOrPrevEpisodeNumber = nextOrPrevURL.substring(nextOrPrevURL.indexOf("episode-") + 8);
-                if (nextOrPrevEpisodeNumber.contains("-") || nowEpisodeNumber.contains("-")) {
-                    String nextOrPrevEpisodeNumberCut = nextOrPrevEpisodeNumber.replace("-", ".");
-                    String nowEpisodeNumberCut = nowEpisodeNumber.replace("-", ".");
-                    if (nowEpisodeNumberCut.endsWith(".tamat/")) {
-                        String substring = nowEpisodeNumberCut.substring(0, nowEpisodeNumberCut.length() - 6);
-                        if (Double.parseDouble(nextOrPrevEpisodeNumberCut) < Double.parseDouble(substring)) {
-                            prevURL = nextAndPrevURL.get(0);
-                            nextURL = null;
-                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
-                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
-                        } else if (Double.parseDouble(nextOrPrevEpisodeNumberCut) > Double.parseDouble(substring)) {
-                            prevURL = null;
-                            nextURL = nextAndPrevURL.get(0);
-                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
-                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
-                        }
-                    } else if (nowEpisodeNumberCut.endsWith("/")) {
-                        double v = Double.parseDouble(nowEpisodeNumberCut.substring(0, nowEpisodeNumberCut.length() - 1));
-                        if (Double.parseDouble(nextOrPrevEpisodeNumberCut) < v) {
-                            prevURL = nextAndPrevURL.get(0);
-                            nextURL = null;
-                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
-                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
-                        } else if (Double.parseDouble(nextOrPrevEpisodeNumberCut) > v) {
-                            prevURL = null;
-                            nextURL = nextAndPrevURL.get(0);
-                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
-                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
-                        }
-                    } else {
-                        if (Double.parseDouble(nextOrPrevEpisodeNumberCut) < Double.parseDouble(nowEpisodeNumberCut)) {
-                            prevURL = nextAndPrevURL.get(0);
-                            nextURL = null;
-                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
-                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
-                        } else if (Double.parseDouble(nextOrPrevEpisodeNumberCut) > Double.parseDouble(nowEpisodeNumberCut)) {
-                            prevURL = null;
-                            nextURL = nextAndPrevURL.get(0);
-                            animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
-                            animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
-                        }
-                    }
-                } else {
-                    if (!nowEpisodeNumber.endsWith("special/") && !nowEpisodeNumber.endsWith("movie/") && !nowEpisodeNumber.endsWith("ona/") && !nowEpisodeNumber.endsWith("ova/")) {
-                        if (nowEpisodeNumber.endsWith("/")) {
-                            Log.e("WITH SLASH?", "yes");
-                            Log.e("URL1", nextOrPrevEpisodeNumber);
-                            Log.e("URL2", nowEpisodeNumber);
-                            double v = Double.parseDouble(nextOrPrevEpisodeNumber.substring(0, nextOrPrevEpisodeNumber.length() - 1));
-                            if (v < Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
-                                prevURL = nextAndPrevURL.get(0);
-                                nextURL = null;
-                                animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
-                                animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
-                            } else if (v > Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1))) {
-                                prevURL = null;
-                                nextURL = nextAndPrevURL.get(0);
-                                animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
-                                animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
-                            }
-                        } else {
-                            Log.e("WITHOUT SLASH?", "YES");
-                            if (Double.parseDouble(nextOrPrevEpisodeNumber) < Double.parseDouble(nowEpisodeNumber)) {
-                                prevURL = nextAndPrevURL.get(0);
-                                nextURL = null;
-                                animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
-                                animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
-                            } else if (Double.parseDouble(nextOrPrevEpisodeNumber) > Double.parseDouble(nowEpisodeNumber)) {
-                                prevURL = null;
-                                nextURL = nextAndPrevURL.get(0);
-                                animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
-                                animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
-                            }
-                        }
-
-                    }
-                }
-
-            } else if (nextAndPrevURL.size() > 2) {
-                prevURL = nextAndPrevURL.get(0);
-                nextURL = nextAndPrevURL.get(1);
-                previousEpisodeNumber = prevURL.substring(prevURL.indexOf("episode-") + 8);
-                nextEpisodeNumber = nextURL.substring(nextURL.indexOf("episode-") + 8);
                 animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
+            }
+
+            if (result.getVideoNextUrl() != null && !result.getVideoNextUrl().isEmpty()) {
+                animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
+            } else {
                 animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
             }
-        }
+            if (result.getVideoUrl() != null && !result.getVideoUrl().isEmpty()) {
+                animeEpisodeBinding.webViewWatchAnime.loadUrl(result.getVideoUrl());
+            }
 
-
-        //Anime videos URL settings
-        Elements getVideoEmbedURL = doc.getElementsByClass("playeriframe");
-        if (getVideoEmbedURL.isEmpty()) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Elements getVideoEmbedURL = doc.getElementsByClass("playeriframe");
-                    String getURLFromElementSrc = getVideoEmbedURL.attr("src");
-                    String getURLFromElementLazy = getVideoEmbedURL.attr("data-lazy-src");
-                    String getURLFromElementDataSrc = getVideoEmbedURL.attr("data-src");
-                    Log.e("RESULTvid", new Gson().toJson(getVideoEmbedURL));
-                    Log.e("VID URL 1", getURLFromElementSrc);
-                    Log.e("VID URL 2", getURLFromElementLazy);
-                    Log.e("VID URL 3", getURLFromElementDataSrc);
-                    Log.e("VID URL 4", getVideoEmbedURL.toString());
-                    String animeVideoEmbedURL;
-                    if (!getURLFromElementSrc.startsWith("//")) {
-                        if (getURLFromElementLazy.startsWith("https:")) {
-                            animeVideoEmbedURL = getURLFromElementLazy;
-                        } else {
-                            if (!getURLFromElementLazy.startsWith("http:")) {
-                                animeVideoEmbedURL = "http:" + getURLFromElementLazy;
-                            } else {
-                                animeVideoEmbedURL = getURLFromElementLazy;
-                            }
-                        }
-                        String animeStreamURL3 = "<html><body style=\"margin: 0; padding: 0\"><iframe width=\"100%\" height=\"100%\" src=\"" + animeVideoEmbedURL + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
-                        videoStreamResultModel.setVideoUrl(animeStreamURL3);
-                        Log.e("allData", new Gson().toJson(videoStreamResultModel));
-                        animeEpisodeBinding.webViewWatchAnime.loadData(videoStreamResultModel.getVideoUrl(), "text/html", "utf-8");
-                    } else if (!getURLFromElementLazy.startsWith("//")) {
-                        if (getURLFromElementSrc.startsWith("https:")) {
-                            animeVideoEmbedURL = getURLFromElementSrc;
-                        } else {
-                            if (!getURLFromElementSrc.startsWith("http:")) {
-                                animeVideoEmbedURL = "http:" + getURLFromElementSrc;
-                            } else {
-                                animeVideoEmbedURL = getURLFromElementSrc;
-                            }
-                        }
-                        String animeStreamURL = "<html><body style=\"margin: 0; padding: 0\"><iframe width=\"100%\" height=\"100%\" src=\"" + animeVideoEmbedURL + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
-                        videoStreamResultModel.setVideoUrl(animeStreamURL);
-                        Log.e("allData", new Gson().toJson(videoStreamResultModel));
-                        animeEpisodeBinding.webViewWatchAnime.loadData(videoStreamResultModel.getVideoUrl(), "text/html", "utf-8");
-                    } else {
-                        if (getURLFromElementDataSrc.startsWith("https:")) {
-                            animeVideoEmbedURL = getURLFromElementDataSrc;
-                        } else {
-                            if (!getURLFromElementDataSrc.startsWith("http:")) {
-                                animeVideoEmbedURL = "http:" + getURLFromElementDataSrc;
-                            } else {
-                                animeVideoEmbedURL = getURLFromElementDataSrc;
-                            }
-                        }
-                        String animeStreamURL2 = "<html><body style=\"margin: 0; padding: 0\"><iframe width=\"100%\" height=\"100%\" src=\"" + animeVideoEmbedURL + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
-                        videoStreamResultModel.setVideoUrl(animeStreamURL2);
-                        Log.e("allData", new Gson().toJson(videoStreamResultModel));
-                        animeEpisodeBinding.webViewWatchAnime.loadData(videoStreamResultModel.getVideoUrl(), "text/html", "utf-8");
-                    }
-                }
-            }, 2000);
         }
 
     }
@@ -375,7 +248,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
     }
 
     @Override
-    public void onGetWatchAnimeEpisodeDataSuccess(String watchHTMLResult) {
+    public void onGetWatchAnimeEpisodeDataSuccess(VideoStreamResultModel watchHTMLResult) {
         progressDialog.dismiss();
         parseHtmlToViewableContent(watchHTMLResult);
     }
