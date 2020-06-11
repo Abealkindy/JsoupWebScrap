@@ -51,7 +51,7 @@ dependencies {
     implementation 'com.borjabravo:readmoretextview:2.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.github.bumptech.glide:glide:4.10.0'
-    implementation 'com.zhkrb.cloudflare-scrape-android:scrape-rhino:0.1.1'
+    implementation 'com.eclipsesource.j2v8:j2v8:4.5.0@aar'
     testImplementation 'junit:junit:4.12'
     compileOnly 'org.projectlombok:lombok:1.18.8'
     annotationProcessor "androidx.room:room-compiler:2.2.5"

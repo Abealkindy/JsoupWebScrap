@@ -110,7 +110,7 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
                 this.pageCount--;
             }
         }
-        newReleasePresenter.getNewReleasesMangaData(pageCount, "https://komikcast.com", hitStatus);
+        newReleasePresenter.getNewReleasesMangaData(pageCount, "https://komikcast.com/", hitStatus);
     }
 
     @Override

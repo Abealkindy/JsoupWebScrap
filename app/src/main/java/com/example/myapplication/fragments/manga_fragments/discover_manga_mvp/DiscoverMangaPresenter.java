@@ -2,10 +2,10 @@ package com.example.myapplication.fragments.manga_fragments.discover_manga_mvp;
 
 import android.util.Log;
 
+import com.example.myapplication.networks.CloudFlare;
 import com.example.myapplication.models.mangamodels.DiscoverMangaModel;
 import com.example.myapplication.networks.JsoupConfig;
 import com.google.gson.Gson;
-import com.zhkrb.cloudflare_scrape_android.Cloudflare;
 
 import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
@@ -25,13 +25,13 @@ public class DiscoverMangaPresenter {
     }
 
     public void getDiscoverOrSearchData(String discoverOrSearchURL) {
-        Cloudflare cf = new Cloudflare(discoverOrSearchURL);
+        CloudFlare cf = new CloudFlare(discoverOrSearchURL);
         cf.setUser_agent("Mozilla/5.0");
-        cf.getCookies(new Cloudflare.cfCallback() {
+        cf.getCookies(new CloudFlare.cfCallback() {
             @Override
             public void onSuccess(List<HttpCookie> cookieList, boolean hasNewUrl, String newUrl) {
                 Log.e("getNewURL?", String.valueOf(hasNewUrl));
-                Map<String, String> cookies = Cloudflare.List2Map(cookieList);
+                Map<String, String> cookies = CloudFlare.List2Map(cookieList);
                 if (hasNewUrl) {
                     passToJsoup(newUrl, cookies);
                     Log.e("NEWURL", newUrl);

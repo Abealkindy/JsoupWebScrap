@@ -2,10 +2,10 @@ package com.example.myapplication.fragments.anime_fragments.anime_new_releases_m
 
 import android.util.Log;
 
+import com.example.myapplication.networks.CloudFlare;
 import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;
 import com.example.myapplication.networks.JsoupConfig;
 import com.google.gson.Gson;
-import com.zhkrb.cloudflare_scrape_android.Cloudflare;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,13 +24,13 @@ public class AnimeNewReleasesPresenter {
     }
 
     public void getNewReleasesAnimeData(int pageCount, String newReleasesURL, String hitStatus) {
-        Cloudflare cf = new Cloudflare(newReleasesURL);
+        CloudFlare cf = new CloudFlare(newReleasesURL);
         cf.setUser_agent("Mozilla/5.0");
-        cf.getCookies(new Cloudflare.cfCallback() {
+        cf.getCookies(new CloudFlare.cfCallback() {
             @Override
             public void onSuccess(List<HttpCookie> cookieList, boolean hasNewUrl, String newUrl) {
                 Log.e("getNewURL?", String.valueOf(hasNewUrl));
-                Map<String, String> cookies = Cloudflare.List2Map(cookieList);
+                Map<String, String> cookies = CloudFlare.List2Map(cookieList);
                 if (hasNewUrl) {
                     passToRetrofit(pageCount, newUrl, hitStatus, cookies);
                     Log.e("NEWURL", newUrl);

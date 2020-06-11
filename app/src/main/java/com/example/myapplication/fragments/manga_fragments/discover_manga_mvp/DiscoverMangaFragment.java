@@ -47,7 +47,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     private DiscoverMangaPresenter discoverMangaPresenter = new DiscoverMangaPresenter(this);
     private ProgressDialog progressDialog;
     private Context mContext;
-    private String hitStatus = "newPage", homeUrl = "/daftar-komik/page/" + pageCount, searchQuery = "";
+    private String hitStatus = "newPage", homeUrl = "/daftar-komik/page/" + pageCount + "/", searchQuery = "";
 
     public DiscoverMangaFragment() {
         // Required empty public constructor
@@ -123,7 +123,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         switch (option) {
             case NEW_PAGE_SCROLL:
                 plusPage++;
-                homeUrl = "/daftar-komik/page/" + plusPage;
+                homeUrl = "/daftar-komik/page/" + plusPage + "/";
                 hitStatus = "newPage";
                 if (getFragmentManager() != null) {
                     getFragmentManager().beginTransaction().detach(this).attach(this).commit();
@@ -132,17 +132,17 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
             case NEW_PAGE:
             case SWIPE_REFRESH:
                 plusPage = 1;
-                homeUrl = "/daftar-komik/page/" + 1;
+                homeUrl = "/daftar-komik/page/" + 1 + "/";
                 hitStatus = "swipeRefresh";
                 break;
             case SEARCH_REQUEST:
                 plusSearch = 1;
-                homeUrl = "/page/" + 1 + "/?s=" + searchQuery;
+                homeUrl = "/page/" + 1 + "/?s=" + searchQuery + "/";
                 hitStatus = "searchRequest";
                 break;
             case SEARCH_SWIPE_REQUEST:
                 plusSearch++;
-                homeUrl = "/page/" + plusSearch + "/?s=" + searchQuery;
+                homeUrl = "/page/" + plusSearch + "/?s=" + searchQuery + "/";
                 hitStatus = "searchScrollRequest";
                 if (getFragmentManager() != null) {
                     getFragmentManager().beginTransaction().detach(this).attach(this).commit();
