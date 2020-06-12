@@ -137,12 +137,12 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
                 break;
             case SEARCH_REQUEST:
                 plusSearch = 1;
-                homeUrl = "/page/" + 1 + "/?s=" + searchQuery + "/";
+                homeUrl = "/page/" + 1 + "/?s=" + searchQuery;
                 hitStatus = "searchRequest";
                 break;
             case SEARCH_SWIPE_REQUEST:
                 plusSearch++;
-                homeUrl = "/page/" + plusSearch + "/?s=" + searchQuery + "/";
+                homeUrl = "/page/" + plusSearch + "/?s=" + searchQuery;
                 hitStatus = "searchScrollRequest";
                 if (getFragmentManager() != null) {
                     getFragmentManager().beginTransaction().detach(this).attach(this).commit();
@@ -172,6 +172,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         progressDialog.show();
         this.hitStatus = hitStatus;
         String totalURL = "https://komikcast.com" + homeUrl;
+        Log.e("total URL : ", totalURL);
         discoverMangaPresenter.getDiscoverOrSearchData(totalURL);
     }
 
