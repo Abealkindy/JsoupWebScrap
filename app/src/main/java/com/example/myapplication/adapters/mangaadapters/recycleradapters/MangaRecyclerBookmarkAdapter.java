@@ -94,6 +94,7 @@ public class MangaRecyclerBookmarkAdapter extends RecyclerView.Adapter<MangaRecy
             intent.putExtra("detailRating", animeDiscoverResultModelList.get(position).getMangaRating());
             intent.putExtra("detailStatus", animeDiscoverResultModelList.get(position).isMangaStatus());
             intent.putExtra("detailThumb", animeDiscoverResultModelList.get(position).getMangaThumb());
+            intent.putExtra("detailFrom", "MangaBookmark");
             context.startActivity(intent);
         });
     }

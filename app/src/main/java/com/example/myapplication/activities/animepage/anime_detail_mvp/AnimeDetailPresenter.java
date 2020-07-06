@@ -49,6 +49,7 @@ public class AnimeDetailPresenter {
     }
 
     private void passToJsoup(String newUrl, Map<String, String> cookies) {
+        Log.e("url", newUrl);
         Document document = JsoupConfig.setInitJsoup(newUrl, cookies);
         if (document != null) {
             //get synopsis

@@ -27,6 +27,16 @@ public class MangaReleaseListActivity extends AppCompatActivity {
     }
 
     private void addUIEvents() {
+        String cameFrom = getIntent().getStringExtra("cameFrom");
+        if (cameFrom != null && !cameFrom.isEmpty()) {
+            if (cameFrom.equalsIgnoreCase("MangaReleases")) {
+                mangaReleaseListBinding.viewPagerTabs.setCurrentItem(0);
+            } else if (cameFrom.equalsIgnoreCase("MangaDiscover")) {
+                mangaReleaseListBinding.viewPagerTabs.setCurrentItem(1);
+            } else {
+                mangaReleaseListBinding.viewPagerTabs.setCurrentItem(2);
+            }
+        }
         mangaReleaseListBinding.tabHome.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

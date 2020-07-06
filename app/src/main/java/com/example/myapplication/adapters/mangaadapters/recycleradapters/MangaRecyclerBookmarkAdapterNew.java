@@ -16,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplication.R;
+import com.example.myapplication.activities.mangapage.MangaReleaseListActivity;
 import com.example.myapplication.activities.mangapage.manga_detail_mvp.MangaDetailActivity;
 import com.example.myapplication.databinding.ItemListMangaNewBinding;
 import com.example.myapplication.localstorages.manga_local.MangaBookmarkModel;
@@ -118,7 +119,9 @@ public class MangaRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<MangaR
             intent.putExtra("detailRating", animeDiscoverResultModelList.get(position).getMangaRating());
             intent.putExtra("detailStatus", animeDiscoverResultModelList.get(position).isMangaStatus());
             intent.putExtra("detailThumb", animeDiscoverResultModelList.get(position).getMangaThumb());
+            intent.putExtra("detailFrom", "MangaBookmark");
             context.startActivity(intent);
+            ((MangaReleaseListActivity) context).finish();
         });
     }
 

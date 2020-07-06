@@ -80,6 +80,7 @@ public class MangaRecyclerNewReleasesAdapter extends RecyclerView.Adapter<MangaR
                 intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(0));
                 intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
                 intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(0));
+                intent.putExtra("readFrom", "MangaReleases");
                 context.startActivity(intent);
             });
             holder.itemListBinding.cardSecondMangaChapter.setVisibility(View.GONE);
@@ -95,6 +96,7 @@ public class MangaRecyclerNewReleasesAdapter extends RecyclerView.Adapter<MangaR
                 intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(0));
                 intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
                 intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(0));
+                intent.putExtra("readFrom", "MangaReleases");
                 context.startActivity(intent);
             });
             holder.itemListBinding.cardSecondMangaChapter.setVisibility(View.VISIBLE);
@@ -105,6 +107,7 @@ public class MangaRecyclerNewReleasesAdapter extends RecyclerView.Adapter<MangaR
                 intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(1));
                 intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
                 intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(1));
+                intent.putExtra("readFrom", "MangaReleases");
                 context.startActivity(intent);
             });
             holder.itemListBinding.cardThirdMangaChapter.setVisibility(View.GONE);
@@ -117,6 +120,7 @@ public class MangaRecyclerNewReleasesAdapter extends RecyclerView.Adapter<MangaR
                 intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(0));
                 intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
                 intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(0));
+                intent.putExtra("readFrom", "MangaReleases");
                 context.startActivity(intent);
             });
             holder.itemListBinding.cardSecondMangaChapter.setVisibility(View.VISIBLE);
@@ -127,6 +131,7 @@ public class MangaRecyclerNewReleasesAdapter extends RecyclerView.Adapter<MangaR
                 intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(1));
                 intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
                 intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(1));
+                intent.putExtra("readFrom", "MangaReleases");
                 context.startActivity(intent);
             });
             holder.itemListBinding.cardThirdMangaChapter.setVisibility(View.VISIBLE);
@@ -137,6 +142,7 @@ public class MangaRecyclerNewReleasesAdapter extends RecyclerView.Adapter<MangaR
                 intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(2));
                 intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
                 intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(2));
+                intent.putExtra("readFrom", "MangaReleases");
                 context.startActivity(intent);
             });
         }

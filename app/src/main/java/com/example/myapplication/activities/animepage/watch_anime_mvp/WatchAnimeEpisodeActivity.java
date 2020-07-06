@@ -125,7 +125,12 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
     @SuppressLint("SetJavaScriptEnabled")
     private void getWatchAnimeDataFromWebView(String episodeURL) {
         progressDialog.show();
-        String afterCut = episodeURL.substring(21);
+        String afterCut = "";
+        if (episodeURL.contains("tamat")){
+            afterCut = episodeURL.substring(26);
+        } else {
+            afterCut = episodeURL.substring(21);
+        }
         nowEpisodeNumber = afterCut.substring(afterCut.indexOf("episode-") + 8);
         if (nowEpisodeNumber.contains("-")) {
             nowEpisodeNumber.replace("-", ".");

@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.activities.mangapage.MangaReleaseListActivity;
+import com.example.myapplication.activities.mangapage.manga_detail_mvp.MangaDetailActivity;
 import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
 import com.example.myapplication.databinding.ItemListSelectChapterDetailBinding;
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
@@ -41,7 +43,9 @@ public class RecyclerAllChapterDetailAdapter extends RecyclerView.Adapter<Recycl
             Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);
             intent.putExtra("chapterURL", allChapterDatasArrayList.get(position).getChapterURL());
             intent.putExtra("appBarColorStatus", mangaType);
+            intent.putExtra("readFrom", "MangaDetail");
             context.startActivity(intent);
+            ((MangaDetailActivity) context).finish();
         });
     }
 

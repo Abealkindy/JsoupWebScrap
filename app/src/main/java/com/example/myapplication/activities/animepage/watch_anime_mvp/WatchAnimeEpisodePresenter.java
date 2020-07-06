@@ -42,7 +42,7 @@ public class WatchAnimeEpisodePresenter {
             }
             Log.e("all episode list ", "\n" + getAllEpisode);
             Log.e("all episode list ", new Gson().toJson(urlString));
-            Log.e("last ", "" + urlString.get(urlString.size() - 1).contains(nowEpisodeNumber));
+//            Log.e("last ", "" + urlString.get(urlString.size() - 1).contains(nowEpisodeNumber));
             Log.e("all episode list ", new Gson().toJson(textString));
             //Anime Details URL settings
             Elements getElementsAnimeDetails = document.select("a[href^=https://animeindo.fun/anime/]");
@@ -60,7 +60,13 @@ public class WatchAnimeEpisodePresenter {
             String episodeTitle = document.getElementsByTag("h1").text();
             if (episodeTitle != null) {
                 if (episodeTitle.contains("Subtitle")) {
-                    episodeTitle = episodeTitle.substring(0, episodeTitle.length() - 19);
+                    if (episodeTitle.contains("(TAMAT)")) {
+                        episodeTitle = episodeTitle.substring(0, episodeTitle.length() - 26);
+                    } else if (episodeTitle.contains("Tamat")){
+                        episodeTitle = episodeTitle.substring(0, episodeTitle.length() - 25);
+                    } else {
+                        episodeTitle = episodeTitle.substring(0, episodeTitle.length() - 19);
+                    }
                 } else {
                     Log.e("CUT?", "OF COURSE NO!");
                 }

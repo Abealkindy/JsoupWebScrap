@@ -16,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplication.R;
+import com.example.myapplication.activities.mangapage.MangaReleaseListActivity;
 import com.example.myapplication.activities.mangapage.manga_detail_mvp.MangaDetailActivity;
 import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
 import com.example.myapplication.databinding.ItemListMangaNewBinding;
@@ -119,7 +120,9 @@ public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaR
             intent.putExtra("chapterURL", animeDiscoverResultModelList.get(position).getMangaLatestChapter());
             intent.putExtra("appBarColorStatus", animeDiscoverResultModelList.get(position).getMangaType());
             intent.putExtra("chapterTitle", animeDiscoverResultModelList.get(position).getMangaLatestChapterText());
+            intent.putExtra("readFrom", "MangaDiscover");
             context.startActivity(intent);
+            ((MangaReleaseListActivity) context).finish();
         });
         holder.itemListBinding.relativeItemManga.setOnClickListener(v -> {
             Intent intent = new Intent(context.getApplicationContext(), MangaDetailActivity.class);
@@ -129,7 +132,9 @@ public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaR
             intent.putExtra("detailRating", animeDiscoverResultModelList.get(position).getMangaRating());
             intent.putExtra("detailStatus", animeDiscoverResultModelList.get(position).isMangaStatus());
             intent.putExtra("detailThumb", animeDiscoverResultModelList.get(position).getMangaThumb());
+            intent.putExtra("detailFrom", "MangaDiscover");
             context.startActivity(intent);
+            ((MangaReleaseListActivity) context).finish();
         });
     }
 

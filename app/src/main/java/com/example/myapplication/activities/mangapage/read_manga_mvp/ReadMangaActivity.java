@@ -30,7 +30,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
     private ReadMangaPresenter readMangaPresenter = new ReadMangaPresenter(this);
     private List<ReadMangaModel.AllChapterDatas> allChapterDatasList = new ArrayList<>();
     private Dialog dialog;
-    private String chapterURL = "", chapterNextURL = "", chapterPrevURL = "", detailURL = "", appColorBarStatus = "";
+    private String chapterURL = "", chapterNextURL = "", chapterPrevURL = "", detailURL = "", appColorBarStatus = "", readFrom = "";
     ProgressDialog progressDialog;
 
     @Override
@@ -66,6 +66,8 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             intent.putExtra("detailRating", "");
             intent.putExtra("detailStatus", "");
             intent.putExtra("detailThumb", "");
+            intent.putExtra("chapterURL", chapterURL);
+            intent.putExtra("detailFrom", "MangaRead");
             startActivity(intent);
             finish();
         });
@@ -79,6 +81,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
         appColorBarStatus = getIntent().getStringExtra("appBarColorStatus");
         chapterURL = getIntent().getStringExtra("chapterURL");
+        readFrom = getIntent().getStringExtra("readFrom");
 
         if (chapterURL != null) {
             getReadMangaContentData(chapterURL);
@@ -125,7 +128,22 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(ReadMangaActivity.this, MangaReleaseListActivity.class));
+        Intent intent;
+        if (readFrom.equalsIgnoreCase("MangaDetail")) {
+            intent = new Intent(ReadMangaActivity.this, MangaDetailActivity.class);
+            intent.putExtra("detailURL", detailURL);
+            intent.putExtra("detailType", appColorBarStatus);
+            intent.putExtra("detailTitle", "");
+            intent.putExtra("detailRating", "");
+            intent.putExtra("detailStatus", false);
+            intent.putExtra("detailThumb", "");
+            intent.putExtra("chapterURL", chapterURL);
+            intent.putExtra("detailFrom", "MangaRead");
+        } else {
+            intent = new Intent(ReadMangaActivity.this, MangaReleaseListActivity.class);
+            intent.putExtra("cameFrom", readFrom);
+        }
+        startActivity(intent);
         finish();
     }
 

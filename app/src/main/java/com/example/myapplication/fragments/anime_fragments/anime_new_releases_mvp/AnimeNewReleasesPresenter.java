@@ -53,13 +53,32 @@ public class AnimeNewReleasesPresenter {
             Log.e("html ", "\n" + newepisodecon);
             List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
             for (Element el : newepisodecon) {
-                String animeThumbnailBackground = el.getElementsByClass("episode-ratio background-cover rocket-lazyload").attr("data-bg");
-                Log.e("html ", "\n" + animeThumbnailBackground);
-                if (animeThumbnailBackground.contains("'")) {
-                    animeThumbnailBackground = animeThumbnailBackground.replace("'", "");
+                String animeThumbnailBackground = "";
+                String thumbnailCut = "";
+                String fromNormal = el.getElementsByClass("episode-ratio background-cover").attr("style");
+                String fromLazy = el.getElementsByClass("episode-ratio background-cover rocket-lazyload lazyloaded").attr("style");
+                String fromDataBg = el.getElementsByTag("div").attr("data-bg");
+                if (fromNormal != null && !fromNormal.isEmpty() && fromNormal.length() > 1) {
+                    animeThumbnailBackground = fromNormal;
+                    if (animeThumbnailBackground.contains("'")) {
+                        animeThumbnailBackground = animeThumbnailBackground.replace("'", "");
+                    }
+                    thumbnailCut = animeThumbnailBackground.substring(animeThumbnailBackground.indexOf("https://"), animeThumbnailBackground.indexOf(")"));
+                } else if (fromLazy != null && !fromLazy.isEmpty() && fromLazy.length() > 1) {
+                    animeThumbnailBackground = fromLazy;
+                    if (animeThumbnailBackground.contains("'")) {
+                        animeThumbnailBackground = animeThumbnailBackground.replace("'", "");
+                    }
+                    thumbnailCut = animeThumbnailBackground.substring(animeThumbnailBackground.indexOf("https://"), animeThumbnailBackground.indexOf(")"));
+                } else {
+                    animeThumbnailBackground = fromDataBg;
+                    if (animeThumbnailBackground.contains("'")) {
+                        animeThumbnailBackground = animeThumbnailBackground.replace("'", "");
+                    }
+                    thumbnailCut = animeThumbnailBackground;
                 }
-                String thumbnailCut = animeThumbnailBackground.substring(animeThumbnailBackground.indexOf("https://"), animeThumbnailBackground.indexOf(")"));
-//                String thumbnailCut = "";
+                Log.e("html ", "\n" + animeThumbnailBackground);
+
                 String animeEpisode = el.getElementsByTag("h4").text();
                 String animeEpisodeNumber = el.getElementsByClass("episode-number").text();
                 List<String> animeStatusAndType = el.getElementsByClass("text-h6").eachText();

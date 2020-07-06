@@ -83,12 +83,18 @@ public class AnimeRecyclerNewReleasesAdapter extends RecyclerView.Adapter<AnimeR
 //        holder.itemListBinding.cardEpisodeNumber.setCardBackgroundColor(context.getResources().getColor(R.color.white_with_opacity));
 //        holder.itemListBinding.textEpisodeNumber.setText("Episode " + animeNewReleaseResultModelList.get(position).getAnimeEpisodeNumber());
         holder.itemListBinding.relativeItem.setOnClickListener(v -> {
-            Intent intentToVideoWatchActivity = new Intent(context.getApplicationContext(), AnimeDetailActivity.class);
-            intentToVideoWatchActivity.putExtra("animeDetailURL", animeNewReleaseResultModelList.get(position).getEpisodeURL());
-            intentToVideoWatchActivity.putExtra("animeDetailTitle", animeNewReleaseResultModelList.get(position).getAnimeEpisode());
-            intentToVideoWatchActivity.putExtra("animeDetailType", animeNewReleaseResultModelList.get(position).getAnimeEpisodeType());
-            intentToVideoWatchActivity.putExtra("animeDetailStatus", animeNewReleaseResultModelList.get(position).getAnimeEpisodeStatus());
-            intentToVideoWatchActivity.putExtra("animeDetailThumb", animeNewReleaseResultModelList.get(position).getEpisodeThumb());
+//            Intent intentToVideoWatchActivity = new Intent(context.getApplicationContext(), AnimeDetailActivity.class);
+            Intent intentToVideoWatchActivity = new Intent(context.getApplicationContext(), WatchAnimeEpisodeActivity.class);
+//            intentToVideoWatchActivity.putExtra("animeDetailURL", animeNewReleaseResultModelList.get(position).getEpisodeURL());
+//            intentToVideoWatchActivity.putExtra("animeDetailTitle", animeNewReleaseResultModelList.get(position).getAnimeEpisode());
+//            intentToVideoWatchActivity.putExtra("animeDetailType", animeNewReleaseResultModelList.get(position).getAnimeEpisodeType());
+//            intentToVideoWatchActivity.putExtra("animeDetailStatus", animeNewReleaseResultModelList.get(position).getAnimeEpisodeStatus());
+//            intentToVideoWatchActivity.putExtra("animeDetailThumb", animeNewReleaseResultModelList.get(position).getEpisodeThumb());
+            intentToVideoWatchActivity.putExtra("animeEpisodeToWatch", animeNewReleaseResultModelList.get(position).getEpisodeURL());
+            intentToVideoWatchActivity.putExtra("animeEpisodeTitle", animeNewReleaseResultModelList.get(position).getAnimeEpisode());
+            intentToVideoWatchActivity.putExtra("animeEpisodeThumb", animeNewReleaseResultModelList.get(position).getEpisodeThumb());
+            intentToVideoWatchActivity.putExtra("animeEpisodeType", animeNewReleaseResultModelList.get(position).getAnimeEpisodeType());
+            intentToVideoWatchActivity.putExtra("animeEpisodeStatus", animeNewReleaseResultModelList.get(position).getAnimeEpisodeStatus());
             context.startActivity(intentToVideoWatchActivity);
         });
     }

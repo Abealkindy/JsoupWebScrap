@@ -1,8 +1,11 @@
 package com.example.myapplication.activities.mangapage.manga_detail_mvp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.myapplication.activities.mangapage.MangaReleaseListActivity;
+import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.RecyclerAllChapterDetailAdapter;
 import com.example.myapplication.adapters.RecyclerGenreAdapter;
 import com.example.myapplication.databinding.ActivityMangaDetailBinding;
@@ -22,6 +25,7 @@ import com.example.myapplication.R;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -32,9 +36,10 @@ import static com.example.myapplication.MyApp.localAppDB;
 public class MangaDetailActivity extends AppCompatActivity implements MangaDetailInterface {
 
     ActivityMangaDetailBinding detailBinding;
-    private String mangaType = "", detailType = "", detailTitle = "", detailThumb = "", detailRating = "", mangaDetailURL = "";
-    private boolean detailStatus;
+    private String mangaType = "", detailType = "", detailTitle = "", detailThumb = "", detailRating = "", mangaDetailURL = "", detailFrom = "", chapterURL = "";
+    private boolean detailStatus = false;
     private MangaDetailPresenter mangaDetailPresenter = new MangaDetailPresenter(this);
+    List<DetailMangaModel.DetailAllChapterDatas> detailAllChapterDatasList = new ArrayList<>();
     MangaBookmarkModel mangaBookmarkModel = new MangaBookmarkModel();
 
     @Override
@@ -104,6 +109,8 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
         detailThumb = getIntent().getStringExtra("detailThumb");
         detailTitle = getIntent().getStringExtra("detailTitle");
         detailRating = getIntent().getStringExtra("detailRating");
+        detailFrom = getIntent().getStringExtra("detailFrom");
+        chapterURL = getIntent().getStringExtra("chapterURL");
         detailStatus = getIntent().getBooleanExtra("detailStatus", false);
 
         MangaBookmarkModel mangaBookmarkModel = localAppDB.mangaBookmarkDAO().findByName(mangaDetailURL);
@@ -275,6 +282,7 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
     @Override
     public void onGetAllChapterSuccess(List<DetailMangaModel.DetailAllChapterDatas> detailAllChapterDatasList) {
         runOnUiThread(() -> {
+            this.detailAllChapterDatasList = detailAllChapterDatasList;
             detailBinding.contentManga.recyclerAllChaptersDetail.setHasFixedSize(true);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MangaDetailActivity.this);
             linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -303,5 +311,24 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
     @Override
     public void onGetGenreFailed() {
         Toast.makeText(this, "Failed!!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (detailFrom != null && !detailFrom.isEmpty()) {
+            Intent intent;
+            if (detailFrom.equalsIgnoreCase("MangaRead")) {
+                intent = new Intent(MangaDetailActivity.this, ReadMangaActivity.class);
+                intent.putExtra("appBarColorStatus", mangaType);
+                intent.putExtra("chapterURL", chapterURL);
+                intent.putExtra("readFrom", "MangaDetail");
+            } else {
+                intent = new Intent(MangaDetailActivity.this, MangaReleaseListActivity.class);
+                intent.putExtra("cameFrom", detailFrom);
+            }
+            startActivity(intent);
+            finish();
+        }
     }
 }

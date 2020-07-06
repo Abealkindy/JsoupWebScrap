@@ -92,6 +92,7 @@ public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecy
             intent.putExtra("chapterURL", animeDiscoverResultModelList.get(position).getMangaLatestChapter());
             intent.putExtra("appBarColorStatus", animeDiscoverResultModelList.get(position).getMangaType());
             intent.putExtra("chapterTitle", animeDiscoverResultModelList.get(position).getMangaLatestChapterText());
+            intent.putExtra("readFrom", "MangaDiscover");
             context.startActivity(intent);
         });
         holder.itemListBinding.relativeItemMangaResult.setOnClickListener(v -> {
@@ -102,6 +103,7 @@ public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecy
             intent.putExtra("detailRating", animeDiscoverResultModelList.get(position).getMangaRating());
             intent.putExtra("detailStatus", animeDiscoverResultModelList.get(position).isMangaStatus());
             intent.putExtra("detailThumb", animeDiscoverResultModelList.get(position).getMangaThumb());
+            intent.putExtra("detailFrom", "MangaDiscover");
             context.startActivity(intent);
         });
     }
