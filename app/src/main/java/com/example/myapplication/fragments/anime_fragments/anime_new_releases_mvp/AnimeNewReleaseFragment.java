@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapters.animeadapters.recycleradapters.AnimeRecyclerNewReleasesAdapter;
+import com.example.myapplication.adapters.animeadapters.recycleradapters.AnimeRecyclerNewReleasesAdapterNew;
 import com.example.myapplication.databinding.FragmentAnimeNewReleaseBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
 import com.example.myapplication.models.animemodels.AnimeNewReleaseResultModel;
@@ -33,7 +34,7 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
 
     private int pageCount = 1;
     private List<AnimeNewReleaseResultModel> animeNewReleaseResultModelList = new ArrayList<>();
-    private AnimeRecyclerNewReleasesAdapter animeRecyclerNewReleasesAdapter;
+    private AnimeRecyclerNewReleasesAdapterNew animeRecyclerNewReleasesAdapter;
     private ProgressDialog progressDialog;
     private boolean hitAPI = false;
     private FragmentAnimeNewReleaseBinding animeNewReleaseBinding;
@@ -52,11 +53,10 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
         animeNewReleaseBinding.recyclerNewReleasesAnime.setHasFixedSize(true);
-        animeRecyclerNewReleasesAdapter = new AnimeRecyclerNewReleasesAdapter(getActivity(), animeNewReleaseResultModelList);
+        animeRecyclerNewReleasesAdapter = new AnimeRecyclerNewReleasesAdapterNew(getActivity(), animeNewReleaseResultModelList);
         animeNewReleaseBinding.recyclerNewReleasesAnime.setAdapter(animeRecyclerNewReleasesAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        animeNewReleaseBinding.recyclerNewReleasesAnime.setLayoutManager(linearLayoutManager);
-        animeNewReleaseBinding.recyclerNewReleasesAnime.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        GridLayoutManager gridLayoutManager = (GridLayoutManager) animeNewReleaseBinding.recyclerNewReleasesAnime.getLayoutManager();
+        animeNewReleaseBinding.recyclerNewReleasesAnime.addOnScrollListener(new EndlessRecyclerViewScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int index, int totalItemsCount, RecyclerView view) {
                 getNewReleasesAnime(pageCount++, "newPage");
