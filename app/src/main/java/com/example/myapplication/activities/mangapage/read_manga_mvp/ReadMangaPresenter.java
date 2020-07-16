@@ -101,11 +101,13 @@ public class ReadMangaPresenter {
             }
 
             //get manga image content
-            Elements test = doc.getElementById("readerarea").select("img[src^=http]");
+            Elements mangaContents = doc.getElementById("readerarea").select("img[src^=http]");
+
             if (readMangaModel.getImageContent() != null && !readMangaModel.getImageContent().isEmpty()) {
                 readMangaModel.getImageContent().clear();
             }
-            for (Element element : test) {
+
+            for (Element element : mangaContents) {
                 String mangaContent = element.absUrl("src");
                 if (mangaContent.startsWith("https") || mangaContent.startsWith("http")) {
                     readMangaModel.getImageContent().add(mangaContent);
