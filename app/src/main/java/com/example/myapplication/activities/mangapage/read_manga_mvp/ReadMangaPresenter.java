@@ -8,6 +8,7 @@ import com.example.myapplication.networks.CloudFlare;
 import com.example.myapplication.networks.JsoupConfig;
 import com.google.gson.Gson;
 
+import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -100,77 +101,13 @@ public class ReadMangaPresenter {
             }
 
             //get manga image content
-            Elements getMangaImageContentNewerSeries = doc.select("img[src^=https://cdn.komikcast.com/wp-content/]");
-            Elements getMangaImageContentOlderSeries = doc.select("img[src^=https://i0.wp.com/lh3.googleusercontent.com/]");
-
-            Elements getMangaImageContentOtherSeries = doc.select("img[src^=https://docs.google.com/uc?export=view]");
-            Elements getMangaImageContentOtherAgainSeries = doc.select("img[src^=https://4.bp.blogspot.com/]");
-            Elements getMangaImageContentOther1Series = doc.select("img[src^=https://3.bp.blogspot.com/]");
-            Elements getMangaImageContentOther2Series = doc.select("img[src^=https://1.bp.blogspot.com/]");
-            Elements getMangaImageContentOther3Series = doc.select("img[src^=https://2.bp.blogspot.com/]");
-            if (readMangaModel.getImageContent() != null || !readMangaModel.getImageContent().isEmpty()) {
-                readMangaModel.getImageContent().clear();
-            }
-            if ((getMangaImageContentNewerSeries == null || getMangaImageContentNewerSeries.isEmpty())
-                    && (getMangaImageContentOlderSeries == null || getMangaImageContentOlderSeries.isEmpty())) {
-                Log.e("getContentWithNewerandgetContentWithOlder", "null");
-                for (Element element : getMangaImageContentOtherSeries) {
-                    String mangaContent = element.absUrl("src");
+            Elements test = doc.getElementById("readerarea").select("img[src^=http]");
+            for (Element element : test) {
+                String mangaContent = element.absUrl("src");
+                if (mangaContent.startsWith("https") || mangaContent.startsWith("http")) {
                     readMangaModel.getImageContent().add(mangaContent);
                 }
             }
-            if ((getMangaImageContentNewerSeries == null || getMangaImageContentNewerSeries.isEmpty())
-                    && (getMangaImageContentOlderSeries == null || getMangaImageContentOlderSeries.isEmpty())
-                    && (getMangaImageContentOtherSeries.isEmpty() || getMangaImageContentOtherSeries == null)) {
-                for (Element element : getMangaImageContentOtherAgainSeries) {
-                    String mangaContent = element.absUrl("src");
-                    readMangaModel.getImageContent().add(mangaContent);
-                }
-            }
-            if ((getMangaImageContentNewerSeries == null || getMangaImageContentNewerSeries.isEmpty())
-                    && (getMangaImageContentOlderSeries == null || getMangaImageContentOlderSeries.isEmpty())
-                    && (getMangaImageContentOtherSeries == null || getMangaImageContentOtherSeries.isEmpty())
-                    && (getMangaImageContentOtherAgainSeries.isEmpty() || getMangaImageContentOtherAgainSeries == null)) {
-                for (Element element : getMangaImageContentOther1Series) {
-                    String mangaContent = element.absUrl("src");
-                    readMangaModel.getImageContent().add(mangaContent);
-                }
-            }
-            if ((getMangaImageContentNewerSeries == null || getMangaImageContentNewerSeries.isEmpty())
-                    && (getMangaImageContentOlderSeries == null || getMangaImageContentOlderSeries.isEmpty())
-                    && (getMangaImageContentOtherSeries.isEmpty() || getMangaImageContentOtherSeries == null)
-                    && (getMangaImageContentOtherAgainSeries.isEmpty() || getMangaImageContentOtherAgainSeries == null)
-                    && (getMangaImageContentOther1Series.isEmpty() || getMangaImageContentOther1Series == null)) {
-                for (Element element : getMangaImageContentOther2Series) {
-                    String mangaContent = element.absUrl("src");
-                    readMangaModel.getImageContent().add(mangaContent);
-                }
-            }
-            if ((getMangaImageContentNewerSeries == null || getMangaImageContentNewerSeries.isEmpty())
-                    && (getMangaImageContentOlderSeries == null || getMangaImageContentOlderSeries.isEmpty())
-                    && (getMangaImageContentOtherSeries.isEmpty() || getMangaImageContentOtherSeries == null)
-                    && (getMangaImageContentOtherAgainSeries.isEmpty() || getMangaImageContentOtherAgainSeries == null)
-                    && (getMangaImageContentOther1Series.isEmpty() || getMangaImageContentOther1Series == null)
-                    && (getMangaImageContentOther2Series.isEmpty() || getMangaImageContentOther2Series == null)) {
-                for (Element element : getMangaImageContentOther3Series) {
-                    String mangaContent = element.absUrl("src");
-                    readMangaModel.getImageContent().add(mangaContent);
-                }
-            }
-            if (getMangaImageContentNewerSeries == null || getMangaImageContentNewerSeries.isEmpty()) {
-                Log.e("getContentWithNewer", "null");
-                for (Element element : getMangaImageContentOlderSeries) {
-                    String mangaContent = element.absUrl("src");
-                    readMangaModel.getImageContent().add(mangaContent);
-                }
-            } else {
-                Log.e("getContentWithNewer", "success");
-                for (Element element : getMangaImageContentNewerSeries) {
-                    String mangaContent = element.absUrl("src");
-                    readMangaModel.getImageContent().add(mangaContent);
-                }
-            }
-
             Log.e("mangaChapterContent", new Gson().toJson(readMangaModel.getImageContent()));
 
             //get manga detail page URL
