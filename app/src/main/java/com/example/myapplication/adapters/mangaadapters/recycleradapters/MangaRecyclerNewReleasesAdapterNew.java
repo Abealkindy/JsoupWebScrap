@@ -3,17 +3,16 @@ package com.example.myapplication.adapters.mangaadapters.recycleradapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.mangapage.MangaReleaseListActivity;
 import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
@@ -49,21 +48,28 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemListBinding.mangaTitleText.setText(animeNewReleaseResultModelList.get(position).getMangaTitle());
-        try {
-            Glide.with(context)
-                    .asDrawable()
-                    .load(new URL(animeNewReleaseResultModelList.get(position).getMangaThumb()))
-                    .apply(
-                            new RequestOptions()
-                                    .transform(new RoundedCorners(20))
-                                    .timeout(30000)
-                    )
-                    .error(context.getResources().getDrawable(R.drawable.error))
-                    .placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder))
-                    .into(holder.itemListBinding.mangaThumb);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        holder.itemListBinding.mangaThumb.getSettings().setJavaScriptEnabled(true);
+        holder.itemListBinding.mangaThumb.setWebChromeClient(new WebChromeClient());
+        String imageURLModify = "<html><body style=\"margin: 0; padding: 0\"><img width=\"100%\" height=\"100%\" src=\"" + animeNewReleaseResultModelList.get(position).getMangaThumb() + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
+        holder.itemListBinding.mangaThumb.loadData(imageURLModify, "text/html", "utf-8");
+//        try {
+////            Transformation<Bitmap> circleCrop = new RoundedCorners(20);
+//            Log.e("imageNewRelMang", animeNewReleaseResultModelList.get(position).getMangaThumb());
+//            Glide.with(context)
+//                    .asDrawable()
+//                    .load(new URL(animeNewReleaseResultModelList.get(position).getMangaThumb()))
+//                    .apply(
+//                            new RequestOptions()
+//                                    .transform(new RoundedCorners(20))
+//                                    .timeout(30000)
+//                    )
+////                    .optionalTransform(WebpDrawable.class, new WebpDrawableTransformation(circleCrop))
+//                    .error(context.getResources().getDrawable(R.drawable.error))
+//                    .placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder))
+//                    .into(holder.itemListBinding.mangaThumb);
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
         if (!animeNewReleaseResultModelList.get(position).isMangaStatus()) {
             holder.itemListBinding.hotLabel.setVisibility(View.GONE);
         } else {

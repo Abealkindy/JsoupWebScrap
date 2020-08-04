@@ -6,10 +6,23 @@ import java.util.List;
 
 public interface GenreAndSearchAnimeInterface {
     void onGetSearchAndGenreDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeSearchResult> searchAndGenreHTMLResult);
+    void onGetSearchAndGenreDataSuccessNew(List<AnimeGenreAndSearchResultModel.AnimeSearchResultNew> searchAndGenreHTMLResult);
 
     void onGetSearchAndGenreDataFailed();
 
     void onGetOnlyGenreDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> onlyGenreHTMLResult);
 
     void onGetOnlyGenreDataFailed();
+
+    void onGetOnlySortDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> onlyGenreHTMLResult);
+
+    void onGetOnlySortDataFailed();
+
+    void onGetOnlyTypeDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> onlyGenreHTMLResult);
+
+    void onGetOnlyTypeDataFailed();
+
+    void onGetOnlyStatusDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> onlyGenreHTMLResult);
+
+    void onGetOnlyStatusDataFailed();
 }

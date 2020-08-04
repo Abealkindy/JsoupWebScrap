@@ -23,14 +23,22 @@
             android:layout_marginStart="@dimen/_1sdp"
             android:layout_marginBottom="@dimen/_5sdp">
 
-            <ImageView
+<!--            <ImageView-->
+<!--                android:id="@+id/manga_thumb"-->
+<!--                android:layout_width="@dimen/_120sdp"-->
+<!--                android:layout_height="@dimen/_170sdp"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:adjustViewBounds="true"-->
+<!--                android:scaleType="fitXY"-->
+<!--                android:src="@drawable/classgotoposter" />-->
+
+            <WebView
                 android:id="@+id/manga_thumb"
                 android:layout_width="@dimen/_120sdp"
                 android:layout_height="@dimen/_170sdp"
                 android:layout_centerVertical="true"
                 android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/classgotoposter" />
+                android:scaleType="fitXY" />
 
             <com.haozhang.lib.SlantedTextView
                 android:id="@+id/hot_label"

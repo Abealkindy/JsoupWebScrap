@@ -8,27 +8,27 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.myapplication.activities.animepage.anime_detail_mvp.AnimeDetailActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.models.animemodels.VideoStreamResultModel;
 import com.example.myapplication.databinding.ActivityWatchAnimeEpisodeBinding;
-import com.google.gson.Gson;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class WatchAnimeEpisodeActivity extends AppCompatActivity implements WatchAnimeEpisodeInterface {
@@ -38,16 +38,19 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
     private ProgressDialog progressDialog;
     private String nowEpisodeNumber = "", animeType = "", animeStatus = "", animeThumb = "";
     private WatchAnimeEpisodePresenter episodePresenter = new WatchAnimeEpisodePresenter(this);
+    private boolean isShowAtasBawah = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         animeEpisodeBinding = ActivityWatchAnimeEpisodeBinding.inflate(getLayoutInflater());
         setContentView(animeEpisodeBinding.getRoot());
+        getWindow().getDecorView().setSystemUiVisibility(0x10);
         initUI();
         initEvent();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initEvent() {
         animeEpisodeBinding.animeInfoButton.setOnClickListener(v -> {
             if (videoStreamResultModel.getAnimeDetailURL() == null || videoStreamResultModel.getEpisodeTitle() == null) {
@@ -65,6 +68,10 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
         });
         animeEpisodeBinding.prevEpisodeButton.setOnClickListener(view -> getWatchAnimeDataFromWebView(videoStreamResultModel.getVideoPrevUrl()));
         animeEpisodeBinding.nextEpisodeButton.setOnClickListener(view -> getWatchAnimeDataFromWebView(videoStreamResultModel.getVideoNextUrl()));
+        animeEpisodeBinding.buttonFull.setOnClickListener(v -> {
+            isShowAtasBawah = !isShowAtasBawah;
+            isAtasBawahShow(isShowAtasBawah);
+        });
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -73,15 +80,10 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
-        animeEpisodeBinding.webViewWatchAnime.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView webView, WebResourceRequest request) {
-                webView.loadUrl(request.getUrl().toString());
-                return true;
-            }
-        });
+        animeEpisodeBinding.webViewWatchAnime.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 6.1; rv:13.0) Gecko/20100101 Firefox/12");
         animeEpisodeBinding.webViewWatchAnime.getSettings().setJavaScriptEnabled(true);
-        animeEpisodeBinding.webViewWatchAnime.setWebChromeClient(new WebChromeClient());
+        animeEpisodeBinding.webViewWatchAnime.getSettings().setLoadWithOverviewMode(true);
+        animeEpisodeBinding.webViewWatchAnime.getSettings().setUseWideViewPort(false);
         String episodeURL = getIntent().getStringExtra("animeEpisodeToWatch");
         String episodeTitle = getIntent().getStringExtra("animeEpisodeTitle");
         animeType = getIntent().getStringExtra("animeEpisodeType");
@@ -125,16 +127,8 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
     @SuppressLint("SetJavaScriptEnabled")
     private void getWatchAnimeDataFromWebView(String episodeURL) {
         progressDialog.show();
-        String afterCut = "";
-        if (episodeURL.contains("tamat")){
-            afterCut = episodeURL.substring(26);
-        } else {
-            afterCut = episodeURL.substring(21);
-        }
-        nowEpisodeNumber = afterCut.substring(afterCut.indexOf("episode-") + 8);
-        if (nowEpisodeNumber.contains("-")) {
-            nowEpisodeNumber.replace("-", ".");
-        }
+        List<String> splitList = Arrays.asList(episodeURL.split("-"));
+        nowEpisodeNumber = splitList.get(splitList.indexOf("episode") + 1);
         animeEpisodeBinding.webViewWatchAnimeBg.getSettings().setJavaScriptEnabled(true);
         animeEpisodeBinding.webViewWatchAnimeBg.addJavascriptInterface(new LoadListener(), "HTMLOUT");
         animeEpisodeBinding.webViewWatchAnimeBg.loadUrl(episodeURL);
@@ -194,23 +188,49 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
         }
     }
 
+    private void isAtasBawahShow(boolean showStatus) {
+        if (showStatus) {
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) animeEpisodeBinding.webViewWatchAnime.getLayoutParams();
+            layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            layoutParams.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            animeEpisodeBinding.webViewWatchAnime.setLayoutParams(layoutParams);
+            animeEpisodeBinding.linearAbove.setVisibility(View.GONE);
+            animeEpisodeBinding.linearBelow.setVisibility(View.GONE);
+        } else {
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) animeEpisodeBinding.webViewWatchAnime.getLayoutParams();
+            layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            layoutParams.height = (int) getResources().getDimension(R.dimen._300sdp);
+            animeEpisodeBinding.webViewWatchAnime.setLayoutParams(layoutParams);
+            animeEpisodeBinding.linearAbove.setVisibility(View.VISIBLE);
+            animeEpisodeBinding.linearBelow.setVisibility(View.VISIBLE);
+        }
+    }
 
     private void parseHtmlToViewableContent(VideoStreamResultModel result) {
         videoStreamResultModel = result;
         if (result != null) {
             animeEpisodeBinding.textAnimeTitleWatch.setText(result.getEpisodeTitle());
             if (result.getVideoPrevUrl() != null && !result.getVideoPrevUrl().isEmpty()) {
-                animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
-            } else {
                 animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
+            } else {
+                animeEpisodeBinding.prevEpisodeButton.setVisibility(View.GONE);
             }
 
             if (result.getVideoNextUrl() != null && !result.getVideoNextUrl().isEmpty()) {
-                animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
-            } else {
                 animeEpisodeBinding.nextEpisodeButton.setVisibility(View.VISIBLE);
+            } else {
+                animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
             }
             if (result.getVideoUrl() != null && !result.getVideoUrl().isEmpty()) {
+                DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+                double screenWidth = displayMetrics.widthPixels / displayMetrics.density;
+                double screenHeight = displayMetrics.heightPixels / displayMetrics.density;
+//                String imageURLModify = "<html><body style=\"margin: 0;\"><iframe width=\"" + screenWidth + "\" height=\"" + screenHeight + "\" src=\"" + result.getVideoUrl() + "\"></iframe></body></html>";
+//                String imageURLModify = "<html><body style=\"margin: 0; padding: 0\"><iframe width=\"100%\" height=\"100%\" src=\"" + result.getVideoUrl() + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
+//                animeEpisodeBinding.webViewWatchAnime.loadData(imageURLModify, "text/html", "UTF-8");
+                if (animeEpisodeBinding.webViewWatchAnime.isShown()) {
+                    animeEpisodeBinding.webViewWatchAnime.reload();
+                }
                 animeEpisodeBinding.webViewWatchAnime.loadUrl(result.getVideoUrl());
             }
 

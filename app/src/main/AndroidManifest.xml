@@ -17,7 +17,6 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="m">
-
         <activity
             android:name=".activities.SplashActivity"
             android:screenOrientation="userPortrait"

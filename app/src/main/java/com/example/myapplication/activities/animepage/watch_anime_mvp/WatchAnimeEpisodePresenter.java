@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class WatchAnimeEpisodePresenter {
@@ -62,7 +63,7 @@ public class WatchAnimeEpisodePresenter {
                 if (episodeTitle.contains("Subtitle")) {
                     if (episodeTitle.contains("(TAMAT)")) {
                         episodeTitle = episodeTitle.substring(0, episodeTitle.length() - 26);
-                    } else if (episodeTitle.contains("Tamat")){
+                    } else if (episodeTitle.contains("Tamat")) {
                         episodeTitle = episodeTitle.substring(0, episodeTitle.length() - 25);
                     } else {
                         episodeTitle = episodeTitle.substring(0, episodeTitle.length() - 19);
@@ -73,7 +74,7 @@ public class WatchAnimeEpisodePresenter {
             }
             videoStreamResultModel.setEpisodeTitle(episodeTitle);
             //get next and prev URL
-            Elements getElementsNextAndPrevEpisode = document.select("a[href^=https://animeindo.fun/]");
+            Elements getElementsNextAndPrevEpisode = document.getElementsByClass("btn-ep-nav").select("a[href^=https://animeindo.fun/]");
             List<String> nextAndPrevURL = new ArrayList<>();
             if (nextAndPrevURL != null) {
                 nextAndPrevURL.clear();
@@ -87,72 +88,24 @@ public class WatchAnimeEpisodePresenter {
             }
             Log.e("nextAndPrevURLstring", new Gson().toJson(nextAndPrevURL));
             String nextOrPrevURL, nextOrPrevEpisodeNumber;
+
             if (nextAndPrevURL.isEmpty()) {
                 prevURL = null;
                 nextURL = null;
             } else {
                 if (nextAndPrevURL.size() < 2) {
                     nextOrPrevURL = nextAndPrevURL.get(0);
-                    nextOrPrevEpisodeNumber = nextOrPrevURL.substring(nextOrPrevURL.indexOf("episode-") + 8);
-                    if (nextOrPrevEpisodeNumber.contains("-") || nowEpisodeNumber.contains("-")) {
-                        String nextOrPrevEpisodeNumberCut = nextOrPrevEpisodeNumber.replace("-", ".");
-                        String nowEpisodeNumberCut = nowEpisodeNumber.replace("-", ".");
-                        if (nowEpisodeNumberCut.endsWith(".tamat/")) {
-                            String substring = nowEpisodeNumberCut.substring(0, nowEpisodeNumberCut.length() - 6);
-                            if (Double.parseDouble(nextOrPrevEpisodeNumberCut) < Double.parseDouble(substring)) {
-                                prevURL = nextAndPrevURL.get(0);
-                                nextURL = null;
-                            } else if (Double.parseDouble(nextOrPrevEpisodeNumberCut) > Double.parseDouble(substring)) {
-                                prevURL = null;
-                                nextURL = nextAndPrevURL.get(0);
-                            }
-                        } else if (nowEpisodeNumberCut.endsWith("/")) {
-                            double v = Double.parseDouble(nowEpisodeNumberCut.substring(0, nowEpisodeNumberCut.length() - 1));
-                            if (Double.parseDouble(nextOrPrevEpisodeNumberCut) < v) {
-                                prevURL = nextAndPrevURL.get(0);
-                                nextURL = null;
-                            } else if (Double.parseDouble(nextOrPrevEpisodeNumberCut) > v) {
-                                prevURL = null;
-                                nextURL = nextAndPrevURL.get(0);
-                            }
-                        } else {
-                            if (Double.parseDouble(nextOrPrevEpisodeNumberCut) < Double.parseDouble(nowEpisodeNumberCut)) {
-                                prevURL = nextAndPrevURL.get(0);
-                                nextURL = null;
-                            } else if (Double.parseDouble(nextOrPrevEpisodeNumberCut) > Double.parseDouble(nowEpisodeNumberCut)) {
-                                prevURL = null;
-                                nextURL = nextAndPrevURL.get(0);
-                            }
-                        }
+                    List<String> splitList;
+                    splitList = Arrays.asList(nextOrPrevURL.split("-"));
+                    nextOrPrevEpisodeNumber = splitList.get(splitList.indexOf("episode") + 1);
+                    if (Integer.parseInt(nextOrPrevEpisodeNumber) < Integer.parseInt(nowEpisodeNumber)) {
+                        prevURL = nextOrPrevURL;
+                        nextURL = null;
                     } else {
-                        if (!nowEpisodeNumber.endsWith("special/") && !nowEpisodeNumber.endsWith("movie/") && !nowEpisodeNumber.endsWith("ona/") && !nowEpisodeNumber.endsWith("ova/")) {
-                            if (nowEpisodeNumber.endsWith("/")) {
-                                Log.e("WITH SLASH?", "yes");
-                                Log.e("URL1", nextOrPrevEpisodeNumber);
-                                Log.e("URL2", nowEpisodeNumber);
-                                double v = Double.parseDouble(nextOrPrevEpisodeNumber.substring(0, nextOrPrevEpisodeNumber.length() - 1));
-                                double parseDouble = Double.parseDouble(nowEpisodeNumber.substring(0, nowEpisodeNumber.length() - 1));
-                                if (v < parseDouble) {
-                                    prevURL = nextAndPrevURL.get(0);
-                                    nextURL = null;
-                                } else if (v > parseDouble) {
-                                    prevURL = null;
-                                    nextURL = nextAndPrevURL.get(0);
-                                }
-                            } else {
-                                Log.e("WITHOUT SLASH?", "YES");
-                                if (Double.parseDouble(nextOrPrevEpisodeNumber) < Double.parseDouble(nowEpisodeNumber)) {
-                                    prevURL = nextAndPrevURL.get(0);
-                                    nextURL = null;
-                                } else if (Double.parseDouble(nextOrPrevEpisodeNumber) > Double.parseDouble(nowEpisodeNumber)) {
-                                    prevURL = null;
-                                    nextURL = nextAndPrevURL.get(0);
-                                }
-                            }
-
-                        }
+                        prevURL = null;
+                        nextURL = nextOrPrevURL;
                     }
-                } else if (nextAndPrevURL.size() > 2) {
+                } else {
                     prevURL = nextAndPrevURL.get(0);
                     nextURL = nextAndPrevURL.get(1);
                 }
@@ -168,7 +121,6 @@ public class WatchAnimeEpisodePresenter {
             if (getURLFromElementSrc.startsWith("//")) {
                 getURLFromElementSrc = "https:" + getURLFromElementSrc;
             }
-
             videoStreamResultModel.setVideoUrl(getURLFromElementSrc);
             Log.e("allData", new Gson().toJson(videoStreamResultModel));
             watchAnimeEpisodeInterface.onGetWatchAnimeEpisodeDataSuccess(videoStreamResultModel);

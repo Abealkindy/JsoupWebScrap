@@ -67,7 +67,7 @@ public class ReadMangaPresenter {
 
             //get all chapter data
             Elements getAllChapterDatas = doc.select("option[value^=https://komikcast.com/chapter/]");
-            if (allChapterDatasList != null || !allChapterDatasList.isEmpty()) {
+            if (allChapterDatasList != null && !allChapterDatasList.isEmpty()) {
                 allChapterDatasList.clear();
             }
             for (Element element : getAllChapterDatas) {

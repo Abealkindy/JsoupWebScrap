@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
@@ -123,7 +124,11 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
         }
 
         if (!detailThumb.equalsIgnoreCase("")) {
-            Picasso.get().load(detailThumb).into(detailBinding.headerThumbnailDetail);
+//            Picasso.get().load(detailThumb).into(detailBinding.headerThumbnailDetail);
+            detailBinding.headerThumbnailDetail.getSettings().setJavaScriptEnabled(true);
+            detailBinding.headerThumbnailDetail.setWebChromeClient(new WebChromeClient());
+            String imageURLModify = "<html><body style=\"margin: 0; padding: 0\"><img width=\"100%\" height=\"100%\" src=\"" + detailThumb + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
+            detailBinding.headerThumbnailDetail.loadData(imageURLModify, "text/html", "utf-8");
         }
         if (!detailTitle.equalsIgnoreCase("")) {
             detailBinding.detailHeaderTitle.setText(detailTitle);
@@ -190,7 +195,11 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
             //get thumb
             if (detailThumb.equalsIgnoreCase("")) {
                 detailThumb = detailMangaModel.getMangaThumb();
-                Picasso.get().load(detailMangaModel.getMangaThumb()).into(detailBinding.headerThumbnailDetail);
+//                Picasso.get().load(detailMangaModel.getMangaThumb()).into(detailBinding.headerThumbnailDetail);
+                detailBinding.headerThumbnailDetail.getSettings().setJavaScriptEnabled(true);
+                detailBinding.headerThumbnailDetail.setWebChromeClient(new WebChromeClient());
+                String imageURLModify = "<html><body style=\"margin: 0; padding: 0\"><img width=\"100%\" height=\"100%\" src=\"" + detailThumb + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
+                detailBinding.headerThumbnailDetail.loadData(imageURLModify, "text/html", "utf-8");
             }
 
             //get Synopsis

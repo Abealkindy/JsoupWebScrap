@@ -34,7 +34,20 @@
         android:layout_above="@id/linear_below"
         android:layout_below="@id/linear_above"
         android:layout_marginTop="@dimen/size10dp"
-        android:layout_marginBottom="@dimen/size10dp" />
+        android:layout_marginBottom="@dimen/size10dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <TextView
+        android:id="@+id/button_full"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_above"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/bubble_background_manga"
+        android:padding="@dimen/_8sdp"
+        android:text="[   ]"
+        android:textColor="@android:color/white" />
 
     <WebView
         android:id="@+id/web_view_watch_anime_bg"

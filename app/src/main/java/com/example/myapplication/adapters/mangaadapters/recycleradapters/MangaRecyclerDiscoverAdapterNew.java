@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,26 +59,30 @@ public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaR
         holder.itemListBinding.linearThirdNewest.setVisibility(View.GONE);
         holder.itemListBinding.newestTextChapterReleaseTime.setVisibility(View.GONE);
         holder.itemListBinding.mangaTitleText.setText(animeDiscoverResultModelList.get(position).getMangaTitle());
-        if (StringUtil.isBlank(animeDiscoverResultModelList.get(position).getMangaThumb())) {
-            holder.itemListBinding.mangaThumb.setImageDrawable(context.getResources().getDrawable(R.drawable.imageplaceholder));
-            Log.e("pathNull", "null");
-        } else {
-            try {
-                Glide.with(context)
-                        .asDrawable()
-                        .load(new URL(animeDiscoverResultModelList.get(position).getMangaThumb()))
-                        .apply(
-                                new RequestOptions()
-                                        .transform(new RoundedCorners(20))
-                                        .timeout(30000)
-                        )
-                        .error(context.getResources().getDrawable(R.drawable.error))
-                        .placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder))
-                        .into(holder.itemListBinding.mangaThumb);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
+//        if (StringUtil.isBlank(animeDiscoverResultModelList.get(position).getMangaThumb())) {
+//            holder.itemListBinding.mangaThumb.setImageDrawable(context.getResources().getDrawable(R.drawable.imageplaceholder));
+//            Log.e("pathNull", "null");
+//        } else {
+//            try {
+//                Glide.with(context)
+//                        .asDrawable()
+//                        .load(new URL(animeDiscoverResultModelList.get(position).getMangaThumb()))
+//                        .apply(
+//                                new RequestOptions()
+//                                        .transform(new RoundedCorners(20))
+//                                        .timeout(30000)
+//                        )
+//                        .error(context.getResources().getDrawable(R.drawable.error))
+//                        .placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder))
+//                        .into(holder.itemListBinding.mangaThumb);
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        holder.itemListBinding.mangaThumb.getSettings().setJavaScriptEnabled(true);
+        holder.itemListBinding.mangaThumb.setWebChromeClient(new WebChromeClient());
+        String imageURLModify = "<html><body style=\"margin: 0; padding: 0\"><img width=\"100%\" height=\"100%\" src=\"" + animeDiscoverResultModelList.get(position).getMangaThumb() + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
+        holder.itemListBinding.mangaThumb.loadData(imageURLModify, "text/html", "utf-8");
         if (!animeDiscoverResultModelList.get(position).isMangaStatus()) {
             holder.itemListBinding.hotLabel.setText(context.getResources().getString(R.string.ongoing_text));
             holder.itemListBinding.hotLabel.setSlantedBackgroundColor(context.getResources().getColor(R.color.orange_series_color));
