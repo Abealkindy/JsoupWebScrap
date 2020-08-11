@@ -225,14 +225,6 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         fragmentGenreAndSearchAnimeBinding.fabSelectGenre.setOnClickListener(v -> {
             fragmentGenreAndSearchAnimeBinding.relativeMainDiscAnime.setVisibility(View.GONE);
             fragmentGenreAndSearchAnimeBinding.linearFilterDiscAnime.setVisibility(View.VISIBLE);
-//            dialog = new Dialog(mContext);
-//            SelectChapterDialogBinding chapterDialogBinding = SelectChapterDialogBinding.inflate(LayoutInflater.from(mContext), null, false);
-//            dialog.setContentView(chapterDialogBinding.getRoot());
-//            dialog.setTitle("Select other chapter");
-//            chapterDialogBinding.recyclerAllChapters.setHasFixedSize(true);
-//            chapterDialogBinding.recyclerAllChapters.setLayoutManager(new LinearLayoutManager(mContext));
-//            chapterDialogBinding.recyclerAllChapters.setAdapter(new RecyclerAllGenreAdapter(this, animeGenreResultModelList));
-//            dialog.show();
         });
 
         fragmentGenreAndSearchAnimeBinding.imgClose.setOnClickListener(v -> {
