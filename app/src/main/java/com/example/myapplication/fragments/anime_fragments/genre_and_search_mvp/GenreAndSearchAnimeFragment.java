@@ -62,6 +62,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
             SEARCH_SCROLL_REQUEST = 4,
             GENRE_HIT_REQUEST = 5,
             GENRE_SCROLL_REQUEST = 6;
+    private boolean hitGenreAPI = false;
 
     public GenreAndSearchAnimeFragment() {
         // Required empty public constructor
@@ -190,8 +191,11 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     }
 
     private void getGenreData() {
-        String genreTotalURL = "https://animeindo.fun/anime-list/";
-        genreAndSearchAnimePresenter.getOnlyGenreData(genreTotalURL);
+        if (!hitGenreAPI) {
+            hitGenreAPI = true;
+            String genreTotalURL = "https://animeindo.fun/anime-list/";
+            genreAndSearchAnimePresenter.getOnlyGenreData(genreTotalURL);
+        }
     }
 
     @Override
@@ -304,7 +308,8 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     }
 
     @Override
-    public void onItemClickGenres(String position) {
+    public void onItemClickGenres(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> genreResultList, String position) {
+        this.animeGenreResultModelList = genreResultList;
         StringBuilder stringBuilder = new StringBuilder(genreURL);
         if (!genreURL.contains(position)) {
             genreURL = String.valueOf(stringBuilder.append(position));
@@ -314,17 +319,20 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     }
 
     @Override
-    public void onItemClickSort(String position) {
+    public void onItemClickSort(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> sortResultList, String position) {
+        this.animeSortResultModelList = sortResultList;
         sortURL = position;
     }
 
     @Override
-    public void onItemClickType(String position) {
+    public void onItemClickType(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> typeResultList, String position) {
+        this.animeTypeResultModelList = typeResultList;
         typeURL = position;
     }
 
     @Override
-    public void onItemClickStatus(String position) {
+    public void onItemClickStatus(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> statusResultList, String position) {
+        this.animeStatusResultModelList = statusResultList;
         statusURL = position;
     }
 

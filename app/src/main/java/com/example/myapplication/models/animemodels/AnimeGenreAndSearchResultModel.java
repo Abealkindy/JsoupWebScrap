@@ -12,25 +12,26 @@ public class AnimeGenreAndSearchResultModel {
 
     @Data
     public class AnimeSearchResult {
-        private String animeTitle;
-        private String animeThumb;
-        private String animeDetailURL;
-        private String animeStatus;
-        private String animeType;
+        private String animeTitle = "";
+        private String animeThumb = "";
+        private String animeDetailURL = "";
+        private String animeStatus = "";
+        private String animeType = "";
     }
 
     @Data
     public class AnimeSearchResultNew {
-        private String animeTitle;
-        private String animeThumb;
-        private String animeDetailURL;
-        private String animeGenre;
-        private String animeRating;
+        private String animeTitle = "";
+        private String animeThumb = "";
+        private String animeDetailURL = "";
+        private String animeGenre = "";
+        private String animeRating = "";
     }
 
     @Data
     public class AnimeGenreResult {
-        private String genreTitle;
-        private String genreURL;
+        private String genreTitle = "";
+        private String genreURL = "";
+        private boolean genreSelected = false;
     }
 }

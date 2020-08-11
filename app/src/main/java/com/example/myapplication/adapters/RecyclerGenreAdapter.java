@@ -1,6 +1,7 @@
 package com.example.myapplication.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
     private List<AnimeGenreAndSearchResultModel.AnimeGenreResult> animeGenreList;
     private ClickItemListener clickItemListener;
     public String from = "";
+    private boolean isClicked = false;
 
     public RecyclerGenreAdapter(Context context, List<DetailMangaModel.DetailMangaGenres> genresList) {
         this.context = context;
@@ -57,54 +59,81 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (from != null && !from.isEmpty()) {
+            if (!animeGenreList.get(position).isGenreSelected()) {
+                holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
+                        getResources().getDrawable(R.drawable.bubble_background_darker_blue));
+            } else {
+                holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
+                        getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
+            }
             holder.itemListBinding.textMangaGenre.setText(animeGenreList.get(position).getGenreTitle());
             holder.itemListBinding.textMangaGenre.setOnClickListener(v -> {
                 String genreAdd = "", sortAdd = "", typeAdd = "", statusAdd = "";
                 if (from.equalsIgnoreCase("genre")) {
-                    if (contexts.genreURL.contains(animeGenreList.get(position).getGenreURL())) {
-                        holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
-                                getResources().getDrawable(R.drawable.bubble_background_darker_blue));
-                    } else {
+                    if (!animeGenreList.get(position).isGenreSelected()) {
                         holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
                                 getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
+                        animeGenreList.get(position).setGenreSelected(true);
+                    } else {
+                        holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
+                                getResources().getDrawable(R.drawable.bubble_background_darker_blue));
+                        animeGenreList.get(position).setGenreSelected(false);
                     }
                     StringBuilder stringBuilder = new StringBuilder(genreAdd);
                     genreAdd = "&genre[]=" + animeGenreList.get(position).getGenreURL();
                     genreAdd = String.valueOf(stringBuilder.append(genreAdd));
-                    clickItemListener.onItemClickGenres(genreAdd);
+                    clickItemListener.onItemClickGenres(animeGenreList, genreAdd);
                 } else if (from.equalsIgnoreCase("sort")) {
-                    if (contexts.sortURL.equalsIgnoreCase(animeGenreList.get(position).getGenreURL())) {
-                        sortAdd = "";
-                        holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
-                                getResources().getDrawable(R.drawable.bubble_background_darker_blue));
+                    if (!animeGenreList.get(position).isGenreSelected()) {
+                        if (!isClicked) {
+                            isClicked = true;
+                            sortAdd = animeGenreList.get(position).getGenreURL();
+                            holder.itemListBinding.textMangaGenre.setBackground(contexts.getContext().
+                                    getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
+                            animeGenreList.get(position).setGenreSelected(true);
+                        }
                     } else {
-                        sortAdd = animeGenreList.get(position).getGenreURL();
-                        holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
-                                getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
+                        isClicked = false;
+                        sortAdd = "";
+                        holder.itemListBinding.textMangaGenre.setBackground(contexts.getContext().
+                                getResources().getDrawable(R.drawable.bubble_background_darker_blue));
+                        animeGenreList.get(position).setGenreSelected(false);
                     }
-                    clickItemListener.onItemClickSort(sortAdd);
+                    clickItemListener.onItemClickSort(animeGenreList, sortAdd);
                 } else if (from.equalsIgnoreCase("type")) {
-                    if (contexts.typeURL.equalsIgnoreCase(animeGenreList.get(position).getGenreURL())) {
+                    if (!animeGenreList.get(position).isGenreSelected()) {
+                        if (!isClicked) {
+                            isClicked = true;
+                            typeAdd = animeGenreList.get(position).getGenreURL();
+                            holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
+                                    getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
+                            animeGenreList.get(position).setGenreSelected(true);
+                        }
+                    } else {
+                        isClicked = false;
                         typeAdd = "";
                         holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
                                 getResources().getDrawable(R.drawable.bubble_background_darker_blue));
-                    } else {
-                        typeAdd = animeGenreList.get(position).getGenreURL();
-                        holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
-                                getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
+                        animeGenreList.get(position).setGenreSelected(false);
                     }
-                    clickItemListener.onItemClickType(typeAdd);
+                    clickItemListener.onItemClickType(animeGenreList, typeAdd);
                 } else if (from.equalsIgnoreCase("status")) {
-                    if (contexts.statusURL.equalsIgnoreCase(animeGenreList.get(position).getGenreURL())) {
+                    if (!animeGenreList.get(position).isGenreSelected()) {
+                        if (!isClicked) {
+                            isClicked = true;
+                            statusAdd = animeGenreList.get(position).getGenreURL();
+                            holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
+                                    getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
+                            animeGenreList.get(position).setGenreSelected(true);
+                        }
+                    } else {
+                        isClicked = false;
                         statusAdd = "";
                         holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
                                 getResources().getDrawable(R.drawable.bubble_background_darker_blue));
-                    } else {
-                        statusAdd = animeGenreList.get(position).getGenreURL();
-                        holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
-                                getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
+                        animeGenreList.get(position).setGenreSelected(false);
                     }
-                    clickItemListener.onItemClickStatus(statusAdd);
+                    clickItemListener.onItemClickStatus(animeGenreList, statusAdd);
                 }
             });
         } else {
@@ -131,12 +160,12 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
     }
 
     public interface ClickItemListener {
-        void onItemClickGenres(String position);
+        void onItemClickGenres(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> genreResultList, String position);
 
-        void onItemClickSort(String position);
+        void onItemClickSort(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> sortResultList, String position);
 
-        void onItemClickType(String position);
+        void onItemClickType(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> typeResultList, String position);
 
-        void onItemClickStatus(String position);
+        void onItemClickStatus(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> statusResultList, String position);
     }
 }
