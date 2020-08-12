@@ -45,7 +45,7 @@ public class CloudFlare {
     private HttpURLConnection mGetRedirectionConn;
 
     private static final int MAX_COUNT = 3;
-    private static final int CONN_TIMEOUT = 100000;
+    private static final int CONN_TIMEOUT = 60000;
     private static final String ACCEPT = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3";
 
     private boolean canVisit = false;
@@ -93,7 +93,7 @@ public class CloudFlare {
                     canVisit = true;
                     break;
                 } else {
-                    getVisiteCookie();
+                    getVisitCookie();
                 }
             } catch (IOException | RuntimeException | InterruptedException e) {
                 if (mCookieList != null) {
@@ -112,7 +112,7 @@ public class CloudFlare {
                 callback.onSuccess(mCookieList, hasNewUrl, mUrl);
             } else {
                 e("Get Cookie Failed");
-                callback.onFail();
+                callback.onFail("Retries exceeded the limit");
             }
 
 
@@ -120,7 +120,7 @@ public class CloudFlare {
     }
 
 
-    private void getVisiteCookie() throws IOException, InterruptedException {
+    private void getVisitCookie() throws IOException, InterruptedException {
         ConnUrl = new URL(mUrl);
         mGetMainConn = (HttpURLConnection) ConnUrl.openConnection();
         mGetMainConn.setRequestMethod("GET");
@@ -144,6 +144,7 @@ public class CloudFlare {
                 return;
             case HttpURLConnection.HTTP_MOVED_PERM:
             case HttpURLConnection.HTTP_MOVED_TEMP:
+                hasNewUrl = true;
                 mUrl = mGetMainConn.getHeaderField("Location");
                 mCookieList = mCookieManager.getCookieStore().getCookies();
                 checkCookie(mCookieList);
@@ -326,7 +327,7 @@ public class CloudFlare {
     public interface cfCallback {
         void onSuccess(List<HttpCookie> cookieList, boolean hasNewUrl, String newUrl);
 
-        void onFail();
+        void onFail(String msg);
     }
 
     private double get_answer(String str) {  //取值
@@ -486,6 +487,10 @@ public class CloudFlare {
         }
 
         return map;
+    }
+
+    public void cancel() {
+        closeAllConn();
     }
 
     private void e(String tag, String content) {

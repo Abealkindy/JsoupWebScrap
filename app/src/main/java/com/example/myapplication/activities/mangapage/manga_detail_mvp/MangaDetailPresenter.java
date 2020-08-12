@@ -41,7 +41,7 @@ public class MangaDetailPresenter {
             }
 
             @Override
-            public void onFail() {
+            public void onFail(String message) {
                 mangaDetailInterface.onGetDetailDataFailed();
             }
         });

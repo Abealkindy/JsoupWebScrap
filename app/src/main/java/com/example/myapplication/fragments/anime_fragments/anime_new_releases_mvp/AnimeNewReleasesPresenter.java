@@ -40,7 +40,7 @@ public class AnimeNewReleasesPresenter {
             }
 
             @Override
-            public void onFail() {
+            public void onFail(String message) {
                 newReleasesInterface.onGetNewReleasesDataFailed();
             }
         });

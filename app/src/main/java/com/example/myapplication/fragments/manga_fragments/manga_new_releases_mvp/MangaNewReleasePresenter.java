@@ -41,7 +41,7 @@ public class MangaNewReleasePresenter {
             }
 
             @Override
-            public void onFail() {
+            public void onFail(String message) {
                 newReleaseInterface.onGetNewReleasesDataFailed();
             }
         });

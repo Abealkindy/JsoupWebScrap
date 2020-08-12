@@ -41,7 +41,7 @@ public class AnimeDetailPresenter {
             }
 
             @Override
-            public void onFail() {
+            public void onFail(String message) {
                 detailInterface.onGetDetailDataFailed();
             }
         });

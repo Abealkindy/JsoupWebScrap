@@ -47,7 +47,7 @@ public class ReadMangaPresenter {
             }
 
             @Override
-            public void onFail() {
+            public void onFail(String message) {
                 readMangaInterface.onGetMangaContentDataFailed();
             }
         });

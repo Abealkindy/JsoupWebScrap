@@ -49,7 +49,7 @@ public class GenreAndSearchAnimePresenter {
             }
 
             @Override
-            public void onFail() {
+            public void onFail(String message) {
                 genreAndSearchAnimeInterface.onGetSearchAndGenreDataFailed();
             }
         });
@@ -72,7 +72,7 @@ public class GenreAndSearchAnimePresenter {
             }
 
             @Override
-            public void onFail() {
+            public void onFail(String message) {
                 genreAndSearchAnimeInterface.onGetSearchAndGenreDataFailed();
             }
         });

@@ -52,7 +52,7 @@ public class DiscoverMangaPresenter {
             }
 
             @Override
-            public void onFail() {
+            public void onFail(String message) {
                 discoverMangaInterface.onGetDiscoverMangaDataFailed();
             }
         });
