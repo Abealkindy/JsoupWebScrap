@@ -127,7 +127,7 @@ public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaR
             intent.putExtra("chapterTitle", animeDiscoverResultModelList.get(position).getMangaLatestChapterText());
             intent.putExtra("readFrom", "MangaDiscover");
             context.startActivity(intent);
-            ((MangaReleaseListActivity) context).finish();
+//            ((MangaReleaseListActivity) context).finish();
         });
         holder.itemListBinding.relativeItemManga.setOnClickListener(v -> {
             Intent intent = new Intent(context.getApplicationContext(), MangaDetailActivity.class);
@@ -139,7 +139,7 @@ public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaR
             intent.putExtra("detailThumb", animeDiscoverResultModelList.get(position).getMangaThumb());
             intent.putExtra("detailFrom", "MangaDiscover");
             context.startActivity(intent);
-            ((MangaReleaseListActivity) context).finish();
+//            ((MangaReleaseListActivity) context).finish();
         });
     }
 

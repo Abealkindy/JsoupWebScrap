@@ -31,10 +31,19 @@ public class MangaReleaseListActivity extends AppCompatActivity {
         if (cameFrom != null && !cameFrom.isEmpty()) {
             if (cameFrom.equalsIgnoreCase("MangaReleases")) {
                 mangaReleaseListBinding.viewPagerTabs.setCurrentItem(0);
+                setTitle("New releases");
             } else if (cameFrom.equalsIgnoreCase("MangaDiscover")) {
                 mangaReleaseListBinding.viewPagerTabs.setCurrentItem(1);
+                setTitle("Discover");
             } else {
                 mangaReleaseListBinding.viewPagerTabs.setCurrentItem(2);
+                if (localAppDB.mangaBookmarkDAO().getMangaBookmarkData() != null && localAppDB.mangaBookmarkDAO().getMangaBookmarkData().size() > 1) {
+                    setTitle(localAppDB.mangaBookmarkDAO().getMangaBookmarkData().size() + " titles in Favourite menu");
+                } else if (localAppDB.mangaBookmarkDAO().getMangaBookmarkData() != null && localAppDB.mangaBookmarkDAO().getMangaBookmarkData().size() == 1) {
+                    setTitle("Just a title in Favourite menu");
+                } else {
+                    setTitle("0 title in Favourite menu");
+                }
             }
         }
         mangaReleaseListBinding.tabHome.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

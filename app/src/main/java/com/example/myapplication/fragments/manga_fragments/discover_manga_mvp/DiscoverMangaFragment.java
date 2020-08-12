@@ -88,7 +88,6 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         super.onResume();
         getDiscoverMangaData(hitStatus);
         if (!hitGenreAPI) {
-            hitGenreAPI = true;
             getFilterComponents();
         }
     }
@@ -110,6 +109,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
 
     private void initEvent() {
         discoverMangaBinding.buttonSubmit.setOnClickListener(v -> {
+            hitGenreAPI = true;
             totalURL = String.format(searchURL, "1", sortURL, statusURL, typeURL) + genreURL;
             setTag("", GENRE_HIT_REQUEST);
         });
@@ -242,10 +242,13 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         progressDialog.show();
         this.hitStatus = hitStatus;
         String totalURL = "";
-        if (!hitStatus.equalsIgnoreCase("genrePage")) {
-            totalURL = "https://komikcast.com" + homeUrl;
-        } else {
+        if (hitStatus.equalsIgnoreCase("genrePage") || hitStatus.equalsIgnoreCase("newPage") || hitStatus.equalsIgnoreCase("swipeRefresh")) {
             totalURL = homeUrl;
+            if (!totalURL.contains("http")) {
+                totalURL = String.format(searchURL, plusPage, "", "", "");
+            }
+        } else {
+            totalURL = "https://komikcast.com" + homeUrl;
         }
         Log.e("total URL ", totalURL);
         discoverMangaPresenter.getDiscoverOrSearchData(totalURL, "other");
