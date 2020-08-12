@@ -2,6 +2,7 @@ package com.example.myapplication.fragments.manga_fragments.discover_manga_mvp;
 
 import android.util.Log;
 
+import com.example.myapplication.models.animemodels.AnimeGenreAndSearchResultModel;
 import com.example.myapplication.networks.CloudFlare;
 import com.example.myapplication.models.mangamodels.DiscoverMangaModel;
 import com.example.myapplication.networks.JsoupConfig;
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import dalvik.system.DelegateLastClassLoader;
+
 public class DiscoverMangaPresenter {
     private DiscoverMangaInterface discoverMangaInterface;
 
@@ -24,7 +27,7 @@ public class DiscoverMangaPresenter {
         this.discoverMangaInterface = discoverMangaInterface;
     }
 
-    public void getDiscoverOrSearchData(String discoverOrSearchURL) {
+    public void getDiscoverOrSearchData(String discoverOrSearchURL, String type) {
         CloudFlare cf = new CloudFlare(discoverOrSearchURL);
         cf.setUser_agent("Mozilla/5.0");
         cf.getCookies(new CloudFlare.cfCallback() {
@@ -33,10 +36,18 @@ public class DiscoverMangaPresenter {
                 Log.e("getNewURL?", String.valueOf(hasNewUrl));
                 Map<String, String> cookies = CloudFlare.List2Map(cookieList);
                 if (hasNewUrl) {
-                    passToJsoup(newUrl, cookies);
+                    if (type.equalsIgnoreCase("genre")) {
+                        getFilterComponentData(newUrl, cookies);
+                    } else {
+                        passToJsoup(newUrl, cookies);
+                    }
                     Log.e("NEWURL", newUrl);
                 } else {
-                    passToJsoup(discoverOrSearchURL, cookies);
+                    if (type.equalsIgnoreCase("genre")) {
+                        getFilterComponentData(discoverOrSearchURL, cookies);
+                    } else {
+                        passToJsoup(discoverOrSearchURL, cookies);
+                    }
                 }
             }
 
@@ -45,6 +56,71 @@ public class DiscoverMangaPresenter {
                 discoverMangaInterface.onGetDiscoverMangaDataFailed();
             }
         });
+    }
+
+    private void getFilterComponentData(String filterAddOnURL, Map<String, String> cookies) {
+        Document doc = JsoupConfig.setInitJsoup(filterAddOnURL, cookies);
+        if (doc != null) {
+            List<AnimeGenreAndSearchResultModel.AnimeGenreResult> genreResultList = new ArrayList<>();
+            List<AnimeGenreAndSearchResultModel.AnimeGenreResult> sortResultList = new ArrayList<>();
+            List<AnimeGenreAndSearchResultModel.AnimeGenreResult> typeResultList = new ArrayList<>();
+            List<AnimeGenreAndSearchResultModel.AnimeGenreResult> statusResultList = new ArrayList<>();
+            genreResultList.clear();
+            sortResultList.clear();
+            typeResultList.clear();
+            statusResultList.clear();
+            //getStatusElement
+            Elements getStatusData = doc.getElementsByClass("lbx").get(0).getElementsByClass("radiox");
+            //getTypeElement
+            Elements getTypeData = doc.getElementsByClass("lbx").get(1).getElementsByClass("radiox");
+            //getSortElement
+            Elements getSortData = doc.getElementsByClass("lbx").get(2).getElementsByClass("radiox");
+            //getGenreElement
+            Elements getGenreData = doc.getElementsByClass("lbx").get(3).getElementsByClass("genx");
+
+            //getStatus
+            for (Element element : getStatusData) {
+                AnimeGenreAndSearchResultModel.AnimeGenreResult statusResult = new AnimeGenreAndSearchResultModel().new AnimeGenreResult();
+                String getStatusText = element.text();
+                String getStatusUrl = element.select("input").attr("value");
+                statusResult.setGenreTitle(getStatusText);
+                statusResult.setGenreURL(getStatusUrl);
+                statusResultList.add(statusResult);
+            }
+            discoverMangaInterface.onGetStatusDataSuccess(statusResultList);
+            //getType
+            for (Element element : getTypeData) {
+                AnimeGenreAndSearchResultModel.AnimeGenreResult typeResult = new AnimeGenreAndSearchResultModel().new AnimeGenreResult();
+                String getTypeText = element.text();
+                String getTypeUrl = element.select("input").attr("value");
+                typeResult.setGenreTitle(getTypeText);
+                typeResult.setGenreURL(getTypeUrl);
+                typeResultList.add(typeResult);
+            }
+            discoverMangaInterface.onGetTypeDataSuccess(typeResultList);
+            //getSort
+            for (Element element : getSortData) {
+                AnimeGenreAndSearchResultModel.AnimeGenreResult sortResult = new AnimeGenreAndSearchResultModel().new AnimeGenreResult();
+                String getSortText = element.text();
+                String getSortUrl = element.select("input").attr("value");
+                sortResult.setGenreTitle(getSortText);
+                sortResult.setGenreURL(getSortUrl);
+                sortResultList.add(sortResult);
+            }
+            discoverMangaInterface.onGetSortDataSuccess(sortResultList);
+            //getGenre
+            for (Element element : getGenreData) {
+                AnimeGenreAndSearchResultModel.AnimeGenreResult genreResult = new AnimeGenreAndSearchResultModel().new AnimeGenreResult();
+                String getGenreText = element.text();
+                String getGenreUrl = element.select("input").attr("value");
+                genreResult.setGenreTitle(getGenreText);
+                genreResult.setGenreURL(getGenreUrl);
+                genreResultList.add(genreResult);
+            }
+            discoverMangaInterface.onGetGenreDataSuccess(genreResultList);
+        } else {
+            discoverMangaInterface.onGetDiscoverMangaDataFailed();
+        }
     }
 
     private void passToJsoup(String discoverOrSearchURL, Map<String, String> cookies) {

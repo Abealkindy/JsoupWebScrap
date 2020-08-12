@@ -33,7 +33,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/size20dp"
-            android:src="@drawable/ic_view_list_white_24dp"
+            android:src="@drawable/settings"
             app:backgroundTint="@color/blue_series_color"
             app:fabCustomSize="@dimen/size60dp"
             app:maxImageSize="@dimen/size30dp" />
