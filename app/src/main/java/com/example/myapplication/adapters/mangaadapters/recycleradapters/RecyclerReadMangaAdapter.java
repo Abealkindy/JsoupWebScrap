@@ -1,31 +1,28 @@
 package com.example.myapplication.adapters.mangaadapters.recycleradapters;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Point;
-import android.os.Handler;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.webkit.CookieManager;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
 import com.example.myapplication.databinding.ItemListMangaContentBinding;
+import com.squareup.picasso.LruCache;
+import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Objects;
+
+import lombok.SneakyThrows;
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadMangaAdapter.ViewHolder> {
     private Context context;
@@ -44,42 +41,30 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
         return new ViewHolder(itemListBinding);
     }
 
-    @SuppressLint("SetTextI18n")
+    @SneakyThrows
+    @SuppressLint({"SetTextI18n", "SetJavaScriptEnabled", "ClickableViewAccessibility"})
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.itemListBinding.imageMangaContentItem.getSettings().setJavaScriptEnabled(true);
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        int screenWidth = displayMetrics.widthPixels;
-        double x = screenWidth / displayMetrics.density;
-        String imageURLModify = "<html><body style=\"margin: 0;\"><img width=\"" + x + "\" src=\"" + imageContent.get(position) + "\"></img></body></html>";
-        holder.itemListBinding.imageMangaContentItem.loadData(imageURLModify, "text/html", "UTF-8");
-        Log.e("imageContent", imageURLModify);
-        Log.e("screenWidth", "" + x);
-        holder.itemListBinding.imageMangaContentItem.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
-                return true;
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                holder.itemListBinding.imageReplacement.setVisibility(View.VISIBLE);
-                holder.itemListBinding.imageMangaContentItem.setVisibility(View.INVISIBLE);
-            }
-
-            public void onPageFinished(WebView view, String url) {
-                holder.itemListBinding.imageReplacement.setVisibility(View.GONE);
-                holder.itemListBinding.imageMangaContentItem.setVisibility(View.VISIBLE);
-            }
-
-        });
-//        holder.itemListBinding.imageMangaContentItem.loadUrl(imageContent.get(position));
-//        Picasso.get()
-//                .load(imageContent.get(position))
-//                .placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder))
-//                .error(context.getResources().getDrawable(R.drawable.error))
-//                .into(holder.itemListBinding.imageMangaContentItem);
+        OkHttpClient client = new OkHttpClient()
+                .newBuilder()
+                .addInterceptor(chain -> {
+                    final Request original = chain.request();
+                    final Request authorized = original.newBuilder()
+                            .addHeader("Cookie", CookieManager.getInstance().getCookie(imageContent.get(position)))
+                            .addHeader("User-Agent", "")
+                            .build();
+                    return chain.proceed(authorized);
+                })
+                .cache(new Cache(context.getCacheDir(), 25 * 1024 * 1024))
+                .build();
+        Picasso picasso = new Picasso.Builder(context)
+                .downloader(new OkHttp3Downloader(client))
+                .memoryCache(new LruCache(context))
+                .build();
+        picasso.load(imageContent.get(position))
+                .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme())))
+                .error(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error, context.getTheme())))
+                .into(holder.itemListBinding.imageMangaContentItem);
     }
 
     @Override

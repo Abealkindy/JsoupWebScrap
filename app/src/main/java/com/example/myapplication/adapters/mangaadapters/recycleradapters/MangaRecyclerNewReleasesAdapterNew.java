@@ -3,27 +3,30 @@ package com.example.myapplication.adapters.mangaadapters.recycleradapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
+import android.webkit.CookieManager;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.activities.mangapage.MangaReleaseListActivity;
 import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
-import com.example.myapplication.databinding.ItemListMangaBinding;
 import com.example.myapplication.databinding.ItemListMangaNewBinding;
 import com.example.myapplication.models.mangamodels.MangaNewReleaseResultModel;
+import com.squareup.picasso.LruCache;
+import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
+import java.util.Objects;
+
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<MangaRecyclerNewReleasesAdapterNew.ViewHolder> {
     private Context context;
@@ -48,28 +51,26 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemListBinding.mangaTitleText.setText(animeNewReleaseResultModelList.get(position).getMangaTitle());
-        holder.itemListBinding.mangaThumb.getSettings().setJavaScriptEnabled(true);
-        holder.itemListBinding.mangaThumb.setWebChromeClient(new WebChromeClient());
-        String imageURLModify = "<html><body style=\"margin: 0; padding: 0\"><img width=\"100%\" height=\"100%\" src=\"" + animeNewReleaseResultModelList.get(position).getMangaThumb() + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
-        holder.itemListBinding.mangaThumb.loadData(imageURLModify, "text/html", "utf-8");
-//        try {
-////            Transformation<Bitmap> circleCrop = new RoundedCorners(20);
-//            Log.e("imageNewRelMang", animeNewReleaseResultModelList.get(position).getMangaThumb());
-//            Glide.with(context)
-//                    .asDrawable()
-//                    .load(new URL(animeNewReleaseResultModelList.get(position).getMangaThumb()))
-//                    .apply(
-//                            new RequestOptions()
-//                                    .transform(new RoundedCorners(20))
-//                                    .timeout(30000)
-//                    )
-////                    .optionalTransform(WebpDrawable.class, new WebpDrawableTransformation(circleCrop))
-//                    .error(context.getResources().getDrawable(R.drawable.error))
-//                    .placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder))
-//                    .into(holder.itemListBinding.mangaThumb);
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
+        OkHttpClient client = new OkHttpClient()
+                .newBuilder()
+                .addInterceptor(chain -> {
+                    final Request original = chain.request();
+                    final Request authorized = original.newBuilder()
+                            .addHeader("Cookie", CookieManager.getInstance().getCookie(animeNewReleaseResultModelList.get(position).getMangaThumb()))
+                            .addHeader("User-Agent", "")
+                            .build();
+                    return chain.proceed(authorized);
+                })
+                .cache(new Cache(context.getCacheDir(), 25 * 1024 * 1024))
+                .build();
+        Picasso picasso = new Picasso.Builder(context)
+                .downloader(new OkHttp3Downloader(client))
+                .memoryCache(new LruCache(context))
+                .build();
+        picasso.load(animeNewReleaseResultModelList.get(position).getMangaThumb())
+                .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme())))
+                .error(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error, context.getTheme())))
+                .into(holder.itemListBinding.mangaThumb);
         if (!animeNewReleaseResultModelList.get(position).isMangaStatus()) {
             holder.itemListBinding.hotLabel.setVisibility(View.GONE);
         } else {
@@ -111,7 +112,7 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                     intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(0));
                     intent.putExtra("readFrom", "MangaReleases");
                     context.startActivity(intent);
-                    ((MangaReleaseListActivity) context).finish();
+//                    ((MangaReleaseListActivity) context).finish();
                 });
                 holder.itemListBinding.linearSecondNewest.setVisibility(View.GONE);
                 holder.itemListBinding.linearThirdNewest.setVisibility(View.GONE);
@@ -128,7 +129,7 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                     intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(0));
                     intent.putExtra("readFrom", "MangaReleases");
                     context.startActivity(intent);
-                    ((MangaReleaseListActivity) context).finish();
+//                    ((MangaReleaseListActivity) context).finish();
                 });
                 holder.itemListBinding.linearSecondNewest.setVisibility(View.VISIBLE);
                 holder.itemListBinding.secondNewestTextChapterRelease.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(1).replace("Chapter", "Ch."));
@@ -140,7 +141,7 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                     intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(1));
                     intent.putExtra("readFrom", "MangaReleases");
                     context.startActivity(intent);
-                    ((MangaReleaseListActivity) context).finish();
+//                    ((MangaReleaseListActivity) context).finish();
                 });
                 holder.itemListBinding.linearThirdNewest.setVisibility(View.GONE);
             } else {
@@ -154,7 +155,7 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                     intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(0));
                     intent.putExtra("readFrom", "MangaReleases");
                     context.startActivity(intent);
-                    ((MangaReleaseListActivity) context).finish();
+//                    ((MangaReleaseListActivity) context).finish();
                 });
                 holder.itemListBinding.linearSecondNewest.setVisibility(View.VISIBLE);
                 holder.itemListBinding.secondNewestTextChapterRelease.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(1).replace("Chapter", "Ch."));
@@ -166,7 +167,7 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                     intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(1));
                     intent.putExtra("readFrom", "MangaReleases");
                     context.startActivity(intent);
-                    ((MangaReleaseListActivity) context).finish();
+//                    ((MangaReleaseListActivity) context).finish();
                 });
                 holder.itemListBinding.linearThirdNewest.setVisibility(View.VISIBLE);
                 holder.itemListBinding.thirdNewestTextChapterRelease.setText(animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(2).replace("Chapter", "Ch."));
@@ -178,7 +179,7 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                     intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(2));
                     intent.putExtra("readFrom", "MangaReleases");
                     context.startActivity(intent);
-                    ((MangaReleaseListActivity) context).finish();
+//                    ((MangaReleaseListActivity) context).finish();
                 });
             }
     }

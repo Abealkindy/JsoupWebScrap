@@ -45,7 +45,7 @@ public class RecyclerAllChapterDetailAdapter extends RecyclerView.Adapter<Recycl
             intent.putExtra("appBarColorStatus", mangaType);
             intent.putExtra("readFrom", "MangaDetail");
             context.startActivity(intent);
-            ((MangaDetailActivity) context).finish();
+//            ((MangaDetailActivity) context).finish();
         });
     }
 

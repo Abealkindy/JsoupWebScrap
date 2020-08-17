@@ -3,30 +3,30 @@ package com.example.myapplication.adapters.mangaadapters.recycleradapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
+import android.webkit.CookieManager;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.mangapage.MangaReleaseListActivity;
 import com.example.myapplication.activities.mangapage.manga_detail_mvp.MangaDetailActivity;
 import com.example.myapplication.databinding.ItemListMangaNewBinding;
 import com.example.myapplication.localstorages.manga_local.MangaBookmarkModel;
+import com.squareup.picasso.LruCache;
+import com.squareup.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
 
-import org.jsoup.internal.StringUtil;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
+import java.util.Objects;
+
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 public class MangaRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<MangaRecyclerBookmarkAdapterNew.ViewHolder> {
     private Context context;
@@ -57,30 +57,26 @@ public class MangaRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<MangaR
         holder.itemListBinding.linearThirdNewest.setVisibility(View.GONE);
         holder.itemListBinding.newestTextChapterReleaseTime.setVisibility(View.GONE);
         holder.itemListBinding.mangaTitleText.setText(animeDiscoverResultModelList.get(position).getMangaTitle());
-//        if (StringUtil.isBlank(animeDiscoverResultModelList.get(position).getMangaThumb())) {
-//            holder.itemListBinding.mangaThumb.setImageDrawable(context.getResources().getDrawable(R.drawable.imageplaceholder));
-//            Log.e("pathNull", "null");
-//        } else {
-//            try {
-//                Glide.with(context)
-//                        .asDrawable()
-//                        .load(new URL(animeDiscoverResultModelList.get(position).getMangaThumb()))
-//                        .apply(
-//                                new RequestOptions()
-//                                        .transform(new RoundedCorners(20))
-//                                        .timeout(30000)
-//                        )
-//                        .error(context.getResources().getDrawable(R.drawable.error))
-//                        .placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder))
-//                        .into(holder.itemListBinding.mangaThumb);
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            }
-//        }
-        holder.itemListBinding.mangaThumb.getSettings().setJavaScriptEnabled(true);
-        holder.itemListBinding.mangaThumb.setWebChromeClient(new WebChromeClient());
-        String imageURLModify = "<html><body style=\"margin: 0; padding: 0\"><img width=\"100%\" height=\"100%\" src=\"" + animeDiscoverResultModelList.get(position).getMangaThumb() + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
-        holder.itemListBinding.mangaThumb.loadData(imageURLModify, "text/html", "utf-8");
+        OkHttpClient client = new OkHttpClient()
+                .newBuilder()
+                .addInterceptor(chain -> {
+                    final Request original = chain.request();
+                    final Request authorized = original.newBuilder()
+                            .addHeader("Cookie", CookieManager.getInstance().getCookie(animeDiscoverResultModelList.get(position).getMangaThumb()))
+                            .addHeader("User-Agent", "")
+                            .build();
+                    return chain.proceed(authorized);
+                })
+                .cache(new Cache(context.getCacheDir(), 25 * 1024 * 1024))
+                .build();
+        Picasso picasso = new Picasso.Builder(context)
+                .downloader(new OkHttp3Downloader(client))
+                .memoryCache(new LruCache(context))
+                .build();
+        picasso.load(animeDiscoverResultModelList.get(position).getMangaThumb())
+                .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme())))
+                .error(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error, context.getTheme())))
+                .into(holder.itemListBinding.mangaThumb);
         if (!animeDiscoverResultModelList.get(position).isMangaStatus()) {
             holder.itemListBinding.hotLabel.setText(context.getResources().getString(R.string.ongoing_text))
                     .setSlantedBackgroundColor(context.getResources().getColor(R.color.orange_series_color));
@@ -126,7 +122,7 @@ public class MangaRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<MangaR
             intent.putExtra("detailThumb", animeDiscoverResultModelList.get(position).getMangaThumb());
             intent.putExtra("detailFrom", "MangaBookmark");
             context.startActivity(intent);
-            ((MangaReleaseListActivity) context).finish();
+//            ((MangaReleaseListActivity) context).finish();
         });
     }
 
