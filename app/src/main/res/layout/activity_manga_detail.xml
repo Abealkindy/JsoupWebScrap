@@ -16,11 +16,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/header_thumbnail_detail"-->
-<!--                    style="@style/ImageDetail"-->
-<!--                    tools:src="@drawable/classgotoposter" />-->
-                <WebView
+                <ImageView
                     android:id="@+id/header_thumbnail_detail"
                     style="@style/ImageDetail"
                     tools:src="@drawable/classgotoposter" />

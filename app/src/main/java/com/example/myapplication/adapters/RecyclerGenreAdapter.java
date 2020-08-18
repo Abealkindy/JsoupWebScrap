@@ -1,5 +1,6 @@
 package com.example.myapplication.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -71,28 +72,29 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
         return new ViewHolder(itemListBinding);
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (from != null && !from.isEmpty()) {
             if (contexts != null) {
                 if (!animeGenreList.get(position).isGenreSelected()) {
-                    holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
+                    holder.itemListBinding.textMangaGenre.setBackground(contexts.requireContext().
                             getResources().getDrawable(R.drawable.bubble_background_darker_blue));
                 } else {
                     isClicked = true;
-                    holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
+                    holder.itemListBinding.textMangaGenre.setBackground(contexts.requireContext().
                             getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
                 }
                 holder.itemListBinding.textMangaGenre.setText(animeGenreList.get(position).getGenreTitle());
                 holder.itemListBinding.textMangaGenre.setOnClickListener(v -> {
-                    String genreAdd = "", sortAdd = "", typeAdd = "", statusAdd = "";
+                    String genreAdd = "", sortAdd, typeAdd, statusAdd;
                     if (from.equalsIgnoreCase("genre")) {
                         if (!animeGenreList.get(position).isGenreSelected()) {
-                            holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
+                            holder.itemListBinding.textMangaGenre.setBackground(contexts.requireContext().
                                     getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
                             animeGenreList.get(position).setGenreSelected(true);
                         } else {
-                            holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
+                            holder.itemListBinding.textMangaGenre.setBackground(contexts.requireContext().
                                     getResources().getDrawable(R.drawable.bubble_background_darker_blue));
                             animeGenreList.get(position).setGenreSelected(false);
                         }
@@ -123,7 +125,7 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
                             if (!isClicked) {
                                 isClicked = true;
                                 typeAdd = animeGenreList.get(position).getGenreURL();
-                                holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
+                                holder.itemListBinding.textMangaGenre.setBackground(contexts.requireContext().
                                         getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
                                 animeGenreList.get(position).setGenreSelected(true);
                                 clickItemListener.onItemClickType(animeGenreList, typeAdd);
@@ -131,7 +133,7 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
                         } else {
                             isClicked = false;
                             typeAdd = "";
-                            holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
+                            holder.itemListBinding.textMangaGenre.setBackground(contexts.requireContext().
                                     getResources().getDrawable(R.drawable.bubble_background_darker_blue));
                             animeGenreList.get(position).setGenreSelected(false);
                             clickItemListener.onItemClickType(animeGenreList, typeAdd);
@@ -141,7 +143,7 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
                             if (!isClicked) {
                                 isClicked = true;
                                 statusAdd = animeGenreList.get(position).getGenreURL();
-                                holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
+                                holder.itemListBinding.textMangaGenre.setBackground(contexts.requireContext().
                                         getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
                                 animeGenreList.get(position).setGenreSelected(true);
                                 clickItemListener.onItemClickStatus(animeGenreList, statusAdd);
@@ -149,7 +151,7 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
                         } else {
                             isClicked = false;
                             statusAdd = "";
-                            holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contexts.getContext()).
+                            holder.itemListBinding.textMangaGenre.setBackground(contexts.requireContext().
                                     getResources().getDrawable(R.drawable.bubble_background_darker_blue));
                             animeGenreList.get(position).setGenreSelected(false);
                             clickItemListener.onItemClickStatus(animeGenreList, statusAdd);
@@ -158,11 +160,11 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
                 });
             } else {
                 if (!animeGenreList.get(position).isGenreSelected()) {
-                    holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contextss.getContext()).
+                    holder.itemListBinding.textMangaGenre.setBackground(contextss.requireContext().
                             getResources().getDrawable(R.drawable.bubble_background_darker_blue));
                 } else {
                     isClicked = true;
-                    holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contextss.getContext()).
+                    holder.itemListBinding.textMangaGenre.setBackground(contextss.requireContext().
                             getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
                 }
                 holder.itemListBinding.textMangaGenre.setText(animeGenreList.get(position).getGenreTitle());
@@ -170,11 +172,11 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
                     String genreAdd = "", sortAdd = "", typeAdd = "", statusAdd = "";
                     if (from.equalsIgnoreCase("genre")) {
                         if (!animeGenreList.get(position).isGenreSelected()) {
-                            holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contextss.getContext()).
+                            holder.itemListBinding.textMangaGenre.setBackground(contextss.requireContext().
                                     getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
                             animeGenreList.get(position).setGenreSelected(true);
                         } else {
-                            holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contextss.getContext()).
+                            holder.itemListBinding.textMangaGenre.setBackground(contextss.requireContext().
                                     getResources().getDrawable(R.drawable.bubble_background_darker_blue));
                             animeGenreList.get(position).setGenreSelected(false);
                         }
@@ -205,7 +207,7 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
                             if (!isClicked) {
                                 isClicked = true;
                                 typeAdd = animeGenreList.get(position).getGenreURL();
-                                holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contextss.getContext()).
+                                holder.itemListBinding.textMangaGenre.setBackground(contextss.requireContext().
                                         getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
                                 animeGenreList.get(position).setGenreSelected(true);
                                 clickItemListener.onItemClickType(animeGenreList, typeAdd);
@@ -213,7 +215,7 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
                         } else {
                             isClicked = false;
                             typeAdd = "";
-                            holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contextss.getContext()).
+                            holder.itemListBinding.textMangaGenre.setBackground(contextss.requireContext().
                                     getResources().getDrawable(R.drawable.bubble_background_darker_blue));
                             animeGenreList.get(position).setGenreSelected(false);
                             clickItemListener.onItemClickType(animeGenreList, typeAdd);
@@ -223,7 +225,7 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
                             if (!isClicked) {
                                 isClicked = true;
                                 statusAdd = animeGenreList.get(position).getGenreURL();
-                                holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contextss.getContext()).
+                                holder.itemListBinding.textMangaGenre.setBackground(contextss.requireContext().
                                         getResources().getDrawable(R.drawable.bubble_background_darker_blue_marked));
                                 animeGenreList.get(position).setGenreSelected(true);
                                 clickItemListener.onItemClickStatus(animeGenreList, statusAdd);
@@ -231,7 +233,7 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
                         } else {
                             isClicked = false;
                             statusAdd = "";
-                            holder.itemListBinding.textMangaGenre.setBackground(Objects.requireNonNull(contextss.getContext()).
+                            holder.itemListBinding.textMangaGenre.setBackground(contextss.requireContext().
                                     getResources().getDrawable(R.drawable.bubble_background_darker_blue));
                             animeGenreList.get(position).setGenreSelected(false);
                             clickItemListener.onItemClickStatus(animeGenreList, statusAdd);

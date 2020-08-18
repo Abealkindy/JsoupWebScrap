@@ -27,10 +27,14 @@ import okhttp3.Request;
 public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadMangaAdapter.ViewHolder> {
     private Context context;
     private List<String> imageContent;
+    private ClickItemListener clickListener;
 
     public RecyclerReadMangaAdapter(Context context, List<String> imageContent) {
         this.context = context;
         this.imageContent = imageContent;
+        if (context instanceof RecyclerAllChapterAdapter.ClickListener) {
+            clickListener = (ClickItemListener) context;
+        }
     }
 
     @NonNull
@@ -65,6 +69,9 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
                 .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme())))
                 .error(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error, context.getTheme())))
                 .into(holder.itemListBinding.imageMangaContentItem);
+        holder.itemListBinding.imageMangaContentItem.setOnClickListener(v -> {
+            clickListener.onItemClickMangaContent();
+        });
     }
 
     @Override
@@ -79,6 +86,9 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
             super(itemView.getRoot());
             this.itemListBinding = itemView;
         }
+    }
 
+    public interface ClickItemListener {
+        void onItemClickMangaContent();
     }
 }

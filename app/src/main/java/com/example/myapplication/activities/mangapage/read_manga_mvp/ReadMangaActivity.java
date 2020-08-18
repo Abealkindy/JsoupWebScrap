@@ -25,7 +25,7 @@ import com.example.myapplication.models.mangamodels.ReadMangaModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllChapterAdapter.ClickListener, ReadMangaInterface {
+public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllChapterAdapter.ClickListener, RecyclerReadMangaAdapter.ClickItemListener, ReadMangaInterface {
     private ActivityReadMangaBinding readMangaBinding;
     private ReadMangaPresenter readMangaPresenter = new ReadMangaPresenter(this);
     private List<ReadMangaModel.AllChapterDatas> allChapterDatasList = new ArrayList<>();
@@ -69,7 +69,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             intent.putExtra("chapterURL", chapterURL);
             intent.putExtra("detailFrom", "MangaRead");
             startActivity(intent);
-            finish();
+//            finish();
         });
     }
 
@@ -128,23 +128,23 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent;
-        if (readFrom.equalsIgnoreCase("MangaDetail")) {
-            intent = new Intent(ReadMangaActivity.this, MangaDetailActivity.class);
-            intent.putExtra("detailURL", detailURL);
-            intent.putExtra("detailType", appColorBarStatus);
-            intent.putExtra("detailTitle", "");
-            intent.putExtra("detailRating", "");
-            intent.putExtra("detailStatus", false);
-            intent.putExtra("detailThumb", "");
-            intent.putExtra("chapterURL", chapterURL);
-            intent.putExtra("detailFrom", "MangaRead");
-        } else {
-            intent = new Intent(ReadMangaActivity.this, MangaReleaseListActivity.class);
-            intent.putExtra("cameFrom", readFrom);
-        }
-        startActivity(intent);
-        finish();
+//        Intent intent;
+//        if (readFrom.equalsIgnoreCase("MangaDetail")) {
+//            intent = new Intent(ReadMangaActivity.this, MangaDetailActivity.class);
+//            intent.putExtra("detailURL", detailURL);
+//            intent.putExtra("detailType", appColorBarStatus);
+//            intent.putExtra("detailTitle", "");
+//            intent.putExtra("detailRating", "");
+//            intent.putExtra("detailStatus", false);
+//            intent.putExtra("detailThumb", "");
+//            intent.putExtra("chapterURL", chapterURL);
+//            intent.putExtra("detailFrom", "MangaRead");
+//        } else {
+//            intent = new Intent(ReadMangaActivity.this, MangaReleaseListActivity.class);
+//            intent.putExtra("cameFrom", readFrom);
+//        }
+//        startActivity(intent);
+//        finish();
     }
 
     private void hideSystemUI() {
@@ -175,12 +175,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         runOnUiThread(() -> {
             progressDialog.dismiss();
             readMangaBinding.textViewChapterTitle.setText(mangaContents.getChapterTitle());
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    readMangaBinding.nestedBase.smoothScrollTo(0, 0);
-                }
-            });
+            new Handler().post(() -> readMangaBinding.nestedBase.smoothScrollTo(0, 0));
             readMangaBinding.recyclerImageContentManga.scrollToPosition(0);
             RecyclerReadMangaAdapter mangaRecyclerNewReleasesAdapter = new RecyclerReadMangaAdapter(ReadMangaActivity.this, mangaContents.getImageContent());
             readMangaBinding.recyclerImageContentManga.setAdapter(mangaRecyclerNewReleasesAdapter);
@@ -230,5 +225,16 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
     public void onGetMangaChaptersDataFailed() {
         progressDialog.dismiss();
         Toast.makeText(ReadMangaActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemClickMangaContent() {
+        if (readMangaBinding.appBarReadManga.getVisibility() == View.VISIBLE) {
+            readMangaBinding.appBarReadManga.setVisibility(View.INVISIBLE);
+            readMangaBinding.designBottomSheet.setVisibility(View.INVISIBLE);
+        } else {
+            readMangaBinding.appBarReadManga.setVisibility(View.VISIBLE);
+            readMangaBinding.designBottomSheet.setVisibility(View.VISIBLE);
+        }
     }
 }

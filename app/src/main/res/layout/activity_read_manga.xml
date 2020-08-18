@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
             tools:listitem="@layout/item_list_manga_content"
             tools:visibility="visible" />
 
@@ -52,15 +53,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size5dp"
+                    android:autoSizeTextType="uniform"
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
                     android:maxLines="3"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/size30sp"
-                    android:autoSizeTextType="uniform"
                     app:autoSizeMinTextSize="@dimen/_20ssp"
-                    tools:text="Naruto Narutimate Hero 3: Finally a Clash! Jonin VS Genin!! Indescriminate Grand Melee Tournament Meeting!! Chapter 900.9"
-                    tools:targetApi="o" />
+                    tools:targetApi="o"
+                    tools:text="Naruto Narutimate Hero 3: Finally a Clash! Jonin VS Genin!! Indescriminate Grand Melee Tournament Meeting!! Chapter 900.9" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>

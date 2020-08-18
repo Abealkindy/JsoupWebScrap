@@ -14,15 +14,19 @@ import com.example.myapplication.models.mangamodels.DetailMangaModel;
 import com.google.android.material.appbar.AppBarLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.squareup.picasso.LruCache;
+import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -31,6 +35,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 import static com.example.myapplication.MyApp.localAppDB;
 
@@ -124,11 +132,26 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
         }
 
         if (!detailThumb.equalsIgnoreCase("")) {
-//            Picasso.get().load(detailThumb).into(detailBinding.headerThumbnailDetail);
-            detailBinding.headerThumbnailDetail.getSettings().setJavaScriptEnabled(true);
-            detailBinding.headerThumbnailDetail.setWebChromeClient(new WebChromeClient());
-            String imageURLModify = "<html><body style=\"margin: 0; padding: 0\"><img width=\"100%\" height=\"100%\" src=\"" + detailThumb + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
-            detailBinding.headerThumbnailDetail.loadData(imageURLModify, "text/html", "utf-8");
+            OkHttpClient client = new OkHttpClient()
+                    .newBuilder()
+                    .addInterceptor(chain -> {
+                        final Request original = chain.request();
+                        final Request authorized = original.newBuilder()
+                                .addHeader("Cookie", CookieManager.getInstance().getCookie(detailThumb))
+                                .addHeader("User-Agent", "")
+                                .build();
+                        return chain.proceed(authorized);
+                    })
+                    .cache(new Cache(this.getCacheDir(), 25 * 1024 * 1024))
+                    .build();
+            Picasso picasso = new Picasso.Builder(this)
+                    .downloader(new OkHttp3Downloader(client))
+                    .memoryCache(new LruCache(this))
+                    .build();
+            picasso.load(detailThumb)
+                    .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.imageplaceholder, this.getTheme())))
+                    .error(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.error, this.getTheme())))
+                    .into(detailBinding.headerThumbnailDetail);
         }
         if (!detailTitle.equalsIgnoreCase("")) {
             detailBinding.detailHeaderTitle.setText(detailTitle);
@@ -195,11 +218,26 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
             //get thumb
             if (detailThumb.equalsIgnoreCase("")) {
                 detailThumb = detailMangaModel.getMangaThumb();
-//                Picasso.get().load(detailMangaModel.getMangaThumb()).into(detailBinding.headerThumbnailDetail);
-                detailBinding.headerThumbnailDetail.getSettings().setJavaScriptEnabled(true);
-                detailBinding.headerThumbnailDetail.setWebChromeClient(new WebChromeClient());
-                String imageURLModify = "<html><body style=\"margin: 0; padding: 0\"><img width=\"100%\" height=\"100%\" src=\"" + detailThumb + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
-                detailBinding.headerThumbnailDetail.loadData(imageURLModify, "text/html", "utf-8");
+                OkHttpClient client = new OkHttpClient()
+                        .newBuilder()
+                        .addInterceptor(chain -> {
+                            final Request original = chain.request();
+                            final Request authorized = original.newBuilder()
+                                    .addHeader("Cookie", CookieManager.getInstance().getCookie(detailThumb))
+                                    .addHeader("User-Agent", "")
+                                    .build();
+                            return chain.proceed(authorized);
+                        })
+                        .cache(new Cache(this.getCacheDir(), 25 * 1024 * 1024))
+                        .build();
+                Picasso picasso = new Picasso.Builder(this)
+                        .downloader(new OkHttp3Downloader(client))
+                        .memoryCache(new LruCache(this))
+                        .build();
+                picasso.load(detailThumb)
+                        .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.imageplaceholder, this.getTheme())))
+                        .error(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.error, this.getTheme())))
+                        .into(detailBinding.headerThumbnailDetail);
             }
 
             //get Synopsis
@@ -325,19 +363,19 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (detailFrom != null && !detailFrom.isEmpty()) {
-            Intent intent;
-            if (detailFrom.equalsIgnoreCase("MangaRead")) {
-                intent = new Intent(MangaDetailActivity.this, ReadMangaActivity.class);
-                intent.putExtra("appBarColorStatus", mangaType);
-                intent.putExtra("chapterURL", chapterURL);
-                intent.putExtra("readFrom", "MangaDetail");
-            } else {
-                intent = new Intent(MangaDetailActivity.this, MangaReleaseListActivity.class);
-                intent.putExtra("cameFrom", detailFrom);
-            }
-            startActivity(intent);
-            finish();
-        }
+//        if (detailFrom != null && !detailFrom.isEmpty()) {
+//            Intent intent;
+//            if (detailFrom.equalsIgnoreCase("MangaRead")) {
+//                intent = new Intent(MangaDetailActivity.this, ReadMangaActivity.class);
+//                intent.putExtra("appBarColorStatus", mangaType);
+//                intent.putExtra("chapterURL", chapterURL);
+//                intent.putExtra("readFrom", "MangaDetail");
+//            } else {
+//                intent = new Intent(MangaDetailActivity.this, MangaReleaseListActivity.class);
+//                intent.putExtra("cameFrom", detailFrom);
+//            }
+//            startActivity(intent);
+//            finish();
+//        }
     }
 }

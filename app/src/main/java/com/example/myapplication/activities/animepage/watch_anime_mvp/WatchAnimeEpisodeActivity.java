@@ -116,6 +116,9 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
                     animeType.contains(getResources().getString(R.string.ova_string))) {
                 animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.pink_series_color));
                 animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.pink_series_color));
+            } else {
+                animeEpisodeBinding.linearAbove.setBackgroundColor(getResources().getColor(R.color.blue_series_color));
+                animeEpisodeBinding.linearBelow.setBackgroundColor(getResources().getColor(R.color.blue_series_color));
             }
             animeEpisodeBinding.textAnimeTitleWatch.setText(episodeTitle);
             getWatchAnimeDataFromWebView(episodeURL);
