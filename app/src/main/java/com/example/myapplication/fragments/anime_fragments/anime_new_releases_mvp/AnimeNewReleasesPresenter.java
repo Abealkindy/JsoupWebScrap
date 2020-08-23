@@ -47,6 +47,7 @@ public class AnimeNewReleasesPresenter {
     }
 
     private void passToRetrofit(int pageCount, String newUrl, String hitStatus, Map<String, String> cookies) {
+        Log.e("newReleasesURL", newUrl + "/page/" + pageCount);
         Document doc = JsoupConfig.setInitJsoup(newUrl + "/page/" + pageCount, cookies);
         if (doc != null) {
             Elements newepisodecon = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-lg-3 mb40");

@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ItemListMangaContentBinding;
 import com.squareup.picasso.LruCache;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
@@ -59,13 +61,13 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
                             .build();
                     return chain.proceed(authorized);
                 })
-                .cache(new Cache(context.getCacheDir(), 25 * 1024 * 1024))
                 .build();
         Picasso picasso = new Picasso.Builder(context)
                 .downloader(new OkHttp3Downloader(client))
-                .memoryCache(new LruCache(context))
                 .build();
         picasso.load(imageContent.get(position))
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
                 .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme())))
                 .error(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error, context.getTheme())))
                 .into(holder.itemListBinding.imageMangaContentItem);

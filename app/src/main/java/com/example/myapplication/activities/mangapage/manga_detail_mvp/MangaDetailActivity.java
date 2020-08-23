@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.squareup.picasso.LruCache;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
@@ -142,13 +144,13 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
                                 .build();
                         return chain.proceed(authorized);
                     })
-                    .cache(new Cache(this.getCacheDir(), 25 * 1024 * 1024))
                     .build();
             Picasso picasso = new Picasso.Builder(this)
                     .downloader(new OkHttp3Downloader(client))
-                    .memoryCache(new LruCache(this))
                     .build();
             picasso.load(detailThumb)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE)
                     .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.imageplaceholder, this.getTheme())))
                     .error(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.error, this.getTheme())))
                     .into(detailBinding.headerThumbnailDetail);
@@ -228,13 +230,13 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
                                     .build();
                             return chain.proceed(authorized);
                         })
-                        .cache(new Cache(this.getCacheDir(), 25 * 1024 * 1024))
                         .build();
                 Picasso picasso = new Picasso.Builder(this)
                         .downloader(new OkHttp3Downloader(client))
-                        .memoryCache(new LruCache(this))
                         .build();
                 picasso.load(detailThumb)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE)
+                        .networkPolicy(NetworkPolicy.NO_CACHE)
                         .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.imageplaceholder, this.getTheme())))
                         .error(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.error, this.getTheme())))
                         .into(detailBinding.headerThumbnailDetail);

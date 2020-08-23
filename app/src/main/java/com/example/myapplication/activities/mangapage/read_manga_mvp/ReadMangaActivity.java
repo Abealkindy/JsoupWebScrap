@@ -9,12 +9,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.activities.mangapage.MangaReleaseListActivity;
 import com.example.myapplication.activities.mangapage.manga_detail_mvp.MangaDetailActivity;
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.RecyclerAllChapterAdapter;
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.RecyclerReadMangaAdapter;

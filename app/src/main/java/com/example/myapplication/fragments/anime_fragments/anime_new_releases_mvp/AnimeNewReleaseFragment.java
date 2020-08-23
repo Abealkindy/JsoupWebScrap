@@ -87,7 +87,7 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
                 this.pageCount--;
             }
         }
-        newReleasesPresenter.getNewReleasesAnimeData(pageCount, "https://animeindo.fun", hitStatus);
+        newReleasesPresenter.getNewReleasesAnimeData(pageCount, "https://animeindo.cc", hitStatus);
     }
 
     @Override

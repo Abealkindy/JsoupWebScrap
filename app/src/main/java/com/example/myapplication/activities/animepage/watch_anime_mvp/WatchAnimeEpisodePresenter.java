@@ -31,9 +31,9 @@ public class WatchAnimeEpisodePresenter {
             List<String> urlString = new ArrayList<>();
             List<String> textString = new ArrayList<>();
             for (Element element : getAllEpisode) {
-                String episodeURL = element.select("a[href^=https://animeindo.fun/]").attr("href");
+                String episodeURL = element.select("a[href^=https://animeindo.cc/]").attr("href");
                 urlString.add(episodeURL);
-                String episodeText = element.select("a[href^=https://animeindo.fun/]").text();
+                String episodeText = element.select("a[href^=https://animeindo.cc/]").text();
                 if (episodeURL.contains(nowEpisodeNumber)) {
                     if (episodeURL.contains(episodeText)) {
                         episodeText = episodeText + " Now Watching";
@@ -46,12 +46,12 @@ public class WatchAnimeEpisodePresenter {
 //            Log.e("last ", "" + urlString.get(urlString.size() - 1).contains(nowEpisodeNumber));
             Log.e("all episode list ", new Gson().toJson(textString));
             //Anime Details URL settings
-            Elements getElementsAnimeDetails = document.select("a[href^=https://animeindo.fun/anime/]");
+            Elements getElementsAnimeDetails = document.select("a[href^=https://animeindo.cc/anime/]");
             if (getElementsAnimeDetails.isEmpty()) {
                 Log.e("VideoDetailNull?", "Ya");
             } else {
                 String animeDetailsURL = getElementsAnimeDetails.attr("href");
-                if (!animeDetailsURL.startsWith("https://animeindo.fun/")) {
+                if (!animeDetailsURL.startsWith("https://animeindo.cc/")) {
                     Log.e("VideoresultURLError?", "Ya");
                     videoStreamResultModel.setAnimeDetailURL(null);
                 } else {
@@ -74,7 +74,7 @@ public class WatchAnimeEpisodePresenter {
             }
             videoStreamResultModel.setEpisodeTitle(episodeTitle);
             //get next and prev URL
-            Elements getElementsNextAndPrevEpisode = document.getElementsByClass("btn-ep-nav").select("a[href^=https://animeindo.fun/]");
+            Elements getElementsNextAndPrevEpisode = document.getElementsByClass("btn-ep-nav").select("a[href^=https://animeindo.cc/]");
             List<String> nextAndPrevURL = new ArrayList<>();
             if (nextAndPrevURL != null) {
                 nextAndPrevURL.clear();
@@ -82,7 +82,7 @@ public class WatchAnimeEpisodePresenter {
             for (int position = 0; position < getElementsNextAndPrevEpisode.size(); position++) {
                 Element element = getElementsNextAndPrevEpisode.get(position);
                 String nextandprevurlsingle = element.absUrl("href");
-                if (!nextandprevurlsingle.startsWith("https://animeindo.fun/anime/") && nextandprevurlsingle.contains("episode")) {
+                if (!nextandprevurlsingle.startsWith("https://animeindo.cc/anime/") && nextandprevurlsingle.contains("episode")) {
                     nextAndPrevURL.add(nextandprevurlsingle);
                 }
             }

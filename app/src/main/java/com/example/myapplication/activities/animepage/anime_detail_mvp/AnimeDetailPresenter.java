@@ -85,12 +85,12 @@ public class AnimeDetailPresenter {
                 detailMangaModel.setFirstUpdateYear(null);
             }
             //get Genre
-            Elements getGenre = document.select("a[href^=https://animeindo.fun/genre/]");
+            Elements getGenre = document.select("a[href^=https://animeindo.cc/genre/]");
             List<DetailMangaModel.DetailMangaGenres> detailGenresList = new ArrayList<>();
             for (Element element : getGenre) {
                 DetailMangaModel.DetailMangaGenres detailGenres = new DetailMangaModel().new DetailMangaGenres();
-                String getGenreURL = element.select("a[href^=https://animeindo.fun/genre/]").attr("href");
-                String getGenreTitle = element.select("a[href^=https://animeindo.fun/genre/]").text();
+                String getGenreURL = element.select("a[href^=https://animeindo.cc/genre/]").attr("href");
+                String getGenreTitle = element.select("a[href^=https://animeindo.cc/genre/]").text();
                 detailGenres.setGenreURL(getGenreURL);
                 detailGenres.setGenreTitle(getGenreTitle);
                 detailGenresList.add(detailGenres);

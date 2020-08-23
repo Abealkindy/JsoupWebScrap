@@ -24,6 +24,7 @@ public class GenreAndSearchAnimePresenter {
     }
 
     public void getGenreAndSearchData(String hitStatus, String genreAndSearchURL) {
+        Log.e("resultURL", genreAndSearchURL);
         CloudFlare cf = new CloudFlare(genreAndSearchURL);
         cf.setUser_agent("Mozilla/5.0");
         cf.getCookies(new CloudFlare.cfCallback() {
@@ -56,6 +57,7 @@ public class GenreAndSearchAnimePresenter {
     }
 
     public void getOnlyGenreData(String genreURL) {
+        Log.e("genreURL", genreURL);
         CloudFlare cf = new CloudFlare(genreURL);
         cf.setUser_agent("Mozilla/5.0");
         cf.getCookies(new CloudFlare.cfCallback() {
@@ -150,7 +152,7 @@ public class GenreAndSearchAnimePresenter {
             List<AnimeGenreAndSearchResultModel.AnimeSearchResult> animeGenreAndSearchResultModelList = new ArrayList<>();
             Elements getListData = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-lg-3 mb40");
             for (Element element : getListData) {
-                String detailURL = element.select("a[href^=https://animeindo.fun/anime/]").attr("href");
+                String detailURL = element.select("a[href^=https://animeindo.cc/anime/]").attr("href");
                 String thumbURL = element.getElementsByClass("episode-ratio background-cover").attr("style").substring(element.getElementsByClass("episode-ratio background-cover").attr("style").indexOf("https://"), element.getElementsByClass("episode-ratio background-cover").attr("style").indexOf(")"));
                 if (thumbURL.contains("'")) {
                     thumbURL = thumbURL.replace("'", "");
@@ -185,7 +187,7 @@ public class GenreAndSearchAnimePresenter {
             List<AnimeGenreAndSearchResultModel.AnimeSearchResultNew> animeGenreAndSearchResultModelList = new ArrayList<>();
             Elements getListData = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-lg-3 col-xl-per5 mb40");
             for (Element element : getListData) {
-                String detailURL = element.select("a[href^=https://animeindo.fun/anime/]").attr("href");
+                String detailURL = element.select("a[href^=https://animeindo.cc/anime/]").attr("href");
                 String thumbURL = element.getElementsByClass("episode-ratio background-cover").attr("style").substring(element.getElementsByClass("episode-ratio background-cover").attr("style").indexOf("https://"), element.getElementsByClass("episode-ratio background-cover").attr("style").indexOf(")"));
                 if (thumbURL.contains("'")) {
                     thumbURL = thumbURL.replace("'", "");

@@ -18,6 +18,8 @@ import com.example.myapplication.activities.mangapage.manga_detail_mvp.MangaDeta
 import com.example.myapplication.databinding.ItemListMangaNewBinding;
 import com.example.myapplication.localstorages.manga_local.MangaBookmarkModel;
 import com.squareup.picasso.LruCache;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
@@ -67,13 +69,13 @@ public class MangaRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<MangaR
                             .build();
                     return chain.proceed(authorized);
                 })
-                .cache(new Cache(context.getCacheDir(), 25 * 1024 * 1024))
                 .build();
         Picasso picasso = new Picasso.Builder(context)
                 .downloader(new OkHttp3Downloader(client))
-                .memoryCache(new LruCache(context))
                 .build();
         picasso.load(animeDiscoverResultModelList.get(position).getMangaThumb())
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
                 .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme())))
                 .error(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error, context.getTheme())))
                 .into(holder.itemListBinding.mangaThumb);
