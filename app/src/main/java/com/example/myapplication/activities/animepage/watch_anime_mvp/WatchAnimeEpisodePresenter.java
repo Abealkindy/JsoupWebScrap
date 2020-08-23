@@ -98,6 +98,14 @@ public class WatchAnimeEpisodePresenter {
                     List<String> splitList;
                     splitList = Arrays.asList(nextOrPrevURL.split("-"));
                     nextOrPrevEpisodeNumber = splitList.get(splitList.indexOf("episode") + 1);
+                    Log.e("nowEpsNum", nowEpisodeNumber);
+                    Log.e("nextOrPrevNum", nextOrPrevEpisodeNumber);
+                    if (nextOrPrevEpisodeNumber.contains("/")) {
+                        nextOrPrevEpisodeNumber = nextOrPrevEpisodeNumber.replace("/", "");
+                    }
+                    if (nowEpisodeNumber.contains("/")) {
+                        nowEpisodeNumber = nowEpisodeNumber.replace("/", "");
+                    }
                     if (Integer.parseInt(nextOrPrevEpisodeNumber) < Integer.parseInt(nowEpisodeNumber)) {
                         prevURL = nextOrPrevURL;
                         nextURL = null;
