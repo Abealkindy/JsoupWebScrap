@@ -99,7 +99,7 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
                             animeGenreList.get(position).setGenreSelected(false);
                         }
                         StringBuilder stringBuilder = new StringBuilder(genreAdd);
-                        genreAdd = "&genre[]=" + animeGenreList.get(position).getGenreURL();
+                        genreAdd = "&genre%5B0%5D=" + animeGenreList.get(position).getGenreURL();
                         genreAdd = String.valueOf(stringBuilder.append(genreAdd));
                         clickItemListener.onItemClickGenres(animeGenreList, genreAdd);
                     } else if (from.equalsIgnoreCase("sort")) {
@@ -181,7 +181,7 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
                             animeGenreList.get(position).setGenreSelected(false);
                         }
                         StringBuilder stringBuilder = new StringBuilder(genreAdd);
-                        genreAdd = "&genre[]=" + animeGenreList.get(position).getGenreURL();
+                        genreAdd = "&genre%5B0%5D=" + animeGenreList.get(position).getGenreURL();
                         genreAdd = String.valueOf(stringBuilder.append(genreAdd));
                         clickItemListener.onItemClickGenres(animeGenreList, genreAdd);
                     } else if (from.equalsIgnoreCase("sort")) {

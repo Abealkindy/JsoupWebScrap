@@ -32,7 +32,6 @@ import com.example.myapplication.models.mangamodels.DiscoverMangaModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -271,7 +270,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
 
     @Override
     public void onGetDiscoverMangaDataSuccess(List<DiscoverMangaModel> discoverMangaResultList) {
-        getActivity().runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             progressDialog.dismiss();
             discoverMangaBinding.recyclerDiscoverManga.setVisibility(View.VISIBLE);
             discoverMangaBinding.linearError.setVisibility(View.GONE);
@@ -285,7 +284,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
 
     @Override
     public void onGetDiscoverMangaDataFailed() {
-        getActivity().runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             progressDialog.dismiss();
             discoverMangaBinding.recyclerDiscoverManga.setVisibility(View.GONE);
             Glide.with(mContext).asGif().load(R.raw.aquacry).into(discoverMangaBinding.imageError);
@@ -295,7 +294,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
 
     @Override
     public void onGetStatusDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> statusResultList) {
-        Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             animeStatusResultModelList.clear();
             animeStatusResultModelList.addAll(statusResultList);
         });
@@ -303,7 +302,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
 
     @Override
     public void onGetTypeDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> typeResultList) {
-        Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             animeTypeResultModelList.clear();
             animeTypeResultModelList.addAll(typeResultList);
         });
@@ -311,7 +310,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
 
     @Override
     public void onGetSortDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> sortResultList) {
-        Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             animeSortResultModelList.clear();
             animeSortResultModelList.addAll(sortResultList);
         });
@@ -319,7 +318,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
 
     @Override
     public void onGetGenreDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> genreResultList) {
-        Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             animeGenreResultModelList.clear();
             animeGenreResultModelList.addAll(genreResultList);
         });

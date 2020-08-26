@@ -120,10 +120,10 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
 
     @Override
     public void onGetNewReleasesDataFailed() {
-        getActivity().runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             progressDialog.dismiss();
             AlertDialog.Builder builder = new
-                    AlertDialog.Builder(Objects.requireNonNull(getActivity()));
+                    AlertDialog.Builder(requireActivity());
             builder.setTitle("Oops...");
             builder.setIcon(getResources().getDrawable(R.drawable.appicon));
             builder.setMessage("Your internet connection is worse than your face onii-chan :3");

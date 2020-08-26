@@ -27,24 +27,6 @@ public class WatchAnimeEpisodePresenter {
         String prevURL = "", nextURL = "";
         VideoStreamResultModel videoStreamResultModel = new VideoStreamResultModel();
         if (document != null) {
-            List<Element> getAllEpisode = document.getElementsByTag("li").subList(15, document.getElementsByTag("li").size() - 3);
-            List<String> urlString = new ArrayList<>();
-            List<String> textString = new ArrayList<>();
-            for (Element element : getAllEpisode) {
-                String episodeURL = element.select("a[href^=https://animeindo.cc/]").attr("href");
-                urlString.add(episodeURL);
-                String episodeText = element.select("a[href^=https://animeindo.cc/]").text();
-                if (episodeURL.contains(nowEpisodeNumber)) {
-                    if (episodeURL.contains(episodeText)) {
-                        episodeText = episodeText + " Now Watching";
-                    }
-                }
-                textString.add(episodeText);
-            }
-            Log.e("all episode list ", "\n" + getAllEpisode);
-            Log.e("all episode list ", new Gson().toJson(urlString));
-//            Log.e("last ", "" + urlString.get(urlString.size() - 1).contains(nowEpisodeNumber));
-            Log.e("all episode list ", new Gson().toJson(textString));
             //Anime Details URL settings
             Elements getElementsAnimeDetails = document.select("a[href^=https://animeindo.cc/anime/]");
             if (getElementsAnimeDetails.isEmpty()) {
@@ -58,7 +40,15 @@ public class WatchAnimeEpisodePresenter {
                     videoStreamResultModel.setAnimeDetailURL(animeDetailsURL);
                 }
             }
-            String episodeTitle = document.getElementsByTag("h1").text();
+
+            String episodeTitle = "";
+            String getTitle1 = document.getElementsByTag("h1").text();
+            String getTitle2 = document.getElementsByTag("h2").eachText().get(0);
+            if (getTitle1 != null && !getTitle1.isEmpty()) {
+                episodeTitle = getTitle1;
+            } else {
+                episodeTitle = getTitle2;
+            }
             if (episodeTitle != null) {
                 if (episodeTitle.contains("Subtitle")) {
                     if (episodeTitle.contains("(TAMAT)")) {

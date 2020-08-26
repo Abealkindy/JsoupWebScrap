@@ -139,7 +139,7 @@ public class MangaDetailPresenter {
 
             }
 
-            String getStatus = getAuthor.eachText().get(13).substring(8);
+            String getStatus = getAuthor.eachText().get(13).substring(6);
             detailMangaModel.setMangaStatus(getStatus);
 
             detailMangaModel.setMangaType(getAuthor.eachText().get(16).substring(6));
