@@ -100,7 +100,7 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
 
     @Override
     public void onGetNewReleasesDataSuccess(List<AnimeNewReleaseResultModel> animeNewReleases, String hitStatus) {
-        getActivity().runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             if (hitStatus.equalsIgnoreCase("newPage")) {
                 if (progressDialog != null) {
                     progressDialog.dismiss();
