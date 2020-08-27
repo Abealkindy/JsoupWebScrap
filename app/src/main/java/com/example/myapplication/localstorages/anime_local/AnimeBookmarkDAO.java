@@ -22,17 +22,11 @@ public interface AnimeBookmarkDAO {
     @Query("SELECT * FROM tb_anime_bookmark ORDER BY anime_title DESC")
     List<AnimeBookmarkModel> sortByNameDESC();
 
-    @Query("SELECT * FROM tb_anime_bookmark ORDER BY anime_type ASC")
-    List<AnimeBookmarkModel> sortByTypeASC();
+    @Query("SELECT * FROM tb_anime_bookmark ORDER BY anime_rating ASC")
+    List<AnimeBookmarkModel> sortByRatingASC();
 
-    @Query("SELECT * FROM tb_anime_bookmark ORDER BY anime_type DESC")
-    List<AnimeBookmarkModel> sortByTypeDESC();
-
-    @Query("SELECT * FROM tb_anime_bookmark ORDER BY anime_status ASC")
-    List<AnimeBookmarkModel> sortByStatusASC();
-
-    @Query("SELECT * FROM tb_anime_bookmark ORDER BY anime_status DESC")
-    List<AnimeBookmarkModel> sortByStatusDESC();
+    @Query("SELECT * FROM tb_anime_bookmark ORDER BY anime_rating DESC")
+    List<AnimeBookmarkModel> sortByRatingDESC();
 
     @Query("SELECT * FROM tb_anime_bookmark WHERE anime_url LIKE :animeURL ")
     AnimeBookmarkModel findByName(String animeURL);

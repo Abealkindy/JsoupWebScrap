@@ -20,8 +20,6 @@ public class AnimeBookmarkModel {
     String animeTitle = "";
     @ColumnInfo(name = "anime_thumb")
     String animeThumb = "";
-    @ColumnInfo(name = "anime_status")
-    String animeStatus = "";
-    @ColumnInfo(name = "anime_type")
-    String animeType = "";
+    @ColumnInfo(name = "anime_rating")
+    String animeRating = "";
 }

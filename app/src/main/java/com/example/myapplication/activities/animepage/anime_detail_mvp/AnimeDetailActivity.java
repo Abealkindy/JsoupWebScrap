@@ -37,7 +37,7 @@ public class AnimeDetailActivity extends AppCompatActivity implements AnimeDetai
     ActivityAnimeDetailBinding animeDetailBinding;
     AnimeDetailModel animeDetailModel = new AnimeDetailModel();
     AnimeBookmarkModel animeBookmarkModel = new AnimeBookmarkModel();
-    String getAnimeDetailURL = "", getAnimeDetailTitle = "", getAnimeDetailThumb = "", getAnimeDetailStatus = "", getAnimeDetailType = "";
+    String getAnimeDetailURL = "", getAnimeDetailTitle = "", getAnimeDetailThumb = "", getAnimeDetailStatus = "", getAnimeDetailType = "", getAnimeRating = "";
     private AnimeDetailPresenter detailPresenter = new AnimeDetailPresenter(this);
 
     @Override
@@ -64,8 +64,7 @@ public class AnimeDetailActivity extends AppCompatActivity implements AnimeDetai
                 animeBookmarkModel.setAnimeTitle(getAnimeDetailTitle);
                 animeBookmarkModel.setAnimeThumb(getAnimeDetailThumb);
                 animeBookmarkModel.setAnimeDetailURL(getAnimeDetailURL);
-                animeBookmarkModel.setAnimeStatus(getAnimeDetailStatus);
-                animeBookmarkModel.setAnimeType(getAnimeDetailType);
+                animeBookmarkModel.setAnimeRating(getAnimeRating);
                 localAppDB.animeBookmarkDAO().insertBookmarkData(animeBookmarkModel);
                 animeDetailBinding.favouriteImageInactive.setVisibility(View.GONE);
                 animeDetailBinding.favouriteImageActive.setVisibility(View.VISIBLE);
@@ -216,6 +215,11 @@ public class AnimeDetailActivity extends AppCompatActivity implements AnimeDetai
             }
 
             String animeDetailRating = detailData.getMangaRating();
+            if (animeDetailRating.equalsIgnoreCase("N/A") || animeDetailRating.equalsIgnoreCase("?") || animeDetailRating.equalsIgnoreCase("-") || animeDetailRating.isEmpty()) {
+                this.getAnimeRating = "0";
+            } else {
+                this.getAnimeRating = animeDetailRating;
+            }
             animeDetailBinding.ratingBarDetailAnime.setNumStars(5);
             if (animeDetailRating.equalsIgnoreCase("N/A") || animeDetailRating.equalsIgnoreCase("?") || animeDetailRating.equalsIgnoreCase("-")) {
                 animeDetailBinding.ratingBarDetailAnime.setRating(0);

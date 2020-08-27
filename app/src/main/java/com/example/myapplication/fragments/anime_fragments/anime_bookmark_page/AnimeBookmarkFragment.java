@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import static com.example.myapplication.MyApp.localAppDB;
 
-import com.example.myapplication.adapters.animeadapters.recycleradapters.AnimeRecyclerBookmarkAdapter;
+import com.example.myapplication.adapters.animeadapters.recycleradapters.AnimeRecyclerBookmarkAdapterNew;
 import com.example.myapplication.databinding.FragmentAnimeBookmarkBinding;
 
 /**
@@ -55,7 +55,7 @@ public class AnimeBookmarkFragment extends Fragment {
 
     private void getDataFromLocalDB() {
         if (localAppDB.animeBookmarkDAO().getAnimeBookmarkData() != null) {
-            mBinding.recylerAnimeBookmark.setAdapter(new AnimeRecyclerBookmarkAdapter(getActivity(), localAppDB.animeBookmarkDAO().getAnimeBookmarkData()));
+            mBinding.recylerAnimeBookmark.setAdapter(new AnimeRecyclerBookmarkAdapterNew(getActivity(), localAppDB.animeBookmarkDAO().getAnimeBookmarkData()));
             mBinding.recylerAnimeBookmark.setHasFixedSize(true);
         }
     }
