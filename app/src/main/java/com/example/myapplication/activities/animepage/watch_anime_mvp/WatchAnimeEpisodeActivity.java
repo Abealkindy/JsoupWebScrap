@@ -157,7 +157,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
                         () -> view.loadUrl(
                                 "javascript:window.HTMLOUT.processHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');"
                         )
-                        , 30000
+                        , 5000
                 );
             }
 
