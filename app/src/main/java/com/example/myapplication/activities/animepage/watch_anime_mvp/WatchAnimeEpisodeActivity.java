@@ -232,9 +232,9 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
                 animeEpisodeBinding.nextEpisodeButton.setVisibility(View.GONE);
             }
             if (result.getVideoUrl() != null && !result.getVideoUrl().isEmpty()) {
-                DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-                double screenWidth = displayMetrics.widthPixels / displayMetrics.density;
-                double screenHeight = displayMetrics.heightPixels / displayMetrics.density;
+//                DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+//                double screenWidth = displayMetrics.widthPixels / displayMetrics.density;
+//                double screenHeight = displayMetrics.heightPixels / displayMetrics.density;
 //                String imageURLModify = "<html><body style=\"margin: 0;\"><iframe width=\"" + screenWidth + "\" height=\"" + screenHeight + "\" src=\"" + result.getVideoUrl() + "\"></iframe></body></html>";
 //                String imageURLModify = "<html><body style=\"margin: 0; padding: 0\"><iframe width=\"100%\" height=\"100%\" src=\"" + result.getVideoUrl() + "\" allowfullscreen=\"allowfullscreen\"></iframe></body></html>";
 //                animeEpisodeBinding.webViewWatchAnime.loadData(imageURLModify, "text/html", "UTF-8");
