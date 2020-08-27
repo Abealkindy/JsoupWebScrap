@@ -37,7 +37,7 @@ public class AnimeRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<AnimeR
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.itemListBinding.textGenre.setVisibility(View.VISIBLE);
+        holder.itemListBinding.textGenre.setVisibility(View.GONE);
         holder.itemListBinding.linearRating.setVisibility(View.VISIBLE);
         holder.itemListBinding.seriesType.setVisibility(View.GONE);
         holder.itemListBinding.textTitle.setText(searchResultList.get(position).getAnimeTitle());
