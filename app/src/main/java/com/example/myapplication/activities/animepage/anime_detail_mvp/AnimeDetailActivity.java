@@ -58,7 +58,7 @@ public class AnimeDetailActivity extends AppCompatActivity implements AnimeDetai
             Log.e("FAVCLICKED? ", "YES");
             if (animeDetailBinding.favouriteImageInactive.getVisibility() == View.VISIBLE) {
                 Date dateNow = Calendar.getInstance().getTime();
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("ddMMyyyyhhmmss");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmmss");
                 String formattedDate = df.format(dateNow);
                 animeBookmarkModel.setAnimeAddedDate(formattedDate);
                 animeBookmarkModel.setAnimeTitle(getAnimeDetailTitle);
