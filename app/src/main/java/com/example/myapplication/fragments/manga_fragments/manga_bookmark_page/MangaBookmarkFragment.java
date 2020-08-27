@@ -20,7 +20,10 @@ import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerBookmarkAdapterNew;
 import com.example.myapplication.databinding.FragmentAnimeBookmarkBinding;
+import com.example.myapplication.localstorages.manga_local.MangaBookmarkModel;
 import com.google.gson.Gson;
+
+import java.util.List;
 
 import static com.example.myapplication.MyApp.localAppDB;
 
@@ -82,31 +85,40 @@ public class MangaBookmarkFragment extends Fragment implements SearchView.OnQuer
     }
 
     private void getDataFromLocalDB(String hitStatus, String newText) {
+        List<MangaBookmarkModel> bookmarkModelList;
         if (hitStatus.equalsIgnoreCase("ordinary")) {
-            if (localAppDB.mangaBookmarkDAO().getMangaBookmarkData() != null && localAppDB.mangaBookmarkDAO().getMangaBookmarkData().size() > 0) {
-                mBinding.recylerAnimeBookmark.setVisibility(View.VISIBLE);
-                mBinding.linearError.setVisibility(View.GONE);
-                mBinding.recylerAnimeBookmark.setAdapter(new MangaRecyclerBookmarkAdapterNew(getActivity(), localAppDB.mangaBookmarkDAO().sortByNameASC()));
-                mBinding.recylerAnimeBookmark.setHasFixedSize(true);
+            bookmarkModelList = localAppDB.mangaBookmarkDAO().getMangaBookmarkData();
+            if (validateList(bookmarkModelList)) {
+                showRecyclerResult(bookmarkModelList);
             } else {
-                mBinding.recylerAnimeBookmark.setVisibility(View.GONE);
-                Glide.with(mContext).asGif().load(R.raw.aquacry).into(mBinding.imageError);
-                mBinding.textViewErrorMessage.setText("Oops, you haven't marked your favourite manga");
-                mBinding.linearError.setVisibility(View.VISIBLE);
+                showErrorLayout("Oops, you haven't marked your favourite manga");
             }
         } else {
-            if (localAppDB.mangaBookmarkDAO().searchByName("%" + newText + "%") != null && localAppDB.mangaBookmarkDAO().searchByName("%" + newText + "%").size() > 0) {
-                mBinding.recylerAnimeBookmark.setVisibility(View.VISIBLE);
-                mBinding.linearError.setVisibility(View.GONE);
-                mBinding.recylerAnimeBookmark.setAdapter(new MangaRecyclerBookmarkAdapterNew(getActivity(), localAppDB.mangaBookmarkDAO().searchByName("%" + newText + "%")));
-                mBinding.recylerAnimeBookmark.setHasFixedSize(true);
+            bookmarkModelList = localAppDB.mangaBookmarkDAO().searchByName("%" + newText + "%");
+            if (validateList(bookmarkModelList)) {
+                showRecyclerResult(bookmarkModelList);
             } else {
-                mBinding.recylerAnimeBookmark.setVisibility(View.GONE);
-                Glide.with(mContext).asGif().load(R.raw.aquacry).into(mBinding.imageError);
-                mBinding.textViewErrorMessage.setText("Oops, please type correctly");
-                mBinding.linearError.setVisibility(View.VISIBLE);
+                showErrorLayout("Oops, please type correctly");
             }
         }
+    }
+
+    private boolean validateList(List<MangaBookmarkModel> bookmarkModelList) {
+        return bookmarkModelList != null && bookmarkModelList.size() > 0;
+    }
+
+    private void showRecyclerResult(List<MangaBookmarkModel> bookmarkModelList) {
+        mBinding.recylerAnimeBookmark.setVisibility(View.VISIBLE);
+        mBinding.linearError.setVisibility(View.GONE);
+        mBinding.recylerAnimeBookmark.setAdapter(new MangaRecyclerBookmarkAdapterNew(getActivity(), bookmarkModelList));
+        mBinding.recylerAnimeBookmark.setHasFixedSize(true);
+    }
+
+    private void showErrorLayout(String errorMessage) {
+        mBinding.recylerAnimeBookmark.setVisibility(View.GONE);
+        Glide.with(mContext).asGif().load(R.raw.aquacry).into(mBinding.imageError);
+        mBinding.textViewErrorMessage.setText(errorMessage);
+        mBinding.linearError.setVisibility(View.VISIBLE);
     }
 
     @Override
