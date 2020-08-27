@@ -48,7 +48,12 @@ public class AnimeNewReleasesPresenter {
 
     private void passToRetrofit(int pageCount, String newUrl, String hitStatus, Map<String, String> cookies) {
         Log.e("newReleasesURL", newUrl + "/page/" + pageCount);
-        Document doc = JsoupConfig.setInitJsoup(newUrl + "/page/" + pageCount, cookies);
+        Document doc = null;
+        if (pageCount > 1) {
+            doc = JsoupConfig.setInitJsoup(newUrl + "/page/" + pageCount + "/", cookies);
+        } else {
+            doc = JsoupConfig.setInitJsoup(newUrl, cookies);
+        }
         if (doc != null) {
             Elements newepisodecon = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-lg-3 mb40");
             Log.e("html ", "\n" + newepisodecon);
