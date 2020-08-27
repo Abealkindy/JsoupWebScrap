@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
@@ -55,6 +56,7 @@ public class AnimeBookmarkFragment extends Fragment {
 
     private void getDataFromLocalDB() {
         if (localAppDB.animeBookmarkDAO().getAnimeBookmarkData() != null) {
+            mBinding.recylerAnimeBookmark.setLayoutManager(new GridLayoutManager(requireContext(), 2));
             mBinding.recylerAnimeBookmark.setAdapter(new AnimeRecyclerBookmarkAdapterNew(getActivity(), localAppDB.animeBookmarkDAO().getAnimeBookmarkData()));
             mBinding.recylerAnimeBookmark.setHasFixedSize(true);
         }

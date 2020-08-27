@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
@@ -110,6 +111,7 @@ public class MangaBookmarkFragment extends Fragment implements SearchView.OnQuer
     private void showRecyclerResult(List<MangaBookmarkModel> bookmarkModelList) {
         mBinding.recylerAnimeBookmark.setVisibility(View.VISIBLE);
         mBinding.linearError.setVisibility(View.GONE);
+        mBinding.recylerAnimeBookmark.setLayoutManager(new LinearLayoutManager(requireContext()));
         mBinding.recylerAnimeBookmark.setAdapter(new MangaRecyclerBookmarkAdapterNew(getActivity(), bookmarkModelList));
         mBinding.recylerAnimeBookmark.setHasFixedSize(true);
     }

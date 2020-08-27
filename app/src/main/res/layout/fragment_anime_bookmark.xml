@@ -14,10 +14,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyler_anime_bookmark"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:listitem="@layout/item_list_anime_new" />
+            android:layout_height="match_parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <LinearLayout
