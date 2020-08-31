@@ -114,7 +114,7 @@ public class MangaHistoryFragment extends Fragment implements SearchView.OnQuery
     private void showRecyclerResult(List<MangaHistoryModel> historyModelList) {
         mBinding.recylerAnimeBookmark.setVisibility(View.VISIBLE);
         mBinding.linearError.setVisibility(View.GONE);
-        mBinding.recylerAnimeBookmark.setLayoutManager(new LinearLayoutManager(requireContext()));
+        mBinding.recylerAnimeBookmark.setLayoutManager(new GridLayoutManager(requireContext(), 2));
         mBinding.recylerAnimeBookmark.setAdapter(new MangaRecyclerHistoryAdapterNew(getActivity(), historyModelList));
         mBinding.recylerAnimeBookmark.setHasFixedSize(true);
     }

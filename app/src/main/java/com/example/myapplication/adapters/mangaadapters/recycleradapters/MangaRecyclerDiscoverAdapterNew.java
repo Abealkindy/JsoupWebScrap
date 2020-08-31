@@ -120,6 +120,7 @@ public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaR
             intent.putExtra("chapterURL", animeDiscoverResultModelList.get(position).getMangaLatestChapter());
             intent.putExtra("appBarColorStatus", animeDiscoverResultModelList.get(position).getMangaType());
             intent.putExtra("chapterTitle", animeDiscoverResultModelList.get(position).getMangaLatestChapterText());
+            intent.putExtra("chapterThumb", animeDiscoverResultModelList.get(position).getMangaThumb());
             intent.putExtra("readFrom", "MangaDiscover");
             context.startActivity(intent);
 //            ((MangaReleaseListActivity) context).finish();

@@ -36,7 +36,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
     private ReadMangaPresenter readMangaPresenter = new ReadMangaPresenter(this);
     private List<ReadMangaModel.AllChapterDatas> allChapterDatasList = new ArrayList<>();
     private Dialog dialog;
-    private String chapterURL = "", chapterNextURL = "", chapterPrevURL = "", detailURL = "", appColorBarStatus = "", readFrom = "";
+    private String chapterURL = "", chapterNextURL = "", chapterPrevURL = "", detailURL = "", appColorBarStatus = "", readFrom = "", chapterThumb = "";
     ProgressDialog progressDialog;
 
     @Override
@@ -71,7 +71,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             intent.putExtra("detailTitle", "");
             intent.putExtra("detailRating", "");
             intent.putExtra("detailStatus", "");
-            intent.putExtra("detailThumb", "");
+            intent.putExtra("detailThumb", chapterThumb);
             intent.putExtra("chapterURL", chapterURL);
             intent.putExtra("detailFrom", "MangaRead");
             startActivity(intent);
@@ -87,6 +87,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
         progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
         appColorBarStatus = getIntent().getStringExtra("appBarColorStatus");
         chapterURL = getIntent().getStringExtra("chapterURL");
+        chapterThumb = getIntent().getStringExtra("chapterThumb");
         readFrom = getIntent().getStringExtra("readFrom");
 
         if (chapterURL != null) {
@@ -208,6 +209,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             mangaBookmarkModel.setChapterAddedDate(formattedDate);
             mangaBookmarkModel.setChapterTitle(mangaContents.getChapterTitle());
             mangaBookmarkModel.setChapterURL(chapterURL);
+            mangaBookmarkModel.setChapterThumb(chapterThumb);
             mangaBookmarkModel.setChapterType(appColorBarStatus);
             localAppDB.mangaHistoryDAO().insertHistoryData(mangaBookmarkModel);
             Log.e("historyList", new Gson().toJson(localAppDB.mangaHistoryDAO().getMangaHistoryData()));

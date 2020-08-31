@@ -112,6 +112,7 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                     intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(0));
                     intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
                     intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(0));
+                    intent.putExtra("chapterThumb", animeNewReleaseResultModelList.get(position).getMangaThumb());
                     intent.putExtra("readFrom", "MangaReleases");
                     context.startActivity(intent);
 //                    ((MangaReleaseListActivity) context).finish();
@@ -129,6 +130,7 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                     intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(0));
                     intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
                     intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(0));
+                    intent.putExtra("chapterThumb", animeNewReleaseResultModelList.get(position).getMangaThumb());
                     intent.putExtra("readFrom", "MangaReleases");
                     context.startActivity(intent);
 //                    ((MangaReleaseListActivity) context).finish();
@@ -141,6 +143,7 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                     intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(1));
                     intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
                     intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(1));
+                    intent.putExtra("chapterThumb", animeNewReleaseResultModelList.get(position).getMangaThumb());
                     intent.putExtra("readFrom", "MangaReleases");
                     context.startActivity(intent);
 //                    ((MangaReleaseListActivity) context).finish();
@@ -155,6 +158,7 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                     intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(0));
                     intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
                     intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(0));
+                    intent.putExtra("chapterThumb", animeNewReleaseResultModelList.get(position).getMangaThumb());
                     intent.putExtra("readFrom", "MangaReleases");
                     context.startActivity(intent);
 //                    ((MangaReleaseListActivity) context).finish();
@@ -167,6 +171,7 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                     intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(1));
                     intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
                     intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(1));
+                    intent.putExtra("chapterThumb", animeNewReleaseResultModelList.get(position).getMangaThumb());
                     intent.putExtra("readFrom", "MangaReleases");
                     context.startActivity(intent);
 //                    ((MangaReleaseListActivity) context).finish();
@@ -179,6 +184,7 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                     intent.putExtra("chapterURL", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterURL().get(2));
                     intent.putExtra("appBarColorStatus", animeNewReleaseResultModelList.get(position).getMangaType());
                     intent.putExtra("chapterTitle", animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().get(2));
+                    intent.putExtra("chapterThumb", animeNewReleaseResultModelList.get(position).getMangaThumb());
                     intent.putExtra("readFrom", "MangaReleases");
                     context.startActivity(intent);
 //                    ((MangaReleaseListActivity) context).finish();

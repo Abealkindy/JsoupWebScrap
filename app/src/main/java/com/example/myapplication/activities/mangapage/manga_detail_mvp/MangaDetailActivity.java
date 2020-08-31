@@ -306,11 +306,11 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
                 if (detailRating.equalsIgnoreCase("N/A") || detailRating.equalsIgnoreCase("?") || detailRating.equalsIgnoreCase("-")) {
                     detailBinding.ratingBarDetail.setRating(0);
                     detailBinding.ratingNumberDetail.setText(detailRating);
-                } else if (Float.parseFloat(detailRating) <= 0) {
+                } else if (Float.parseFloat(detailRating.replace(",", ".")) <= 0) {
                     detailBinding.ratingBarDetail.setRating(0);
                     detailBinding.ratingNumberDetail.setText(detailRating);
                 } else {
-                    detailBinding.ratingBarDetail.setRating(Float.parseFloat(detailRating) / 2);
+                    detailBinding.ratingBarDetail.setRating(Float.parseFloat(detailRating.replace(",", ".")) / 2);
                     detailBinding.ratingNumberDetail.setText(detailRating);
                 }
             }
@@ -330,7 +330,7 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MangaDetailActivity.this);
             linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
             detailBinding.contentManga.recyclerAllChaptersDetail.setLayoutManager(linearLayoutManager);
-            detailBinding.contentManga.recyclerAllChaptersDetail.setAdapter(new RecyclerAllChapterDetailAdapter(MangaDetailActivity.this, detailAllChapterDatasList, mangaType));
+            detailBinding.contentManga.recyclerAllChaptersDetail.setAdapter(new RecyclerAllChapterDetailAdapter(MangaDetailActivity.this, detailAllChapterDatasList, mangaType, detailThumb));
         });
     }
 

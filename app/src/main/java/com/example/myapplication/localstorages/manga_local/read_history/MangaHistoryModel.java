@@ -18,6 +18,8 @@ public class MangaHistoryModel {
     String chapterAddedDate = "";
     @ColumnInfo(name = "chapter_title")
     String chapterTitle = "";
+    @ColumnInfo(name = "chapter_thumb")
+    String chapterThumb = "";
     @ColumnInfo(name = "chapter_type")
     String chapterType = "";
 }

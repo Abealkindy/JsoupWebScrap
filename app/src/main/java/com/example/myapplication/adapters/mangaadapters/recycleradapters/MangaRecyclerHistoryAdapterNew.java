@@ -47,7 +47,7 @@ public class MangaRecyclerHistoryAdapterNew extends RecyclerView.Adapter<MangaRe
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         ViewHolder viewHolder;
-        ItemListSelectChapterDetailBinding itemListBinding = ItemListSelectChapterDetailBinding.inflate(layoutInflater, parent, false);
+        ItemListAnimeNewBinding itemListBinding = ItemListAnimeNewBinding.inflate(layoutInflater, parent, false);
         viewHolder = new ViewHolder(itemListBinding);
         return viewHolder;
     }
@@ -55,19 +55,51 @@ public class MangaRecyclerHistoryAdapterNew extends RecyclerView.Adapter<MangaRe
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.itemListBinding.textViewChapterAllReleaseTime.setVisibility(View.GONE);
-        RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) holder.itemListBinding.linearChapterDetail.getLayoutParams();
-        layoutParams.topMargin = (int) context.getResources().getDimension(R.dimen._5sdp);
-        layoutParams.bottomMargin = (int) context.getResources().getDimension(R.dimen._5sdp);
-        layoutParams.leftMargin = (int) context.getResources().getDimension(R.dimen._10sdp);
-        layoutParams.rightMargin = (int) context.getResources().getDimension(R.dimen._10sdp);
-        holder.itemListBinding.linearChapterDetail.setLayoutParams(layoutParams);
-        holder.itemListBinding.textViewChapterAllTitle.setText(animeDiscoverResultModelList.get(position).getChapterTitle());
-        holder.itemListBinding.linearChapterDetail.setOnClickListener(v -> {
+        holder.itemListBinding.textGenre.setVisibility(View.GONE);
+        holder.itemListBinding.linearRating.setVisibility(View.GONE);
+        OkHttpClient client = new OkHttpClient()
+                .newBuilder()
+                .addInterceptor(chain -> {
+                    final Request original = chain.request();
+                    final Request authorized = original.newBuilder()
+                            .addHeader("Cookie", CookieManager.getInstance().getCookie(animeDiscoverResultModelList.get(position).getChapterThumb()))
+                            .addHeader("User-Agent", "")
+                            .build();
+                    return chain.proceed(authorized);
+                })
+                .build();
+        Picasso picasso = new Picasso.Builder(context)
+                .downloader(new OkHttp3Downloader(client))
+                .build();
+        picasso.load(animeDiscoverResultModelList.get(position).getChapterThumb())
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
+                .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme())))
+                .error(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error, context.getTheme())))
+                .into(holder.itemListBinding.imageViewBackground);
+        if (animeDiscoverResultModelList.get(position).getChapterType().equalsIgnoreCase(context.getResources().getString(R.string.manga_string))) {
+            holder.itemListBinding.seriesType.setSlantedBackgroundColor(context.getResources().getColor(R.color.manga_color));
+            holder.itemListBinding.seriesType.setText(context.getResources().getString(R.string.manga_string));
+        } else if (animeDiscoverResultModelList.get(position).getChapterType().equalsIgnoreCase(context.getResources().getString(R.string.manhwa_string))) {
+            holder.itemListBinding.seriesType.setSlantedBackgroundColor(context.getResources().getColor(R.color.manhwa_color));
+            holder.itemListBinding.seriesType.setText(context.getResources().getString(R.string.manhwa_string));
+        } else if (animeDiscoverResultModelList.get(position).getChapterType().equalsIgnoreCase(context.getResources().getString(R.string.manhua_string))) {
+            holder.itemListBinding.seriesType.setSlantedBackgroundColor(context.getResources().getColor(R.color.manhua_color));
+            holder.itemListBinding.seriesType.setText(context.getResources().getString(R.string.manhua_string));
+        } else if (animeDiscoverResultModelList.get(position).getChapterType().equalsIgnoreCase(context.getResources().getString(R.string.mangaoneshot_string))) {
+            holder.itemListBinding.seriesType.setSlantedBackgroundColor(context.getResources().getColor(R.color.manga_color));
+            holder.itemListBinding.seriesType.setText(context.getResources().getString(R.string.mangaoneshot_string));
+        } else if (animeDiscoverResultModelList.get(position).getChapterType().equalsIgnoreCase(context.getResources().getString(R.string.oneshot_string))) {
+            holder.itemListBinding.seriesType.setSlantedBackgroundColor(context.getResources().getColor(R.color.manga_color));
+            holder.itemListBinding.seriesType.setText(context.getResources().getString(R.string.oneshot_string));
+        }
+        holder.itemListBinding.textTitle.setText(animeDiscoverResultModelList.get(position).getChapterTitle());
+        holder.itemListBinding.relativeItem.setOnClickListener(v -> {
             Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);
             intent.putExtra("chapterURL", animeDiscoverResultModelList.get(position).getChapterURL());
             intent.putExtra("appBarColorStatus", animeDiscoverResultModelList.get(position).getChapterType());
             intent.putExtra("chapterTitle", animeDiscoverResultModelList.get(position).getChapterTitle());
+            intent.putExtra("chapterThumb", animeDiscoverResultModelList.get(position).getChapterThumb());
             intent.putExtra("readFrom", "MangaHistory");
             context.startActivity(intent);
 //            ((MangaReleaseListActivity) context).finish();
@@ -80,9 +112,9 @@ public class MangaRecyclerHistoryAdapterNew extends RecyclerView.Adapter<MangaRe
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ItemListSelectChapterDetailBinding itemListBinding;
+        private ItemListAnimeNewBinding itemListBinding;
 
-        public ViewHolder(final ItemListSelectChapterDetailBinding itemViewList) {
+        public ViewHolder(final ItemListAnimeNewBinding itemViewList) {
             super(itemViewList.getRoot());
             this.itemListBinding = itemViewList;
         }

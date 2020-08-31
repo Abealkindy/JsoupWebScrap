@@ -19,12 +19,13 @@ import java.util.List;
 public class RecyclerAllChapterDetailAdapter extends RecyclerView.Adapter<RecyclerAllChapterDetailAdapter.ViewHolder> {
     private Context context;
     private List<DetailMangaModel.DetailAllChapterDatas> allChapterDatasArrayList;
-    private String mangaType;
+    private String mangaType, chapterThumb;
 
-    public RecyclerAllChapterDetailAdapter(Context context, List<DetailMangaModel.DetailAllChapterDatas> allChapterDatasArrayList, String mangaType) {
+    public RecyclerAllChapterDetailAdapter(Context context, List<DetailMangaModel.DetailAllChapterDatas> allChapterDatasArrayList, String mangaType, String chapterThumb) {
         this.context = context;
         this.allChapterDatasArrayList = allChapterDatasArrayList;
         this.mangaType = mangaType;
+        this.chapterThumb = chapterThumb;
     }
 
     @NonNull
@@ -43,6 +44,7 @@ public class RecyclerAllChapterDetailAdapter extends RecyclerView.Adapter<Recycl
             Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);
             intent.putExtra("chapterURL", allChapterDatasArrayList.get(position).getChapterURL());
             intent.putExtra("appBarColorStatus", mangaType);
+            intent.putExtra("chapterThumb", chapterThumb);
             intent.putExtra("readFrom", "MangaDetail");
             context.startActivity(intent);
 //            ((MangaDetailActivity) context).finish();
