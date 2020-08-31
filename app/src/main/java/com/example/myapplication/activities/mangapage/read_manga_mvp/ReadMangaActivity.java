@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,10 +19,17 @@ import com.example.myapplication.adapters.mangaadapters.recycleradapters.Recycle
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.RecyclerReadMangaAdapter;
 import com.example.myapplication.databinding.ActivityReadMangaBinding;
 import com.example.myapplication.databinding.SelectChapterDialogBinding;
+import com.example.myapplication.localstorages.manga_local.read_history.MangaHistoryModel;
 import com.example.myapplication.models.mangamodels.ReadMangaModel;
+import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import static com.example.myapplication.MyApp.localAppDB;
 
 public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllChapterAdapter.ClickListener, RecyclerReadMangaAdapter.ClickItemListener, ReadMangaInterface {
     private ActivityReadMangaBinding readMangaBinding;
@@ -192,7 +200,17 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             }
 
             detailURL = mangaContents.getMangaDetailURL();
-
+            //add manga data
+            Date dateNow = Calendar.getInstance().getTime();
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmmss");
+            String formattedDate = df.format(dateNow);
+            MangaHistoryModel mangaBookmarkModel = new MangaHistoryModel();
+            mangaBookmarkModel.setChapterAddedDate(formattedDate);
+            mangaBookmarkModel.setChapterTitle(mangaContents.getChapterTitle());
+            mangaBookmarkModel.setChapterURL(chapterURL);
+            mangaBookmarkModel.setChapterType(appColorBarStatus);
+            localAppDB.mangaHistoryDAO().insertHistoryData(mangaBookmarkModel);
+            Log.e("historyList", new Gson().toJson(localAppDB.mangaHistoryDAO().getMangaHistoryData()));
         });
 
     }

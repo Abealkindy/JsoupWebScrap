@@ -16,10 +16,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start|center_vertical"
         android:layout_margin="@dimen/size10dp"
+        android:autoSizeTextType="uniform"
         android:fontFamily="@font/montserrat"
+        android:maxLines="1"
         android:textAlignment="textStart"
         android:textColor="@android:color/white"
         android:textSize="@dimen/size20sp"
+        tools:targetApi="o"
         tools:text="Chapter 1000" />
 
     <TextView

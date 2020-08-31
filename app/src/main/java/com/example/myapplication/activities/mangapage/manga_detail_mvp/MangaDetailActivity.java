@@ -1,15 +1,12 @@
 package com.example.myapplication.activities.mangapage.manga_detail_mvp;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.myapplication.activities.mangapage.MangaReleaseListActivity;
-import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.RecyclerAllChapterDetailAdapter;
 import com.example.myapplication.adapters.RecyclerGenreAdapter;
 import com.example.myapplication.databinding.ActivityMangaDetailBinding;
-import com.example.myapplication.localstorages.manga_local.MangaBookmarkModel;
+import com.example.myapplication.localstorages.manga_local.manga_bookmark.MangaBookmarkModel;
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -21,11 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
-import android.webkit.WebChromeClient;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.squareup.picasso.LruCache;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
@@ -38,7 +33,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 

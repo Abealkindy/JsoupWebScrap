@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.mangapage.manga_detail_mvp.MangaDetailActivity;
 import com.example.myapplication.databinding.ItemListMangaSearchResultBinding;
-import com.example.myapplication.localstorages.manga_local.MangaBookmarkModel;
+import com.example.myapplication.localstorages.manga_local.manga_bookmark.MangaBookmarkModel;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.internal.StringUtil;

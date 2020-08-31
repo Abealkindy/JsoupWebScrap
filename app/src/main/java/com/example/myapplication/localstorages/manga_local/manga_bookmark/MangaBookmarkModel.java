@@ -1,4 +1,4 @@
-package com.example.myapplication.localstorages.manga_local;
+package com.example.myapplication.localstorages.manga_local.manga_bookmark;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

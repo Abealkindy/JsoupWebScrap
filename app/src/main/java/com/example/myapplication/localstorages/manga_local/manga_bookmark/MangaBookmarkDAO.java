@@ -1,12 +1,10 @@
-package com.example.myapplication.localstorages.manga_local;
+package com.example.myapplication.localstorages.manga_local.manga_bookmark;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-
-import com.example.myapplication.localstorages.manga_local.MangaBookmarkModel;
 
 import java.util.List;
 
