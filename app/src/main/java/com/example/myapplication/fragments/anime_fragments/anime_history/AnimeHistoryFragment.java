@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
@@ -42,7 +41,7 @@ public class AnimeHistoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = FragmentAnimeBookmarkBinding.inflate(inflater, container, false);
-        getDataFromLocalDB("ordinary", "");
+        getDataFromLocalDB();
         initUI();
         initEvent();
         return mBinding.getRoot();
@@ -61,14 +60,14 @@ public class AnimeHistoryFragment extends Fragment {
     private void initEvent() {
         mBinding.swipeRefreshAnimeBookmark.setOnRefreshListener(() -> {
             mBinding.swipeRefreshAnimeBookmark.setRefreshing(false);
-            getDataFromLocalDB("ordinary", "");
+            getDataFromLocalDB();
         });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getDataFromLocalDB("ordinary", "");
+        getDataFromLocalDB();
     }
 //
 //    @Override
@@ -79,17 +78,17 @@ public class AnimeHistoryFragment extends Fragment {
 //        super.onCreateOptionsMenu(menu, inflater);
 //    }
 
-    private void getDataFromLocalDB(String hitStatus, String newText) {
+    private void getDataFromLocalDB() {
         List<AnimeHistoryModel> historyModelList;
-        if (hitStatus.equalsIgnoreCase("ordinary")) {
-            historyModelList = localAppDB.animeHistoryDAO().getAnimeHistoryData();
-            Log.e("read history", new Gson().toJson(historyModelList));
-            if (validateList(historyModelList)) {
-                showRecyclerResult(historyModelList);
-            } else {
-                showErrorLayout();
-            }
+//        if ("ordinary".equalsIgnoreCase("ordinary")) {
+        historyModelList = localAppDB.animeHistoryDAO().getAnimeHistoryData();
+        Log.e("read history", new Gson().toJson(historyModelList));
+        if (validateList(historyModelList)) {
+            showRecyclerResult(historyModelList);
+        } else {
+            showErrorLayout();
         }
+//        }
 //        else {
 //            historyModelList = localAppDB.animeHistoryDAO().searchByName("%" + newText + "%");
 //            if (validateList(historyModelList)) {
@@ -115,7 +114,7 @@ public class AnimeHistoryFragment extends Fragment {
     private void showErrorLayout() {
         mBinding.recylerAnimeBookmark.setVisibility(View.GONE);
         Glide.with(mContext).asGif().load(R.raw.aquacry).into(mBinding.imageError);
-        mBinding.textViewErrorMessage.setText("Oops, you haven't marked your favourite anime");
+        mBinding.textViewErrorMessage.setText("Oops, coba nonton dulu, nanti baru ada historynya di sini :D");
         mBinding.linearError.setVisibility(View.VISIBLE);
     }
 
