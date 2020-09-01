@@ -8,7 +8,7 @@ import com.example.myapplication.adapters.animeadapters.recycleradapters.Recycle
 import com.example.myapplication.adapters.RecyclerGenreAdapter;
 import com.example.myapplication.databinding.ActivityAnimeDetailBinding;
 import com.example.myapplication.models.animemodels.AnimeDetailModel;
-import com.example.myapplication.localstorages.anime_local.AnimeBookmarkModel;
+import com.example.myapplication.localstorages.anime_local.anime_bookmark.AnimeBookmarkModel;
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
 
 import androidx.appcompat.app.AppCompatActivity;

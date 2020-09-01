@@ -4,16 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.R;
 import com.example.myapplication.activities.animepage.anime_detail_mvp.AnimeDetailActivity;
 import com.example.myapplication.databinding.ItemListAnimeBinding;
-import com.example.myapplication.localstorages.anime_local.AnimeBookmarkModel;
+import com.example.myapplication.localstorages.anime_local.anime_bookmark.AnimeBookmarkModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

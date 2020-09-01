@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.activities.animepage.anime_detail_mvp.AnimeDetailActivity;
 import com.example.myapplication.databinding.ItemListAnimeNewBinding;
-import com.example.myapplication.localstorages.anime_local.AnimeBookmarkModel;
+import com.example.myapplication.localstorages.anime_local.anime_bookmark.AnimeBookmarkModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

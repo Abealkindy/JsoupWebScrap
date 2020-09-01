@@ -1,4 +1,4 @@
-package com.example.myapplication.localstorages.anime_local;
+package com.example.myapplication.localstorages.anime_local.anime_bookmark;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
