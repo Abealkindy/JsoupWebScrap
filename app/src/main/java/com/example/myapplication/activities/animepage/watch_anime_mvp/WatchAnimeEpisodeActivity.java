@@ -22,23 +22,30 @@ import android.widget.Toast;
 
 import com.example.myapplication.activities.animepage.anime_detail_mvp.AnimeDetailActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.localstorages.anime_local.watch_history.AnimeHistoryModel;
 import com.example.myapplication.models.animemodels.VideoStreamResultModel;
 import com.example.myapplication.databinding.ActivityWatchAnimeEpisodeBinding;
+import com.google.gson.Gson;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import static com.example.myapplication.MyApp.localAppDB;
 
 public class WatchAnimeEpisodeActivity extends AppCompatActivity implements WatchAnimeEpisodeInterface {
 
     private ActivityWatchAnimeEpisodeBinding animeEpisodeBinding;
     private VideoStreamResultModel videoStreamResultModel = new VideoStreamResultModel();
     private ProgressDialog progressDialog;
-    private String nowEpisodeNumber = "", animeType = "", animeStatus = "", animeThumb = "";
+    private String nowEpisodeNumber = "", animeType = "", animeStatus = "", animeThumb = "", episodeURL = "", episodeTitle = "";
     private WatchAnimeEpisodePresenter episodePresenter = new WatchAnimeEpisodePresenter(this);
     private boolean isShowAtasBawah = false;
 
@@ -86,8 +93,8 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
         animeEpisodeBinding.webViewWatchAnime.getSettings().setJavaScriptEnabled(true);
         animeEpisodeBinding.webViewWatchAnime.getSettings().setLoadWithOverviewMode(true);
         animeEpisodeBinding.webViewWatchAnime.getSettings().setUseWideViewPort(false);
-        String episodeURL = getIntent().getStringExtra("animeEpisodeToWatch");
-        String episodeTitle = getIntent().getStringExtra("animeEpisodeTitle");
+        episodeURL = getIntent().getStringExtra("animeEpisodeToWatch");
+        episodeTitle = getIntent().getStringExtra("animeEpisodeTitle");
         animeType = getIntent().getStringExtra("animeEpisodeType");
         animeStatus = getIntent().getStringExtra("animeEpisodeStatus");
         animeThumb = getIntent().getStringExtra("animeEpisodeThumb");
@@ -127,6 +134,20 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
         } else {
             Log.e("nowURL", "gak ada");
         }
+    }
+
+    private void addWatchHistory() {
+        Date dateNow = Calendar.getInstance().getTime();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmmss");
+        String formattedDate = df.format(dateNow);
+        AnimeHistoryModel mangaBookmarkModel = new AnimeHistoryModel();
+        mangaBookmarkModel.setAnimeAddedDate(formattedDate);
+        mangaBookmarkModel.setAnimeTitle(episodeTitle);
+        mangaBookmarkModel.setAnimeDetailURL(episodeURL);
+        mangaBookmarkModel.setAnimeThumb(animeThumb);
+        mangaBookmarkModel.setAnimeType(animeType);
+        localAppDB.animeHistoryDAO().insertHistoryData(mangaBookmarkModel);
+        Log.e("historyList", new Gson().toJson(localAppDB.animeHistoryDAO().getAnimeHistoryData()));
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -219,7 +240,8 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
     private void parseHtmlToViewableContent(VideoStreamResultModel result) {
         videoStreamResultModel = result;
         if (result != null) {
-            animeEpisodeBinding.textAnimeTitleWatch.setText(result.getEpisodeTitle());
+            episodeTitle = result.getEpisodeTitle();
+            animeEpisodeBinding.textAnimeTitleWatch.setText(episodeTitle);
             if (result.getVideoPrevUrl() != null && !result.getVideoPrevUrl().isEmpty()) {
                 animeEpisodeBinding.prevEpisodeButton.setVisibility(View.VISIBLE);
             } else {
@@ -244,6 +266,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
                 animeEpisodeBinding.webViewWatchAnime.loadUrl(result.getVideoUrl());
             }
 
+            addWatchHistory();
         }
 
     }

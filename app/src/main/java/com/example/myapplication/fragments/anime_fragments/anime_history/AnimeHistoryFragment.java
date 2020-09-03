@@ -17,6 +17,10 @@ import com.example.myapplication.adapters.animeadapters.recycleradapters.AnimeRe
 import com.example.myapplication.databinding.FragmentAnimeBookmarkBinding;
 import com.example.myapplication.localstorages.anime_local.watch_history.AnimeHistoryModel;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -48,7 +52,7 @@ public class AnimeHistoryFragment extends Fragment {
     }
 
     private void initUI() {
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
     }
 
     @Override
@@ -116,6 +120,23 @@ public class AnimeHistoryFragment extends Fragment {
         Glide.with(mContext).asGif().load(R.raw.aquacry).into(mBinding.imageError);
         mBinding.textViewErrorMessage.setText("Oops, coba nonton dulu, nanti baru ada historynya di sini :D");
         mBinding.linearError.setVisibility(View.VISIBLE);
+        //experimental code
+//        tryPrintFromAndroid();
+    }
+
+    private void tryPrintFromAndroid() {
+        new Thread(() -> {
+            try {
+                Socket sock = new Socket("192.168.1.222", 9100);
+                PrintWriter oStream = new PrintWriter(sock.getOutputStream());
+                oStream.print(mContext.getAssets().open("firstsample.pdf"));
+                oStream.close();
+                sock.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
     }
 
 //    @Override

@@ -12,7 +12,7 @@ import com.example.myapplication.localstorages.manga_local.manga_bookmark.MangaB
 import com.example.myapplication.localstorages.manga_local.read_history.MangaHistoryDAO;
 import com.example.myapplication.localstorages.manga_local.read_history.MangaHistoryModel;
 
-@Database(entities = {AnimeBookmarkModel.class, MangaBookmarkModel.class, MangaHistoryModel.class, AnimeHistoryModel.class}, version = 9)
+@Database(entities = {AnimeBookmarkModel.class, MangaBookmarkModel.class, MangaHistoryModel.class, AnimeHistoryModel.class}, version = 7)
 public abstract class LocalAppDB extends RoomDatabase {
     public abstract AnimeBookmarkDAO animeBookmarkDAO();
 

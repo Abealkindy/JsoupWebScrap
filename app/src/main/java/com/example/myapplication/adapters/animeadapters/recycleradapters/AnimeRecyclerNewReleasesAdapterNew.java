@@ -43,7 +43,8 @@ public class AnimeRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Ani
         if (episode.startsWith("0")) {
             episode = episode.substring(1);
         }
-        holder.itemListBinding.textTitle.setText(animeNewReleaseResultModelList.get(position).getAnimeEpisode() + " Episode " + episode);
+        String animeEpisode = animeNewReleaseResultModelList.get(position).getAnimeEpisode() + " Episode " + episode;
+        holder.itemListBinding.textTitle.setText(animeEpisode);
 //        holder.itemListBinding.textTitle.setText(animeNewReleaseResultModelList.get(position).getAnimeEpisode());
         Picasso.get().load(animeNewReleaseResultModelList.get(position).getEpisodeThumb()).into(holder.itemListBinding.imageViewBackground);
 
@@ -77,7 +78,7 @@ public class AnimeRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Ani
 //            intentToVideoWatchActivity.putExtra("animeDetailThumb", animeNewReleaseResultModelList.get(position).getEpisodeThumb());
             Intent intentToVideoWatchActivity = new Intent(context.getApplicationContext(), WatchAnimeEpisodeActivity.class);
             intentToVideoWatchActivity.putExtra("animeEpisodeToWatch", animeNewReleaseResultModelList.get(position).getEpisodeURL());
-            intentToVideoWatchActivity.putExtra("animeEpisodeTitle", animeNewReleaseResultModelList.get(position).getAnimeEpisode());
+            intentToVideoWatchActivity.putExtra("animeEpisodeTitle", animeEpisode);
             intentToVideoWatchActivity.putExtra("animeEpisodeThumb", animeNewReleaseResultModelList.get(position).getEpisodeThumb());
             intentToVideoWatchActivity.putExtra("animeEpisodeType", animeNewReleaseResultModelList.get(position).getAnimeEpisodeType());
             intentToVideoWatchActivity.putExtra("animeEpisodeStatus", animeNewReleaseResultModelList.get(position).getAnimeEpisodeStatus());
