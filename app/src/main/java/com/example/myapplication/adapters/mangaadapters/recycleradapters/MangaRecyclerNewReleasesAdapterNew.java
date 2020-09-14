@@ -13,11 +13,9 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.activities.mangapage.MangaReleaseListActivity;
 import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
 import com.example.myapplication.databinding.ItemListMangaNewBinding;
 import com.example.myapplication.models.mangamodels.MangaNewReleaseResultModel;
-import com.squareup.picasso.LruCache;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;

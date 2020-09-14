@@ -101,7 +101,10 @@ public class MangaRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<MangaR
         }
         holder.itemListBinding.mangaRatingBar.setNumStars(5);
         String replaceComma = animeDiscoverResultModelList.get(position).getMangaRating().replace(",", ".");
-        if (animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("N/A") || animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("?") || animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("-")) {
+        if (animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("N/A") ||
+                animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("?") ||
+                animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("-") ||
+                animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("Unknown")) {
             holder.itemListBinding.mangaRatingBar.setRating(0);
             holder.itemListBinding.mangaRatingNumber.setText(animeDiscoverResultModelList.get(position).getMangaRating());
         } else if (Float.parseFloat(replaceComma) <= 0) {

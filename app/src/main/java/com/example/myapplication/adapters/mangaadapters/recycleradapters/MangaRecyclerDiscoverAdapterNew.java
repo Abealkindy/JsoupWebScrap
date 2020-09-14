@@ -17,7 +17,6 @@ import com.example.myapplication.activities.mangapage.manga_detail_mvp.MangaDeta
 import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
 import com.example.myapplication.databinding.ItemListMangaNewBinding;
 import com.example.myapplication.models.mangamodels.DiscoverMangaModel;
-import com.squareup.picasso.LruCache;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
@@ -26,7 +25,6 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.Objects;
 
-import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -103,7 +101,10 @@ public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaR
         }
         holder.itemListBinding.mangaRatingBar.setNumStars(5);
         String replaceComma = animeDiscoverResultModelList.get(position).getMangaRating().replace(",", ".");
-        if (animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("N/A") || animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("?") || animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("-")) {
+        if (animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("N/A") ||
+                animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("?") ||
+                animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("-") ||
+                animeDiscoverResultModelList.get(position).getMangaRating().equalsIgnoreCase("Unknown")) {
             holder.itemListBinding.mangaRatingBar.setRating(0);
             holder.itemListBinding.mangaRatingNumber.setText(animeDiscoverResultModelList.get(position).getMangaRating());
         } else if (Float.parseFloat(replaceComma) <= 0) {

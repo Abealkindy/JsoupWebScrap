@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ItemListMangaContentBinding;
-import com.squareup.picasso.LruCache;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
@@ -22,7 +21,6 @@ import java.util.List;
 import java.util.Objects;
 
 import lombok.SneakyThrows;
-import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -71,9 +69,7 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
                 .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme())))
                 .error(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error, context.getTheme())))
                 .into(holder.itemListBinding.imageMangaContentItem);
-        holder.itemListBinding.imageMangaContentItem.setOnClickListener(v -> {
-            clickListener.onItemClickMangaContent();
-        });
+        holder.itemListBinding.imageMangaContentItem.setOnClickListener(v -> clickListener.onItemClickMangaContent());
     }
 
     @Override
