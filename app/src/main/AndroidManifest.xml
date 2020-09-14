@@ -14,6 +14,7 @@
         android:roundIcon="@mipmap/ic_main_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:hardwareAccelerated="true"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="m">
@@ -61,6 +62,7 @@
         <activity
             android:name=".activities.mangapage.read_manga_mvp.ReadMangaActivity"
             android:screenOrientation="userPortrait"
+            android:hardwareAccelerated="false"
             android:theme="@style/AppThemes.NoActionBar" />
 
         <meta-data
