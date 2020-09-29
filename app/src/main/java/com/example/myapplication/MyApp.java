@@ -6,8 +6,11 @@ import androidx.room.Room;
 
 import com.example.myapplication.localstorages.LocalAppDB;
 
+import java.util.Map;
+
 public class MyApp extends Application {
     public static LocalAppDB localAppDB;
+    public static Map<String, String> cookiesz;
 
     @Override
     public void onCreate() {

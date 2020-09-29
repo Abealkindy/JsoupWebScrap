@@ -36,6 +36,7 @@ import java.util.Objects;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
+import static com.example.myapplication.MyApp.cookiesz;
 import static com.example.myapplication.MyApp.localAppDB;
 
 public class MangaDetailActivity extends AppCompatActivity implements MangaDetailInterface {
@@ -127,28 +128,6 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
             detailBinding.favouriteImageActive.setVisibility(View.GONE);
         }
 
-        if (!detailThumb.equalsIgnoreCase("")) {
-            OkHttpClient client = new OkHttpClient()
-                    .newBuilder()
-                    .addInterceptor(chain -> {
-                        final Request original = chain.request();
-                        final Request authorized = original.newBuilder()
-                                .addHeader("Cookie", CookieManager.getInstance().getCookie(detailThumb))
-                                .addHeader("User-Agent", "")
-                                .build();
-                        return chain.proceed(authorized);
-                    })
-                    .build();
-            Picasso picasso = new Picasso.Builder(this)
-                    .downloader(new OkHttp3Downloader(client))
-                    .build();
-            picasso.load(detailThumb)
-                    .memoryPolicy(MemoryPolicy.NO_CACHE)
-                    .networkPolicy(NetworkPolicy.NO_CACHE)
-                    .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.imageplaceholder, this.getTheme())))
-                    .error(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.error, this.getTheme())))
-                    .into(detailBinding.headerThumbnailDetail);
-        }
         if (!detailTitle.equalsIgnoreCase("")) {
             detailBinding.detailHeaderTitle.setText(detailTitle);
             initCollapsingToolbar(detailTitle);
@@ -212,29 +191,29 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
             }
 
             //get thumb
-            if (detailThumb.equalsIgnoreCase("")) {
-                detailThumb = detailMangaModel.getMangaThumb();
-                OkHttpClient client = new OkHttpClient()
-                        .newBuilder()
-                        .addInterceptor(chain -> {
-                            final Request original = chain.request();
-                            final Request authorized = original.newBuilder()
-                                    .addHeader("Cookie", CookieManager.getInstance().getCookie(detailThumb))
-                                    .addHeader("User-Agent", "")
-                                    .build();
-                            return chain.proceed(authorized);
-                        })
-                        .build();
-                Picasso picasso = new Picasso.Builder(this)
-                        .downloader(new OkHttp3Downloader(client))
-                        .build();
-                picasso.load(detailThumb)
-                        .memoryPolicy(MemoryPolicy.NO_CACHE)
-                        .networkPolicy(NetworkPolicy.NO_CACHE)
-                        .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.imageplaceholder, this.getTheme())))
-                        .error(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.error, this.getTheme())))
-                        .into(detailBinding.headerThumbnailDetail);
-            }
+//            if (detailThumb.equalsIgnoreCase("")) {
+            detailThumb = detailMangaModel.getMangaThumb();
+            OkHttpClient client = new OkHttpClient()
+                    .newBuilder()
+                    .addInterceptor(chain -> {
+                        final Request original = chain.request();
+                        final Request authorized = original.newBuilder()
+                                .addHeader("Cookie", String.valueOf(cookiesz))
+                                .addHeader("User-Agent", "")
+                                .build();
+                        return chain.proceed(authorized);
+                    })
+                    .build();
+            Picasso picasso = new Picasso.Builder(this)
+                    .downloader(new OkHttp3Downloader(client))
+                    .build();
+            picasso.load(detailThumb)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE)
+                    .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.imageplaceholder, this.getTheme())))
+                    .error(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.error, this.getTheme())))
+                    .into(detailBinding.headerThumbnailDetail);
+//            }
 
             //get Synopsis
             detailBinding.contentManga.textSynopsis.setText(detailMangaModel.getMangaSynopsis());

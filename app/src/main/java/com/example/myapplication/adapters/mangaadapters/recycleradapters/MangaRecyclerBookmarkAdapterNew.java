@@ -21,6 +21,8 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
+import static com.example.myapplication.MyApp.cookiesz;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -61,7 +63,7 @@ public class MangaRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<MangaR
                 .addInterceptor(chain -> {
                     final Request original = chain.request();
                     final Request authorized = original.newBuilder()
-                            .addHeader("Cookie", CookieManager.getInstance().getCookie(animeDiscoverResultModelList.get(position).getMangaThumb()))
+                            .addHeader("Cookie", String.valueOf(cookiesz))
                             .addHeader("User-Agent", "")
                             .build();
                     return chain.proceed(authorized);

@@ -140,7 +140,7 @@ public class MangaNewReleasePresenter {
             Log.e("resultBeforeCut", new Gson().toJson(mangaNewReleaseResultModelList));
             Log.e("resultAfterCut", new Gson().toJson(mangaNewReleaseResultModelListAfterCut));
             //store data from JSOUP
-            newReleaseInterface.onGetNewReleasesDataSuccess(mangaNewReleaseResultModelListAfterCut, hitStatus);
+            newReleaseInterface.onGetNewReleasesDataSuccess(mangaNewReleaseResultModelListAfterCut, hitStatus, cookies);
         } else {
             newReleaseInterface.onGetNewReleasesDataFailed();
         }

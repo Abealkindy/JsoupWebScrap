@@ -28,6 +28,8 @@ import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
+import static com.example.myapplication.MyApp.cookiesz;
+
 public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<MangaRecyclerNewReleasesAdapterNew.ViewHolder> {
     private Context context;
     private List<MangaNewReleaseResultModel> animeNewReleaseResultModelList;
@@ -56,7 +58,7 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                 .addInterceptor(chain -> {
                     final Request original = chain.request();
                     final Request authorized = original.newBuilder()
-                            .addHeader("Cookie", CookieManager.getInstance().getCookie(animeNewReleaseResultModelList.get(position).getMangaThumb()))
+                            .addHeader("Cookie", String.valueOf(cookiesz))
                             .addHeader("User-Agent", "")
                             .build();
                     return chain.proceed(authorized);
