@@ -79,12 +79,15 @@ public class MangaDetailPresenter {
                 String chapterReleaseTime = element.getElementsByClass("rightoff").text();
                 String chapterTitle = element.select("a[href^=https://komikcast.com/chapter/]").text();
                 String chapterURL = element.select("a[href^=https://komikcast.com/chapter/]").attr("href");
-                allChapterDatas.setChapterReleaseTime(chapterReleaseTime);
-                allChapterDatas.setChapterTitle(chapterTitle);
-                allChapterDatas.setChapterURL(chapterURL);
-                detailAllChapterDatasList.add(allChapterDatas);
+                if (chapterReleaseTime != null && !chapterReleaseTime.isEmpty() &&
+                        chapterTitle != null && !chapterTitle.isEmpty() &&
+                        chapterURL != null && !chapterURL.isEmpty()) {
+                    allChapterDatas.setChapterReleaseTime(chapterReleaseTime);
+                    allChapterDatas.setChapterTitle(chapterTitle);
+                    allChapterDatas.setChapterURL(chapterURL);
+                    detailAllChapterDatasList.add(allChapterDatas);
+                }
             }
-            List<DetailMangaModel.DetailAllChapterDatas> afterCut = new ArrayList<>(detailAllChapterDatasList.subList(7, detailAllChapterDatasList.size() - 5));
 
 
             //get genre data
@@ -94,11 +97,14 @@ public class MangaDetailPresenter {
                 String genreTitle = element.text();
                 String genreURL = element.attr("href");
                 DetailMangaModel.DetailMangaGenres mangaGenres = new DetailMangaModel().new DetailMangaGenres();
-                mangaGenres.setGenreTitle(genreTitle);
-                mangaGenres.setGenreURL(genreURL);
-                genresList.add(mangaGenres);
+                if (genreTitle != null && !genreTitle.isEmpty() &&
+                        genreURL != null && !genreURL.isEmpty()) {
+                    mangaGenres.setGenreTitle(genreTitle);
+                    mangaGenres.setGenreURL(genreURL);
+                    genresList.add(mangaGenres);
+                }
+
             }
-            List<DetailMangaModel.DetailMangaGenres> genreCut = new ArrayList<>(genresList.subList(0, genresList.size() - 1));
 
             //get Updated on
             Elements getLatestUpdate = document.select("time[itemprop=dateModified]");
@@ -147,8 +153,8 @@ public class MangaDetailPresenter {
             Elements getRating = document.getElementsByClass("rating");
             detailMangaModel.setMangaRating(getRating.eachText().get(0).substring(7, getRating.eachText().get(0).length() - 10));
             //store data from JSOUP
-            mangaDetailInterface.onGetGenreSuccess(genreCut);
-            mangaDetailInterface.onGetAllChapterSuccess(afterCut);
+            mangaDetailInterface.onGetGenreSuccess(genresList);
+            mangaDetailInterface.onGetAllChapterSuccess(detailAllChapterDatasList);
             mangaDetailInterface.onGetDetailDataSuccess(detailMangaModel);
         } else {
             mangaDetailInterface.onGetAllChapterFailed();
