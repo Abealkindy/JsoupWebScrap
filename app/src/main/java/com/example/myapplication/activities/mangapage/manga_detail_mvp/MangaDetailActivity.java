@@ -1,6 +1,7 @@
 package com.example.myapplication.activities.mangapage.manga_detail_mvp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.RecyclerAllChapterDetailAdapter;
@@ -61,9 +62,9 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
     }
 
     private void initEvent() {
-        detailBinding.linearFavourite.setOnClickListener(v -> {
+        detailBinding.contentManga.linearFavourite.setOnClickListener(v -> {
             Log.e("FAVCLICKED? ", "YES");
-            if (detailBinding.favouriteImageInactive.getVisibility() == View.VISIBLE) {
+            if (detailBinding.contentManga.favouriteImageInactive.getVisibility() == View.VISIBLE) {
                 Date dateNow = Calendar.getInstance().getTime();
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmmss");
                 String formattedDate = df.format(dateNow);
@@ -75,14 +76,22 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
                 mangaBookmarkModel.setMangaType(detailType);
                 mangaBookmarkModel.setMangaRating(detailRating);
                 localAppDB.mangaBookmarkDAO().insertBookmarkData(mangaBookmarkModel);
-                detailBinding.favouriteImageInactive.setVisibility(View.GONE);
-                detailBinding.favouriteImageActive.setVisibility(View.VISIBLE);
-            } else if (detailBinding.favouriteImageActive.getVisibility() == View.VISIBLE) {
+                detailBinding.contentManga.favouriteImageInactive.setVisibility(View.GONE);
+                detailBinding.contentManga.favouriteImageActive.setVisibility(View.VISIBLE);
+            } else if (detailBinding.contentManga.favouriteImageActive.getVisibility() == View.VISIBLE) {
                 localAppDB.mangaBookmarkDAO().deleteBookmarkItem(mangaDetailURL);
-                detailBinding.favouriteImageInactive.setVisibility(View.VISIBLE);
-                detailBinding.favouriteImageActive.setVisibility(View.GONE);
+                detailBinding.contentManga.favouriteImageInactive.setVisibility(View.VISIBLE);
+                detailBinding.contentManga.favouriteImageActive.setVisibility(View.GONE);
             }
 
+        });
+
+        detailBinding.contentManga.linearShare.setOnClickListener(v -> {
+            Intent shareToOther = new Intent(Intent.ACTION_SEND);
+            shareToOther.setType("text/plain");
+            shareToOther.putExtra(Intent.EXTRA_SUBJECT, "Share " + mangaType + " " + detailTitle + " ke teman-teman mu\n");
+            shareToOther.putExtra(Intent.EXTRA_TEXT, "Share " + mangaType + " " + detailTitle + " ke teman-teman mu\n" + mangaDetailURL);
+            startActivity(Intent.createChooser(shareToOther, "Share URL"));
         });
     }
 
@@ -121,11 +130,11 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
 
         MangaBookmarkModel mangaBookmarkModel = localAppDB.mangaBookmarkDAO().findByName(mangaDetailURL);
         if (mangaBookmarkModel != null && mangaBookmarkModel.getMangaDetailURL() != null && mangaBookmarkModel.getMangaDetailURL().equals(mangaDetailURL)) {
-            detailBinding.favouriteImageInactive.setVisibility(View.GONE);
-            detailBinding.favouriteImageActive.setVisibility(View.VISIBLE);
+            detailBinding.contentManga.favouriteImageInactive.setVisibility(View.GONE);
+            detailBinding.contentManga.favouriteImageActive.setVisibility(View.VISIBLE);
         } else {
-            detailBinding.favouriteImageInactive.setVisibility(View.VISIBLE);
-            detailBinding.favouriteImageActive.setVisibility(View.GONE);
+            detailBinding.contentManga.favouriteImageInactive.setVisibility(View.VISIBLE);
+            detailBinding.contentManga.favouriteImageActive.setVisibility(View.GONE);
         }
 
         if (!detailTitle.equalsIgnoreCase("")) {

@@ -33,6 +33,7 @@ import static com.example.myapplication.MyApp.localAppDB;
 
 public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllChapterAdapter.ClickListener, RecyclerReadMangaAdapter.ClickItemListener, ReadMangaInterface {
     private ActivityReadMangaBinding readMangaBinding;
+    private ReadMangaModel readMangaModel;
     private ReadMangaPresenter readMangaPresenter = new ReadMangaPresenter(this);
     private List<ReadMangaModel.AllChapterDatas> allChapterDatasList = new ArrayList<>();
     private Dialog dialog;
@@ -76,6 +77,13 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             intent.putExtra("detailFrom", "MangaRead");
             startActivity(intent);
 //            finish();
+        });
+        readMangaBinding.mangaShareChapterButton.setOnClickListener(v -> {
+            Intent shareToOther = new Intent(Intent.ACTION_SEND);
+            shareToOther.setType("text/plain");
+            shareToOther.putExtra(Intent.EXTRA_SUBJECT, "Share " + appColorBarStatus + " " + readMangaModel.getChapterTitle() + " ke teman-teman mu\n");
+            shareToOther.putExtra(Intent.EXTRA_TEXT, "Share " + appColorBarStatus + " " + readMangaModel.getChapterTitle() + " ke teman-teman mu\n" + chapterURL);
+            startActivity(Intent.createChooser(shareToOther, "Share URL"));
         });
     }
 
@@ -181,6 +189,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
     public void onGetMangaContentDataSuccess(ReadMangaModel mangaContents) {
         runOnUiThread(() -> {
             progressDialog.dismiss();
+            readMangaModel = mangaContents;
             readMangaBinding.textViewChapterTitle.setText(mangaContents.getChapterTitle());
             new Handler().post(() -> readMangaBinding.nestedBase.smoothScrollTo(0, 0));
             readMangaBinding.recyclerImageContentManga.scrollToPosition(0);

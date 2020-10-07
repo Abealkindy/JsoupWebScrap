@@ -19,8 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_list_manga_content"
             tools:visibility="visible" />
 
@@ -125,5 +125,13 @@
             android:src="@drawable/ic_info_black_24dp"
             android:visibility="visible" />
 
+        <ImageView
+            android:id="@+id/manga_share_chapter_button"
+            android:layout_width="@dimen/size30dp"
+            android:layout_height="@dimen/size30dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:src="@drawable/ic_baseline_share_24"
+            android:visibility="visible" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
