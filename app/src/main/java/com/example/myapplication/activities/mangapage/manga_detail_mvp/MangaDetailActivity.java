@@ -2,6 +2,7 @@ package com.example.myapplication.activities.mangapage.manga_detail_mvp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.RecyclerAllChapterDetailAdapter;
@@ -18,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.View;
-import android.webkit.CookieManager;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
@@ -185,7 +185,27 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
 
         }
         if (mangaDetailURL != null) {
-            mangaDetailPresenter.getDetailMangaData(mangaDetailURL);
+            new MyTask(mangaDetailURL).execute();
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class MyTask extends AsyncTask<Void, Void, Void> {
+        String totalURL;
+
+        public MyTask(String totalURL) {
+            this.totalURL = totalURL;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mangaDetailPresenter.getDetailMangaData(this.totalURL);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
         }
     }
 

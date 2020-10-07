@@ -3,7 +3,6 @@ package com.example.myapplication.fragments.manga_fragments.discover_manga_mvp;
 import android.util.Log;
 
 import com.example.myapplication.models.animemodels.AnimeGenreAndSearchResultModel;
-import com.example.myapplication.networks.CloudFlare;
 import com.example.myapplication.models.mangamodels.DiscoverMangaModel;
 import com.example.myapplication.networks.JsoupConfig;
 import com.google.gson.Gson;
@@ -13,12 +12,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.net.HttpCookie;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import dalvik.system.DelegateLastClassLoader;
 
 public class DiscoverMangaPresenter {
     private DiscoverMangaInterface discoverMangaInterface;
@@ -28,38 +24,37 @@ public class DiscoverMangaPresenter {
     }
 
     public void getDiscoverOrSearchData(String discoverOrSearchURL, String type) {
-        CloudFlare cf = new CloudFlare(discoverOrSearchURL);
-        cf.setUser_agent("Mozilla/5.0");
-        cf.getCookies(new CloudFlare.cfCallback() {
-            @Override
-            public void onSuccess(List<HttpCookie> cookieList, boolean hasNewUrl, String newUrl) {
-                Log.e("getNewURL?", String.valueOf(hasNewUrl));
-                Map<String, String> cookies = CloudFlare.List2Map(cookieList);
-                if (hasNewUrl) {
-                    if (type.equalsIgnoreCase("genre")) {
-                        getFilterComponentData(newUrl, cookies);
-                    } else {
-                        passToJsoup(newUrl, cookies);
-                    }
-                    Log.e("NEWURL", newUrl);
-                } else {
-                    if (type.equalsIgnoreCase("genre")) {
-                        getFilterComponentData(discoverOrSearchURL, cookies);
-                    } else {
-                        passToJsoup(discoverOrSearchURL, cookies);
-                    }
-                }
-            }
-
-            @Override
-            public void onFail(String message) {
-                discoverMangaInterface.onGetDiscoverMangaDataFailed();
-            }
-        });
+//        CloudFlare cf = new CloudFlare(discoverOrSearchURL);
+//        cf.setUser_agent("Mozilla/5.0");
+//        cf.getCookies(new CloudFlare.cfCallback() {
+//            @Override
+//            public void onSuccess(List<HttpCookie> cookieList, boolean hasNewUrl, String newUrl) {
+//                Log.e("getNewURL?", String.valueOf(hasNewUrl));
+//                Map<String, String> cookies = CloudFlare.List2Map(cookieList);
+//                if (hasNewUrl) {
+        if (type.equalsIgnoreCase("genre")) {
+            getFilterComponentData(discoverOrSearchURL);
+        } else {
+            passToJsoup(discoverOrSearchURL);
+        }
+//                } else {
+//                    if (type.equalsIgnoreCase("genre")) {
+//                        getFilterComponentData(discoverOrSearchURL, cookies);
+//                    } else {
+//                        passToJsoup(discoverOrSearchURL, cookies);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFail(String message) {
+//                discoverMangaInterface.onGetDiscoverMangaDataFailed();
+//            }
+//        });
     }
 
-    private void getFilterComponentData(String filterAddOnURL, Map<String, String> cookies) {
-        Document doc = JsoupConfig.setInitJsoup(filterAddOnURL, cookies);
+    private void getFilterComponentData(String filterAddOnURL) {
+        Document doc = JsoupConfig.setInitJsoup(filterAddOnURL, null);
         if (doc != null) {
             List<AnimeGenreAndSearchResultModel.AnimeGenreResult> genreResultList = new ArrayList<>();
             List<AnimeGenreAndSearchResultModel.AnimeGenreResult> sortResultList = new ArrayList<>();
@@ -123,8 +118,8 @@ public class DiscoverMangaPresenter {
         }
     }
 
-    private void passToJsoup(String discoverOrSearchURL, Map<String, String> cookies) {
-        Document doc = JsoupConfig.setInitJsoup(discoverOrSearchURL, cookies);
+    private void passToJsoup(String discoverOrSearchURL) {
+        Document doc = JsoupConfig.setInitJsoup(discoverOrSearchURL, null);
         if (doc != null) {
             Elements newchaptercon = doc.getElementsByClass("bs");
             List<DiscoverMangaModel> mangaNewReleaseResultModelList = new ArrayList<>();

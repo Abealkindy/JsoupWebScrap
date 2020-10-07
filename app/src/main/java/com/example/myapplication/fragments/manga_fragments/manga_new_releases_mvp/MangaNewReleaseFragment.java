@@ -1,8 +1,10 @@
 package com.example.myapplication.fragments.manga_fragments.manga_new_releases_mvp;
 
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,8 +27,6 @@ import com.example.myapplication.models.mangamodels.MangaNewReleaseResultModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static com.example.myapplication.MyApp.cookiesz;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,6 +81,28 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
+    private class MyTask extends AsyncTask<Void, Void, Void> {
+        int pageCount;
+        String hitStatus;
+
+        public MyTask(int pageCount, String hitStatus) {
+            this.pageCount = pageCount;
+            this.hitStatus = hitStatus;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            newReleasePresenter.getNewReleasesMangaData(this.pageCount, "https://komikcast.com/", this.hitStatus);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+        }
+    }
+
     private void initProgressDialog() {
         progressDialog = new ProgressDialog(mContext);
         progressDialog.setCanceledOnTouchOutside(false);
@@ -110,13 +132,12 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
                 this.pageCount--;
             }
         }
-        newReleasePresenter.getNewReleasesMangaData(pageCount, "https://komikcast.com/", hitStatus);
+        new MyTask(pageCount, hitStatus).execute();
     }
 
     @Override
     public void onGetNewReleasesDataSuccess(List<MangaNewReleaseResultModel> mangaNewReleaseResultModel, String hitStatus, Map<String, String> cookies) {
-        getActivity().runOnUiThread(() -> {
-            cookiesz = cookies;
+        requireActivity().runOnUiThread(() -> {
             newReleaseBinding.recyclerNewReleasesManga.setVisibility(View.VISIBLE);
             newReleaseBinding.linearError.setVisibility(View.GONE);
             if (hitStatus.equalsIgnoreCase("newPage")) {
@@ -136,13 +157,11 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
 
     @Override
     public void onGetNewReleasesDataFailed() {
-        getActivity().runOnUiThread(() -> {
-            getActivity().runOnUiThread(() -> {
-                progressDialog.dismiss();
-                newReleaseBinding.recyclerNewReleasesManga.setVisibility(View.GONE);
-                Glide.with(mContext).asGif().load(R.raw.aquacry).into(newReleaseBinding.imageError);
-                newReleaseBinding.linearError.setVisibility(View.VISIBLE);
-            });
+        requireActivity().runOnUiThread(() -> {
+            progressDialog.dismiss();
+            newReleaseBinding.recyclerNewReleasesManga.setVisibility(View.GONE);
+            Glide.with(mContext).asGif().load(R.raw.aquacry).into(newReleaseBinding.imageError);
+            newReleaseBinding.linearError.setVisibility(View.VISIBLE);
         });
     }
 }

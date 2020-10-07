@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.app.Application;
+import android.os.StrictMode;
 
 import androidx.room.Room;
 

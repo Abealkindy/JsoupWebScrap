@@ -4,6 +4,7 @@ package com.example.myapplication.fragments.manga_fragments.discover_manga_mvp;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -93,7 +94,30 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
 
     private void getFilterComponents() {
         String genreTotalURL = String.format(searchURL, 1, "", "", "");
-        discoverMangaPresenter.getDiscoverOrSearchData(genreTotalURL, "genre");
+        new MyTask(genreTotalURL, "genre").execute();
+
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class MyTask extends AsyncTask<Void, Void, Void> {
+        String totalURL;
+        String type;
+
+        public MyTask(String totalURL, String type) {
+            this.totalURL = totalURL;
+            this.type = type;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            discoverMangaPresenter.getDiscoverOrSearchData(this.totalURL, type);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -250,7 +274,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
             totalURL = "https://komikcast.com" + homeUrl;
         }
         Log.e("total URL ", totalURL);
-        discoverMangaPresenter.getDiscoverOrSearchData(totalURL, "other");
+        new MyTask(totalURL, "other").execute();
     }
 
     @Override

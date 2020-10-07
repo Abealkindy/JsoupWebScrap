@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -129,7 +130,27 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
     public void getReadMangaContentData(String chapterURL) {
         this.chapterURL = chapterURL;
         progressDialog.show();
-        readMangaPresenter.getMangaContent(chapterURL);
+        new MyTask(chapterURL).execute();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class MyTask extends AsyncTask<Void, Void, Void> {
+        String totalURL;
+
+        public MyTask(String totalURL) {
+            this.totalURL = totalURL;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            readMangaPresenter.getMangaContent(this.totalURL);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+        }
     }
 
     @Override

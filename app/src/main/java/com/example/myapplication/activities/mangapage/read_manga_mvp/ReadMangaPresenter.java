@@ -4,21 +4,18 @@ import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.example.myapplication.models.mangamodels.ReadMangaModel;
-import com.example.myapplication.networks.CloudFlare;
 import com.example.myapplication.networks.JsoupConfig;
 import com.google.gson.Gson;
 
-import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.net.HttpCookie;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+
 
 public class ReadMangaPresenter {
     private ReadMangaInterface readMangaInterface;
@@ -31,31 +28,12 @@ public class ReadMangaPresenter {
     }
 
     public void getMangaContent(String contentURL) {
-        CloudFlare cf = new CloudFlare(contentURL);
-        cf.setUser_agent("Mozilla/5.0");
-        cf.getCookies(new CloudFlare.cfCallback() {
-            @Override
-            public void onSuccess(List<HttpCookie> cookieList, boolean hasNewUrl, String newUrl) {
-                Log.e("getNewURL?", String.valueOf(hasNewUrl));
-                Map<String, String> cookies = CloudFlare.List2Map(cookieList);
-                if (hasNewUrl) {
-                    passToJsoup(newUrl, cookies);
-                    Log.e("NEWURL", newUrl);
-                } else {
-                    passToJsoup(contentURL, cookies);
-                }
-            }
-
-            @Override
-            public void onFail(String message) {
-                readMangaInterface.onGetMangaContentDataFailed();
-            }
-        });
+        passToJsoup(contentURL);
     }
 
     @SuppressLint("LongLogTag")
-    private void passToJsoup(String newUrl, Map<String, String> cookies) {
-        Document doc = JsoupConfig.setInitJsoup(newUrl, cookies);
+    private void passToJsoup(String newUrl) {
+        Document doc = JsoupConfig.setInitJsoup(newUrl, null);
         if (doc != null) {
             //get chapter title
             Elements getChapterTitle = doc.getElementsByTag("h1");

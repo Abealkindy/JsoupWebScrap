@@ -5,17 +5,14 @@ import android.util.Log;
 import com.example.myapplication.models.mangamodels.MangaNewReleaseResultModel;
 import com.example.myapplication.networks.JsoupConfig;
 import com.google.gson.Gson;
-import com.example.myapplication.networks.CloudFlare;
 
 import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.net.HttpCookie;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MangaNewReleasePresenter {
     private MangaNewReleaseInterface newReleaseInterface;
@@ -25,30 +22,31 @@ public class MangaNewReleasePresenter {
     }
 
     public void getNewReleasesMangaData(int pageCount, String newReleasesURL, String hitStatus) {
-        CloudFlare cf = new CloudFlare(newReleasesURL);
-        cf.setUser_agent("Mozilla/5.0");
-        cf.getCookies(new CloudFlare.cfCallback() {
-            @Override
-            public void onSuccess(List<HttpCookie> cookieList, boolean hasNewUrl, String newUrl) {
-                Log.e("getNewURL?", String.valueOf(hasNewUrl));
-                Map<String, String> cookies = CloudFlare.List2Map(cookieList);
-                if (hasNewUrl) {
-                    passToJsoup(pageCount, newUrl, hitStatus, cookies);
-                    Log.e("NEWURL", newUrl);
-                } else {
-                    passToJsoup(pageCount, newReleasesURL, hitStatus, cookies);
-                }
-            }
-
-            @Override
-            public void onFail(String message) {
-                newReleaseInterface.onGetNewReleasesDataFailed();
-            }
-        });
+        passToJsoup(pageCount, newReleasesURL, hitStatus);
+//        CloudFlare cf = new CloudFlare(newReleasesURL);
+//        cf.setUser_agent("Mozilla/5.0");
+//        cf.getCookies(new CloudFlare.cfCallback() {
+//            @Override
+//            public void onSuccess(List<HttpCookie> cookieList, boolean hasNewUrl, String newUrl) {
+//                Log.e("getNewURL?", String.valueOf(hasNewUrl));
+//                Map<String, String> cookies = CloudFlare.List2Map(cookieList);
+//                if (hasNewUrl) {
+//                    passToJsoup(pageCount, newUrl, hitStatus, cookies);
+//                    Log.e("NEWURL", newUrl);
+//                } else {
+//                    passToJsoup(pageCount, newReleasesURL, hitStatus, cookies);
+//                }
+//            }
+//
+//            @Override
+//            public void onFail(String message) {
+//                newReleaseInterface.onGetNewReleasesDataFailed();
+//            }
+//        });
     }
 
-    private void passToJsoup(int pageCount, String newReleasesURL, String hitStatus, Map<String, String> cookies) {
-        Document doc = JsoupConfig.setInitJsoup(newReleasesURL + "page/" + pageCount + "/", cookies);
+    private void passToJsoup(int pageCount, String newReleasesURL, String hitStatus) {
+        Document doc = JsoupConfig.setInitJsoup(newReleasesURL + "page/" + pageCount + "/", null);
         if (doc != null) {
             Element el;
             Elements newchaptercon = doc.getElementsByClass("utao");
@@ -140,7 +138,7 @@ public class MangaNewReleasePresenter {
             Log.e("resultBeforeCut", new Gson().toJson(mangaNewReleaseResultModelList));
             Log.e("resultAfterCut", new Gson().toJson(mangaNewReleaseResultModelListAfterCut));
             //store data from JSOUP
-            newReleaseInterface.onGetNewReleasesDataSuccess(mangaNewReleaseResultModelListAfterCut, hitStatus, cookies);
+            newReleaseInterface.onGetNewReleasesDataSuccess(mangaNewReleaseResultModelListAfterCut, hitStatus, null);
         } else {
             newReleaseInterface.onGetNewReleasesDataFailed();
         }
