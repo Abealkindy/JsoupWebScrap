@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.myapplication.activities.MainActivity;
 import com.example.myapplication.adapters.mangaadapters.viewpageradapter.ViewPagerMangaMenuTabAdapter;
@@ -16,6 +17,7 @@ import static com.example.myapplication.MyApp.localAppDB;
 
 public class MangaReleaseListActivity extends AppCompatActivity {
     ActivityMangaReleaseListBinding mangaReleaseListBinding;
+    boolean isSecondBack = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class MangaReleaseListActivity extends AppCompatActivity {
         mangaReleaseListBinding.tabHome.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
                 mangaReleaseListBinding.viewPagerTabs.setCurrentItem(tab.getPosition());
                 if (tab.getPosition() == 0) {
                     setTitle("New releases");
@@ -93,9 +96,23 @@ public class MangaReleaseListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(MangaReleaseListActivity.this, MainActivity.class));
-        finish();
+        int tabPos = mangaReleaseListBinding.viewPagerTabs.getCurrentItem();
+        if (tabPos == 0) {
+            if (!isSecondBack) {
+                isSecondBack = true;
+                Toast.makeText(this, "Klik back sekali lagi untuk keluar", Toast.LENGTH_SHORT).show();
+            } else {
+                isSecondBack = false;
+                startActivity(new Intent(MangaReleaseListActivity.this, MainActivity.class));
+                finish();
+            }
+        } else if (tabPos == 1) {
+            mangaReleaseListBinding.viewPagerTabs.setCurrentItem(0);
+        } else if (tabPos == 2) {
+            mangaReleaseListBinding.viewPagerTabs.setCurrentItem(1);
+        } else if (tabPos == 3) {
+            mangaReleaseListBinding.viewPagerTabs.setCurrentItem(2);
+        }
 
     }
 
