@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.myapplication.activities.animepage.AnimeReleaseListActivity;
@@ -27,9 +28,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityMainBinding mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mainBinding.getRoot());
+//        mainBinding.cardWatchAnime.setVisibility(View.GONE);
         mainBinding.cardWatchAnime.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, AnimeReleaseListActivity.class));
-            finish();
+            Toast.makeText(this, "Masih develop deui!", Toast.LENGTH_LONG).show();
+//            startActivity(new Intent(MainActivity.this, AnimeReleaseListActivity.class));
+//            finish();
         });
         mainBinding.cardReadManga.setOnClickListener(v -> {
             if (InternetConnection.checkConnection(this)) {
