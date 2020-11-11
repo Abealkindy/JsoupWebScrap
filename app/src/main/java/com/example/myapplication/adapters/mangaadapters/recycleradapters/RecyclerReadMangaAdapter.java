@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ItemListMangaContentBinding;
 import com.squareup.picasso.Cache;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
@@ -53,6 +55,15 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
     @SuppressLint({"SetTextI18n", "SetJavaScriptEnabled", "ClickableViewAccessibility"})
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        loadImage(holder, position);
+        holder.itemListBinding.reloadImage.setOnClickListener(v -> {
+            holder.itemListBinding.imageMangaContentItem.setVisibility(View.VISIBLE);
+            holder.itemListBinding.reloadImage.setVisibility(View.GONE);
+            loadImage(holder, position);
+        });
+    }
+
+    private void loadImage(@NonNull ViewHolder holder, int position) {
         OkHttpClient client = new OkHttpClient()
                 .newBuilder()
                 .addInterceptor(chain -> {
@@ -93,7 +104,19 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
                 .transform(transformation)
                 .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme())))
                 .error(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error, context.getTheme())))
-                .into(holder.itemListBinding.imageMangaContentItem);
+                .into(holder.itemListBinding.imageMangaContentItem, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.itemListBinding.imageMangaContentItem.setVisibility(View.VISIBLE);
+                        holder.itemListBinding.reloadImage.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        holder.itemListBinding.imageMangaContentItem.setVisibility(View.GONE);
+                        holder.itemListBinding.reloadImage.setVisibility(View.VISIBLE);
+                    }
+                });
         holder.itemListBinding.imageMangaContentItem.setOnClickListener(v -> clickListener.onItemClickMangaContent());
     }
 
