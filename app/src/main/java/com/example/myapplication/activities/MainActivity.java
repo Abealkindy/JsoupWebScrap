@@ -36,21 +36,25 @@ public class MainActivity extends AppCompatActivity {
         });
         mainBinding.cardReadManga.setOnClickListener(v -> {
             if (InternetConnection.checkConnection(this)) {
-                Cloudflare cloudflare = new Cloudflare(this, "https://komikcast.com");
-                cloudflare.setCfCallback(new CfCallback() {
-                    @Override
-                    public void onSuccess(List<HttpCookie> cookieList, boolean hasNewUrl, String newUrl) {
-                        cookiesz = ConvertUtil.List2Map(cookieList);
-                        startActivity(new Intent(MainActivity.this, MangaReleaseListActivity.class));
-                        finish();
-                    }
+                try {
+                    Cloudflare cloudflare = new Cloudflare(this, "https://komikcast.com");
+                    cloudflare.setCfCallback(new CfCallback() {
+                        @Override
+                        public void onSuccess(List<HttpCookie> cookieList, boolean hasNewUrl, String newUrl) {
+                            cookiesz = ConvertUtil.List2Map(cookieList);
+                            startActivity(new Intent(MainActivity.this, MangaReleaseListActivity.class));
+                            finish();
+                        }
 
-                    @Override
-                    public void onFail(int code, String msg) {
-                        Toast.makeText(MainActivity.this, "Lagi tutup dulu, nanti balik lagi yah!", Toast.LENGTH_LONG).show();
-                    }
-                });
-                cloudflare.getCookies();
+                        @Override
+                        public void onFail(int code, String msg) {
+                            Toast.makeText(MainActivity.this, "Lagi tutup dulu, nanti balik lagi yah!", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    cloudflare.getCookies();
+                } catch (Exception e) {
+                    Toast.makeText(MainActivity.this, "Lagi tutup dulu, nanti balik lagi yah!", Toast.LENGTH_LONG).show();
+                }
             } else {
                 Toast.makeText(MainActivity.this, "Cek internetnya dulu boss, nanti balik lagi yah!", Toast.LENGTH_LONG).show();
             }

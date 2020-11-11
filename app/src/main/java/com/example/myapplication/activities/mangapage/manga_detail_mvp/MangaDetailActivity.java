@@ -145,27 +145,27 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
             mangaType = detailType;
             if (detailType.equalsIgnoreCase(getResources().getString(R.string.manga_string))) {
                 detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manga_string));
-                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+                detailBinding.mangaTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_manga, getTheme()));
             } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.manhua_string))) {
                 detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manhua_string));
-                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manhua));
+                detailBinding.mangaTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_manhua, getTheme()));
             } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.manhwa_string))) {
                 detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manhwa_string));
-                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manhwa));
+                detailBinding.mangaTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_manhwa, getTheme()));
             } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.mangaoneshot_string))) {
                 detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.mangaoneshot_string));
-                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+                detailBinding.mangaTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_manga, getTheme()));
             } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.oneshot_string))) {
                 detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.oneshot_string));
-                detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+                detailBinding.mangaTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_manga, getTheme()));
             }
         }
         if (!String.valueOf(detailStatus).equalsIgnoreCase("")) {
             if (detailStatus) {
-                detailBinding.detailStatus.setBackground(getResources().getDrawable(R.drawable.bubble_background_completed));
+                detailBinding.detailStatus.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_completed, getTheme()));
                 detailBinding.detailStatus.setText(getResources().getString(R.string.completed_text));
             } else {
-                detailBinding.detailStatus.setBackground(getResources().getDrawable(R.drawable.bubble_background_ongoing));
+                detailBinding.detailStatus.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_ongoing, getTheme()));
                 detailBinding.detailStatus.setText(getResources().getString(R.string.ongoing_text));
             }
         }
@@ -277,10 +277,10 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
             //get manga status
             if (String.valueOf(detailStatus).equalsIgnoreCase("")) {
                 if (detailMangaModel.getMangaStatus().equalsIgnoreCase(getResources().getString(R.string.completed_text))) {
-                    detailBinding.detailStatus.setBackground(getResources().getDrawable(R.drawable.bubble_background_completed));
+                    detailBinding.detailStatus.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_completed, getTheme()));
                     detailBinding.detailStatus.setText(getResources().getString(R.string.completed_text));
                 } else {
-                    detailBinding.detailStatus.setBackground(getResources().getDrawable(R.drawable.bubble_background_ongoing));
+                    detailBinding.detailStatus.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_ongoing, getTheme()));
                     detailBinding.detailStatus.setText(getResources().getString(R.string.ongoing_text));
                 }
             }
@@ -291,19 +291,19 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
                 mangaType = detailType;
                 if (detailType.equalsIgnoreCase(getResources().getString(R.string.manga_string))) {
                     detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manga_string));
-                    detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+                    detailBinding.mangaTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_manga, getTheme()));
                 } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.manhua_string))) {
                     detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manhua_string));
-                    detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manhua));
+                    detailBinding.mangaTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_manhua, getTheme()));
                 } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.manhwa_string))) {
                     detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.manhwa_string));
-                    detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manhwa));
+                    detailBinding.mangaTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_manhwa, getTheme()));
                 } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.mangaoneshot_string))) {
                     detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.mangaoneshot_string));
-                    detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+                    detailBinding.mangaTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_manga, getTheme()));
                 } else if (detailType.equalsIgnoreCase(getResources().getString(R.string.oneshot_string))) {
                     detailBinding.mangaTypeDetail.setText(getResources().getString(R.string.oneshot_string));
-                    detailBinding.mangaTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_manga));
+                    detailBinding.mangaTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_manga, getTheme()));
                 }
             }
 

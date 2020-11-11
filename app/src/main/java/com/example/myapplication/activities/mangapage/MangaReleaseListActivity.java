@@ -1,6 +1,7 @@
 package com.example.myapplication.activities.mangapage;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -84,10 +85,10 @@ public class MangaReleaseListActivity extends AppCompatActivity {
 
     private void UISettings() {
         setTitle("New releases");
-        mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(getResources().getDrawable(R.drawable.ic_home_white_24dp)));
-        mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(getResources().getDrawable(R.drawable.ic_view_list_white_24dp)));
-        mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(getResources().getDrawable(R.drawable.ic_favorite_black_24dp)));
-        mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(getResources().getDrawable(R.drawable.ic_baseline_history_24)));
+        mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_home_white_24dp, getTheme())));
+        mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_view_list_white_24dp, getTheme())));
+        mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_favorite_black_24dp, getTheme())));
+        mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_history_24, getTheme())));
         mangaReleaseListBinding.tabHome.setTabIconTint(ColorStateList.valueOf(getResources().getColor(android.R.color.white)));
         mangaReleaseListBinding.viewPagerTabs.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mangaReleaseListBinding.tabHome));
         mangaReleaseListBinding.viewPagerTabs.setAdapter(new ViewPagerMangaMenuTabAdapter(getSupportFragmentManager()));
@@ -100,7 +101,7 @@ public class MangaReleaseListActivity extends AppCompatActivity {
         if (tabPos == 0) {
             if (!isSecondBack) {
                 isSecondBack = true;
-                Toast.makeText(this, "Klik back sekali lagi untuk keluar", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Klik back sekali lagi untuk keluar", Toast.LENGTH_LONG).show();
             } else {
                 isSecondBack = false;
                 startActivity(new Intent(MangaReleaseListActivity.this, MainActivity.class));

@@ -12,6 +12,7 @@ import com.example.myapplication.localstorages.anime_local.anime_bookmark.AnimeB
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -109,37 +110,37 @@ public class AnimeDetailActivity extends AppCompatActivity implements AnimeDetai
             if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.series_string)) ||
                     getAnimeDetailType.contains(getResources().getString(R.string.series_string))) {
                 animeDetailBinding.animeTypeDetail.setText(getResources().getString(R.string.series_string));
-                animeDetailBinding.animeTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_series));
+                animeDetailBinding.animeTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_series, getTheme()));
             } else if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.ova_string)) ||
                     getAnimeDetailType.contains(getResources().getString(R.string.ova_string))) {
                 animeDetailBinding.animeTypeDetail.setText(getResources().getString(R.string.ova_string));
-                animeDetailBinding.animeTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_ova));
+                animeDetailBinding.animeTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_ova, getTheme()));
             } else if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.ona_string)) ||
                     getAnimeDetailType.contains(getResources().getString(R.string.ona_string))) {
                 animeDetailBinding.animeTypeDetail.setText(getResources().getString(R.string.ona_string));
-                animeDetailBinding.animeTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_ona));
+                animeDetailBinding.animeTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_ona, getTheme()));
             } else if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.movie_string)) ||
                     getAnimeDetailType.contains(getResources().getString(R.string.movie_string_lower))) {
                 animeDetailBinding.animeTypeDetail.setText(getResources().getString(R.string.movie_string));
-                animeDetailBinding.animeTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_movie));
+                animeDetailBinding.animeTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_movie, getTheme()));
             } else if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.special_string)) ||
                     getAnimeDetailType.contains(getResources().getString(R.string.special_string))) {
                 animeDetailBinding.animeTypeDetail.setText(getResources().getString(R.string.special_string));
-                animeDetailBinding.animeTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_special));
+                animeDetailBinding.animeTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_special, getTheme()));
             } else if (getAnimeDetailType.equalsIgnoreCase(getResources().getString(R.string.la_string)) ||
                     getAnimeDetailType.contains(getResources().getString(R.string.la_string))) {
                 animeDetailBinding.animeTypeDetail.setText(getResources().getString(R.string.la_string));
-                animeDetailBinding.animeTypeDetail.setBackground(getResources().getDrawable(R.drawable.bubble_background_la));
+                animeDetailBinding.animeTypeDetail.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_la, getTheme()));
             }
         }
 
         if (getAnimeDetailStatus != null) {
             if (getAnimeDetailStatus.equalsIgnoreCase(getResources().getString(R.string.ongoing_text))) {
                 animeDetailBinding.detailStatusAnime.setText(getResources().getString(R.string.ongoing_text));
-                animeDetailBinding.detailStatusAnime.setBackground(getResources().getDrawable(R.drawable.bubble_background_ongoing));
+                animeDetailBinding.detailStatusAnime.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_ongoing, getTheme()));
             } else if (getAnimeDetailStatus.equalsIgnoreCase(getResources().getString(R.string.completed_text))) {
                 animeDetailBinding.detailStatusAnime.setText(getResources().getString(R.string.completed_text));
-                animeDetailBinding.detailStatusAnime.setBackground(getResources().getDrawable(R.drawable.bubble_background_completed));
+                animeDetailBinding.detailStatusAnime.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bubble_background_completed, getTheme()));
             }
         }
         animeDetailBinding.detailHeaderTitleAnime.setText(getAnimeDetailTitle);

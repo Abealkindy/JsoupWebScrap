@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
@@ -20,6 +21,7 @@ import com.squareup.picasso.Picasso;
 import org.jsoup.internal.StringUtil;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecyclerDiscoverAdapter.ViewHolder> {
     private Context context;
@@ -45,10 +47,10 @@ public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecy
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemListBinding.textTitleMangaResult.setText(animeDiscoverResultModelList.get(position).getMangaTitle());
         if (StringUtil.isBlank(animeDiscoverResultModelList.get(position).getMangaThumb())) {
-            holder.itemListBinding.imageViewBackgroundMangaResult.setImageDrawable(context.getResources().getDrawable(R.drawable.imageplaceholder));
+            holder.itemListBinding.imageViewBackgroundMangaResult.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme()));
             Log.e("pathNull", "null");
         } else {
-            Picasso.get().load(animeDiscoverResultModelList.get(position).getMangaThumb()).placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder)).into(holder.itemListBinding.imageViewBackgroundMangaResult);
+            Picasso.get().load(animeDiscoverResultModelList.get(position).getMangaThumb()).placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme()))).into(holder.itemListBinding.imageViewBackgroundMangaResult);
         }
         if (!animeDiscoverResultModelList.get(position).isMangaStatus()) {
             holder.itemListBinding.textMangaStatus.setText(context.getResources().getString(R.string.ongoing_text));

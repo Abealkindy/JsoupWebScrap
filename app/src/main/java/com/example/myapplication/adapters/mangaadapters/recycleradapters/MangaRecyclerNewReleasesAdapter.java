@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
@@ -17,6 +18,7 @@ import com.example.myapplication.databinding.ItemListMangaBinding;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MangaRecyclerNewReleasesAdapter extends RecyclerView.Adapter<MangaRecyclerNewReleasesAdapter.ViewHolder> {
     private Context context;
@@ -41,26 +43,28 @@ public class MangaRecyclerNewReleasesAdapter extends RecyclerView.Adapter<MangaR
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemListBinding.textTitleManga.setText(animeNewReleaseResultModelList.get(position).getMangaTitle());
-        Picasso.get().load(animeNewReleaseResultModelList.get(position).getMangaThumb()).placeholder(context.getResources().getDrawable(R.drawable.imageplaceholder)).into(holder.itemListBinding.imageViewBackgroundManga);
+        Picasso.get().load(animeNewReleaseResultModelList.get(position).getMangaThumb()).placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme()))).into(holder.itemListBinding.imageViewBackgroundManga);
         if (!animeNewReleaseResultModelList.get(position).isMangaStatus()) {
             holder.itemListBinding.textViewHotStatus.setVisibility(View.GONE);
         } else {
             holder.itemListBinding.textViewHotStatus.setVisibility(View.VISIBLE);
         }
         if (animeNewReleaseResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manga_string))) {
-            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manga));
+            holder.itemListBinding.textMangaType.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.bubble_background_manga, context.getTheme()));
             holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manga_string));
         } else if (animeNewReleaseResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manhwa_string))) {
-            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manhwa));
+            holder.itemListBinding.textMangaType.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.bubble_background_manhwa, context.getTheme()))
+            ;
             holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manhwa_string));
         } else if (animeNewReleaseResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.manhua_string))) {
-            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manhua));
+            holder.itemListBinding.textMangaType.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.bubble_background_manhua, context.getTheme()))
+            ;
             holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.manhua_string));
         } else if (animeNewReleaseResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.mangaoneshot_string))) {
-            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manga));
+            holder.itemListBinding.textMangaType.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.bubble_background_manga, context.getTheme()));
             holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.mangaoneshot_string));
         } else if (animeNewReleaseResultModelList.get(position).getMangaType().equalsIgnoreCase(context.getResources().getString(R.string.oneshot_string))) {
-            holder.itemListBinding.textMangaType.setBackground(context.getResources().getDrawable(R.drawable.bubble_background_manga));
+            holder.itemListBinding.textMangaType.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.bubble_background_manga, context.getTheme()));
             holder.itemListBinding.textMangaType.setText(context.getResources().getString(R.string.oneshot_string));
         }
         if (animeNewReleaseResultModelList.get(position).getLatestMangaDetail().get(0).getChapterTitle().size() == 0

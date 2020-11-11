@@ -1,6 +1,7 @@
 package com.example.myapplication.activities.animepage;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -54,10 +55,10 @@ public class AnimeReleaseListActivity extends AppCompatActivity {
 
     private void UISettings() {
         setTitle("New releases");
-        animeReleaseListBinding.tabHomeAnime.addTab(animeReleaseListBinding.tabHomeAnime.newTab().setIcon(getResources().getDrawable(R.drawable.ic_home_white_24dp)));
-        animeReleaseListBinding.tabHomeAnime.addTab(animeReleaseListBinding.tabHomeAnime.newTab().setIcon(getResources().getDrawable(R.drawable.ic_view_list_white_24dp)));
-        animeReleaseListBinding.tabHomeAnime.addTab(animeReleaseListBinding.tabHomeAnime.newTab().setIcon(getResources().getDrawable(R.drawable.ic_favorite_black_24dp)));
-        animeReleaseListBinding.tabHomeAnime.addTab(animeReleaseListBinding.tabHomeAnime.newTab().setIcon(getResources().getDrawable(R.drawable.ic_baseline_history_24)));
+        animeReleaseListBinding.tabHomeAnime.addTab(animeReleaseListBinding.tabHomeAnime.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_home_white_24dp, getTheme())));
+        animeReleaseListBinding.tabHomeAnime.addTab(animeReleaseListBinding.tabHomeAnime.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_view_list_white_24dp, getTheme())));
+        animeReleaseListBinding.tabHomeAnime.addTab(animeReleaseListBinding.tabHomeAnime.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_favorite_black_24dp, getTheme())));
+        animeReleaseListBinding.tabHomeAnime.addTab(animeReleaseListBinding.tabHomeAnime.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_history_24, getTheme())));
         animeReleaseListBinding.tabHomeAnime.setTabIconTint(ColorStateList.valueOf(getResources().getColor(android.R.color.white)));
         animeReleaseListBinding.viewPagerTabsAnime.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(animeReleaseListBinding.tabHomeAnime));
         animeReleaseListBinding.viewPagerTabsAnime.setAdapter(new ViewPagerAnimeMenuTabAdapter(getSupportFragmentManager()));
