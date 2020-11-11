@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -212,7 +213,7 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             progressDialog.dismiss();
             readMangaModel = mangaContents;
             readMangaBinding.textViewChapterTitle.setText(mangaContents.getChapterTitle());
-            new Handler().post(() -> readMangaBinding.nestedBase.smoothScrollTo(0, 0));
+            new Handler(Looper.getMainLooper()).post(() -> readMangaBinding.nestedBase.smoothScrollTo(0, 0));
             readMangaBinding.recyclerImageContentManga.scrollToPosition(0);
             RecyclerReadMangaAdapter mangaRecyclerNewReleasesAdapter = new RecyclerReadMangaAdapter(ReadMangaActivity.this, mangaContents.getImageContent());
             readMangaBinding.recyclerImageContentManga.setAdapter(mangaRecyclerNewReleasesAdapter);

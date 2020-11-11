@@ -4,10 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
-import com.example.myapplication.activities.animepage.AnimeReleaseListActivity;
 import com.example.myapplication.activities.mangapage.MangaReleaseListActivity;
 import com.example.myapplication.databinding.ActivityMainBinding;
 import com.example.myapplication.networks.InternetConnection;

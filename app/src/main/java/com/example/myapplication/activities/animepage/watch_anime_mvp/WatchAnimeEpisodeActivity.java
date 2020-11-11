@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -174,7 +175,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
             }
 
             public void onPageFinished(WebView view, String url) {
-                new Handler().postDelayed(
+                new Handler(Looper.getMainLooper()).postDelayed(
                         () -> view.loadUrl(
                                 "javascript:window.HTMLOUT.processHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');"
                         )
