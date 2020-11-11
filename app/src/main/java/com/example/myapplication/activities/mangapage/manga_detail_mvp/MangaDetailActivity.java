@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.squareup.picasso.Cache;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
@@ -234,6 +235,7 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
                     .build();
             Picasso picasso = new Picasso.Builder(this)
                     .downloader(new OkHttp3Downloader(client))
+                    .memoryCache(Cache.NONE)
                     .build();
             picasso.load(detailThumb)
                     .memoryPolicy(MemoryPolicy.NO_CACHE)

@@ -15,6 +15,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.activities.mangapage.manga_detail_mvp.MangaDetailActivity;
 import com.example.myapplication.databinding.ItemListMangaNewBinding;
 import com.example.myapplication.localstorages.manga_local.manga_bookmark.MangaBookmarkModel;
+import com.squareup.picasso.Cache;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
@@ -70,6 +71,7 @@ public class MangaRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<MangaR
                 .build();
         Picasso picasso = new Picasso.Builder(context)
                 .downloader(new OkHttp3Downloader(client))
+                .memoryCache(Cache.NONE)
                 .build();
         picasso.load(animeDiscoverResultModelList.get(position).getMangaThumb())
                 .memoryPolicy(MemoryPolicy.NO_CACHE)

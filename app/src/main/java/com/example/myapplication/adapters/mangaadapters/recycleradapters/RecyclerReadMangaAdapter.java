@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ItemListMangaContentBinding;
+import com.squareup.picasso.Cache;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
@@ -84,6 +85,7 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
         };
         Picasso picasso = new Picasso.Builder(context)
                 .downloader(new OkHttp3Downloader(client))
+                .memoryCache(Cache.NONE)
                 .build();
         picasso.load(imageContent.get(position))
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
