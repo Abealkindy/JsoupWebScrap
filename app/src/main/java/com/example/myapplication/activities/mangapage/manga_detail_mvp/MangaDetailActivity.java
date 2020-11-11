@@ -55,8 +55,7 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
         detailBinding = ActivityMangaDetailBinding.inflate(getLayoutInflater());
         setContentView(detailBinding.getRoot());
         setSupportActionBar(detailBinding.toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         initVariables();
         initEvent();
     }
