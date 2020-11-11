@@ -21,14 +21,14 @@ public class DetailMangaModel {
     private List<DetailAllChapterDatas> allChapterDatas;
 
     @Data
-    public class DetailAllChapterDatas {
+    public static class DetailAllChapterDatas {
         private String chapterTitle;
         private String chapterURL;
         private String chapterReleaseTime;
     }
 
     @Data
-    public class DetailMangaGenres {
+    public static class DetailMangaGenres {
         private String genreTitle;
         private String genreURL;
     }

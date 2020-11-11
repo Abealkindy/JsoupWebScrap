@@ -71,7 +71,7 @@ public class MangaDetailPresenter {
             List<DetailMangaModel.DetailAllChapterDatas> detailAllChapterDatasList = new ArrayList<>();
             Elements getAllMangaChapters = document.getElementsByTag("li");
             for (Element element : getAllMangaChapters) {
-                DetailMangaModel.DetailAllChapterDatas allChapterDatas = new DetailMangaModel().new DetailAllChapterDatas();
+                DetailMangaModel.DetailAllChapterDatas allChapterDatas = new DetailMangaModel.DetailAllChapterDatas();
                 String chapterReleaseTime = element.getElementsByClass("rightoff").text();
                 String chapterTitle = element.select("a[href^=https://komikcast.com/chapter/]").text();
                 String chapterURL = element.select("a[href^=https://komikcast.com/chapter/]").attr("href");
@@ -92,7 +92,7 @@ public class MangaDetailPresenter {
             for (Element element : getGenres) {
                 String genreTitle = element.text();
                 String genreURL = element.attr("href");
-                DetailMangaModel.DetailMangaGenres mangaGenres = new DetailMangaModel().new DetailMangaGenres();
+                DetailMangaModel.DetailMangaGenres mangaGenres = new DetailMangaModel.DetailMangaGenres();
                 if (genreTitle != null && !genreTitle.isEmpty() &&
                         genreURL != null && !genreURL.isEmpty()) {
                     mangaGenres.setGenreTitle(genreTitle);

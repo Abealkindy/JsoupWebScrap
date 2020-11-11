@@ -10,6 +10,8 @@ import com.example.myapplication.fragments.manga_fragments.manga_bookmark_page.M
 import com.example.myapplication.fragments.manga_fragments.manga_history_page.MangaHistoryFragment;
 import com.example.myapplication.fragments.manga_fragments.manga_new_releases_mvp.MangaNewReleaseFragment;
 
+import java.util.Objects;
+
 /*
  * Created by Rosinante24 on 2019-05-30.
  */
@@ -21,16 +23,17 @@ public class ViewPagerMangaMenuTabAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
+        Fragment fragment = null;
         if (position == 0) {
-            return new MangaNewReleaseFragment();
+            fragment = new MangaNewReleaseFragment();
         } else if (position == 1) {
-            return new DiscoverMangaFragment();
+            fragment = new DiscoverMangaFragment();
         } else if (position == 2) {
-            return new MangaBookmarkFragment();
+            fragment = new MangaBookmarkFragment();
         } else if (position == 3) {
-            return new MangaHistoryFragment();
+            fragment = new MangaHistoryFragment();
         }
-        return null;
+        return Objects.requireNonNull(fragment);
     }
 
     @Override

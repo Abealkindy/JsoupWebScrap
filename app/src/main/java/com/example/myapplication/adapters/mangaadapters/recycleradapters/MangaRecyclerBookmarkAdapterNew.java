@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.CookieManager;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;

@@ -6,27 +6,22 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.CookieManager;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.activities.mangapage.manga_detail_mvp.MangaDetailActivity;
 import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
 import com.example.myapplication.databinding.ItemListAnimeNewBinding;
-import com.example.myapplication.databinding.ItemListMangaNewBinding;
-import com.example.myapplication.databinding.ItemListSelectChapterDetailBinding;
-import com.example.myapplication.localstorages.manga_local.read_history.MangaHistoryModel;
 import com.example.myapplication.localstorages.manga_local.read_history.MangaHistoryModel;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
+
 import static com.example.myapplication.MyApp.cookiesz;
+
 import java.util.List;
 import java.util.Objects;
 

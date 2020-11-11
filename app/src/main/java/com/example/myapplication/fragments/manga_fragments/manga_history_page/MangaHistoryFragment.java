@@ -6,17 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
@@ -64,12 +61,9 @@ public class MangaHistoryFragment extends Fragment implements SearchView.OnQuery
     }
 
     private void initEvent() {
-        mBinding.swipeRefreshAnimeBookmark.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mBinding.swipeRefreshAnimeBookmark.setRefreshing(false);
-                getDataFromLocalDB("ordinary", "");
-            }
+        mBinding.swipeRefreshAnimeBookmark.setOnRefreshListener(() -> {
+            mBinding.swipeRefreshAnimeBookmark.setRefreshing(false);
+            getDataFromLocalDB("ordinary", "");
         });
     }
 
@@ -82,7 +76,8 @@ public class MangaHistoryFragment extends Fragment implements SearchView.OnQuery
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.searchBar));
+        MenuItem menuItem = menu.findItem(R.id.searchBar);
+        SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setOnQueryTextListener(this);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -115,7 +110,7 @@ public class MangaHistoryFragment extends Fragment implements SearchView.OnQuery
         mBinding.recylerAnimeBookmark.setVisibility(View.VISIBLE);
         mBinding.linearError.setVisibility(View.GONE);
         mBinding.recylerAnimeBookmark.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        mBinding.recylerAnimeBookmark.setAdapter(new MangaRecyclerHistoryAdapterNew(getActivity(), historyModelList));
+        mBinding.recylerAnimeBookmark.setAdapter(new MangaRecyclerHistoryAdapterNew(requireActivity(), historyModelList));
         mBinding.recylerAnimeBookmark.setHasFixedSize(true);
     }
 

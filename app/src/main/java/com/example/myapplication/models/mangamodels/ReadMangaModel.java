@@ -15,7 +15,7 @@ public class ReadMangaModel {
     private List<String> imageContent = new ArrayList<>();
 
     @Data
-    public class AllChapterDatas {
+    public static class AllChapterDatas {
         private String chapterTitle;
         private String chapterUrl;
     }

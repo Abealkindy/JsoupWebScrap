@@ -10,7 +10,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -77,9 +77,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         discoverMangaBinding.swipeDiscoverManga.setOnRefreshListener(() -> {
             discoverMangaBinding.swipeDiscoverManga.setRefreshing(false);
             setTag(homeUrl, SWIPE_REFRESH);
-            if (getFragmentManager() != null) {
-                getFragmentManager().beginTransaction().detach(this).attach(this).commit();
-            }
+            requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
         });
     }
 
@@ -147,7 +145,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     }
 
     private void initUI() {
-        progressDialog = new ProgressDialog(getActivity());
+        progressDialog = new ProgressDialog(requireActivity());
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
@@ -157,9 +155,9 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
 
     private void initRecyclerView() {
         discoverMangaBinding.recyclerDiscoverManga.setHasFixedSize(true);
-        mangaRecyclerDiscoverAdapter = new MangaRecyclerDiscoverAdapterNew(getActivity(), discoverMangaFragmentList);
+        mangaRecyclerDiscoverAdapter = new MangaRecyclerDiscoverAdapterNew(requireActivity(), discoverMangaFragmentList);
         discoverMangaBinding.recyclerDiscoverManga.setAdapter(mangaRecyclerDiscoverAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
         discoverMangaBinding.recyclerDiscoverManga.setLayoutManager(linearLayoutManager);
         discoverMangaBinding.recyclerDiscoverManga.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
@@ -195,33 +193,25 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
                 plusPage++;
                 homeUrl = String.format(searchURL, plusPage, "", "", "");
                 hitStatus = "newPage";
-                if (getFragmentManager() != null) {
-                    getFragmentManager().beginTransaction().detach(this).attach(this).commit();
-                }
+                requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
             case NEW_PAGE:
                 plusPage = 1;
                 homeUrl = String.format(searchURL, plusPage, "", "", "");
                 hitStatus = "newPage";
-                if (getFragmentManager() != null) {
-                    getFragmentManager().beginTransaction().detach(this).attach(this).commit();
-                }
+                requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
             case GENRE_HIT_REQUEST:
                 plusGenre = 1;
                 homeUrl = totalURL;
                 hitStatus = "genrePage";
-                if (getFragmentManager() != null) {
-                    getFragmentManager().beginTransaction().detach(this).attach(this).commit();
-                }
+                requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
             case GENRE_SCROLL_REQUEST:
                 plusGenre++;
                 homeUrl = String.format(searchURL, plusGenre, sortURL, statusURL, typeURL) + genreURL;
                 hitStatus = "genrePage";
-                if (getFragmentManager() != null) {
-                    getFragmentManager().beginTransaction().detach(this).attach(this).commit();
-                }
+                requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
             case SWIPE_REFRESH:
                 plusPage = 1;
@@ -237,9 +227,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
                 plusSearch++;
                 homeUrl = "/page/" + plusSearch + "/?s=" + searchQuery;
                 hitStatus = "searchScrollRequest";
-                if (getFragmentManager() != null) {
-                    getFragmentManager().beginTransaction().detach(this).attach(this).commit();
-                }
+                requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
         }
 
@@ -256,7 +244,8 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.searchBar));
+        MenuItem menuItem = menu.findItem(R.id.searchBar);
+        SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setOnQueryTextListener(this);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -281,9 +270,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     public boolean onQueryTextSubmit(String query) {
         searchQuery = query;
         setTag(query, SEARCH_REQUEST);
-        if (getFragmentManager() != null) {
-            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
-        }
+        requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
         return true;
     }
 

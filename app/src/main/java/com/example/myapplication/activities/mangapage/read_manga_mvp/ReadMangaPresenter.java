@@ -21,7 +21,6 @@ public class ReadMangaPresenter {
     private ReadMangaInterface readMangaInterface;
     private ReadMangaModel readMangaModel = new ReadMangaModel();
     private List<ReadMangaModel.AllChapterDatas> allChapterDatasList = new ArrayList<>();
-    private List<ReadMangaModel.AllChapterDatas> allChapterDatas;
 
     public ReadMangaPresenter(ReadMangaInterface readMangaInterface) {
         this.readMangaInterface = readMangaInterface;
@@ -51,12 +50,12 @@ public class ReadMangaPresenter {
             for (Element element : getAllChapterDatas) {
                 String allChapterTitles = element.getElementsContainingOwnText("Chapter").text();
                 String allChapterURLs = element.absUrl("value");
-                ReadMangaModel.AllChapterDatas chapterDatas = new ReadMangaModel().new AllChapterDatas();
+                ReadMangaModel.AllChapterDatas chapterDatas = new ReadMangaModel.AllChapterDatas();
                 chapterDatas.setChapterTitle(allChapterTitles);
                 chapterDatas.setChapterUrl(allChapterURLs);
                 allChapterDatasList.add(chapterDatas);
             }
-            allChapterDatas = removeDuplicates(allChapterDatasList);
+            List<ReadMangaModel.AllChapterDatas> allChapterDatas = removeDuplicates(allChapterDatasList);
 
             //get previous chapter URL
             Elements getPreviousChapterURL = doc.select("a[rel=prev]");

@@ -32,7 +32,7 @@ public class MangaNewReleaseResultModel implements Serializable {
     }
 
     @Data
-    public class LatestMangaDetailModel implements Serializable {
+    public static class LatestMangaDetailModel implements Serializable {
         private List<String> chapterTitle;
         private List<String> chapterURL;
         private List<String> chapterReleaseTime;

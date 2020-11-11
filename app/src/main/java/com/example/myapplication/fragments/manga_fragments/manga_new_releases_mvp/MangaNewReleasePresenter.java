@@ -73,7 +73,7 @@ public class MangaNewReleasePresenter {
                 List<String> chapterUrl = el.select("a[href^=https://komikcast.com/chapter/]").eachAttr("href");
                 List<String> chapterTitle = el.select("a[href^=https://komikcast.com/chapter/]").eachText();
                 MangaNewReleaseResultModel mangaNewReleaseResultModel = new MangaNewReleaseResultModel();
-                MangaNewReleaseResultModel.LatestMangaDetailModel mangaDetailModel = new MangaNewReleaseResultModel().new LatestMangaDetailModel();
+                MangaNewReleaseResultModel.LatestMangaDetailModel mangaDetailModel = new MangaNewReleaseResultModel.LatestMangaDetailModel();
                 if (!mangaStatusParameter.equalsIgnoreCase("Hot") || StringUtil.isBlank(mangaStatusParameter)) {
                     mangaNewReleaseResultModel.setMangaStatus(false);
                 } else if (mangaStatusParameter.equalsIgnoreCase("Hot")) {

@@ -57,7 +57,7 @@ public class AnimeBookmarkFragment extends Fragment {
     private void getDataFromLocalDB() {
         if (localAppDB.animeBookmarkDAO().getAnimeBookmarkData() != null) {
             mBinding.recylerAnimeBookmark.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-            mBinding.recylerAnimeBookmark.setAdapter(new AnimeRecyclerBookmarkAdapterNew(getActivity(), localAppDB.animeBookmarkDAO().getAnimeBookmarkData()));
+            mBinding.recylerAnimeBookmark.setAdapter(new AnimeRecyclerBookmarkAdapterNew(requireActivity(), localAppDB.animeBookmarkDAO().getAnimeBookmarkData()));
             mBinding.recylerAnimeBookmark.setHasFixedSize(true);
         }
     }

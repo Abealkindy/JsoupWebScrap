@@ -88,7 +88,7 @@ public class AnimeDetailPresenter {
             Elements getGenre = document.select("a[href^=https://animeindo.cc/genre/]");
             List<DetailMangaModel.DetailMangaGenres> detailGenresList = new ArrayList<>();
             for (Element element : getGenre) {
-                DetailMangaModel.DetailMangaGenres detailGenres = new DetailMangaModel().new DetailMangaGenres();
+                DetailMangaModel.DetailMangaGenres detailGenres = new DetailMangaModel.DetailMangaGenres();
                 String getGenreURL = element.select("a[href^=https://animeindo.cc/genre/]").attr("href");
                 String getGenreTitle = element.select("a[href^=https://animeindo.cc/genre/]").text();
                 detailGenres.setGenreURL(getGenreURL);
@@ -101,7 +101,7 @@ public class AnimeDetailPresenter {
             Elements getAllEpisodes = document.getElementsByClass("row episodes text-h4 py-3");
             List<DetailMangaModel.DetailAllChapterDatas> allEpisodeDatasList = new ArrayList<>();
             for (Element element : getAllEpisodes) {
-                DetailMangaModel.DetailAllChapterDatas allEpisodeDatas = new DetailMangaModel().new DetailAllChapterDatas();
+                DetailMangaModel.DetailAllChapterDatas allEpisodeDatas = new DetailMangaModel.DetailAllChapterDatas();
                 String episodeURL = element.getElementsByTag("a").attr("href");
                 String episodeTitle = element.getElementsByTag("a").text();
                 allEpisodeDatas.setChapterURL(episodeURL);

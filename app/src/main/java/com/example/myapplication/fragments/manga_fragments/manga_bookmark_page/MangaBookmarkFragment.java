@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -60,12 +60,9 @@ public class MangaBookmarkFragment extends Fragment implements SearchView.OnQuer
     }
 
     private void initEvent() {
-        mBinding.swipeRefreshAnimeBookmark.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mBinding.swipeRefreshAnimeBookmark.setRefreshing(false);
-                getDataFromLocalDB("ordinary", "");
-            }
+        mBinding.swipeRefreshAnimeBookmark.setOnRefreshListener(() -> {
+            mBinding.swipeRefreshAnimeBookmark.setRefreshing(false);
+            getDataFromLocalDB("ordinary", "");
         });
     }
 
@@ -78,7 +75,8 @@ public class MangaBookmarkFragment extends Fragment implements SearchView.OnQuer
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.searchBar));
+        MenuItem menuItem = menu.findItem(R.id.searchBar);
+        SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setOnQueryTextListener(this);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -110,7 +108,7 @@ public class MangaBookmarkFragment extends Fragment implements SearchView.OnQuer
         mBinding.recylerAnimeBookmark.setVisibility(View.VISIBLE);
         mBinding.linearError.setVisibility(View.GONE);
         mBinding.recylerAnimeBookmark.setLayoutManager(new LinearLayoutManager(requireContext()));
-        mBinding.recylerAnimeBookmark.setAdapter(new MangaRecyclerBookmarkAdapterNew(getActivity(), bookmarkModelList));
+        mBinding.recylerAnimeBookmark.setAdapter(new MangaRecyclerBookmarkAdapterNew(requireActivity(), bookmarkModelList));
         mBinding.recylerAnimeBookmark.setHasFixedSize(true);
     }
 

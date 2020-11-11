@@ -111,7 +111,7 @@ public class AnimeHistoryFragment extends Fragment {
         mBinding.recylerAnimeBookmark.setVisibility(View.VISIBLE);
         mBinding.linearError.setVisibility(View.GONE);
         mBinding.recylerAnimeBookmark.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        mBinding.recylerAnimeBookmark.setAdapter(new AnimeRecyclerHistoryAdapterNew(getActivity(), historyModelList));
+        mBinding.recylerAnimeBookmark.setAdapter(new AnimeRecyclerHistoryAdapterNew(requireActivity(), historyModelList));
         mBinding.recylerAnimeBookmark.setHasFixedSize(true);
     }
 

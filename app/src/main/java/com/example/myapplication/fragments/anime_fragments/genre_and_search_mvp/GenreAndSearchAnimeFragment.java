@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -92,7 +93,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
         //main recycler setting
         fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.setHasFixedSize(true);
         if (hitStatus.equalsIgnoreCase("genrePage") || hitStatus.equalsIgnoreCase("newPage") || hitStatus.equalsIgnoreCase("swipeRefresh") || hitStatus.equalsIgnoreCase("searchRequest") || hitStatus.equalsIgnoreCase("searchScrollRequest")) {
-            fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+            fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
             searchAndGenreAdapters = new AnimeRecyclerSearchAndGenreAdapterNew(mContext, animeGenreAndSearchResultModelLists);
             fragmentGenreAndSearchAnimeBinding.recyclerGenreAndSearchAnime.setAdapter(searchAndGenreAdapters);
         } else {
@@ -199,7 +200,8 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.searchBar));
+        MenuItem menuItem = menu.findItem(R.id.searchBar);
+        SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setOnQueryTextListener(this);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -336,7 +338,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
 
     @Override
     public void onGetSearchAndGenreDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeSearchResult> searchAndGenreHTMLResult) {
-        getActivity().runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             Log.e("getResultSuccess", "Yes");
             progressDialog.dismiss();
             if (animeGenreAndSearchResultModelList != null) {
@@ -351,7 +353,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
 
     @Override
     public void onGetSearchAndGenreDataSuccessNew(List<AnimeGenreAndSearchResultModel.AnimeSearchResultNew> searchAndGenreHTMLResult) {
-        getActivity().runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             Log.e("getResultSuccess", "Yes");
             progressDialog.dismiss();
             if (animeGenreAndSearchResultModelLists != null) {
@@ -366,7 +368,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
 
     @Override
     public void onGetSearchAndGenreDataFailed() {
-        getActivity().runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             Log.e("getResultSuccess", "No");
             progressDialog.dismiss();
             Toast.makeText(mContext, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
@@ -375,7 +377,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
 
     @Override
     public void onGetOnlyGenreDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> onlyGenreHTMLResult) {
-        getActivity().runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             Log.e("getGenreSuccess", "Yes");
             animeGenreResultModelList.clear();
             animeGenreResultModelList.addAll(onlyGenreHTMLResult);
@@ -384,7 +386,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
 
     @Override
     public void onGetOnlyGenreDataFailed() {
-        getActivity().runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             Log.e("getGenreSuccess", "No");
             progressDialog.dismiss();
             Toast.makeText(mContext, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
@@ -393,7 +395,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
 
     @Override
     public void onGetOnlySortDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> onlyGenreHTMLResult) {
-        getActivity().runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             animeSortResultModelList.clear();
             animeSortResultModelList.addAll(onlyGenreHTMLResult);
         });
@@ -401,7 +403,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
 
     @Override
     public void onGetOnlyTypeDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> onlyGenreHTMLResult) {
-        getActivity().runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             animeTypeResultModelList.clear();
             animeTypeResultModelList.addAll(onlyGenreHTMLResult);
         });
@@ -410,7 +412,7 @@ public class GenreAndSearchAnimeFragment extends Fragment implements SearchView.
 
     @Override
     public void onGetOnlyStatusDataSuccess(List<AnimeGenreAndSearchResultModel.AnimeGenreResult> onlyGenreHTMLResult) {
-        getActivity().runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             animeStatusResultModelList.clear();
             animeStatusResultModelList.addAll(onlyGenreHTMLResult);
         });

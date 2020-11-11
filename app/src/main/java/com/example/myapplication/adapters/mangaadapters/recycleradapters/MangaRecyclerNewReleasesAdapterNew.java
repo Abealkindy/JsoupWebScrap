@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.CookieManager;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
@@ -24,7 +23,6 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.Objects;
 
-import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 

@@ -112,7 +112,7 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
 
     private void initRecyclerView() {
         newReleaseBinding.recyclerNewReleasesManga.setHasFixedSize(true);
-        mangaRecyclerNewReleasesAdapter = new MangaRecyclerNewReleasesAdapterNew(getActivity(), mangaNewReleaseResultModels);
+        mangaRecyclerNewReleasesAdapter = new MangaRecyclerNewReleasesAdapterNew(requireActivity(), mangaNewReleaseResultModels);
         newReleaseBinding.recyclerNewReleasesManga.setAdapter(mangaRecyclerNewReleasesAdapter);
         LinearLayoutManager linearLayoutManager = (LinearLayoutManager) newReleaseBinding.recyclerNewReleasesManga.getLayoutManager();
         newReleaseBinding.recyclerNewReleasesManga.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {

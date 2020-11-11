@@ -49,12 +49,12 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         animeNewReleaseBinding = FragmentAnimeNewReleaseBinding.inflate(inflater, container, false);
-        progressDialog = new ProgressDialog(getActivity());
+        progressDialog = new ProgressDialog(requireActivity());
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Be patient please onii-chan, it just take less than a minute :3");
         animeNewReleaseBinding.recyclerNewReleasesAnime.setHasFixedSize(true);
-        animeRecyclerNewReleasesAdapter = new AnimeRecyclerNewReleasesAdapterNew(getActivity(), animeNewReleaseResultModelList);
+        animeRecyclerNewReleasesAdapter = new AnimeRecyclerNewReleasesAdapterNew(requireActivity(), animeNewReleaseResultModelList);
         animeNewReleaseBinding.recyclerNewReleasesAnime.setAdapter(animeRecyclerNewReleasesAdapter);
         GridLayoutManager gridLayoutManager = (GridLayoutManager) animeNewReleaseBinding.recyclerNewReleasesAnime.getLayoutManager();
         animeNewReleaseBinding.recyclerNewReleasesAnime.addOnScrollListener(new EndlessRecyclerViewScrollListener(gridLayoutManager) {
@@ -128,7 +128,7 @@ public class AnimeNewReleaseFragment extends Fragment implements AnimeNewRelease
             builder.setTitle("Oops...");
             builder.setIcon(ResourcesCompat.getDrawable(requireActivity().getResources(), R.drawable.appicon, requireActivity().getTheme()));
             builder.setMessage("Your internet connection is worse than your face onii-chan :3");
-            builder.setPositiveButton("Reload", (dialog, which) -> Toast.makeText(getActivity(), "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show());
+            builder.setPositiveButton("Reload", (dialog, which) -> Toast.makeText(requireActivity(), "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show());
             builder.show();
         });
     }
