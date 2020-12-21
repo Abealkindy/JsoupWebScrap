@@ -40,6 +40,7 @@ import okhttp3.Request;
 
 import static com.example.myapplication.MyApp.cookiesz;
 import static com.example.myapplication.MyApp.localAppDB;
+import static com.example.myapplication.MyApp.ua;
 
 public class MangaDetailActivity extends AppCompatActivity implements MangaDetailInterface {
 
@@ -228,7 +229,7 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
                         final Request original = chain.request();
                         final Request authorized = original.newBuilder()
                                 .addHeader("Cookie", String.valueOf(cookiesz))
-                                .addHeader("User-Agent", "")
+                                .addHeader("User-Agent", ua)
                                 .build();
                         return chain.proceed(authorized);
                     })
@@ -238,8 +239,8 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
                     .memoryCache(Cache.NONE)
                     .build();
             picasso.load(detailThumb)
-                    .memoryPolicy(MemoryPolicy.NO_CACHE)
-                    .networkPolicy(NetworkPolicy.NO_CACHE)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                     .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.imageplaceholder, this.getTheme())))
                     .error(Objects.requireNonNull(ResourcesCompat.getDrawable(this.getResources(), R.drawable.error, this.getTheme())))
                     .into(detailBinding.headerThumbnailDetail);

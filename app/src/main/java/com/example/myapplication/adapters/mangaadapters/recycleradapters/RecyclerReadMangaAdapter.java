@@ -29,6 +29,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 import static com.example.myapplication.MyApp.cookiesz;
+import static com.example.myapplication.MyApp.ua;
 
 public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadMangaAdapter.ViewHolder> {
     private Context context;
@@ -70,38 +71,38 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
                     final Request original = chain.request();
                     final Request authorized = original.newBuilder()
                             .addHeader("Cookie", String.valueOf(cookiesz))
-                            .addHeader("User-Agent", "")
+                            .addHeader("User-Agent", ua)
                             .build();
                     return chain.proceed(authorized);
                 })
                 .build();
-        Transformation transformation = new Transformation() {
-            @Override
-            public Bitmap transform(Bitmap source) {
-                int targetWidth = holder.itemListBinding.imageMangaContentItem.getWidth();
-                double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
-                int targetHeight = (int) (targetWidth * aspectRatio);
-                Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
-                if (result != source) {
-                    // Same bitmap is returned if sizes are the same
-                    source.recycle();
-                }
-                return result;
-            }
-
-            @Override
-            public String key() {
-                return "transformation" + " desiredWidth";
-            }
-        };
+//        Transformation transformation = new Transformation() {
+//            @Override
+//            public Bitmap transform(Bitmap source) {
+//                int targetWidth = holder.itemListBinding.imageMangaContentItem.getWidth();
+//                double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
+//                int targetHeight = (int) (targetWidth * aspectRatio);
+//                Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
+//                if (result != source) {
+//                    // Same bitmap is returned if sizes are the same
+//                    source.recycle();
+//                }
+//                return result;
+//            }
+//
+//            @Override
+//            public String key() {
+//                return "transformation" + " desiredWidth";
+//            }
+//        };
         Picasso picasso = new Picasso.Builder(context)
                 .downloader(new OkHttp3Downloader(client))
                 .memoryCache(Cache.NONE)
                 .build();
         picasso.load(imageContent.get(position))
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
-                .transform(transformation)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+//                .transform(transformation)
                 .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme())))
                 .error(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error, context.getTheme())))
                 .into(holder.itemListBinding.imageMangaContentItem, new Callback() {

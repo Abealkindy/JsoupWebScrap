@@ -28,6 +28,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 import static com.example.myapplication.MyApp.cookiesz;
+import static com.example.myapplication.MyApp.ua;
 
 public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<MangaRecyclerNewReleasesAdapterNew.ViewHolder> {
     private Context context;
@@ -58,7 +59,7 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                     final Request original = chain.request();
                     final Request authorized = original.newBuilder()
                             .addHeader("Cookie", String.valueOf(cookiesz))
-                            .addHeader("User-Agent", "")
+                            .addHeader("User-Agent", ua)
                             .build();
                     return chain.proceed(authorized);
                 })
@@ -68,8 +69,8 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
                 .memoryCache(Cache.NONE)
                 .build();
         picasso.load(animeNewReleaseResultModelList.get(position).getMangaThumb())
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                 .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme())))
                 .error(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error, context.getTheme())))
                 .into(holder.itemListBinding.mangaThumb);

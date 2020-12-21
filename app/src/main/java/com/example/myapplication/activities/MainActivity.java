@@ -4,19 +4,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.myapplication.activities.mangapage.MangaReleaseListActivity;
 import com.example.myapplication.databinding.ActivityMainBinding;
 import com.example.myapplication.networks.InternetConnection;
+import com.google.gson.Gson;
 import com.zhkrb.cloudflare_scrape_webview.CfCallback;
 import com.zhkrb.cloudflare_scrape_webview.Cloudflare;
 import com.zhkrb.cloudflare_scrape_webview.util.ConvertUtil;
 
 import java.net.HttpCookie;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.example.myapplication.MyApp.cookiesz;
+import static com.example.myapplication.MyApp.ua;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
             if (InternetConnection.checkConnection(this)) {
                 try {
                     Cloudflare cloudflare = new Cloudflare(this, "https://komikcast.com");
+                    cloudflare.setUser_agent(ua);
                     cloudflare.setCfCallback(new CfCallback() {
                         @Override
                         public void onSuccess(List<HttpCookie> cookieList, boolean hasNewUrl, String newUrl) {

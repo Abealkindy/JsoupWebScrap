@@ -52,8 +52,8 @@ public class AnimeRecyclerHistoryAdapterNew extends RecyclerView.Adapter<AnimeRe
         holder.itemListBinding.textGenre.setVisibility(View.GONE);
         holder.itemListBinding.linearRating.setVisibility(View.GONE);
         Picasso.get().load(animeDiscoverResultModelList.get(position).getAnimeThumb())
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                 .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme())))
                 .error(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error, context.getTheme())))
                 .into(holder.itemListBinding.imageViewBackground);

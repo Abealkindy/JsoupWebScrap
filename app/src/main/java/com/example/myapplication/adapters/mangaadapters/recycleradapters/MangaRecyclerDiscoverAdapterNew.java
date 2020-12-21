@@ -23,6 +23,7 @@ import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 import static com.example.myapplication.MyApp.cookiesz;
+import static com.example.myapplication.MyApp.ua;
 
 import java.util.List;
 import java.util.Objects;
@@ -64,7 +65,7 @@ public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaR
                     final Request original = chain.request();
                     final Request authorized = original.newBuilder()
                             .addHeader("Cookie", String.valueOf(cookiesz))
-                            .addHeader("User-Agent", "")
+                            .addHeader("User-Agent", ua)
                             .build();
                     return chain.proceed(authorized);
                 })
@@ -74,8 +75,8 @@ public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaR
                 .memoryCache(Cache.NONE)
                 .build();
         picasso.load(animeDiscoverResultModelList.get(position).getMangaThumb())
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                 .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme())))
                 .error(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error, context.getTheme())))
                 .into(holder.itemListBinding.mangaThumb);

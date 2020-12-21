@@ -52,8 +52,8 @@
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".activities.mangapage.read_manga_mvp.ReadMangaActivity"
-            android:hardwareAccelerated="false"
             android:screenOrientation="userPortrait"
+            android:hardwareAccelerated="false"
             android:theme="@style/AppThemes.NoActionBar" />
 
         <meta-data
