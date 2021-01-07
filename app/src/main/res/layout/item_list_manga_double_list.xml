@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relative_item_manga"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
+    app:cardBackgroundColor="@color/dark_theme"
+    app:cardCornerRadius="@dimen/_5sdp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_9sdp">
+
+        <RelativeLayout
+            android:id="@+id/manga_thumb_parent"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_170sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_1sdp"
+            android:layout_marginBottom="@dimen/_5sdp">
+
+            <ImageView
+                android:id="@+id/manga_thumb"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_170sdp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/classgotoposter" />
+
+            <!--            <WebView-->
+            <!--                android:id="@+id/manga_thumb"-->
+            <!--                android:layout_width="@dimen/_120sdp"-->
+            <!--                android:layout_height="@dimen/_170sdp"-->
+            <!--                android:layout_centerVertical="true"-->
+            <!--                android:adjustViewBounds="true"-->
+            <!--                android:scaleType="fitXY" />-->
+
+            <com.haozhang.lib.SlantedTextView
+                android:id="@+id/hot_label"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_alignTop="@id/manga_thumb"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:visibility="gone"
+                app:slantedBackgroundColor="@color/uniqlo_red"
+                app:slantedLength="@dimen/_40sdp"
+                app:slantedMode="left"
+                app:slantedText="@string/hot_text"
+                app:slantedTextColor="@android:color/white"
+                app:slantedTextSize="@dimen/_12ssp"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/text_manga_types"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_alignParentBottom="true"
+                android:autoSizeTextType="uniform"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                tools:background="@color/manhua_color"
+                tools:targetApi="o"
+                tools:text="@string/mangaoneshot_string" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_toEndOf="@+id/manga_thumb_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/manga_title_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoSizeTextType="uniform"
+                android:fontFamily="@font/montserrat"
+                android:maxLines="4"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
+                app:autoSizeMinTextSize="@dimen/_13ssp"
+                tools:targetApi="o"
+                tools:text="Class-goto Shuudan Teni Shimashita ga, ichiban Tsuyoi Ore wa Saijaku no Shounin ni Gisouchuu" />
+
+            <LinearLayout
+                android:id="@+id/linear_rating_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:visibility="gone">
+
+                <RatingBar
+                    android:id="@+id/manga_rating_bar"
+                    style="?attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:progressBackgroundTint="@color/gray"
+                    android:progressTint="@color/yellow"
+                    android:secondaryProgressTint="@color/gray"
+                    android:stepSize="0.1"
+                    tools:rating="3.5" />
+
+                <TextView
+                    android:id="@+id/manga_rating_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@android:color/white"
+                    tools:text="10.00" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_chapter_inside"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_list_select_chapter_small" />
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
