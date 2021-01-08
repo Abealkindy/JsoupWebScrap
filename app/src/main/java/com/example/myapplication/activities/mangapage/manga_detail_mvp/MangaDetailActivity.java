@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
@@ -223,12 +224,20 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
             //get thumb
 //            if (detailThumb.equalsIgnoreCase("")) {
             detailThumb = detailMangaModel.getMangaThumb();
+
+            String kuki = "";
+            if (CookieManager.getInstance().getCookie(detailThumb) != null && !CookieManager.getInstance().getCookie(detailThumb).isEmpty()) {
+                kuki = CookieManager.getInstance().getCookie(detailThumb);
+            } else {
+                kuki = String.valueOf(cookiesz);
+            }
+            String finalKuki = kuki;
             OkHttpClient client = new OkHttpClient()
                     .newBuilder()
                     .addInterceptor(chain -> {
                         final Request original = chain.request();
                         final Request authorized = original.newBuilder()
-                                .addHeader("Cookie", String.valueOf(cookiesz))
+                                .addHeader("Cookie", finalKuki)
                                 .addHeader("User-Agent", ua)
                                 .build();
                         return chain.proceed(authorized);

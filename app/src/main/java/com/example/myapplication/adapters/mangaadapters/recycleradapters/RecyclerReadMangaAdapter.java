@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
@@ -65,12 +66,19 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
     }
 
     private void loadImage(@NonNull ViewHolder holder, int position) {
+        String kuki = "";
+        if (CookieManager.getInstance().getCookie(imageContent.get(position)) != null && !CookieManager.getInstance().getCookie(imageContent.get(position)).isEmpty()) {
+            kuki = CookieManager.getInstance().getCookie(imageContent.get(position));
+        } else {
+            kuki = String.valueOf(cookiesz);
+        }
+        String finalKuki = kuki;
         OkHttpClient client = new OkHttpClient()
                 .newBuilder()
                 .addInterceptor(chain -> {
                     final Request original = chain.request();
                     final Request authorized = original.newBuilder()
-                            .addHeader("Cookie", String.valueOf(cookiesz))
+                            .addHeader("Cookie", finalKuki)
                             .addHeader("User-Agent", ua)
                             .build();
                     return chain.proceed(authorized);

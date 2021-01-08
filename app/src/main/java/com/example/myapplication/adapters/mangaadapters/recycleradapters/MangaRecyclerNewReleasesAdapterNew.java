@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
@@ -53,12 +54,19 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemListBinding.mangaTitleText.setText(animeNewReleaseResultModelList.get(position).getMangaTitle());
+        String kuki = "";
+        if (CookieManager.getInstance().getCookie(animeNewReleaseResultModelList.get(position).getMangaThumb()) != null && !CookieManager.getInstance().getCookie(animeNewReleaseResultModelList.get(position).getMangaThumb()).isEmpty()) {
+            kuki = CookieManager.getInstance().getCookie(animeNewReleaseResultModelList.get(position).getMangaThumb());
+        } else {
+            kuki = String.valueOf(cookiesz);
+        }
+        String finalKuki = kuki;
         OkHttpClient client = new OkHttpClient()
                 .newBuilder()
                 .addInterceptor(chain -> {
                     final Request original = chain.request();
                     final Request authorized = original.newBuilder()
-                            .addHeader("Cookie", String.valueOf(cookiesz))
+                            .addHeader("Cookie", finalKuki)
                             .addHeader("User-Agent", ua)
                             .build();
                     return chain.proceed(authorized);

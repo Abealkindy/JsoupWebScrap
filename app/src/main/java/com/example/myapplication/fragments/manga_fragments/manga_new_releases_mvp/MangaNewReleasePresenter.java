@@ -46,7 +46,13 @@ public class MangaNewReleasePresenter {
     }
 
     private void passToJsoup(int pageCount, String newReleasesURL, String hitStatus) {
-        Document doc = JsoupConfig.setInitJsoup(newReleasesURL + "page/" + pageCount + "/", null);
+
+        Document doc;
+        if (pageCount>1){
+            doc = JsoupConfig.setInitJsoup(newReleasesURL + "page/" + pageCount + "/", null);
+        } else {
+            doc = JsoupConfig.setInitJsoup(newReleasesURL, null);
+        }
         if (doc != null) {
             Element el;
             Elements newchaptercon = doc.getElementsByClass("utao");

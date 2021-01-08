@@ -91,8 +91,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     }
 
     private void getFilterComponents() {
-        String genreTotalURL = String.format(searchURL, 1, "", "", "");
-        new MyTask(genreTotalURL, "genre").execute();
+        new MyTask("https://komikcast.com/daftar-komik/", "genre").execute();
 
     }
 
@@ -197,7 +196,8 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
                 break;
             case NEW_PAGE:
                 plusPage = 1;
-                homeUrl = String.format(searchURL, plusPage, "", "", "");
+                homeUrl = "https://komikcast.com/daftar-komik/";
+//                homeUrl = String.format(searchURL, plusPage, "", "", "");
                 hitStatus = "newPage";
                 requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
@@ -215,7 +215,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
                 break;
             case SWIPE_REFRESH:
                 plusPage = 1;
-                homeUrl = String.format(searchURL, plusPage, "", "", "");
+                homeUrl = "https://komikcast.com/daftar-komik/";
                 hitStatus = "swipeRefresh";
                 break;
             case SEARCH_REQUEST:
