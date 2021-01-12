@@ -77,7 +77,6 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         discoverMangaBinding.swipeDiscoverManga.setOnRefreshListener(() -> {
             discoverMangaBinding.swipeDiscoverManga.setRefreshing(false);
             setTag(homeUrl, SWIPE_REFRESH);
-            requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
         });
     }
 
@@ -192,26 +191,22 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
                 plusPage++;
                 homeUrl = String.format(searchURL, plusPage, "", "", "");
                 hitStatus = "newPage";
-                requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
             case NEW_PAGE:
                 plusPage = 1;
                 homeUrl = "https://komikcast.com/daftar-komik/";
 //                homeUrl = String.format(searchURL, plusPage, "", "", "");
                 hitStatus = "newPage";
-                requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
             case GENRE_HIT_REQUEST:
                 plusGenre = 1;
                 homeUrl = totalURL;
                 hitStatus = "genrePage";
-                requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
             case GENRE_SCROLL_REQUEST:
                 plusGenre++;
                 homeUrl = String.format(searchURL, plusGenre, sortURL, statusURL, typeURL) + genreURL;
                 hitStatus = "genrePage";
-                requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
             case SWIPE_REFRESH:
                 plusPage = 1;
@@ -227,10 +222,9 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
                 plusSearch++;
                 homeUrl = "/page/" + plusSearch + "/?s=" + searchQuery;
                 hitStatus = "searchScrollRequest";
-                requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
         }
-
+        requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
     }
 
     @Override
@@ -270,7 +264,6 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     public boolean onQueryTextSubmit(String query) {
         searchQuery = query;
         setTag(query, SEARCH_REQUEST);
-        requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
         return true;
     }
 
