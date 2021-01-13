@@ -84,25 +84,27 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
                     return chain.proceed(authorized);
                 })
                 .build();
-//        Transformation transformation = new Transformation() {
-//            @Override
-//            public Bitmap transform(Bitmap source) {
-//                int targetWidth = holder.itemListBinding.imageMangaContentItem.getWidth();
-//                double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
-//                int targetHeight = (int) (targetWidth * aspectRatio);
-//                Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
-//                if (result != source) {
-//                    // Same bitmap is returned if sizes are the same
-//                    source.recycle();
-//                }
-//                return result;
-//            }
-//
-//            @Override
-//            public String key() {
-//                return "transformation" + " desiredWidth";
-//            }
-//        };
+        Transformation transformation = new Transformation() {
+            @Override
+            public Bitmap transform(Bitmap source) {
+                final Bitmap scaledBitmap = Bitmap.createScaledBitmap(
+                        source,
+                        (int) (source.getWidth() * 0.9),
+                        (int) (source.getHeight() * 0.9),
+                        true
+                );
+                if (scaledBitmap != source) {
+                    // Same bitmap is returned if sizes are the same
+                    source.recycle();
+                }
+                return scaledBitmap;
+            }
+
+            @Override
+            public String key() {
+                return "transformation" + " desiredWidth";
+            }
+        };
         Picasso picasso = new Picasso.Builder(context)
                 .downloader(new OkHttp3Downloader(client))
                 .memoryCache(Cache.NONE)
@@ -110,7 +112,7 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
         picasso.load(imageContent.get(position))
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
-//                .transform(transformation)
+                .transform(transformation)
                 .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme())))
                 .error(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error, context.getTheme())))
                 .into(holder.itemListBinding.imageMangaContentItem, new Callback() {
