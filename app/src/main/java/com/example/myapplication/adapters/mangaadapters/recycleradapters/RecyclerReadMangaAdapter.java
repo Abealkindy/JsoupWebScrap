@@ -3,6 +3,9 @@ package com.example.myapplication.adapters.mangaadapters.recycleradapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +23,11 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -66,7 +72,7 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
     }
 
     private void loadImage(@NonNull ViewHolder holder, int position) {
-        String kuki = "";
+        String kuki;
         if (CookieManager.getInstance().getCookie(imageContent.get(position)) != null && !CookieManager.getInstance().getCookie(imageContent.get(position)).isEmpty()) {
             kuki = CookieManager.getInstance().getCookie(imageContent.get(position));
         } else {
@@ -87,12 +93,17 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
         Transformation transformation = new Transformation() {
             @Override
             public Bitmap transform(Bitmap source) {
-                final Bitmap scaledBitmap = Bitmap.createScaledBitmap(
-                        source,
-                        (int) (source.getWidth() * 0.9),
-                        (int) (source.getHeight() * 0.9),
-                        true
-                );
+                Bitmap scaledBitmap;
+                if (source.getByteCount() / 1000000 >= 60) {
+                    scaledBitmap = Bitmap.createScaledBitmap(
+                            source,
+                            (int) (source.getWidth() * 0.5),
+                            (int) (source.getHeight() * 0.5),
+                            true
+                    );
+                } else {
+                    scaledBitmap = source;
+                }
                 if (scaledBitmap != source) {
                     // Same bitmap is returned if sizes are the same
                     source.recycle();
@@ -112,9 +123,9 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
         picasso.load(imageContent.get(position))
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
-                .transform(transformation)
                 .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.imageplaceholder, context.getTheme())))
                 .error(Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.error, context.getTheme())))
+                .transform(transformation)
                 .into(holder.itemListBinding.imageMangaContentItem, new Callback() {
                     @Override
                     public void onSuccess() {

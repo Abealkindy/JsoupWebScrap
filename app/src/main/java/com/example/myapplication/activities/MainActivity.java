@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mainBinding.cardReadManga.setOnClickListener(v -> {
             if (InternetConnection.checkConnection(this)) {
                 try {
-                    Cloudflare cloudflare = new Cloudflare(this, "https://komikcast.com");
+                    Cloudflare cloudflare = new Cloudflare(this, "https://komikcast.com/");
                     cloudflare.setUser_agent(ua);
                     cloudflare.setCfCallback(new CfCallback() {
                         @Override
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onFail(int code, String msg) {
+                            cloudflare.cancel();
                             Toast.makeText(MainActivity.this, "Lagi tutup dulu, nanti balik lagi yah!", Toast.LENGTH_LONG).show();
                         }
                     });
