@@ -49,7 +49,7 @@ dependencies {
     implementation 'com.zhkrb.cloudflare-scrape-android:scrape-webview:0.0.3'
     implementation 'me.grantland:autofittextview:0.2.1'
     implementation 'org.jsoup:jsoup:1.12.1'
-    implementation ('com.github.bumptech.glide:okhttp3-integration:4.11.0'){
+    implementation('com.github.bumptech.glide:okhttp3-integration:4.11.0') {
         exclude group: 'glide-parent'
     }
     testImplementation 'junit:junit:4.12'
