@@ -250,30 +250,36 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
 
     @Override
     public void onGetMangaContentDataFailed() {
-        progressDialog.dismiss();
-        Toast.makeText(ReadMangaActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
+        runOnUiThread(() -> {
+            progressDialog.dismiss();
+            Toast.makeText(ReadMangaActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
     public void onGetMangaChaptersDataSuccess(List<ReadMangaModel.AllChapterDatas> allChapters) {
-        progressDialog.dismiss();
-        allChapterDatasList = allChapters;
-        readMangaBinding.showAllChap.setOnClickListener(v -> {
-            dialog = new Dialog(ReadMangaActivity.this);
-            SelectChapterDialogBinding chapterDialogBinding = SelectChapterDialogBinding.inflate(getLayoutInflater(), null, false);
-            dialog.setContentView(chapterDialogBinding.getRoot());
-            dialog.setTitle("Select other chapter");
-            chapterDialogBinding.recyclerAllChapters.setHasFixedSize(true);
-            chapterDialogBinding.recyclerAllChapters.setLayoutManager(new LinearLayoutManager(ReadMangaActivity.this));
-            chapterDialogBinding.recyclerAllChapters.setAdapter(new RecyclerAllChapterAdapter(ReadMangaActivity.this, allChapterDatasList));
-            dialog.show();
+        runOnUiThread(() -> {
+            progressDialog.dismiss();
+            allChapterDatasList = allChapters;
+            readMangaBinding.showAllChap.setOnClickListener(v -> {
+                dialog = new Dialog(ReadMangaActivity.this);
+                SelectChapterDialogBinding chapterDialogBinding = SelectChapterDialogBinding.inflate(getLayoutInflater(), null, false);
+                dialog.setContentView(chapterDialogBinding.getRoot());
+                dialog.setTitle("Select other chapter");
+                chapterDialogBinding.recyclerAllChapters.setHasFixedSize(true);
+                chapterDialogBinding.recyclerAllChapters.setLayoutManager(new LinearLayoutManager(ReadMangaActivity.this));
+                chapterDialogBinding.recyclerAllChapters.setAdapter(new RecyclerAllChapterAdapter(ReadMangaActivity.this, allChapterDatasList));
+                dialog.show();
+            });
         });
     }
 
     @Override
     public void onGetMangaChaptersDataFailed() {
-        progressDialog.dismiss();
-        Toast.makeText(ReadMangaActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
+        runOnUiThread(() -> {
+            progressDialog.dismiss();
+            Toast.makeText(ReadMangaActivity.this, "Your internet connection is worse than your face onii-chan :3", Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
