@@ -88,7 +88,7 @@ public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadM
             @Override
             public Bitmap transform(Bitmap source) {
                 Bitmap scaledBitmap;
-                if (source.getByteCount() / 1000000 >= 60) {
+                if (source.getByteCount() / 1000000 >= 10) {
                     scaledBitmap = Bitmap.createScaledBitmap(
                             source,
                             (int) (source.getWidth() * 0.5),
