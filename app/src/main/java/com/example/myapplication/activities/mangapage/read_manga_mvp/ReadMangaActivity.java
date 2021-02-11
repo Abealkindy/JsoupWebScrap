@@ -234,10 +234,6 @@ public class ReadMangaActivity extends AppCompatActivity implements RecyclerAllC
             detailURL = mangaContents.getMangaDetailURL();
             //add manga data
             Date dateNow = Calendar.getInstance().getTime();
-            //2021 02 11 11 30 36
-            //2021 02 11 11 55 00
-            //2021 02 11 11 28 35
-            //2021 02 11 01 16 05
             @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
             String formattedDate = df.format(dateNow);
             MangaHistoryModel mangaBookmarkModel = new MangaHistoryModel();
