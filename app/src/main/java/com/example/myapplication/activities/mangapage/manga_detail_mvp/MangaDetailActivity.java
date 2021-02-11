@@ -68,7 +68,7 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
             Log.e("FAVCLICKED? ", "YES");
             if (detailBinding.contentManga.favouriteImageInactive.getVisibility() == View.VISIBLE) {
                 Date dateNow = Calendar.getInstance().getTime();
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmmss");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
                 String formattedDate = df.format(dateNow);
                 mangaBookmarkModel.setMangaAddedDate(formattedDate);
                 mangaBookmarkModel.setMangaTitle(detailTitle);

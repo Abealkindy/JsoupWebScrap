@@ -139,7 +139,7 @@ public class WatchAnimeEpisodeActivity extends AppCompatActivity implements Watc
 
     private void addWatchHistory() {
         Date dateNow = Calendar.getInstance().getTime();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmmss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
         String formattedDate = df.format(dateNow);
         AnimeHistoryModel mangaBookmarkModel = new AnimeHistoryModel();
         mangaBookmarkModel.setAnimeAddedDate(formattedDate);
