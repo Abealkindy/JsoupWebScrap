@@ -129,7 +129,9 @@ public class MangaHistoryFragment extends Fragment implements SearchView.OnQuery
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        getDataFromLocalDB("search", newText);
+        if (!newText.isEmpty()){
+            getDataFromLocalDB("search", newText);
+        }
         return true;
     }
 }
