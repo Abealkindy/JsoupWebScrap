@@ -19,9 +19,11 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
+import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerDiscoverAdapterNew;
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerNewReleasesAdapterNew;
 import com.example.myapplication.databinding.FragmentMangaNewReleaseBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
+import com.example.myapplication.models.mangamodels.DiscoverMangaModel;
 import com.example.myapplication.models.mangamodels.MangaNewReleaseResultModel;
 
 import java.util.ArrayList;
@@ -36,8 +38,11 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
     private FragmentMangaNewReleaseBinding newReleaseBinding;
     private int pageCount = 1;
     private Context mContext;
-    private List<MangaNewReleaseResultModel> mangaNewReleaseResultModels = new ArrayList<>();
-    private MangaRecyclerNewReleasesAdapterNew mangaRecyclerNewReleasesAdapter;
+    /* older version */
+//    private List<MangaNewReleaseResultModel> mangaNewReleaseResultModels = new ArrayList<>();
+//    private MangaRecyclerNewReleasesAdapterNew mangaRecyclerNewReleasesAdapter;
+    private MangaRecyclerDiscoverAdapterNew mangaRecyclerNewReleasesAdapter;
+    private List<DiscoverMangaModel> mangaNewReleaseResultModels = new ArrayList<>();
     private MangaNewReleasePresenter newReleasePresenter = new MangaNewReleasePresenter(this);
     private ProgressDialog progressDialog;
     private boolean hitAPI = false;
@@ -93,7 +98,7 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
 
         @Override
         protected Void doInBackground(Void... voids) {
-            newReleasePresenter.getNewReleasesMangaData(this.pageCount, "https://komikcast.com/", this.hitStatus);
+            newReleasePresenter.getNewReleasesMangaData(this.pageCount, "https://komikcast.com/komik/", this.hitStatus);
             return null;
         }
 
@@ -112,7 +117,9 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
 
     private void initRecyclerView() {
         newReleaseBinding.recyclerNewReleasesManga.setHasFixedSize(true);
-        mangaRecyclerNewReleasesAdapter = new MangaRecyclerNewReleasesAdapterNew(requireActivity(), mangaNewReleaseResultModels);
+        /* older version */
+//        mangaRecyclerNewReleasesAdapter = new MangaRecyclerNewReleasesAdapterNew(requireActivity(), mangaNewReleaseResultModels);
+        mangaRecyclerNewReleasesAdapter = new MangaRecyclerDiscoverAdapterNew(requireActivity(), mangaNewReleaseResultModels);
         newReleaseBinding.recyclerNewReleasesManga.setAdapter(mangaRecyclerNewReleasesAdapter);
         LinearLayoutManager linearLayoutManager = (LinearLayoutManager) newReleaseBinding.recyclerNewReleasesManga.getLayoutManager();
         newReleaseBinding.recyclerNewReleasesManga.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
@@ -136,7 +143,7 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
     }
 
     @Override
-    public void onGetNewReleasesDataSuccess(List<MangaNewReleaseResultModel> mangaNewReleaseResultModel, String hitStatus, Map<String, String> cookies) {
+    public void onGetNewReleasesDataSuccess(List<DiscoverMangaModel> mangaNewReleaseResultModel, String hitStatus, Map<String, String> cookies) {
         requireActivity().runOnUiThread(() -> {
             newReleaseBinding.recyclerNewReleasesManga.setVisibility(View.VISIBLE);
             newReleaseBinding.linearError.setVisibility(View.GONE);

@@ -24,33 +24,11 @@ public class DiscoverMangaPresenter {
     }
 
     public void getDiscoverOrSearchData(String discoverOrSearchURL, String type) {
-//        CloudFlare cf = new CloudFlare(discoverOrSearchURL);
-//        cf.setUser_agent("Mozilla/5.0");
-//        cf.getCookies(new CloudFlare.cfCallback() {
-//            @Override
-//            public void onSuccess(List<HttpCookie> cookieList, boolean hasNewUrl, String newUrl) {
-//                Log.e("getNewURL?", String.valueOf(hasNewUrl));
-//                Map<String, String> cookies = CloudFlare.List2Map(cookieList);
-//                if (hasNewUrl) {
         if (type.equalsIgnoreCase("genre")) {
             getFilterComponentData(discoverOrSearchURL);
         } else {
             passToJsoup(discoverOrSearchURL);
         }
-//                } else {
-//                    if (type.equalsIgnoreCase("genre")) {
-//                        getFilterComponentData(discoverOrSearchURL, cookies);
-//                    } else {
-//                        passToJsoup(discoverOrSearchURL, cookies);
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFail(String message) {
-//                discoverMangaInterface.onGetDiscoverMangaDataFailed();
-//            }
-//        });
     }
 
     private void getFilterComponentData(String filterAddOnURL) {
