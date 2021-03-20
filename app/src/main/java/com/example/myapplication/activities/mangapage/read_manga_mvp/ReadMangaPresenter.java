@@ -78,7 +78,7 @@ public class ReadMangaPresenter {
             }
 
             //get manga image content
-            Elements mangaContents = doc.getElementById("readerarea").select("img[src^=http]");
+            Elements mangaContents = doc.getElementsByClass("main-reading-area").select("img[src^=http]");
 
             if (readMangaModel.getImageContent() != null && !readMangaModel.getImageContent().isEmpty()) {
                 readMangaModel.getImageContent().clear();

@@ -1,5 +1,7 @@
 package com.example.myapplication.activities.mangapage.manga_detail_mvp;
 
+import android.util.Log;
+
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
 import com.example.myapplication.networks.JsoupConfig;
 
@@ -69,10 +71,10 @@ public class MangaDetailPresenter {
 
             //get All chapter data
             List<DetailMangaModel.DetailAllChapterDatas> detailAllChapterDatasList = new ArrayList<>();
-            Elements getAllMangaChapters = document.getElementsByTag("li");
+            Elements getAllMangaChapters = document.getElementsByClass("komik_info-chapters-item");
             for (Element element : getAllMangaChapters) {
                 DetailMangaModel.DetailAllChapterDatas allChapterDatas = new DetailMangaModel.DetailAllChapterDatas();
-                String chapterReleaseTime = element.getElementsByClass("rightoff").text();
+                String chapterReleaseTime = element.getElementsByClass("chapter-link-time").text();
                 String chapterTitle = element.select("a[href^=https://komikcast.com/chapter/]").text();
                 String chapterURL = element.select("a[href^=https://komikcast.com/chapter/]").attr("href");
                 if (chapterReleaseTime != null && !chapterReleaseTime.isEmpty() &&
@@ -146,7 +148,7 @@ public class MangaDetailPresenter {
 
             detailMangaModel.setMangaType(getAuthor.eachText().get(16).substring(6));
 
-            Elements getRating = document.getElementsByClass("rating");
+            Elements getRating = document.getElementsByClass("data-rating");
             detailMangaModel.setMangaRating(getRating.eachText().get(0).substring(7, getRating.eachText().get(0).length() - 10));
             //store data from JSOUP
             mangaDetailInterface.onGetGenreSuccess(genresList);

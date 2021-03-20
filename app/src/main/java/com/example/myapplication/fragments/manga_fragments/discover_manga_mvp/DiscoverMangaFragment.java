@@ -39,7 +39,10 @@ import java.util.List;
  */
 public class DiscoverMangaFragment extends Fragment implements SearchView.OnQueryTextListener, DiscoverMangaInterface, RecyclerGenreAdapter.ClickItemListener {
     private FragmentDiscoverMangaBinding discoverMangaBinding;
-    private int pageCount = 1, plusPage = 1, plusSearch = 1, plusGenre = 1;
+    private final int pageCount = 1;
+    private int plusPage = 1;
+    private int plusSearch = 1;
+    private int plusGenre = 1;
     private static final int NEW_PAGE = 0,
             NEW_PAGE_SCROLL = 1,
             SWIPE_REFRESH = 2,
@@ -53,12 +56,18 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     private List<AnimeGenreAndSearchResultModel.AnimeGenreResult> animeSortResultModelList = new ArrayList<>();
     private List<DiscoverMangaModel> discoverMangaFragmentList = new ArrayList<>();
     private MangaRecyclerDiscoverAdapterNew mangaRecyclerDiscoverAdapter;
-    private DiscoverMangaPresenter discoverMangaPresenter = new DiscoverMangaPresenter(this);
+    private final DiscoverMangaPresenter discoverMangaPresenter = new DiscoverMangaPresenter(this);
     private ProgressDialog progressDialog;
     private Context mContext;
-    private String hitStatus = "newPage", homeUrl = "/daftar-komik/page/" + pageCount + "/", searchQuery = "",
-            genreURL = "", statusURL = "", typeURL = "", sortURL = "", totalURL = "",
-            searchURL = "https://komikcast.com/daftar-komik/page/%1$s/?order=%2$s&status=%3$s&type=%4$s";
+    private String hitStatus = "newPage";
+    private String homeUrl = "/daftar-komik/page/" + pageCount + "/";
+    private String searchQuery = "";
+    private String genreURL = "";
+    private String statusURL = "";
+    private String typeURL = "";
+    private String sortURL = "";
+    private String totalURL = "";
+    private final String searchURL = "https://komikcast.com/daftar-komik/page/%1$s/?orderby=%2$s&status=%3$s&type=%4$s";
     private boolean hitGenreAPI = false;
 
     public DiscoverMangaFragment() {
@@ -189,13 +198,12 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         switch (option) {
             case NEW_PAGE_SCROLL:
                 plusPage++;
-                homeUrl = String.format(searchURL, plusPage, "", "", "");
+                homeUrl = "https://komikcast.com/daftar-komik/page/" + plusPage;
                 hitStatus = "newPage";
                 break;
             case NEW_PAGE:
                 plusPage = 1;
                 homeUrl = "https://komikcast.com/daftar-komik/";
-//                homeUrl = String.format(searchURL, plusPage, "", "", "");
                 hitStatus = "newPage";
                 break;
             case GENRE_HIT_REQUEST:
@@ -251,7 +259,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         if (hitStatus.equalsIgnoreCase("genrePage") || hitStatus.equalsIgnoreCase("newPage") || hitStatus.equalsIgnoreCase("swipeRefresh")) {
             totalURL = homeUrl;
             if (!totalURL.contains("http")) {
-                totalURL = String.format(searchURL, plusPage, "", "", "");
+                totalURL = "https://komikcast.com/daftar-komik/";
             }
         } else {
             totalURL = "https://komikcast.com" + homeUrl;

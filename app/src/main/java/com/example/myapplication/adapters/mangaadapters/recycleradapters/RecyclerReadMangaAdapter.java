@@ -33,8 +33,8 @@ import static com.example.myapplication.MyApp.cookiesz;
 import static com.example.myapplication.MyApp.ua;
 
 public class RecyclerReadMangaAdapter extends RecyclerView.Adapter<RecyclerReadMangaAdapter.ViewHolder> {
-    private Context context;
-    private List<String> imageContent;
+    private final Context context;
+    private final List<String> imageContent;
     private ClickItemListener clickListener;
 
     public RecyclerReadMangaAdapter(Context context, List<String> imageContent) {

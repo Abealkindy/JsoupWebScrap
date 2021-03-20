@@ -24,6 +24,7 @@ public class ViewPagerMangaMenuTabAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = null;
+        /* old code
         if (position == 0) {
             fragment = new MangaNewReleaseFragment();
         } else if (position == 1) {
@@ -31,6 +32,14 @@ public class ViewPagerMangaMenuTabAdapter extends FragmentStatePagerAdapter {
         } else if (position == 2) {
             fragment = new MangaBookmarkFragment();
         } else if (position == 3) {
+            fragment = new MangaHistoryFragment();
+        }
+        */
+        if (position == 0) {
+            fragment = new DiscoverMangaFragment();
+        } else if (position == 1) {
+            fragment = new MangaBookmarkFragment();
+        } else if (position == 2) {
             fragment = new MangaHistoryFragment();
         }
         return Objects.requireNonNull(fragment);

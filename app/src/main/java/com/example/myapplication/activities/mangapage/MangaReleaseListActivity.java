@@ -36,10 +36,10 @@ public class MangaReleaseListActivity extends AppCompatActivity {
                 mangaReleaseListBinding.viewPagerTabs.setCurrentItem(0);
                 setTitle("New releases");
             } else if (cameFrom.equalsIgnoreCase("MangaDiscover")) {
-                mangaReleaseListBinding.viewPagerTabs.setCurrentItem(1);
+                mangaReleaseListBinding.viewPagerTabs.setCurrentItem(0);
                 setTitle("Discover");
             } else {
-                mangaReleaseListBinding.viewPagerTabs.setCurrentItem(2);
+                mangaReleaseListBinding.viewPagerTabs.setCurrentItem(1);
                 if (localAppDB.mangaBookmarkDAO().getMangaBookmarkData() != null && localAppDB.mangaBookmarkDAO().getMangaBookmarkData().size() > 1) {
                     setTitle(localAppDB.mangaBookmarkDAO().getMangaBookmarkData().size() + " titles in Favourite menu");
                 } else if (localAppDB.mangaBookmarkDAO().getMangaBookmarkData() != null && localAppDB.mangaBookmarkDAO().getMangaBookmarkData().size() == 1) {
@@ -52,8 +52,8 @@ public class MangaReleaseListActivity extends AppCompatActivity {
         mangaReleaseListBinding.tabHome.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
                 mangaReleaseListBinding.viewPagerTabs.setCurrentItem(tab.getPosition());
+                /* old codes
                 if (tab.getPosition() == 0) {
                     setTitle("New releases");
                 } else if (tab.getPosition() == 1) {
@@ -67,6 +67,20 @@ public class MangaReleaseListActivity extends AppCompatActivity {
                         setTitle("0 title in Favourite menu");
                     }
                 } else if (tab.getPosition() == 3) {
+                    setTitle("History");
+                }
+                */
+                if (tab.getPosition() == 0) {
+                    setTitle("Discover");
+                } else if (tab.getPosition() == 1) {
+                    if (localAppDB.mangaBookmarkDAO().getMangaBookmarkData() != null && localAppDB.mangaBookmarkDAO().getMangaBookmarkData().size() > 1) {
+                        setTitle(localAppDB.mangaBookmarkDAO().getMangaBookmarkData().size() + " titles in Favourite menu");
+                    } else if (localAppDB.mangaBookmarkDAO().getMangaBookmarkData() != null && localAppDB.mangaBookmarkDAO().getMangaBookmarkData().size() == 1) {
+                        setTitle("Just a title in Favourite menu");
+                    } else {
+                        setTitle("0 title in Favourite menu");
+                    }
+                } else if (tab.getPosition() == 2) {
                     setTitle("History");
                 }
             }
@@ -84,8 +98,8 @@ public class MangaReleaseListActivity extends AppCompatActivity {
     }
 
     private void UISettings() {
-        setTitle("New releases");
-        mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_home_white_24dp, getTheme())));
+        setTitle("Discover");
+//        mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_home_white_24dp, getTheme())));
         mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_view_list_white_24dp, getTheme())));
         mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_favorite_black_24dp, getTheme())));
         mangaReleaseListBinding.tabHome.addTab(mangaReleaseListBinding.tabHome.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_history_24, getTheme())));
@@ -111,8 +125,6 @@ public class MangaReleaseListActivity extends AppCompatActivity {
             mangaReleaseListBinding.viewPagerTabs.setCurrentItem(0);
         } else if (tabPos == 2) {
             mangaReleaseListBinding.viewPagerTabs.setCurrentItem(1);
-        } else if (tabPos == 3) {
-            mangaReleaseListBinding.viewPagerTabs.setCurrentItem(2);
         }
 
     }
