@@ -169,7 +169,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         discoverMangaBinding.recyclerDiscoverManga.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int index, int totalItemsCount, RecyclerView view) {
-                if (discoverMangaFragmentList.size() < 30) {
+                if (discoverMangaFragmentList.size() < 28) {
                     Log.e("listSize", "Can't scroll anymore");
                 } else {
                     if (hitStatus.equalsIgnoreCase("newPage") || hitStatus.equalsIgnoreCase("swipeRefresh")) {
@@ -198,7 +198,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         switch (option) {
             case NEW_PAGE_SCROLL:
                 plusPage++;
-                homeUrl = "https://komikcast.com/daftar-komik/page/" + plusPage;
+                homeUrl = "https://komikcast.com/daftar-komik/page/" + plusPage + "/";
                 hitStatus = "newPage";
                 break;
             case NEW_PAGE:
