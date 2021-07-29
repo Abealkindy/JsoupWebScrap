@@ -33,8 +33,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaRecyclerDiscoverAdapterNew.ViewHolder> {
-    private Context context;
-    private List<DiscoverMangaModel> animeDiscoverResultModelList;
+    private final Context context;
+    private final List<DiscoverMangaModel> animeDiscoverResultModelList;
 
     public MangaRecyclerDiscoverAdapterNew(Context context, List<DiscoverMangaModel> animeDiscoverResultModelList) {
         this.context = context;
@@ -60,7 +60,7 @@ public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaR
         holder.itemListBinding.linearThirdNewest.setVisibility(View.GONE);
         holder.itemListBinding.newestTextChapterReleaseTime.setVisibility(View.GONE);
         holder.itemListBinding.mangaTitleText.setText(animeDiscoverResultModelList.get(position).getMangaTitle());
-        String kuki = "";
+        String kuki;
         if (CookieManager.getInstance().getCookie(animeDiscoverResultModelList.get(position).getMangaThumb()) != null && !CookieManager.getInstance().getCookie(animeDiscoverResultModelList.get(position).getMangaThumb()).isEmpty()) {
             kuki = CookieManager.getInstance().getCookie(animeDiscoverResultModelList.get(position).getMangaThumb());
         } else {
@@ -152,6 +152,7 @@ public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaR
         });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void recyclerRefresh() {
         this.notifyDataSetChanged();
     }
@@ -162,7 +163,7 @@ public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaR
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ItemListMangaNewBinding itemListBinding;
+        private final ItemListMangaNewBinding itemListBinding;
 
         public ViewHolder(final ItemListMangaNewBinding itemViewList) {
             super(itemViewList.getRoot());

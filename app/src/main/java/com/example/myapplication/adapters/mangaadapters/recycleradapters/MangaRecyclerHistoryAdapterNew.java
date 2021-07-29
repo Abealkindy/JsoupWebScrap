@@ -32,8 +32,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 public class MangaRecyclerHistoryAdapterNew extends RecyclerView.Adapter<MangaRecyclerHistoryAdapterNew.ViewHolder> {
-    private Context context;
-    private List<MangaHistoryModel> animeDiscoverResultModelList;
+    private final Context context;
+    private final List<MangaHistoryModel> animeDiscoverResultModelList;
 
     public MangaRecyclerHistoryAdapterNew(Context context, List<MangaHistoryModel> animeDiscoverResultModelList) {
         this.context = context;
@@ -118,7 +118,7 @@ public class MangaRecyclerHistoryAdapterNew extends RecyclerView.Adapter<MangaRe
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ItemListAnimeNewBinding itemListBinding;
+        private final ItemListAnimeNewBinding itemListBinding;
 
         public ViewHolder(final ItemListAnimeNewBinding itemViewList) {
             super(itemViewList.getRoot());

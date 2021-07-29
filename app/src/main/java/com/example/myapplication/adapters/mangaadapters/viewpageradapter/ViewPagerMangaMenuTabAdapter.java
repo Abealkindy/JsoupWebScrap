@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.example.myapplication.fragments.manga_fragments.discover_manga_mvp.DiscoverMangaFragment;
 import com.example.myapplication.fragments.manga_fragments.manga_bookmark_page.MangaBookmarkFragment;
 import com.example.myapplication.fragments.manga_fragments.manga_history_page.MangaHistoryFragment;
-import com.example.myapplication.fragments.manga_fragments.manga_new_releases_mvp.MangaNewReleaseFragment;
 
 import java.util.Objects;
 

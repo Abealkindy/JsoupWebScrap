@@ -1,4 +1,4 @@
-package com.example.myapplication.adapters.mangaadapters.recycleradapters;
+package com.example.myapplication.adapters.mangaadapters.recycleradapters.oldadapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,6 +12,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerSubChapterAdapter;
 import com.example.myapplication.databinding.ItemListMangaDoubleListBinding;
 import com.example.myapplication.models.mangamodels.MangaNewReleaseResultModel;
 import com.squareup.picasso.Cache;
@@ -30,8 +31,8 @@ import static com.example.myapplication.MyApp.cookiesz;
 import static com.example.myapplication.MyApp.ua;
 
 public class MangaRecyclerNewReleasesAdapterNewWithDouble extends RecyclerView.Adapter<MangaRecyclerNewReleasesAdapterNewWithDouble.ViewHolder> {
-    private Context context;
-    private List<MangaNewReleaseResultModel> animeNewReleaseResultModelList;
+    private final Context context;
+    private final List<MangaNewReleaseResultModel> animeNewReleaseResultModelList;
 
     public MangaRecyclerNewReleasesAdapterNewWithDouble(Context context, List<MangaNewReleaseResultModel> animeNewReleaseResultModelList) {
         this.context = context;
@@ -132,7 +133,7 @@ public class MangaRecyclerNewReleasesAdapterNewWithDouble extends RecyclerView.A
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ItemListMangaDoubleListBinding itemListBinding;
+        private final ItemListMangaDoubleListBinding itemListBinding;
 
         public ViewHolder(final ItemListMangaDoubleListBinding itemViewList) {
             super(itemViewList.getRoot());

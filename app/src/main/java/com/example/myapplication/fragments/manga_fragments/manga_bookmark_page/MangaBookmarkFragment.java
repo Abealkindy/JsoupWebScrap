@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import com.bumptech.glide.Glide;

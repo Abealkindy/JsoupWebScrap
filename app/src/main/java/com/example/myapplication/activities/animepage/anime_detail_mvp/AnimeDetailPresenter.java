@@ -33,10 +33,10 @@ public class AnimeDetailPresenter {
                 Log.e("getNewURL?", String.valueOf(hasNewUrl));
                 Map<String, String> cookies = CloudFlare.List2Map(cookieList);
                 if (hasNewUrl) {
-                    passToJsoup(newUrl, cookies);
+                    passToJsoup(newUrl);
                     Log.e("NEWURL", newUrl);
                 } else {
-                    passToJsoup(getAnimeDetailURL, cookies);
+                    passToJsoup(getAnimeDetailURL);
                 }
             }
 
@@ -48,9 +48,9 @@ public class AnimeDetailPresenter {
 
     }
 
-    private void passToJsoup(String newUrl, Map<String, String> cookies) {
+    private void passToJsoup(String newUrl) {
         Log.e("url", newUrl);
-        Document document = JsoupConfig.setInitJsoup(newUrl, cookies);
+        Document document = JsoupConfig.setInitJsoup(newUrl);
         if (document != null) {
             //get synopsis
             Elements getSynopsis = document.getElementsByTag("p");

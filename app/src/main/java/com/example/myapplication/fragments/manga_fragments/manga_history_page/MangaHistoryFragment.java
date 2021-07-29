@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;

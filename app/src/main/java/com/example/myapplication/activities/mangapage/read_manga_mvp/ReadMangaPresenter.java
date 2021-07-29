@@ -18,9 +18,9 @@ import java.util.Set;
 
 
 public class ReadMangaPresenter {
-    private ReadMangaInterface readMangaInterface;
-    private ReadMangaModel readMangaModel = new ReadMangaModel();
-    private List<ReadMangaModel.AllChapterDatas> allChapterDatasList = new ArrayList<>();
+    private final ReadMangaInterface readMangaInterface;
+    private final ReadMangaModel readMangaModel = new ReadMangaModel();
+    private final List<ReadMangaModel.AllChapterDatas> allChapterDatasList = new ArrayList<>();
 
     public ReadMangaPresenter(ReadMangaInterface readMangaInterface) {
         this.readMangaInterface = readMangaInterface;
@@ -32,7 +32,7 @@ public class ReadMangaPresenter {
 
     @SuppressLint("LongLogTag")
     private void passToJsoup(String newUrl) {
-        Document doc = JsoupConfig.setInitJsoup(newUrl, null);
+        Document doc = JsoupConfig.setInitJsoup(newUrl);
         if (doc != null) {
             //get chapter title
             Elements getChapterTitle = doc.getElementsByTag("h1");
@@ -44,7 +44,7 @@ public class ReadMangaPresenter {
 
             //get all chapter data
             Elements getAllChapterDatas = doc.select("option[value^=https://komikcast.com/chapter/]");
-            if (allChapterDatasList != null && !allChapterDatasList.isEmpty()) {
+            if (!allChapterDatasList.isEmpty()) {
                 allChapterDatasList.clear();
             }
             for (Element element : getAllChapterDatas) {

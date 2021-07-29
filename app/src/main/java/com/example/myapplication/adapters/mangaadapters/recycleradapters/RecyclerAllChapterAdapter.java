@@ -14,8 +14,8 @@ import com.example.myapplication.models.mangamodels.ReadMangaModel;
 import java.util.List;
 
 public class RecyclerAllChapterAdapter extends RecyclerView.Adapter<RecyclerAllChapterAdapter.ViewHolder> {
-    private Context context;
-    private List<ReadMangaModel.AllChapterDatas> allChapterDatasArrayList;
+    private final Context context;
+    private final List<ReadMangaModel.AllChapterDatas> allChapterDatasArrayList;
     private ClickListener clickListener;
 
     public RecyclerAllChapterAdapter(Context context, List<ReadMangaModel.AllChapterDatas> allChapterDatasArrayList) {

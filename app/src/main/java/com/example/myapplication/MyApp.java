@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class MyApp extends Application {
     public static LocalAppDB localAppDB;
-    public static Map<String, String> cookiesz = new HashMap<String, String>() {
+    public static Map<String, String> cookiesz = new HashMap<>() {
         @Override
         public String get(Object key) {
             if (!containsKey(key))

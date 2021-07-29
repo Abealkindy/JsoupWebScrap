@@ -154,7 +154,7 @@ public class RecyclerGenreAdapter extends RecyclerView.Adapter<RecyclerGenreAdap
                 }
                 holder.itemListBinding.textMangaGenre.setText(animeGenreList.get(position).getGenreTitle());
                 holder.itemListBinding.textMangaGenre.setOnClickListener(v -> {
-                    String genreAdd = "", sortAdd = "", typeAdd = "", statusAdd = "";
+                    String genreAdd = "", sortAdd, typeAdd, statusAdd;
                     if (from.equalsIgnoreCase("genre")) {
                         if (!animeGenreList.get(position).isGenreSelected()) {
                             holder.itemListBinding.textMangaGenre.setBackground(ResourcesCompat.getDrawable(contextss.requireContext().getResources(), R.drawable.bubble_background_darker_blue_marked, contextss.requireContext().getTheme()));

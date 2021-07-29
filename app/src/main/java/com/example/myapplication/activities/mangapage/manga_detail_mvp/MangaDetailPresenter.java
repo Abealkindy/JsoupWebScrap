@@ -1,7 +1,5 @@
 package com.example.myapplication.activities.mangapage.manga_detail_mvp;
 
-import android.util.Log;
-
 import com.example.myapplication.models.mangamodels.DetailMangaModel;
 import com.example.myapplication.networks.JsoupConfig;
 
@@ -14,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MangaDetailPresenter {
-    private MangaDetailInterface mangaDetailInterface;
-    private DetailMangaModel detailMangaModel = new DetailMangaModel();
+    private final MangaDetailInterface mangaDetailInterface;
+    private final DetailMangaModel detailMangaModel = new DetailMangaModel();
 
     public MangaDetailPresenter(MangaDetailInterface mangaDetailInterface) {
         this.mangaDetailInterface = mangaDetailInterface;
@@ -23,30 +21,10 @@ public class MangaDetailPresenter {
 
     public void getDetailMangaData(String detailPageURL) {
         passToJsoup(detailPageURL);
-//        CloudFlare cf = new CloudFlare(detailPageURL);
-//        cf.setUser_agent("Mozilla/5.0");
-//        cf.getCookies(new CloudFlare.cfCallback() {
-//            @Override
-//            public void onSuccess(List<HttpCookie> cookieList, boolean hasNewUrl, String newUrl) {
-//                Log.e("getNewURL?", String.valueOf(hasNewUrl));
-//                Map<String, String> cookies = CloudFlare.List2Map(cookieList);
-//                if (hasNewUrl) {
-//                    passToJsoup(newUrl, cookies);
-//                    Log.e("NEWURL", newUrl);
-//                } else {
-//                    passToJsoup(detailPageURL, cookies);
-//                }
-//            }
-//
-//            @Override
-//            public void onFail(String message) {
-//                mangaDetailInterface.onGetDetailDataFailed();
-//            }
-//        });
     }
 
     private void passToJsoup(String newUrl) {
-        Document document = JsoupConfig.setInitJsoup(newUrl, null);
+        Document document = JsoupConfig.setInitJsoup(newUrl);
         if (document != null) {
             //get title
             Elements getTitle = document.select("h1[itemprop=headline]");

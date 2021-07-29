@@ -46,9 +46,14 @@ import static com.example.myapplication.MyApp.ua;
 public class MangaDetailActivity extends AppCompatActivity implements MangaDetailInterface {
 
     ActivityMangaDetailBinding detailBinding;
-    private String mangaType = "", detailType = "", detailTitle = "", detailThumb = "", detailRating = "", mangaDetailURL = "", detailFrom = "", chapterURL = "";
+    private String mangaType = "";
+    private String detailType = "";
+    private String detailTitle = "";
+    private String detailThumb = "";
+    private String detailRating = "";
+    private String mangaDetailURL = "";
     private boolean detailStatus = false;
-    private MangaDetailPresenter mangaDetailPresenter = new MangaDetailPresenter(this);
+    private final MangaDetailPresenter mangaDetailPresenter = new MangaDetailPresenter(this);
     List<DetailMangaModel.DetailAllChapterDatas> detailAllChapterDatasList = new ArrayList<>();
     MangaBookmarkModel mangaBookmarkModel = new MangaBookmarkModel();
 
@@ -126,8 +131,8 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
         detailThumb = getIntent().getStringExtra("detailThumb");
         detailTitle = getIntent().getStringExtra("detailTitle");
         detailRating = getIntent().getStringExtra("detailRating");
-        detailFrom = getIntent().getStringExtra("detailFrom");
-        chapterURL = getIntent().getStringExtra("chapterURL");
+        String detailFrom = getIntent().getStringExtra("detailFrom");
+        String chapterURL = getIntent().getStringExtra("chapterURL");
         detailStatus = getIntent().getBooleanExtra("detailStatus", false);
 
         MangaBookmarkModel mangaBookmarkModel = localAppDB.mangaBookmarkDAO().findByName(mangaDetailURL);
@@ -225,7 +230,7 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
 //            if (detailThumb.equalsIgnoreCase("")) {
             detailThumb = detailMangaModel.getMangaThumb();
 
-            String kuki = "";
+            String kuki;
             if (CookieManager.getInstance().getCookie(detailThumb) != null && !CookieManager.getInstance().getCookie(detailThumb).isEmpty()) {
                 kuki = CookieManager.getInstance().getCookie(detailThumb);
             } else {

@@ -1,10 +1,11 @@
-package com.example.myapplication.adapters.mangaadapters.recycleradapters;
+package com.example.myapplication.adapters.mangaadapters.recycleradapters.oldadapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -13,9 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.activities.mangapage.manga_detail_mvp.MangaDetailActivity;
-import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
 import com.example.myapplication.databinding.ItemListMangaSearchResultBinding;
-import com.example.myapplication.models.mangamodels.DiscoverMangaModel;
+import com.example.myapplication.localstorages.manga_local.manga_bookmark.MangaBookmarkModel;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.internal.StringUtil;
@@ -23,11 +23,11 @@ import org.jsoup.internal.StringUtil;
 import java.util.List;
 import java.util.Objects;
 
-public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecyclerDiscoverAdapter.ViewHolder> {
+public class MangaRecyclerBookmarkAdapter extends RecyclerView.Adapter<MangaRecyclerBookmarkAdapter.ViewHolder> {
     private Context context;
-    private List<DiscoverMangaModel> animeDiscoverResultModelList;
+    private List<MangaBookmarkModel> animeDiscoverResultModelList;
 
-    public MangaRecyclerDiscoverAdapter(Context context, List<DiscoverMangaModel> animeDiscoverResultModelList) {
+    public MangaRecyclerBookmarkAdapter(Context context, List<MangaBookmarkModel> animeDiscoverResultModelList) {
         this.context = context;
         this.animeDiscoverResultModelList = animeDiscoverResultModelList;
     }
@@ -90,25 +90,16 @@ public class MangaRecyclerDiscoverAdapter extends RecyclerView.Adapter<MangaRecy
             holder.itemListBinding.mangaRatingBar.setRating(Float.parseFloat(replaceComma) / 2);
             holder.itemListBinding.mangaRatingNumber.setText(replaceComma);
         }
-        String replaceCh = animeDiscoverResultModelList.get(position).getMangaLatestChapterText().replace("Ch.", "Chapter ");
-        holder.itemListBinding.textLatestChapterRelease.setText(replaceCh);
-        holder.itemListBinding.cardLatestMangaRelease.setOnClickListener(view -> {
-            Intent intent = new Intent(context.getApplicationContext(), ReadMangaActivity.class);
-            intent.putExtra("chapterURL", animeDiscoverResultModelList.get(position).getMangaLatestChapter());
-            intent.putExtra("appBarColorStatus", animeDiscoverResultModelList.get(position).getMangaType());
-            intent.putExtra("chapterTitle", animeDiscoverResultModelList.get(position).getMangaLatestChapterText());
-            intent.putExtra("readFrom", "MangaDiscover");
-            context.startActivity(intent);
-        });
+        holder.itemListBinding.cardLatestMangaRelease.setVisibility(View.GONE);
         holder.itemListBinding.relativeItemMangaResult.setOnClickListener(v -> {
             Intent intent = new Intent(context.getApplicationContext(), MangaDetailActivity.class);
-            intent.putExtra("detailURL", animeDiscoverResultModelList.get(position).getMangaURL());
+            intent.putExtra("detailURL", animeDiscoverResultModelList.get(position).getMangaDetailURL());
             intent.putExtra("detailType", animeDiscoverResultModelList.get(position).getMangaType());
             intent.putExtra("detailTitle", animeDiscoverResultModelList.get(position).getMangaTitle());
             intent.putExtra("detailRating", animeDiscoverResultModelList.get(position).getMangaRating());
             intent.putExtra("detailStatus", animeDiscoverResultModelList.get(position).isMangaStatus());
             intent.putExtra("detailThumb", animeDiscoverResultModelList.get(position).getMangaThumb());
-            intent.putExtra("detailFrom", "MangaDiscover");
+            intent.putExtra("detailFrom", "MangaBookmark");
             context.startActivity(intent);
         });
     }

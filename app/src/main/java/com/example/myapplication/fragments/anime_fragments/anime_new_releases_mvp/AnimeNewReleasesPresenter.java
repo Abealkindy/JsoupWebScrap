@@ -32,10 +32,10 @@ public class AnimeNewReleasesPresenter {
                 Log.e("getNewURL?", String.valueOf(hasNewUrl));
                 Map<String, String> cookies = CloudFlare.List2Map(cookieList);
                 if (hasNewUrl) {
-                    passToRetrofit(pageCount, newUrl, hitStatus, cookies);
+                    passToRetrofit(pageCount, newUrl, hitStatus);
                     Log.e("NEWURL", newUrl);
                 } else {
-                    passToRetrofit(pageCount, newReleasesURL, hitStatus, cookies);
+                    passToRetrofit(pageCount, newReleasesURL, hitStatus);
                 }
             }
 
@@ -46,13 +46,13 @@ public class AnimeNewReleasesPresenter {
         });
     }
 
-    private void passToRetrofit(int pageCount, String newUrl, String hitStatus, Map<String, String> cookies) {
+    private void passToRetrofit(int pageCount, String newUrl, String hitStatus) {
         Log.e("newReleasesURL", newUrl + "/page/" + pageCount);
         Document doc = null;
         if (pageCount > 1) {
-            doc = JsoupConfig.setInitJsoup(newUrl + "/page/" + pageCount + "/", cookies);
+            doc = JsoupConfig.setInitJsoup(newUrl + "/page/" + pageCount + "/");
         } else {
-            doc = JsoupConfig.setInitJsoup(newUrl, cookies);
+            doc = JsoupConfig.setInitJsoup(newUrl);
         }
         if (doc != null) {
             Elements newepisodecon = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-lg-3 mb40");

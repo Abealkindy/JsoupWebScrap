@@ -32,16 +32,12 @@ public class DiscoverMangaPresenter {
     }
 
     private void getFilterComponentData(String filterAddOnURL) {
-        Document doc = JsoupConfig.setInitJsoup(filterAddOnURL, null);
+        Document doc = JsoupConfig.setInitJsoup(filterAddOnURL);
         if (doc != null) {
             List<AnimeGenreAndSearchResultModel.AnimeGenreResult> genreResultList = new ArrayList<>();
             List<AnimeGenreAndSearchResultModel.AnimeGenreResult> sortResultList = new ArrayList<>();
             List<AnimeGenreAndSearchResultModel.AnimeGenreResult> typeResultList = new ArrayList<>();
             List<AnimeGenreAndSearchResultModel.AnimeGenreResult> statusResultList = new ArrayList<>();
-            genreResultList.clear();
-            sortResultList.clear();
-            typeResultList.clear();
-            statusResultList.clear();
             //getStatusElement
             Elements getStatusData = doc.getElementsByClass("komiklist_dropdown-menu status").select("li");
             //getTypeElement
@@ -97,7 +93,7 @@ public class DiscoverMangaPresenter {
     }
 
     private void passToJsoup(String discoverOrSearchURL) {
-        Document doc = JsoupConfig.setInitJsoup(discoverOrSearchURL, null);
+        Document doc = JsoupConfig.setInitJsoup(discoverOrSearchURL);
         if (doc != null) {
             Elements newchaptercon = doc.getElementsByClass("list-update_item");
             List<DiscoverMangaModel> mangaNewReleaseResultModelList = new ArrayList<>();

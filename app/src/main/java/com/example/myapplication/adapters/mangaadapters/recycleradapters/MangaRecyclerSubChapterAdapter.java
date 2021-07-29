@@ -65,7 +65,7 @@ public class MangaRecyclerSubChapterAdapter extends RecyclerView.Adapter<MangaRe
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ItemListSelectChapterSmallBinding itemListBinding;
+        private final ItemListSelectChapterSmallBinding itemListBinding;
 
         public ViewHolder(final ItemListSelectChapterSmallBinding itemViewList) {
             super(itemViewList.getRoot());

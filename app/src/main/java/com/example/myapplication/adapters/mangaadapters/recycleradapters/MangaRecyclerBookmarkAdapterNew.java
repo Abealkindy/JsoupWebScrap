@@ -32,8 +32,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 public class MangaRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<MangaRecyclerBookmarkAdapterNew.ViewHolder> {
-    private Context context;
-    private List<MangaBookmarkModel> animeDiscoverResultModelList;
+    private final Context context;
+    private final List<MangaBookmarkModel> animeDiscoverResultModelList;
 
     public MangaRecyclerBookmarkAdapterNew(Context context, List<MangaBookmarkModel> animeDiscoverResultModelList) {
         this.context = context;
@@ -60,7 +60,7 @@ public class MangaRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<MangaR
         holder.itemListBinding.linearThirdNewest.setVisibility(View.GONE);
         holder.itemListBinding.newestTextChapterReleaseTime.setVisibility(View.GONE);
         holder.itemListBinding.mangaTitleText.setText(animeDiscoverResultModelList.get(position).getMangaTitle());
-        String kuki = "";
+        String kuki;
         if (CookieManager.getInstance().getCookie(animeDiscoverResultModelList.get(position).getMangaThumb()) != null && !CookieManager.getInstance().getCookie(animeDiscoverResultModelList.get(position).getMangaThumb()).isEmpty()) {
             kuki = CookieManager.getInstance().getCookie(animeDiscoverResultModelList.get(position).getMangaThumb());
         } else {
@@ -146,7 +146,7 @@ public class MangaRecyclerBookmarkAdapterNew extends RecyclerView.Adapter<MangaR
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ItemListMangaNewBinding itemListBinding;
+        private final ItemListMangaNewBinding itemListBinding;
 
         public ViewHolder(final ItemListMangaNewBinding itemViewList) {
             super(itemViewList.getRoot());

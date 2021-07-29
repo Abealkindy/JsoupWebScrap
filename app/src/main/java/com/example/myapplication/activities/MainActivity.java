@@ -28,11 +28,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mainBinding.getRoot());
 //        mainBinding.cardWatchAnime.setVisibility(View.GONE);
-        mainBinding.cardWatchAnime.setOnClickListener(v -> {
-            Toast.makeText(this, "Masih develop deui!", Toast.LENGTH_LONG).show();
-//            startActivity(new Intent(MainActivity.this, AnimeReleaseListActivity.class));
-//            finish();
-        });
+        mainBinding.cardWatchAnime.setOnClickListener(v -> Toast.makeText(this, "Masih develop deui!", Toast.LENGTH_LONG).show());
         mainBinding.cardReadManga.setOnClickListener(v -> {
             if (InternetConnection.checkConnection(this)) {
                 try {

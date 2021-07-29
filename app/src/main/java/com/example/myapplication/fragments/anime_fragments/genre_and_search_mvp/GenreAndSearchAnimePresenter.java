@@ -35,16 +35,16 @@ public class GenreAndSearchAnimePresenter {
                 boolean b = hitStatus.equalsIgnoreCase("genrePage") || hitStatus.equalsIgnoreCase("newPage") || hitStatus.equalsIgnoreCase("swipeRefresh") || hitStatus.equalsIgnoreCase("searchRequest") || hitStatus.equalsIgnoreCase("searchScrollRequest");
                 if (hasNewUrl) {
                     if (b) {
-                        passToRetrofits(newUrl, cookies);
+                        passToRetrofits(newUrl);
                     } else {
-                        passToRetrofit(newUrl, cookies);
+                        passToRetrofit(newUrl);
                     }
                     Log.e("NEWURL", newUrl);
                 } else {
                     if (b) {
-                        passToRetrofits(genreAndSearchURL, cookies);
+                        passToRetrofits(genreAndSearchURL);
                     } else {
-                        passToRetrofit(genreAndSearchURL, cookies);
+                        passToRetrofit(genreAndSearchURL);
                     }
                 }
             }
@@ -66,10 +66,10 @@ public class GenreAndSearchAnimePresenter {
                 Log.e("getNewURL?", String.valueOf(hasNewUrl));
                 Map<String, String> cookies = CloudFlare.List2Map(cookieList);
                 if (hasNewUrl) {
-                    passToRetrofitGenre(newUrl, cookies);
+                    passToRetrofitGenre(newUrl);
                     Log.e("NEWURL", newUrl);
                 } else {
-                    passToRetrofitGenre(genreURL, cookies);
+                    passToRetrofitGenre(genreURL);
                 }
             }
 
@@ -80,8 +80,8 @@ public class GenreAndSearchAnimePresenter {
         });
     }
 
-    private void passToRetrofitGenre(String genrePageURL, Map<String, String> cookies) {
-        Document doc = JsoupConfig.setInitJsoup(genrePageURL, cookies);
+    private void passToRetrofitGenre(String genrePageURL) {
+        Document doc = JsoupConfig.setInitJsoup(genrePageURL);
         if (doc != null) {
             List<AnimeGenreAndSearchResultModel.AnimeGenreResult> genreResultList = new ArrayList<>();
             List<AnimeGenreAndSearchResultModel.AnimeGenreResult> sortResultList = new ArrayList<>();
@@ -146,8 +146,8 @@ public class GenreAndSearchAnimePresenter {
         }
     }
 
-    private void passToRetrofit(String genreAndSearchURL, Map<String, String> cookies) {
-        Document doc = JsoupConfig.setInitJsoup(genreAndSearchURL, cookies);
+    private void passToRetrofit(String genreAndSearchURL) {
+        Document doc = JsoupConfig.setInitJsoup(genreAndSearchURL);
         if (doc != null) {
             List<AnimeGenreAndSearchResultModel.AnimeSearchResult> animeGenreAndSearchResultModelList = new ArrayList<>();
             Elements getListData = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-lg-3 mb40");
@@ -181,8 +181,8 @@ public class GenreAndSearchAnimePresenter {
         }
     }
 
-    private void passToRetrofits(String genreAndSearchURL, Map<String, String> cookies) {
-        Document doc = JsoupConfig.setInitJsoup(genreAndSearchURL, cookies);
+    private void passToRetrofits(String genreAndSearchURL) {
+        Document doc = JsoupConfig.setInitJsoup(genreAndSearchURL);
         if (doc != null) {
             List<AnimeGenreAndSearchResultModel.AnimeSearchResultNew> animeGenreAndSearchResultModelList = new ArrayList<>();
             Elements getListData = doc.getElementsByClass("col-6 col-sm-4 col-md-3 col-lg-3 col-xl-per5 mb40");

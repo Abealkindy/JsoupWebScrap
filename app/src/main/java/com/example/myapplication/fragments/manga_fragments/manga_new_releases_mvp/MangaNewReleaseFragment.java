@@ -20,11 +20,9 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerDiscoverAdapterNew;
-import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerNewReleasesAdapterNew;
 import com.example.myapplication.databinding.FragmentMangaNewReleaseBinding;
 import com.example.myapplication.listener.EndlessRecyclerViewScrollListener;
 import com.example.myapplication.models.mangamodels.DiscoverMangaModel;
-import com.example.myapplication.models.mangamodels.MangaNewReleaseResultModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +36,9 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
     private FragmentMangaNewReleaseBinding newReleaseBinding;
     private int pageCount = 1;
     private Context mContext;
-    /* older version */
-//    private List<MangaNewReleaseResultModel> mangaNewReleaseResultModels = new ArrayList<>();
-//    private MangaRecyclerNewReleasesAdapterNew mangaRecyclerNewReleasesAdapter;
     private MangaRecyclerDiscoverAdapterNew mangaRecyclerNewReleasesAdapter;
-    private List<DiscoverMangaModel> mangaNewReleaseResultModels = new ArrayList<>();
-    private MangaNewReleasePresenter newReleasePresenter = new MangaNewReleasePresenter(this);
+    private final List<DiscoverMangaModel> mangaNewReleaseResultModels = new ArrayList<>();
+    private final MangaNewReleasePresenter newReleasePresenter = new MangaNewReleasePresenter(this);
     private ProgressDialog progressDialog;
     private boolean hitAPI = false;
 
@@ -142,6 +137,7 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
         new MyTask(pageCount, hitStatus).execute();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onGetNewReleasesDataSuccess(List<DiscoverMangaModel> mangaNewReleaseResultModel, String hitStatus, Map<String, String> cookies) {
         requireActivity().runOnUiThread(() -> {
@@ -153,10 +149,8 @@ public class MangaNewReleaseFragment extends Fragment implements MangaNewRelease
                 mangaRecyclerNewReleasesAdapter.notifyDataSetChanged();
             } else if (hitStatus.equalsIgnoreCase("swipeRefresh")) {
                 progressDialog.dismiss();
-                if (mangaNewReleaseResultModels != null) {
-                    mangaNewReleaseResultModels.clear();
-                    mangaNewReleaseResultModels.addAll(mangaNewReleaseResultModel);
-                }
+                mangaNewReleaseResultModels.clear();
+                mangaNewReleaseResultModels.addAll(mangaNewReleaseResultModel);
                 mangaRecyclerNewReleasesAdapter.notifyDataSetChanged();
             }
         });

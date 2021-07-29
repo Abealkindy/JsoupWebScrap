@@ -15,9 +15,10 @@ import com.example.myapplication.models.mangamodels.DetailMangaModel;
 import java.util.List;
 
 public class RecyclerAllChapterDetailAdapter extends RecyclerView.Adapter<RecyclerAllChapterDetailAdapter.ViewHolder> {
-    private Context context;
-    private List<DetailMangaModel.DetailAllChapterDatas> allChapterDatasArrayList;
-    private String mangaType, chapterThumb;
+    private final Context context;
+    private final List<DetailMangaModel.DetailAllChapterDatas> allChapterDatasArrayList;
+    private final String mangaType;
+    private final String chapterThumb;
 
     public RecyclerAllChapterDetailAdapter(Context context, List<DetailMangaModel.DetailAllChapterDatas> allChapterDatasArrayList, String mangaType, String chapterThumb) {
         this.context = context;

@@ -1,4 +1,4 @@
-package com.example.myapplication.adapters.mangaadapters.recycleradapters;
+package com.example.myapplication.adapters.mangaadapters.recycleradapters.oldadapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -32,8 +32,8 @@ import static com.example.myapplication.MyApp.cookiesz;
 import static com.example.myapplication.MyApp.ua;
 
 public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<MangaRecyclerNewReleasesAdapterNew.ViewHolder> {
-    private Context context;
-    private List<MangaNewReleaseResultModel> animeNewReleaseResultModelList;
+    private final Context context;
+    private final List<MangaNewReleaseResultModel> animeNewReleaseResultModelList;
 
     public MangaRecyclerNewReleasesAdapterNew(Context context, List<MangaNewReleaseResultModel> animeNewReleaseResultModelList) {
         this.context = context;
@@ -208,7 +208,7 @@ public class MangaRecyclerNewReleasesAdapterNew extends RecyclerView.Adapter<Man
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ItemListMangaNewBinding itemListBinding;
+        private final ItemListMangaNewBinding itemListBinding;
 
         public ViewHolder(final ItemListMangaNewBinding itemViewList) {
             super(itemViewList.getRoot());
