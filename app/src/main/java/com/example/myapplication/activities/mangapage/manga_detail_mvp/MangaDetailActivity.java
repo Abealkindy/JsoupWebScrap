@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.example.myapplication.activities.mangapage.read_manga_mvp.ReadMangaActivity;
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.RecyclerAllChapterDetailAdapter;
 import com.example.myapplication.adapters.RecyclerGenreAdapter;
 import com.example.myapplication.databinding.ActivityMangaDetailBinding;
@@ -355,6 +356,23 @@ public class MangaDetailActivity extends AppCompatActivity implements MangaDetai
             linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
             detailBinding.contentManga.recyclerAllChaptersDetail.setLayoutManager(linearLayoutManager);
             detailBinding.contentManga.recyclerAllChaptersDetail.setAdapter(new RecyclerAllChapterDetailAdapter(MangaDetailActivity.this, detailAllChapterDatasList, mangaType, detailThumb));
+
+            detailBinding.contentManga.buttonReadOldestChapter.setOnClickListener(v -> {
+                Intent intent = new Intent(MangaDetailActivity.this, ReadMangaActivity.class);
+                intent.putExtra("chapterURL", detailAllChapterDatasList.get(detailAllChapterDatasList.size() - 1).getChapterURL());
+                intent.putExtra("appBarColorStatus", mangaType);
+                intent.putExtra("chapterThumb", detailThumb);
+                intent.putExtra("readFrom", "MangaDetail");
+                startActivity(intent);
+            });
+            detailBinding.contentManga.buttonReadNewestChapter.setOnClickListener(v -> {
+                Intent intent = new Intent(MangaDetailActivity.this, ReadMangaActivity.class);
+                intent.putExtra("chapterURL", detailAllChapterDatasList.get(0).getChapterURL());
+                intent.putExtra("appBarColorStatus", mangaType);
+                intent.putExtra("chapterThumb", detailThumb);
+                intent.putExtra("readFrom", "MangaDetail");
+                startActivity(intent);
+            });
         });
     }
 

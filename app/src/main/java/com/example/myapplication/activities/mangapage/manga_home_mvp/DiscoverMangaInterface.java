@@ -1,4 +1,4 @@
-package com.example.myapplication.fragments.manga_fragments.discover_manga_mvp;
+package com.example.myapplication.activities.mangapage.manga_home_mvp;
 
 import com.example.myapplication.models.animemodels.AnimeGenreAndSearchResultModel;
 import com.example.myapplication.models.mangamodels.DiscoverMangaModel;

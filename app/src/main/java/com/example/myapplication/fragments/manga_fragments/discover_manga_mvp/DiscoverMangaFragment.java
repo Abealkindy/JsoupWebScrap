@@ -24,6 +24,8 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
+import com.example.myapplication.activities.mangapage.manga_home_mvp.DiscoverMangaInterface;
+import com.example.myapplication.activities.mangapage.manga_home_mvp.DiscoverMangaPresenter;
 import com.example.myapplication.adapters.RecyclerGenreAdapter;
 import com.example.myapplication.adapters.mangaadapters.recycleradapters.MangaRecyclerDiscoverAdapterNew;
 import com.example.myapplication.databinding.FragmentDiscoverMangaBinding;

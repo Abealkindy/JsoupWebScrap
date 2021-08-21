@@ -27,7 +27,7 @@
     <string name="mangaoneshot_string">Mangaone-Shot</string>
     <string name="all_chapters_here_text">ALL CHAPTERS HERE</string>
 
-    <string name="select_chapter_manga_text">Select manga chapter</string>
+    <string name="select_chapter_manga_text">Chapter List</string>
     <string name="prev_chapter_text"><![CDATA[<< PREV CHAPTER]]></string>
     <string name="next_chapter_text"><![CDATA[NEXT CHAPTER >>]]></string>
 
@@ -60,4 +60,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="read_first_chapter_button_text">Oldest Chapter</string>
+    <string name="read_latest_chapter_button_text">Latest Chapter</string>
+    <string name="share_text">Share</string>
 </resources>

@@ -3,7 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Project folders/JsoupWebScrap/app/src/main/res/drawable/bubble_background_la.xml" value="0.14652777777777778" />
+        <entry key="..\:/Project folders/JsoupWebScrap/app/src/main/res/drawable/bubble_background_movie.xml" value="0.14652777777777778" />
+        <entry key="..\:/Project folders/JsoupWebScrap/app/src/main/res/drawable/bubble_background_ona.xml" value="0.14652777777777778" />
+        <entry key="..\:/Project folders/JsoupWebScrap/app/src/main/res/drawable/bubble_background_ongoing.xml" value="0.8791666666666667" />
+        <entry key="..\:/Project folders/JsoupWebScrap/app/src/main/res/layout/activity_manga_detail.xml" value="0.16666666666666666" />
+        <entry key="..\:/Project folders/JsoupWebScrap/app/src/main/res/layout/activity_manga_home.xml" value="0.150390625" />
         <entry key="..\:/Project folders/JsoupWebScrap/app/src/main/res/layout/activity_manga_release_list.xml" value="0.1" />
+        <entry key="..\:/Project folders/JsoupWebScrap/app/src/main/res/layout/activity_watch_anime_episode.xml" value="0.11458333333333333" />
+        <entry key="..\:/Project folders/JsoupWebScrap/app/src/main/res/layout/content_manga_detail.xml" value="0.22" />
+        <entry key="..\:/Project folders/JsoupWebScrap/app/src/main/res/layout/manga_about.xml" value="0.11458333333333333" />
       </map>
     </option>
   </component>
