@@ -56,7 +56,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     private List<AnimeGenreAndSearchResultModel.AnimeGenreResult> animeTypeResultModelList = new ArrayList<>();
     private List<AnimeGenreAndSearchResultModel.AnimeGenreResult> animeStatusResultModelList = new ArrayList<>();
     private List<AnimeGenreAndSearchResultModel.AnimeGenreResult> animeSortResultModelList = new ArrayList<>();
-    private List<DiscoverMangaModel> discoverMangaFragmentList = new ArrayList<>();
+    public List<DiscoverMangaModel> discoverMangaFragmentList = new ArrayList<>();
     private MangaRecyclerDiscoverAdapterNew mangaRecyclerDiscoverAdapter;
     private final DiscoverMangaPresenter discoverMangaPresenter = new DiscoverMangaPresenter(this);
     private ProgressDialog progressDialog;
@@ -85,16 +85,11 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        discoverMangaBinding.swipeDiscoverManga.setOnRefreshListener(() -> {
-            discoverMangaBinding.swipeDiscoverManga.setRefreshing(false);
-            setTag(homeUrl, SWIPE_REFRESH);
-        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getDiscoverMangaData(hitStatus);
         if (!hitGenreAPI) {
             getFilterComponents();
         }
@@ -138,19 +133,27 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     }
 
     private void initEvent() {
+        discoverMangaBinding.swipeDiscoverManga.setOnRefreshListener(() -> {
+            discoverMangaBinding.swipeDiscoverManga.setRefreshing(false);
+            setTag(homeUrl, SWIPE_REFRESH);
+        });
         discoverMangaBinding.buttonSubmit.setOnClickListener(v -> {
             hitGenreAPI = true;
             totalURL = String.format(searchURL, "1", sortURL, statusURL, typeURL) + genreURL;
             setTag("", GENRE_HIT_REQUEST);
         });
-        discoverMangaBinding.fabSelectGenre.setOnClickListener(v -> {
+        discoverMangaBinding.fabSelectGenre.setOnClickListener(v -> isFilterOpen(true));
+        discoverMangaBinding.imgClose.setOnClickListener(v -> isFilterOpen(false));
+    }
+
+    private void isFilterOpen(boolean isFilterOpen) {
+        if (isFilterOpen) {
             discoverMangaBinding.relativeMainDiscManga.setVisibility(View.GONE);
             discoverMangaBinding.linearFilterDiscManga.setVisibility(View.VISIBLE);
-        });
-        discoverMangaBinding.imgClose.setOnClickListener(v -> {
+        } else {
             discoverMangaBinding.relativeMainDiscManga.setVisibility(View.VISIBLE);
             discoverMangaBinding.linearFilterDiscManga.setVisibility(View.GONE);
-        });
+        }
     }
 
     private void initUI() {
@@ -163,6 +166,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     }
 
     private void initRecyclerView() {
+        setTag(homeUrl, NEW_PAGE);
         discoverMangaBinding.recyclerDiscoverManga.setHasFixedSize(true);
         mangaRecyclerDiscoverAdapter = new MangaRecyclerDiscoverAdapterNew(requireActivity(), discoverMangaFragmentList);
         discoverMangaBinding.recyclerDiscoverManga.setAdapter(mangaRecyclerDiscoverAdapter);
@@ -174,7 +178,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
                 if (discoverMangaFragmentList.size() < 28) {
                     Log.e("listSize", "Can't scroll anymore");
                 } else {
-                    if (hitStatus.equalsIgnoreCase("newPage") || hitStatus.equalsIgnoreCase("swipeRefresh")) {
+                    if (hitStatus.equalsIgnoreCase("newPage") || hitStatus.equalsIgnoreCase("newScrollPage") || hitStatus.equalsIgnoreCase("swipeRefresh")) {
                         setTag("", NEW_PAGE_SCROLL);
                     } else if (hitStatus.equalsIgnoreCase("searchRequest")) {
                         setTag(searchQuery, SEARCH_SWIPE_REQUEST);
@@ -201,7 +205,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
             case NEW_PAGE_SCROLL:
                 plusPage++;
                 homeUrl = "https://komikcast.com/daftar-komik/page/" + plusPage + "/";
-                hitStatus = "newPage";
+                hitStatus = "newScrollPage";
                 break;
             case NEW_PAGE:
                 plusPage = 1;
@@ -216,10 +220,12 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
             case GENRE_SCROLL_REQUEST:
                 plusGenre++;
                 homeUrl = String.format(searchURL, plusGenre, sortURL, statusURL, typeURL) + genreURL;
-                hitStatus = "genrePage";
+                hitStatus = "genreScrollPage";
                 break;
             case SWIPE_REFRESH:
                 plusPage = 1;
+                plusGenre = 1;
+                plusSearch = 1;
                 homeUrl = "https://komikcast.com/daftar-komik/";
                 hitStatus = "swipeRefresh";
                 break;
@@ -234,7 +240,8 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
                 hitStatus = "searchScrollRequest";
                 break;
         }
-        requireActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        getDiscoverMangaData(hitStatus);
+//        requireActivity().getSupportFragmentManager().beginTransaction().detach(new DiscoverMangaFragment()).attach(new DiscoverMangaFragment()).commit();
     }
 
     @Override
@@ -258,7 +265,11 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
         progressDialog.show();
         this.hitStatus = hitStatus;
         String totalURL = "";
-        if (hitStatus.equalsIgnoreCase("genrePage") || hitStatus.equalsIgnoreCase("newPage") || hitStatus.equalsIgnoreCase("swipeRefresh")) {
+        if (hitStatus.equalsIgnoreCase("genrePage") ||
+                hitStatus.equalsIgnoreCase("genreScrollPage") ||
+                hitStatus.equalsIgnoreCase("newPage") ||
+                hitStatus.equalsIgnoreCase("newScrollPage") ||
+                hitStatus.equalsIgnoreCase("swipeRefresh")) {
             totalURL = homeUrl;
             if (!totalURL.contains("http")) {
                 totalURL = "https://komikcast.com/daftar-komik/";
@@ -288,11 +299,9 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
             progressDialog.dismiss();
             discoverMangaBinding.recyclerDiscoverManga.setVisibility(View.VISIBLE);
             discoverMangaBinding.linearError.setVisibility(View.GONE);
-            if (discoverMangaFragmentList != null) {
-                discoverMangaFragmentList.clear();
-                discoverMangaFragmentList.addAll(discoverMangaResultList);
-            }
-            mangaRecyclerDiscoverAdapter.recyclerRefresh();
+            isFilterOpen(false);
+            discoverMangaFragmentList = discoverMangaResultList;
+            mangaRecyclerDiscoverAdapter.recyclerRefresh(hitStatus, discoverMangaResultList);
         });
     }
 
@@ -300,6 +309,7 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
     public void onGetDiscoverMangaDataFailed() {
         requireActivity().runOnUiThread(() -> {
             progressDialog.dismiss();
+            isFilterOpen(false);
             discoverMangaBinding.recyclerDiscoverManga.setVisibility(View.GONE);
             Glide.with(mContext).asGif().load(R.raw.aquacry).into(discoverMangaBinding.imageError);
             discoverMangaBinding.linearError.setVisibility(View.VISIBLE);

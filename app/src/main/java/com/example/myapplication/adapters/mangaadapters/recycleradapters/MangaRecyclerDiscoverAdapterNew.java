@@ -34,7 +34,7 @@ import okhttp3.Request;
 
 public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaRecyclerDiscoverAdapterNew.ViewHolder> {
     private final Context context;
-    private final List<DiscoverMangaModel> animeDiscoverResultModelList;
+    private List<DiscoverMangaModel> animeDiscoverResultModelList;
 
     public MangaRecyclerDiscoverAdapterNew(Context context, List<DiscoverMangaModel> animeDiscoverResultModelList) {
         this.context = context;
@@ -153,7 +153,17 @@ public class MangaRecyclerDiscoverAdapterNew extends RecyclerView.Adapter<MangaR
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void recyclerRefresh() {
+    public void recyclerRefresh(String hitStatus, List<DiscoverMangaModel> animeDiscoverResultModelList) {
+        if (hitStatus.equalsIgnoreCase("newPage") ||
+                hitStatus.equalsIgnoreCase("genrePage") ||
+                hitStatus.equalsIgnoreCase("swipeRefresh") ||
+                hitStatus.equalsIgnoreCase("searchRequest")
+        ) {
+            if (this.animeDiscoverResultModelList != null && !this.animeDiscoverResultModelList.isEmpty()) {
+                this.animeDiscoverResultModelList.clear();
+            }
+        }
+        this.animeDiscoverResultModelList.addAll(animeDiscoverResultModelList);
         this.notifyDataSetChanged();
     }
 
