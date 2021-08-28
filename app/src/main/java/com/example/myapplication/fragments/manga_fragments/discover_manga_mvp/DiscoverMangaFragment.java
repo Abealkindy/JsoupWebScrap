@@ -302,6 +302,12 @@ public class DiscoverMangaFragment extends Fragment implements SearchView.OnQuer
             isFilterOpen(false);
             discoverMangaFragmentList = discoverMangaResultList;
             mangaRecyclerDiscoverAdapter.recyclerRefresh(hitStatus, discoverMangaResultList);
+            if (hitStatus.equalsIgnoreCase("newPage") ||
+                    hitStatus.equalsIgnoreCase("swipeRefresh") ||
+                    hitStatus.equalsIgnoreCase("genrePage") ||
+                    hitStatus.equalsIgnoreCase("searchRequest")) {
+                discoverMangaBinding.recyclerDiscoverManga.smoothScrollToPosition(0);
+            }
         });
     }
 
