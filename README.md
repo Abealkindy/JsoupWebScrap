@@ -4,5 +4,5 @@ as long as website yang jadi sumber dari konten aplikasi ini gak down atau gak m
 
 ## Content sources:
 
-* [Animeindo](http://animeindo.cc) - Website yang jadi source untuk semua konten anime yang ada di aplikasi ini
+* [Animeindo (sementara dinonaktifkan)](http://animeindo.cc) - Website yang jadi source untuk semua konten anime yang ada di aplikasi ini
 * [KomikCast](http://komikcast.com) - Website yang jadi source untuk semua konten manga yang ada di aplikasi ini
